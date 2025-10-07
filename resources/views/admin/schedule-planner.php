@@ -45,6 +45,27 @@ ob_start();
                 Create Schedule
             </button>
         </div>
+
+        <!-- Simple Schedule List -->
+        <div class="simple-section" style="margin-top:12px;">
+            <div class="simple-header">
+                <h4>Schedules</h4>
+            </div>
+            <div class="simple-table-container">
+                <table class="basic-table">
+                    <thead>
+                        <tr>
+                            <th>Class</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scheduleListBody">
+                        <tr class="no-schedule-row"><td colspan="3">No schedules yet</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -79,6 +100,9 @@ function createSchedule() {
     // Create the schedule detail page
     const scheduleId = 'schedule-' + Date.now();
     createScheduleDetail(selectedClass, scheduleId);
+    
+    // Update list
+    addScheduleListRow(selectedClass, scheduleId);
     
     // Reset the form
     classSelect.value = '';
@@ -278,6 +302,8 @@ function closeSchedule(scheduleId) {
     
     // Remove the schedule
     removeSchedule(scheduleId);
+    // Update list to reflect deletion
+    updateScheduleList();
 }
 
 function showSaveNotification(message) {
@@ -310,7 +336,21 @@ function updateControlButton(scheduleId) {
 
 function removeSchedule(scheduleId) {
     const schedule = document.getElementById(scheduleId);
-    schedule.remove();
+    if (schedule) schedule.remove();
+    
+    // Remove matching list row
+    const body=document.getElementById('scheduleListBody');
+    if (body) {
+        const row = body.querySelector(`tr[data-schedule-id="${scheduleId}"]`);
+        if (row) row.remove();
+        // If no rows left, show empty state row
+        if (!body.querySelector('tr')) {
+            const n=document.createElement('tr');
+            n.className='no-schedule-row';
+            n.innerHTML='<td colspan="3">No schedules yet</td>';
+            body.appendChild(n);
+        }
+    }
     
     // Show no schedules message if no schedules left
     const container = document.getElementById('schedules-container');
@@ -325,6 +365,73 @@ function removeSchedule(scheduleId) {
         `;
     }
 }
+
+// Simple list management
+function addScheduleListRow(className, scheduleId){
+    const body=document.getElementById('scheduleListBody');
+    const noRow=body.querySelector('.no-schedule-row');
+    if(noRow) noRow.remove();
+    const tr=document.createElement('tr');
+    tr.dataset.scheduleId=scheduleId;
+    tr.innerHTML = `
+        <td>${className}</td>
+        <td><span class="status-badge draft">Draft</span></td>
+        <td>
+            <button class="simple-btn-icon" title="View Details" onclick="viewSchedule('${scheduleId}')"><i class="fas fa-eye"></i></button>
+            <button class="simple-btn-icon" title="Edit" onclick="editSchedule('${scheduleId}')"><i class="fas fa-edit"></i></button>
+            <button class="simple-btn-icon" title="Remove" onclick="removeScheduleRow(this, '${scheduleId}')"><i class="fas fa-trash"></i></button>
+        </td>`;
+    body.appendChild(tr);
+}
+
+function updateScheduleList(){
+    const body=document.getElementById('scheduleListBody');
+    body.innerHTML='';
+    const schedules=document.querySelectorAll('#schedules-container .schedule-detail');
+    if(schedules.length===0){
+        const tr=document.createElement('tr');
+        tr.className='no-schedule-row';
+        tr.innerHTML='<td colspan="3">No schedules yet</td>';
+        body.appendChild(tr);
+        return;
+    }
+    schedules.forEach(sch=>{
+        const className=sch.querySelector('.schedule-info h3')?.textContent||'Class';
+        const id=sch.id;
+        const tr=document.createElement('tr');
+        tr.dataset.scheduleId=id;
+        tr.innerHTML=`
+            <td>${className}</td>
+            <td><span class="status-badge draft">Draft</span></td>
+            <td>
+                <button class="simple-btn-icon" title="View Details" onclick="viewSchedule('${id}')"><i class="fas fa-eye"></i></button>
+                <button class="simple-btn-icon" title="Edit" onclick="editSchedule('${id}')"><i class="fas fa-edit"></i></button>
+                <button class="simple-btn-icon" title="Remove" onclick="removeScheduleRow(this, '${id}')"><i class="fas fa-trash"></i></button>
+            </td>`;
+        body.appendChild(tr);
+    });
+}
+
+function viewSchedule(scheduleId){
+    const elem=document.getElementById(scheduleId);
+    if(!elem) return;
+    const content=elem.querySelector('.schedule-content');
+    if(content && content.style.display==='none'){
+        saveAndMinimize(scheduleId);
+    }
+    elem.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function editSchedule(scheduleId){
+    viewSchedule(scheduleId);
+}
+
+function removeScheduleRow(button, scheduleId){
+    removeSchedule(scheduleId);
+}
+
+// Initialize list on load
+document.addEventListener('DOMContentLoaded', updateScheduleList);
 </script>
 
 <?php

@@ -1,7 +1,7 @@
 <?php
-$pageTitle = 'Smart Campus Nova Hub - Employee Profiles';
+$pageTitle = 'Smart Campus Nova Hub - Staff Profiles';
 $pageIcon = 'fas fa-users-cog';
-$pageHeading = 'Employee Profiles';
+$pageHeading = 'Staff Profiles';
 $activePage = 'employees';
 
 ob_start();
@@ -20,14 +20,122 @@ ob_start();
 <!-- Employee Profiles Section -->
 <div class="simple-section">
     <div class="simple-header">
-        <h3>All Employees</h3>
-        <button class="simple-btn">Add New Employee</button>
+        <h3>All Staff</h3>
+        <button class="simple-btn" id="toggleStaffForm"><i class="fas fa-plus"></i> Add New Staff</button>
+    </div>
+
+    <!-- Inline Create Staff Form (hidden by default) -->
+    <div id="staffForm" class="simple-section" style="display:none; margin-top:12px;">
+        <div class="simple-header">
+            <h4><i class="fas fa-user-plus"></i> Create Staff (Draft)</h4>
+        </div>
+        <div class="form-section">
+            <div class="form-row">
+                <div class="form-group" style="flex:2;">
+                    <label for="eName">Full Name</label>
+                    <input type="text" id="eName" class="form-input" placeholder="Enter full name">
+                </div>
+                <div class="form-group">
+                    <label for="eDept">Department</label>
+                    <input type="text" id="eDept" class="form-input" placeholder="e.g., Administration">
+                </div>
+                <div class="form-group">
+                    <label for="ePos">Position</label>
+                    <input type="text" id="ePos" class="form-input" placeholder="e.g., Secretary">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="ePhone">Phone</label>
+                    <input type="text" id="ePhone" class="form-input" placeholder="+1-555-...">
+                </div>
+                <div class="form-group">
+                    <label for="eEmail">Email</label>
+                    <input type="email" id="eEmail" class="form-input" placeholder="name@school.edu">
+                </div>
+                <div class="form-group">
+                    <label for="eHire">Hire Date</label>
+                    <input type="date" id="eHire" class="form-input">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="eSalary">Salary</label>
+                    <input type="text" id="eSalary" class="form-input" placeholder="$0.00">
+                </div>
+                <div class="form-group">
+                    <label for="eStatus">Status</label>
+                    <select id="eStatus" class="form-select">
+                        <option value="Active">Active</option>
+                        <option value="On Leave">On Leave</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button id="cancelStaff" class="simple-btn secondary">Cancel</button>
+                <button id="saveStaff" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
+            </div>
+        </div>
     </div>
     
     <div class="simple-search">
         <input type="text" placeholder="Search employee by name, ID, or department..." class="simple-input">
         <button class="simple-btn">Search</button>
     </div>
+
+    <script>
+    // Inline staff create form interactions
+    document.addEventListener('DOMContentLoaded', function(){
+        const toggleBtn=document.getElementById('toggleStaffForm');
+        const formCard=document.getElementById('staffForm');
+        const cancelBtn=document.getElementById('cancelStaff');
+        const saveBtn=document.getElementById('saveStaff');
+        const tableBody=document.querySelector('.simple-table-container table tbody');
+
+        function toggle(){ formCard.style.display = formCard.style.display==='none' ? 'block' : 'none'; }
+        if (toggleBtn) toggleBtn.addEventListener('click', function(e){ e.preventDefault(); toggle(); });
+        if (cancelBtn) cancelBtn.addEventListener('click', function(e){ e.preventDefault(); formCard.style.display='none'; });
+
+        function prependRow(x){
+            const tr=document.createElement('tr');
+            tr.innerHTML = `
+                <td><strong>${x.id}</strong></td>
+                <td>${x.name}</td>
+                <td>${x.dept}</td>
+                <td>${x.pos}</td>
+                <td>${x.phone||''}</td>
+                <td>${x.email||''}</td>
+                <td>${x.hire||''}</td>
+                <td>${x.salary||''}</td>
+                <td>${x.status||'Active'}</td>
+                <td><button class="view-btn">View Details</button></td>`;
+            tableBody.prepend(tr);
+        }
+
+        if (saveBtn) saveBtn.addEventListener('click', function(e){
+            e.preventDefault();
+            const name=(document.getElementById('eName').value||'').trim();
+            if(!name){ alert('Please enter full name'); return; }
+            const obj={
+                id:'E'+Date.now(),
+                name,
+                dept:(document.getElementById('eDept').value||'').trim(),
+                pos:(document.getElementById('ePos').value||'').trim(),
+                phone:(document.getElementById('ePhone').value||'').trim(),
+                email:(document.getElementById('eEmail').value||'').trim(),
+                hire:document.getElementById('eHire').value||'',
+                salary:(document.getElementById('eSalary').value||'').trim(),
+                status:document.getElementById('eStatus').value||'Active'
+            };
+            let list=[]; try{ list=JSON.parse(localStorage.getItem('staff')||'[]'); }catch(e){ list=[]; }
+            list.unshift(obj); localStorage.setItem('staff', JSON.stringify(list));
+            prependRow(obj);
+            formCard.style.display='none';
+            alert('Staff added (draft). Final fields to be decided after onboarding.');
+        });
+    });
+    </script>
     
     <div class="simple-filters">
         <div class="filter-group">
@@ -91,7 +199,7 @@ ob_start();
                     <td>2020-03-15</td>
                     <td>$3,200</td>
                     <td>Active</td>
-                    <td><button class="view-btn">View Details</button></td>
+                    <td><a class="view-btn" href="/admin/staff-profile/E001">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>E002</strong></td>
@@ -103,7 +211,7 @@ ob_start();
                     <td>2019-07-22</td>
                     <td>$4,500</td>
                     <td>Active</td>
-                    <td><button class="view-btn">View Details</button></td>
+                    <td><a class="view-btn" href="/admin/staff-profile/E002">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>E003</strong></td>
@@ -115,7 +223,7 @@ ob_start();
                     <td>2021-01-10</td>
                     <td>$2,800</td>
                     <td>Active</td>
-                    <td><button class="view-btn">View Details</button></td>
+                    <td><a class="view-btn" href="/admin/staff-profile/E003">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>E004</strong></td>
@@ -127,7 +235,7 @@ ob_start();
                     <td>2020-09-05</td>
                     <td>$2,500</td>
                     <td>On Leave</td>
-                    <td><button class="view-btn">View Details</button></td>
+                    <td><a class="view-btn" href="/admin/staff-profile/E004">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>E005</strong></td>
@@ -139,7 +247,7 @@ ob_start();
                     <td>2018-11-20</td>
                     <td>$2,700</td>
                     <td>Active</td>
-                    <td><button class="view-btn">View Details</button></td>
+                    <td><a class="view-btn" href="/admin/staff-profile/E005">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>E006</strong></td>
@@ -151,7 +259,7 @@ ob_start();
                     <td>2019-04-12</td>
                     <td>$3,800</td>
                     <td>Active</td>
-                    <td><button class="view-btn">View Details</button></td>
+                    <td><a class="view-btn" href="/admin/staff-profile/E006">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>E007</strong></td>
@@ -163,7 +271,7 @@ ob_start();
                     <td>2020-12-01</td>
                     <td>$4,200</td>
                     <td>Active</td>
-                    <td><button class="view-btn">View Details</button></td>
+                    <td><a class="view-btn" href="/admin/staff-profile/E007">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>E008</strong></td>
@@ -175,7 +283,7 @@ ob_start();
                     <td>2018-08-15</td>
                     <td>$4,000</td>
                     <td>Active</td>
-                    <td><button class="view-btn">View Details</button></td>
+                    <td><a class="view-btn" href="/admin/staff-profile/E008">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>E009</strong></td>
@@ -187,7 +295,7 @@ ob_start();
                     <td>2019-10-08</td>
                     <td>$3,000</td>
                     <td>Active</td>
-                    <td><button class="view-btn">View Details</button></td>
+                    <td><a class="view-btn" href="/admin/staff-profile/E009">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>E010</strong></td>
@@ -199,7 +307,7 @@ ob_start();
                     <td>2021-03-18</td>
                     <td>$4,800</td>
                     <td>Active</td>
-                    <td><button class="view-btn">View Details</button></td>
+                    <td><a class="view-btn" href="/admin/staff-profile/E010">View Details</a></td>
                 </tr>
             </tbody>
         </table>

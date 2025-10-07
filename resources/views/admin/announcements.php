@@ -25,188 +25,98 @@ ob_start();
     </div>
 </div>
 
-<!-- Announcement Statistics -->
-<div class="announcement-stats-grid">
-    <?php echo renderStatCard([
-        'title' => 'Total Announcements',
-        'value' => '4',
-        'icon' => 'fas fa-file-alt',
-        'iconColor' => 'blue'
-    ]); ?>
-    
-    <?php echo renderStatCard([
-        'title' => 'High Priority',
-        'value' => '1',
-        'icon' => 'fas fa-exclamation-triangle',
-        'iconColor' => 'red'
-    ]); ?>
-    
-    <?php echo renderStatCard([
-        'title' => 'Pinned',
-        'value' => '2',
-        'icon' => 'fas fa-thumbtack',
-        'iconColor' => 'yellow'
-    ]); ?>
-    
-    <?php echo renderStatCard([
-        'title' => 'Total Reach',
-        'value' => '570',
-        'icon' => 'fas fa-users',
-        'iconColor' => 'green'
-    ]); ?>
+<!-- Filters and Search -->
+<div class="simple-section">
+    <div class="simple-header">
+        <h3>Announcements</h3>
+        <div class="simple-actions">
+            <label style="margin-right:8px;">From</label>
+            <input type="date" id="fromDate" class="form-input" style="width:auto;">
+            <label style="margin:0 8px 0 12px;">To</label>
+            <input type="date" id="toDate" class="form-input" style="width:auto;">
+            <input type="text" id="searchText" class="simple-search" placeholder="Search title or message..." style="margin-left:12px;">
+            <button id="applyFilters" class="simple-btn" style="margin-left:8px;"><i class="fas fa-filter"></i> Apply</button>
+            <button id="clearFilters" class="simple-btn secondary" style="margin-left:4px;">Clear</button>
+        </div>
+    </div>
+
+    <div id="annFeed" class="announcements-list"></div>
 </div>
 
-<!-- Recent Announcements Section -->
-<div class="recent-announcements-section">
-    <div class="section-header">
-        <h3 class="section-title">Recent Announcements</h3>
-    </div>
-    
-    <div class="announcements-list">
-        <!-- Announcement 1 -->
-        <div class="announcement-card">
+<script>
+(function(){
+    function parseDate(d){ return d ? new Date(d) : null; }
+    function escapeHtml(str){
+        return String(str).replace(/[&<>\"]/g, s=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[s]));
+    }
+    function capitalize(s){ return s ? s.charAt(0).toUpperCase()+s.slice(1) : s; }
+
+    // Sample announcements (baseline)
+    const sample = [
+        { title: 'Annual Science Fair 2024 - Call for Participation', message: 'We are excited to announce our Annual Science Fair 2024! This year\'s theme is \"Innovation for Tomorrow\".', type: 'event', priority: 'medium', date: '2024-01-08', audience: 'All Users', campuses: 'Main, North' },
+        { title: 'Q1 Academic Performance Reports Available', message: 'Quarter 1 academic performance reports are now available. Parents can access them through the parent portal, and teachers should review class summaries.', type: 'academic', priority: 'medium', date: '2024-01-07', audience: 'Parents & Teachers', campuses: 'All' }
+    ];
+
+    // Merge with locally created announcements
+    let stored = [];
+    try { stored = JSON.parse(localStorage.getItem('announcements')||'[]'); } catch(e) { stored = []; }
+    const data = [...stored, ...sample];
+
+    const feed = document.getElementById('annFeed');
+    const fromEl = document.getElementById('fromDate');
+    const toEl = document.getElementById('toDate');
+    const searchEl = document.getElementById('searchText');
+
+    function card(a){
+        const div = document.createElement('div');
+        div.className = 'announcement-card';
+        div.innerHTML = `
             <div class="announcement-header">
                 <div class="announcement-title">
-                    <h4>Annual Science Fair 2024 - Call for Participation</h4>
-                    <p>We are excited to announce our Annual Science Fair 2024! This year's theme is 'Innovation for Tomorrow'.</p>
+                    <h4>${escapeHtml(a.title||'')}</h4>
+                    <p>${escapeHtml(a.message||'')}</p>
                 </div>
                 <div class="announcement-actions">
-                    <button class="action-icon pin" title="Pin">
-                        <i class="fas fa-thumbtack"></i>
-                    </button>
-                    <button class="action-icon edit" title="Edit">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="action-icon delete" title="Delete">
-                        <i class="fas fa-trash"></i>
-                    </button>
+                    <button class="action-icon pin" title="Pin"><i class="fas fa-thumbtack"></i></button>
+                    <button class="action-icon edit" title="Edit"><i class="fas fa-edit"></i></button>
+                    <button class="action-icon delete" title="Delete"><i class="fas fa-trash"></i></button>
                 </div>
             </div>
-            
+
             <div class="announcement-tags">
-                <span class="tag medium">medium</span>
-                <span class="tag event">event</span>
+                <span class="tag ${escapeHtml((a.priority||'').toLowerCase())}">${escapeHtml(a.priority||'')}</span>
+                <span class="tag ${escapeHtml((a.type||'').toLowerCase())}">${escapeHtml(a.type||'')}</span>
             </div>
-            
-            <!-- Event Attached Section -->
-            <div class="attachment-section">
-                <div class="attachment-header">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span>Event Attached</span>
-                </div>
-                <div class="attachment-content">
-                    <div class="attachment-item">
-                        <strong>Science Fair</strong>
-                        <div class="attachment-details">
-                            <span><i class="fas fa-calendar"></i> 2024-02-25</span>
-                            <span><i class="fas fa-map-marker-alt"></i> Main Hall</span>
-                            <span><i class="fas fa-users"></i> 156 parents, 1 teacher groups involved</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Media Attachments Section -->
-            <div class="attachment-section">
-                <div class="attachment-header">
-                    <i class="fas fa-paperclip"></i>
-                    <span>Media Attachments</span>
-                </div>
-                <div class="attachment-content">
-                    <div class="attachment-count">3 files</div>
-                    <div class="file-tags">
-                        <span class="file-tag">Science_Fair_...</span>
-                        <span class="file-tag">Science_Fair_P...</span>
-                        <span class="file-tag">Innovation_Exa...</span>
-                    </div>
-                </div>
-            </div>
-            
+
             <div class="announcement-footer">
-                <div class="footer-item">
-                    <i class="fas fa-users"></i>
-                    <span>180 total (24 teachers, 156 parents)</span>
-                </div>
-                <div class="footer-item">
-                    <i class="fas fa-eye"></i>
-                    <span>2 read</span>
-                </div>
-                <div class="footer-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>Main Campus, North Campus</span>
-                </div>
-                <div class="footer-item">
-                    <i class="fas fa-clock"></i>
-                    <span>Jan 8, 06:30 AM</span>
-                </div>
+                <div class="footer-item"><i class="fas fa-users"></i><span>${escapeHtml(a.audience||'')}</span></div>
+                <div class="footer-item"><i class="fas fa-map-marker-alt"></i><span>${escapeHtml(a.campuses||'')}</span></div>
+                <div class="footer-item"><i class="fas fa-clock"></i><span>${escapeHtml(a.date||'')}</span></div>
             </div>
-        </div>
-        
-        <!-- Announcement 2 -->
-        <div class="announcement-card">
-            <div class="announcement-header">
-                <div class="announcement-title">
-                    <h4>Q1 Academic Performance Reports Available</h4>
-                    <p>Quarter 1 academic performance reports are now available. Parents can access them through the parent portal, and teachers should review class summaries.</p>
-                </div>
-                <div class="announcement-actions">
-                    <button class="action-icon pin" title="Pin">
-                        <i class="fas fa-thumbtack"></i>
-                    </button>
-                    <button class="action-icon edit" title="Edit">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="action-icon delete" title="Delete">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-            
-            <div class="announcement-tags">
-                <span class="tag medium">medium</span>
-                <span class="tag general">general</span>
-            </div>
-            
-            <!-- Report Attached Section -->
-            <div class="attachment-section">
-                <div class="attachment-header">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>Report Attached</span>
-                </div>
-                <div class="attachment-content">
-                    <div class="attachment-item">
-                        <strong>Q1 Academic Performance Report</strong>
-                        <div class="attachment-details">
-                            <span><i class="fas fa-chart-bar"></i> Academic Report</span>
-                            <span><i class="fas fa-calendar"></i> 2024-01-15</span>
-                            <span><i class="fas fa-graduation-cap"></i> Grade 9, Grade 10, Grade 11, Grade 12</span>
-                            <span><i class="fas fa-users"></i> 156 parents, All Subject Teachers involved</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="announcement-footer">
-                <div class="footer-item">
-                    <i class="fas fa-users"></i>
-                    <span>180 total (24 teachers, 156 parents)</span>
-                </div>
-                <div class="footer-item">
-                    <i class="fas fa-eye"></i>
-                    <span>2 read</span>
-                </div>
-                <div class="footer-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>Main Campus, North Campus</span>
-                </div>
-                <div class="footer-item">
-                    <i class="fas fa-clock"></i>
-                    <span>Jan 7, 06:30 AM</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+        `;
+        return div;
+    }
+
+    function apply(){
+        const fromD = parseDate(fromEl.value);
+        const toD = parseDate(toEl.value);
+        const q = (searchEl.value||'').toLowerCase();
+        feed.innerHTML = '';
+        data.filter(a => {
+            const ad = parseDate(a.date);
+            if (fromD && (!ad || ad < fromD)) return false;
+            if (toD && (!ad || ad > toD)) return false;
+            if (q && !((a.title||'').toLowerCase().includes(q) || (a.message||'').toLowerCase().includes(q))) return false;
+            return true;
+        }).forEach(a => feed.appendChild(card(a)));
+    }
+
+    document.getElementById('applyFilters').addEventListener('click', apply);
+    document.getElementById('clearFilters').addEventListener('click', function(){ fromEl.value=''; toEl.value=''; searchEl.value=''; apply(); });
+
+    apply();
+})();
+</script>
 
 <?php
 $content = ob_get_clean();

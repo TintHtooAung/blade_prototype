@@ -29,60 +29,92 @@ ob_start();
     <div class="exam-details-header">
         <div class="exam-info-card">
             <div class="exam-title-section">
-                <h3>Mathematics Tutorial 1</h3>
-                <span class="exam-id">EX001</span>
+                <h3>Mathematics Monthly Assessment</h3>
+                <span class="exam-id">EX010</span>
             </div>
             <div class="exam-badges">
-                <span class="badge tutorial-badge">Tutorial</span>
+                <span class="badge tutorial-badge">Monthly</span>
                 <span class="badge active-badge">Active</span>
-                <span class="badge grade-badge">Grade 9</span>
+                <span class="badge grade-badge">Grade 10</span>
                 <span class="badge class-badge">Class A</span>
             </div>
         </div>
-
     </div>
 
-    <!-- Basic Exam Information -->
+    <!-- Core Exam Summary (aligned with creation fields) -->
     <div class="exam-detail-card">
         <div class="exam-detail-header">
-            <h4><i class="fas fa-info-circle"></i> Exam Information</h4>
+            <h4><i class="fas fa-info-circle"></i> Exam Summary</h4>
         </div>
         <div class="exam-detail-content">
             <div class="detail-row">
                 <label>Exam Name:</label>
-                <span>Mathematics Tutorial 1</span>
+                <span>Mathematics Monthly Assessment</span>
             </div>
             <div class="detail-row">
                 <label>Exam ID:</label>
-                <span>EX001</span>
+                <span>EX010</span>
             </div>
             <div class="detail-row">
                 <label>Type:</label>
-                <span>Tutorial (25 marks)</span>
+                <span>Monthly (100 marks)</span>
             </div>
             <div class="detail-row">
                 <label>Grade:</label>
-                <span>Grade 9</span>
+                <span>Grade 10</span>
             </div>
             <div class="detail-row">
                 <label>Class:</label>
                 <span>Class A</span>
             </div>
             <div class="detail-row">
-                <label>Subject:</label>
-                <span>Mathematics</span>
-            </div>
-            <div class="detail-row">
-                <label>Total Marks:</label>
-                <span>25</span>
-            </div>
-            <div class="detail-row">
-                <label>Duration:</label>
-                <span>45 minutes</span>
-            </div>
-            <div class="detail-row">
                 <label>Status:</label>
                 <span>Active</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Exam Schedule (matches create-exam table) -->
+    <div class="exam-detail-card">
+        <div class="exam-detail-header">
+            <h4><i class="fas fa-calendar-alt"></i> Exam Schedule</h4>
+        </div>
+        <div class="exam-detail-content">
+            <div class="simple-table-container">
+                <table class="basic-table">
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Marks</th>
+                            <th>Date</th>
+                            <th>Start Time</th>
+                            <th>Room</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Mathematics</td>
+                            <td>100</td>
+                            <td>2025-01-20</td>
+                            <td>09:00</td>
+                            <td>Room 201</td>
+                        </tr>
+                        <tr>
+                            <td>Science</td>
+                            <td>100</td>
+                            <td>2025-01-22</td>
+                            <td>10:30</td>
+                            <td>Lab A</td>
+                        </tr>
+                        <tr>
+                            <td>English</td>
+                            <td>100</td>
+                            <td>2025-01-24</td>
+                            <td>08:30</td>
+                            <td>Room 105</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -144,30 +176,6 @@ ob_start();
                         </tr>
                         <tr>
                             <td><strong>S002</strong></td>
-                            <td>Student data will be loaded from database</td>
-                            <td>Results pending</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>Pending</td>
-                        </tr>
-                        <tr>
-                            <td><strong>S003</strong></td>
-                            <td>Student data will be loaded from database</td>
-                            <td>Results pending</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>Pending</td>
-                        </tr>
-                        <tr>
-                            <td><strong>S004</strong></td>
-                            <td>Student data will be loaded from database</td>
-                            <td>Results pending</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>Pending</td>
-                        </tr>
-                        <tr>
-                            <td><strong>S005</strong></td>
                             <td>Student data will be loaded from database</td>
                             <td>Results pending</td>
                             <td>-</td>

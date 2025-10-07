@@ -21,7 +21,6 @@ ob_start();
 <div class="simple-section">
     <div class="simple-header">
         <h3>All Users</h3>
-        <button class="simple-btn">Add New User</button>
     </div>
     
     <div class="simple-search">

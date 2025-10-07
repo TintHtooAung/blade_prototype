@@ -21,13 +21,140 @@ ob_start();
 <div class="simple-section">
     <div class="simple-header">
         <h3>All Students</h3>
-        <button class="simple-btn">Add New Student</button>
+        <button class="simple-btn" id="toggleStudentForm"><i class="fas fa-plus"></i> Add New Student</button>
+    </div>
+
+    <!-- Inline Create Student Form (hidden by default) -->
+    <div id="studentForm" class="simple-section" style="display:none; margin-top:12px;">
+        <div class="simple-header">
+            <h4><i class="fas fa-user-plus"></i> Create Student (Draft)</h4>
+        </div>
+        <div class="form-section">
+            <div class="form-row">
+                <div class="form-group" style="flex:2;">
+                    <label for="sName">Full Name</label>
+                    <input type="text" id="sName" class="form-input" placeholder="Enter full name">
+                </div>
+                <div class="form-group">
+                    <label for="sClass">Class</label>
+                    <input type="text" id="sClass" class="form-input" placeholder="e.g., Grade 9-A">
+                </div>
+                <div class="form-group">
+                    <label for="sAge">Age</label>
+                    <input type="number" id="sAge" class="form-input" placeholder="15">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="sParent">Parent/Guardian</label>
+                    <input type="text" id="sParent" class="form-input" placeholder="Parent name">
+                </div>
+                <div class="form-group">
+                    <label for="sPhone">Phone</label>
+                    <input type="text" id="sPhone" class="form-input" placeholder="+1-555-...">
+                </div>
+                <div class="form-group">
+                    <label for="sEmail">Email</label>
+                    <input type="email" id="sEmail" class="form-input" placeholder="parent@email.com">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="sEnroll">Enrollment Date</label>
+                    <input type="date" id="sEnroll" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label for="sStatus">Status</label>
+                    <select id="sStatus" class="form-select">
+                        <option value="Active">Active</option>
+                        <option value="Transfer">Transfer</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button id="cancelStudent" class="simple-btn secondary">Cancel</button>
+                <button id="saveStudent" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
+            </div>
+        </div>
     </div>
     
     <div class="simple-search">
         <input type="text" placeholder="Search student by name, ID, or class..." class="simple-input">
         <button class="simple-btn">Search</button>
     </div>
+
+    <script>
+    // Inline student create form interactions
+    document.addEventListener('DOMContentLoaded', function(){
+        const toggleBtn=document.getElementById('toggleStudentForm');
+        const formCard=document.getElementById('studentForm');
+        const cancelBtn=document.getElementById('cancelStudent');
+        const saveBtn=document.getElementById('saveStudent');
+        const tableBody=document.querySelector('.simple-table-container table tbody');
+
+        function toggle(){ formCard.style.display = formCard.style.display==='none' ? 'block' : 'none'; }
+        if (toggleBtn) toggleBtn.addEventListener('click', function(e){ e.preventDefault(); toggle(); });
+        if (cancelBtn) cancelBtn.addEventListener('click', function(e){ e.preventDefault(); formCard.style.display='none'; });
+
+        function prependRow(s){
+            const tr=document.createElement('tr');
+            tr.innerHTML = `
+                <td><strong>${s.id}</strong></td>
+                <td>${s.name}</td>
+                <td>${s.klass}</td>
+                <td>${s.age||''}</td>
+                <td>${s.parent||''}</td>
+                <td>${s.phone||''}</td>
+                <td>${s.email||''}</td>
+                <td>${s.enroll||''}</td>
+                <td>${s.status||'Active'}</td>
+                <td><button class="view-btn">View Details</button></td>`;
+            tableBody.prepend(tr);
+        }
+
+        if (saveBtn) saveBtn.addEventListener('click', function(e){
+            e.preventDefault();
+            const name=(document.getElementById('sName').value||'').trim();
+            if(!name){ alert('Please enter full name'); return; }
+            const obj={
+                id:'S'+Date.now(),
+                name,
+                klass:(document.getElementById('sClass').value||'').trim(),
+                age:(document.getElementById('sAge').value||'').trim(),
+                parent:(document.getElementById('sParent').value||'').trim(),
+                phone:(document.getElementById('sPhone').value||'').trim(),
+                email:(document.getElementById('sEmail').value||'').trim(),
+                enroll:document.getElementById('sEnroll').value||'',
+                status:document.getElementById('sStatus').value||'Active'
+            };
+            let list=[]; try{ list=JSON.parse(localStorage.getItem('students')||'[]'); }catch(e){ list=[]; }
+            list.unshift(obj); localStorage.setItem('students', JSON.stringify(list));
+            prependRow(obj);
+            formCard.style.display='none';
+            alert('Student added (draft). Final fields to be decided after onboarding.');
+        });
+    });
+    </script>
+
+    <script>
+    // Minimal placeholder add flow for students
+    document.addEventListener('DOMContentLoaded', function(){
+        const btn=document.getElementById('addStudentBtn');
+        if(!btn) return;
+        btn.addEventListener('click', function(){
+            const name=prompt('Enter student full name (placeholder)');
+            if(!name) return;
+            const klass=prompt('Enter class (placeholder)')||'Grade 9-A';
+            const item={ id:'S'+Date.now(), name, klass };
+            let items=[]; try{ items=JSON.parse(localStorage.getItem('students')||'[]'); }catch(e){ items=[]; }
+            items.unshift(item);
+            localStorage.setItem('students', JSON.stringify(items));
+            alert('Student placeholder added. Details to be finalized after onboarding.');
+            location.reload();
+        });
+    });
+    </script>
     
     <div class="simple-filters">
         <div class="filter-group">
@@ -84,7 +211,7 @@ ob_start();
                     <td>rsmith@email.com</td>
                     <td>2023-09-01</td>
                     <td>Active</td>
-                    <td><button class="view-btn">View Details</button></td>
+                    <td><a class="view-btn" href="/admin/student-profile/S001">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S002</strong></td>
@@ -96,7 +223,7 @@ ob_start();
                     <td>mjohnson@email.com</td>
                     <td>2023-09-01</td>
                     <td>Active</td>
-                    <td><button class="view-btn">View Details</button></td>
+                    <td><a class="view-btn" href="/admin/student-profile/S002">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S003</strong></td>
@@ -108,7 +235,7 @@ ob_start();
                     <td>jdavis@email.com</td>
                     <td>2022-09-05</td>
                     <td>Active</td>
-                    <td><button class="view-btn">View Details</button></td>
+                    <td><a class="view-btn" href="/admin/student-profile/S003">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S004</strong></td>
@@ -120,7 +247,7 @@ ob_start();
                     <td>lwilson@email.com</td>
                     <td>2021-09-10</td>
                     <td>Active</td>
-                    <td><button class="view-btn">View Details</button></td>
+                    <td><a class="view-btn" href="/admin/student-profile/S004">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S005</strong></td>
@@ -132,7 +259,7 @@ ob_start();
                     <td>mbrown@email.com</td>
                     <td>2020-09-15</td>
                     <td>Active</td>
-                    <td><button class="view-btn">View Details</button></td>
+                    <td><a class="view-btn" href="/admin/student-profile/S005">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S006</strong></td>
@@ -144,7 +271,7 @@ ob_start();
                     <td>slee@email.com</td>
                     <td>2023-09-01</td>
                     <td>Active</td>
-                    <td><button class="view-btn">View Details</button></td>
+                    <td><a class="view-btn" href="/admin/student-profile/S006">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S007</strong></td>
@@ -156,7 +283,7 @@ ob_start();
                     <td>cgarcia@email.com</td>
                     <td>2022-09-08</td>
                     <td>Active</td>
-                    <td><button class="view-btn">View Details</button></td>
+                    <td><a class="view-btn" href="/admin/student-profile/S007">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S008</strong></td>
@@ -168,7 +295,7 @@ ob_start();
                     <td>jtaylor@email.com</td>
                     <td>2021-09-12</td>
                     <td>Transfer</td>
-                    <td><button class="view-btn">View Details</button></td>
+                    <td><a class="view-btn" href="/admin/student-profile/S008">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S009</strong></td>
@@ -180,7 +307,7 @@ ob_start();
                     <td>rmartinez@email.com</td>
                     <td>2020-09-20</td>
                     <td>Active</td>
-                    <td><button class="view-btn">View Details</button></td>
+                    <td><a class="view-btn" href="/admin/student-profile/S009">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S010</strong></td>
@@ -192,7 +319,7 @@ ob_start();
                     <td>panderson@email.com</td>
                     <td>2023-09-01</td>
                     <td>Active</td>
-                    <td><button class="view-btn">View Details</button></td>
+                    <td><a class="view-btn" href="/admin/student-profile/S010">View Details</a></td>
                 </tr>
             </tbody>
         </table>

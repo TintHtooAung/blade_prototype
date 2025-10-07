@@ -61,82 +61,57 @@ ob_start();
     </div>
 </div>
 
-<!-- Finance Navigation Tabs -->
-<div class="finance-tabs">
-    <div class="tab-nav">
-        <button class="tab-btn active" data-tab="generate" title="Generate Invoice">
-            <i class="fas fa-plus-circle"></i>
-        </button>
-        <button class="tab-btn" data-tab="invoices" title="Check Invoice List">
-            <i class="fas fa-list"></i>
-        </button>
-        <button class="tab-btn" data-tab="collection" title="Fee Collection Status">
-            <i class="fas fa-chart-bar"></i>
-        </button>
+<!-- Invoice Management -->
+<div class="simple-section">
+    <div class="simple-header">
+        <h3>Invoice Management</h3>
+        <button id="generateInvoice" class="simple-btn"><i class="fas fa-plus"></i> Generate Invoice</button>
     </div>
     
-    <!-- Generate Invoice Tab -->
-    <div class="tab-content active" id="generate">
-        <div class="simple-section">
+    <!-- Generate Invoice Form (hidden by default) -->
+    <div id="invoiceForm" class="simple-section" style="display:none; margin-top:16px;">
             <div class="simple-header">
-                <h3>Generate Invoice</h3>
-                <div class="simple-actions">
-                    <button class="simple-btn"><i class="fas fa-plus-circle"></i> Quick Invoice</button>
-                    <button class="simple-btn"><i class="fas fa-file-import"></i> Bulk Generate</button>
+            <h3><i class="fas fa-file-invoice"></i> Generate New Invoice</h3>
+        </div>
+        <div class="form-section">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="studentName">Student Name</label>
+                    <input type="text" id="studentName" class="form-input" placeholder="Enter student name or ID">
+                </div>
+                <div class="form-group">
+                    <label for="invoiceDate">Invoice Date</label>
+                    <input type="date" id="invoiceDate" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label for="dueDate">Due Date</label>
+                    <input type="date" id="dueDate" class="form-input">
                 </div>
             </div>
-            <div class="invoice-form-card">
-                <div class="form-header">
-                    <i class="fas fa-dollar-sign"></i>
-                    <h4>Invoice Generation</h4>
+            <div class="form-row">
+                <div class="form-group" style="flex:2;">
+                    <label for="itemDescription">Item Description</label>
+                    <input type="text" id="itemDescription" class="form-input" placeholder="e.g., Tuition Fee, Books, etc.">
                 </div>
-
-                <form class="invoice-form">
                     <div class="form-group">
-                        <label>Student ID / Name</label>
-                        <input type="text" placeholder="Enter student ID or search by name" class="form-input">
+                    <label for="itemAmount">Amount</label>
+                    <input type="number" id="itemAmount" class="form-input" placeholder="0.00" step="0.01">
                     </div>
-
                     <div class="form-group">
-                        <label>Due Date</label>
-                        <input type="date" class="form-input">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Invoice Items</label>
-                        <button type="button" class="add-item-btn">+ Add Item</button>
-                        <div class="invoice-items">
-                            <div class="item-row">
-                                <input type="text" placeholder="Item description" class="form-input">
-                                <input type="number" placeholder="0" class="form-input amount-input">
-                            </div>
+                    <label for="totalAmount">Total Amount</label>
+                    <input type="text" id="totalAmount" class="form-input" value="$0.00" readonly>
                         </div>
                     </div>
-
-                    <div class="total-section">
-                        <label>Total Amount:</label>
-                        <span class="total-amount">$0.00</span>
-                    </div>
-
                     <div class="form-actions">
-                        <button type="button" class="btn-primary">
-                            <i class="fas fa-paper-plane"></i>
-                            Generate & Send
-                        </button>
-                        <button type="button" class="btn-secondary">
-                            Save as Draft
-                        </button>
-                    </div>
-                </form>
+                <button id="cancelInvoice" class="simple-btn secondary"><i class="fas fa-times"></i> Cancel</button>
+                <button id="saveInvoice" class="simple-btn primary"><i class="fas fa-check"></i> Generate Invoice</button>
             </div>
         </div>
     </div>
     
-    <!-- Invoice List Tab -->
-    <div class="tab-content" id="invoices">
-        <div class="simple-section">
-            <div class="simple-header">
-                <h3>Invoice List</h3>
+    <!-- Invoice List -->
+    <div class="simple-header" style="margin-top:16px;">
+        <h4>Invoice List</h4>
                 <div class="simple-actions">
                     <select class="filter-select">
                         <option value="all">All Status</option>
@@ -230,12 +205,10 @@ ob_start();
                         </tr>
                     </tbody>
                 </table>
-            </div>
         </div>
     </div>
     
-    <!-- Fee Collection Status Tab -->
-    <div class="tab-content" id="collection">
+<!-- Fee Collection Status -->
         <div class="simple-section">
             <div class="simple-header">
                 <h3>Fee Collection Status</h3>
@@ -305,7 +278,7 @@ ob_start();
                             <td class="collected-amount">$118,000.00</td>
                             <td>
                                 <div class="progress-container">
-                                    <div class="progress-bar completed" style="width: 100%"></div>
+                            <div class="progress-bar completed" style="width: 100%</div>
                                     <span class="progress-text">100%</span>
                                 </div>
                             </td>
@@ -325,29 +298,87 @@ ob_start();
                         </tr>
                     </tbody>
                 </table>
-            </div>
-        </div>
     </div>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Tab Management
-    const tabButtons = document.querySelectorAll('.tab-btn');
-    const tabContents = document.querySelectorAll('.tab-content');
-    
-    tabButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const tabId = this.getAttribute('data-tab');
-            
-            // Remove active class from all tabs and contents
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            tabContents.forEach(content => content.classList.remove('active'));
-            
-            // Add active class to clicked tab and corresponding content
-            this.classList.add('active');
-            document.getElementById(tabId).classList.add('active');
-        });
+    // Invoice Management functionality
+    const invoiceForm = document.getElementById('invoiceForm');
+    const generateInvoiceBtn = document.getElementById('generateInvoice');
+    const cancelInvoiceBtn = document.getElementById('cancelInvoice');
+    const saveInvoiceBtn = document.getElementById('saveInvoice');
+    const itemAmountInput = document.getElementById('itemAmount');
+    const totalAmountInput = document.getElementById('totalAmount');
+
+    // Toggle invoice form
+    generateInvoiceBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        invoiceForm.style.display = invoiceForm.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // Cancel invoice form
+    cancelInvoiceBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        invoiceForm.style.display = 'none';
+        // Clear form
+        document.getElementById('studentName').value = '';
+        document.getElementById('invoiceDate').value = '';
+        document.getElementById('dueDate').value = '';
+        document.getElementById('itemDescription').value = '';
+        document.getElementById('itemAmount').value = '';
+        totalAmountInput.value = '$0.00';
+    });
+
+    // Update total amount when item amount changes
+    itemAmountInput.addEventListener('input', function() {
+        const amount = parseFloat(this.value) || 0;
+        totalAmountInput.value = '$' + amount.toFixed(2);
+    });
+
+    // Save invoice
+    saveInvoiceBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const studentName = document.getElementById('studentName').value;
+        const invoiceDate = document.getElementById('invoiceDate').value;
+        const dueDate = document.getElementById('dueDate').value;
+        const itemDescription = document.getElementById('itemDescription').value;
+        const itemAmount = document.getElementById('itemAmount').value;
+
+        if (!studentName || !invoiceDate || !dueDate || !itemDescription || !itemAmount) {
+            alert('Please fill in all required fields.');
+            return;
+        }
+
+        // Add to invoice list table (in real app, this would save to database)
+        const invoiceTable = document.querySelector('.simple-table-container tbody');
+        const newRow = document.createElement('tr');
+        const invoiceNumber = 'INV-' + String(invoiceTable.children.length + 1).padStart(3, '0');
+        newRow.innerHTML = `
+            <td><a href="#" class="invoice-link">${invoiceNumber}</a></td>
+            <td>${studentName}</td>
+            <td>Grade 10A</td>
+            <td>$${parseFloat(itemAmount).toFixed(2)}</td>
+            <td>${invoiceDate}</td>
+            <td>${dueDate}</td>
+            <td><span class="status-badge draft">Draft</span></td>
+            <td>
+                <button class="simple-btn-icon"><i class="fas fa-eye"></i></button>
+                <button class="simple-btn-icon"><i class="fas fa-edit"></i></button>
+            </td>
+        `;
+        invoiceTable.appendChild(newRow);
+
+        // Clear form and hide form
+        document.getElementById('studentName').value = '';
+        document.getElementById('invoiceDate').value = '';
+        document.getElementById('dueDate').value = '';
+        document.getElementById('itemDescription').value = '';
+        document.getElementById('itemAmount').value = '';
+        totalAmountInput.value = '$0.00';
+        invoiceForm.style.display = 'none';
+
+        alert('Invoice generated successfully!');
     });
 });
 </script>

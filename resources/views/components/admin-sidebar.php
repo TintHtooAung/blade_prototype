@@ -11,7 +11,7 @@ $menuItems = [
     ['id' => 'attendance', 'icon' => 'fas fa-user-check', 'label' => 'Attendance', 'url' => '/admin/attendance'],
     ['id' => 'teachers', 'icon' => 'fas fa-chalkboard-teacher', 'label' => 'Teacher Profiles', 'url' => '/admin/teacher-profiles'],
     ['id' => 'students', 'icon' => 'fas fa-user-graduate', 'label' => 'Student Profiles', 'url' => '/admin/student-profiles'],
-    ['id' => 'employees', 'icon' => 'fas fa-users-cog', 'label' => 'Employee Profiles', 'url' => '/admin/employee-profiles'],
+    ['id' => 'employees', 'icon' => 'fas fa-users-cog', 'label' => 'Staff Profiles', 'url' => '/admin/employee-profiles'],
     ['id' => 'exams', 'icon' => 'fas fa-clipboard-list', 'label' => 'Exam Database', 'url' => '/admin/exam-database'],
     ['id' => 'finance', 'icon' => 'fas fa-dollar-sign', 'label' => 'Finance', 'url' => '/admin/finance'],
     ['id' => 'payroll', 'icon' => 'fas fa-money-check-alt', 'label' => 'Salary & Payroll', 'url' => '/admin/salary-payroll'],

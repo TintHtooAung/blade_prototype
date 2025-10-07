@@ -1,7 +1,7 @@
 <?php
-$pageTitle = 'Smart Campus Nova Hub - Create New Exam';
-$pageIcon = 'fas fa-plus-circle';
-$pageHeading = 'Create New Exam';
+$pageTitle = 'Smart Campus Nova Hub - Create Exam Scheduler';
+$pageIcon = 'fas fa-calendar-plus';
+$pageHeading = 'Create Exam (Scheduler)';
 $activePage = 'exam-database';
 
 ob_start();
@@ -24,194 +24,279 @@ ob_start();
     </div>
 </div>
 
-<!-- Create Exam Form -->
+<!-- Exam Management -->
 <div class="simple-section">
-    <div class="exam-form-container">
-        <form class="exam-form" id="createExamForm">
-            <!-- Exam Type Selection -->
-            <div class="form-section">
-                <div class="form-section-header">
-                    <h3><i class="fas fa-clipboard-list"></i> Exam Type</h3>
-                </div>
-                <div class="form-group">
-                    <label for="examType">Select Exam Type *</label>
-                    <select id="examType" name="examType" required class="form-select">
-                        <option value="">Choose exam type...</option>
-                        <option value="tutorial">Tutorial (25 marks)</option>
-                        <option value="monthly">Monthly Test (100 marks)</option>
-                        <option value="semester">Semester Exam (100 marks)</option>
-                        <option value="final">Final Exam (100 marks)</option>
-                    </select>
-                </div>
-            </div>
+    <div class="simple-header">
+        <h3>Exam Management</h3>
+        <div class="simple-actions">
+            <button id="toggleExamForm" class="simple-btn"><i class="fas fa-plus"></i> Create Draft Exam</button>
+            <button id="activateAll" class="simple-btn secondary"><i class="fas fa-bolt"></i> Activate All Draft Exams</button>
+        </div>
+    </div>
 
-            <!-- Basic Information -->
-            <div class="form-section">
-                <div class="form-section-header">
-                    <h3><i class="fas fa-info-circle"></i> Basic Information</h3>
-                </div>
+    <!-- Inline Scheduler (hidden by default) -->
+    <div id="examForm" class="preview-card" style="display:none;">
+        <div class="preview-header">
+            <div class="preview-title"><i class="fas fa-calendar-plus"></i> Configure Exam</div>
+        </div>
+        <div class="preview-body">
+            <div class="form-section" style="padding:0;">
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="examName">Exam Name *</label>
-                        <input type="text" id="examName" name="examName" required class="form-input" placeholder="Enter exam name">
+                        <label for="examName">Exam Name</label>
+                        <input type="text" id="examName" class="form-input" placeholder="Enter exam name">
                     </div>
                     <div class="form-group">
-                        <label for="examId">Exam ID *</label>
-                        <input type="text" id="examId" name="examId" required class="form-input" placeholder="e.g., EX001">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="grade">Grade *</label>
-                        <select id="grade" name="grade" required class="form-select">
-                            <option value="">Select grade...</option>
-                            <option value="Grade 7">Grade 7</option>
-                            <option value="Grade 8">Grade 8</option>
-                            <option value="Grade 9">Grade 9</option>
-                            <option value="Grade 10">Grade 10</option>
-                            <option value="Grade 11">Grade 11</option>
-                            <option value="Grade 12">Grade 12</option>
-                        </select>
+                        <label for="examId">Exam ID</label>
+                        <input type="text" id="examId" class="form-input" placeholder="e.g., EX011">
                     </div>
                     <div class="form-group">
-                        <label for="class">Class *</label>
-                        <select id="class" name="class" required class="form-select">
-                            <option value="">Select class...</option>
-                            <option value="Class A">Class A</option>
-                            <option value="Class B">Class B</option>
-                            <option value="Class C">Class C</option>
-                            <option value="Class D">Class D</option>
+                        <label for="examType">Exam Type</label>
+                        <select id="examType" class="filter-select">
+                            <option value="tutorial">Tutorial (25)</option>
+                            <option value="monthly">Monthly (100)</option>
+                            <option value="semester">Semester (100)</option>
+                            <option value="final">Final (100)</option>
                         </select>
                     </div>
                 </div>
-            </div>
-
-            <!-- Subject Selection -->
-            <div class="form-section" id="subjectSection">
-                <div class="form-section-header">
-                    <h3><i class="fas fa-book"></i> Subject Selection</h3>
-                </div>
-                <div class="form-group">
-                    <label>Select Subjects *</label>
-                    <div class="subject-selection">
-                        <div class="subject-option">
-                            <input type="checkbox" id="math" name="subjects[]" value="Mathematics">
-                            <label for="math">Mathematics</label>
-                        </div>
-                        <div class="subject-option">
-                            <input type="checkbox" id="english" name="subjects[]" value="English">
-                            <label for="english">English</label>
-                        </div>
-                        <div class="subject-option">
-                            <input type="checkbox" id="science" name="subjects[]" value="Science">
-                            <label for="science">Science</label>
-                        </div>
-                        <div class="subject-option">
-                            <input type="checkbox" id="myanmar" name="subjects[]" value="Myanmar">
-                            <label for="myanmar">Myanmar</label>
-                        </div>
-                        <div class="subject-option">
-                            <input type="checkbox" id="history" name="subjects[]" value="History">
-                            <label for="history">History</label>
-                        </div>
-                        <div class="subject-option">
-                            <input type="checkbox" id="geography" name="subjects[]" value="Geography">
-                            <label for="geography">Geography</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Exam Details -->
-            <div class="form-section">
-                <div class="form-section-header">
-                    <h3><i class="fas fa-cog"></i> Exam Details</h3>
-                </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="totalMarks">Total Marks *</label>
-                        <input type="number" id="totalMarks" name="totalMarks" required class="form-input" placeholder="Enter total marks">
+                        <label for="grade">Grade</label>
+                        <select id="grade" class="filter-select">
+                            <option>Grade 7</option>
+                            <option>Grade 8</option>
+                            <option>Grade 9</option>
+                            <option>Grade 10</option>
+                            <option>Grade 11</option>
+                            <option>Grade 12</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="duration">Duration (minutes) *</label>
-                        <input type="number" id="duration" name="duration" required class="form-input" placeholder="Enter duration">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="examDate">Exam Date *</label>
-                        <input type="date" id="examDate" name="examDate" required class="form-input">
-                    </div>
-                    <div class="form-group">
-                        <label for="startTime">Start Time *</label>
-                        <input type="time" id="startTime" name="startTime" required class="form-input">
+                        <label for="class">Class</label>
+                        <select id="class" class="filter-select">
+                            <option>Class A</option>
+                            <option>Class B</option>
+                            <option>Class C</option>
+                            <option>Class D</option>
+                        </select>
                     </div>
                 </div>
             </div>
 
-            <!-- Form Actions -->
-            <div class="form-actions">
-                <button type="button" class="simple-btn secondary" onclick="window.history.back()">Cancel</button>
-                <button type="submit" class="simple-btn primary">Create Exam</button>
+            <!-- Subject controls -->
+            <div class="form-actions" style="justify-content:flex-start; margin-top:8px;">
+                <button id="addRow" class="simple-btn"><i class="fas fa-plus"></i> Add Subject</button>
+                <button id="removeRow" class="simple-btn secondary"><i class="fas fa-minus"></i> Remove Subject</button>
             </div>
-        </form>
+
+            <div class="simple-table-container" style="margin-top:12px;">
+                <table class="basic-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 30%;">Subject</th>
+                            <th style="width: 15%;">Marks</th>
+                            <th style="width: 20%;">Date</th>
+                            <th style="width: 20%;">Start Time</th>
+                            <th style="width: 15%;">Room</th>
+                            <th style="width: 0; text-align:right;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="subjectRows"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button id="cancelExam" class="simple-btn secondary"><i class="fas fa-times"></i> Cancel</button>
+            <button id="saveSchedule" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
+        </div>
+    </div>
+
+    <!-- Scheduled Exams List -->
+    <div class="simple-header" style="margin-top:16px;">
+        <h4>Scheduled Exams</h4>
+    </div>
+    <div class="simple-table-container">
+        <table class="basic-table">
+            <thead>
+                <tr>
+                    <th>Exam ID</th>
+                    <th>Exam Name</th>
+                    <th>Type</th>
+                    <th>Grade</th>
+                    <th>Class</th>
+                    <th>Subjects</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="scheduledTbody">
+                <tr>
+                    <td><strong>EX011</strong></td>
+                    <td>Sample Scheduled Exam</td>
+                    <td>Monthly</td>
+                    <td>Grade 10</td>
+                    <td>Class A</td>
+                    <td>Multiple</td>
+                    <td><span class="status-badge draft">Draft</span></td>
+                    <td>
+                        <button class="simple-btn-icon edit-exam" title="Edit"><i class="fas fa-edit"></i></button>
+                        <button class="simple-btn-icon" title="Delete" onclick="this.closest('tr').remove();"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="activationNote" class="muted" style="margin-top:8px; display:none;">All draft exams have been activated. They will appear under Active Exams in the Exam Database.</div>
     </div>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const examTypeSelect = document.getElementById('examType');
-    const totalMarksInput = document.getElementById('totalMarks');
-    const subjectSection = document.getElementById('subjectSection');
-    
-    // Auto-fill total marks based on exam type
-    examTypeSelect.addEventListener('change', function() {
-        const selectedType = this.value;
-        const subjectCheckboxes = document.querySelectorAll('input[name="subjects[]"]');
-        
-        // Reset form
-        totalMarksInput.value = '';
-        subjectCheckboxes.forEach(checkbox => {
-            checkbox.checked = false;
-        });
-        
-        // Set default values based on exam type
-        switch(selectedType) {
-            case 'tutorial':
-                totalMarksInput.value = '25';
-                // Tutorial exams are usually single subject
-                break;
-            case 'monthly':
-            case 'semester':
-            case 'final':
-                totalMarksInput.value = '100';
-                // Multi-subject exams - select all subjects by default
-                subjectCheckboxes.forEach(checkbox => {
-                    checkbox.checked = true;
-                });
-                break;
+    const examForm = document.getElementById('examForm');
+    const toggleFormBtn = document.getElementById('toggleExamForm');
+    const cancelBtn = document.getElementById('cancelExam');
+    const addRowBtn = document.getElementById('addRow');
+    const removeRowBtn = document.getElementById('removeRow');
+    const rowsBody = document.getElementById('subjectRows');
+    const saveBtn = document.getElementById('saveSchedule');
+    const scheduledTbody = document.getElementById('scheduledTbody');
+    const activateAllBtn = document.getElementById('activateAll');
+    const activationNote = document.getElementById('activationNote');
+
+    let editingRow = null;
+
+    function newRow() {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>
+                <select class="filter-select">
+                    <option>Mathematics</option>
+                    <option>English</option>
+                    <option>Science</option>
+                    <option>Myanmar</option>
+                    <option>History</option>
+                    <option>Geography</option>
+                </select>
+            </td>
+            <td><input type="number" class="form-input" value="100"></td>
+            <td><input type="date" class="form-input"></td>
+            <td><input type="time" class="form-input"></td>
+            <td><input type="text" class="form-input" placeholder="Room"></td>
+            <td style="text-align:right;">
+                <button class="simple-btn-icon" title="Remove" onclick="this.closest('tr').remove();"><i class="fas fa-minus"></i></button>
+            </td>
+        `;
+        return tr;
+    }
+
+    function addRow() { rowsBody.appendChild(newRow()); }
+
+    function bindRowActions(tr) {
+        const editBtn = tr.querySelector('.edit-exam');
+        if (editBtn) {
+            editBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                editingRow = tr;
+                document.getElementById('examId').value = tr.children[0].innerText.trim();
+                document.getElementById('examName').value = tr.children[1].innerText.trim();
+                const typeText = tr.children[2].innerText.trim().toLowerCase();
+                document.getElementById('examType').value = (['tutorial','monthly','semester','final'].includes(typeText) ? typeText : 'monthly');
+                document.getElementById('grade').value = tr.children[3].innerText.trim();
+                document.getElementById('class').value = tr.children[4].innerText.trim();
+                examForm.style.display = 'block';
+                if (rowsBody.children.length === 0) addRow();
+            });
         }
-    });
-    
-    // Form submission
-    document.getElementById('createExamForm').addEventListener('submit', function(e) {
+    }
+
+    Array.from(scheduledTbody.querySelectorAll('tr')).forEach(bindRowActions);
+
+    toggleFormBtn.addEventListener('click', function(e) {
         e.preventDefault();
-        
-        // Get form data
-        const formData = new FormData(this);
-        const selectedSubjects = Array.from(document.querySelectorAll('input[name="subjects[]"]:checked')).map(cb => cb.value);
-        
-        // Validation
-        if (selectedSubjects.length === 0) {
-            alert('Please select at least one subject.');
-            return;
+        const willShow = examForm.style.display === 'none';
+        examForm.style.display = willShow ? 'block' : 'none';
+        if (willShow && rowsBody.children.length === 0) addRow();
+        if (!willShow) editingRow = null;
+    });
+
+    cancelBtn.addEventListener('click', function(e){
+        e.preventDefault();
+        document.getElementById('examName').value = '';
+        document.getElementById('examId').value = '';
+        document.getElementById('examType').value = 'monthly';
+        document.getElementById('grade').value = 'Grade 10';
+        document.getElementById('class').value = 'Class A';
+        rowsBody.innerHTML = '';
+        examForm.style.display = 'none';
+        editingRow = null;
+    });
+
+    addRowBtn.addEventListener('click', function(e){ e.preventDefault(); addRow(); });
+    removeRowBtn.addEventListener('click', function(e){ e.preventDefault(); if (rowsBody.lastElementChild) rowsBody.removeChild(rowsBody.lastElementChild); });
+
+    saveBtn.addEventListener('click', function(e){
+        e.preventDefault();
+        const examName = document.getElementById('examName').value.trim();
+        const examId = document.getElementById('examId').value.trim();
+        const examType = document.getElementById('examType').value;
+        const grade = document.getElementById('grade').value;
+        const klass = document.getElementById('class').value;
+        if (!examName || !examId) { alert('Please provide Exam Name and Exam ID.'); return; }
+
+        if (editingRow) {
+            editingRow.children[0].innerHTML = `<strong>${examId}</strong>`;
+            editingRow.children[1].innerText = examName;
+            editingRow.children[2].innerText = examType.charAt(0).toUpperCase() + examType.slice(1);
+            editingRow.children[3].innerText = grade;
+            editingRow.children[4].innerText = klass;
+        } else {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><strong>${examId}</strong></td>
+                <td>${examName}</td>
+                <td>${(examType.charAt(0).toUpperCase() + examType.slice(1))}</td>
+                <td>${grade}</td>
+                <td>${klass}</td>
+                <td>${rowsBody.children.length > 1 ? 'Multiple' : 'Single'}</td>
+                <td><span class="status-badge draft">Draft</span></td>
+                <td>
+                    <button class="simple-btn-icon edit-exam" title="Edit"><i class="fas fa-edit"></i></button>
+                    <button class="simple-btn-icon" title="Delete" onclick="this.closest('tr').remove();"><i class="fas fa-trash"></i></button>
+                </td>
+            `;
+            scheduledTbody.appendChild(tr);
+            bindRowActions(tr);
         }
-        
-        // Show success message
-        alert('Exam created successfully!');
-        
-        // Redirect to exam database
-        window.location.href = '/admin/exam-database';
+
+        document.getElementById('examName').value = '';
+        document.getElementById('examId').value = '';
+        rowsBody.innerHTML = '';
+        examForm.style.display = 'none';
+        editingRow = null;
+        alert('Exam saved as draft!');
+    });
+
+    activateAllBtn.addEventListener('click', function(e){
+        e.preventDefault();
+        const rows = Array.from(scheduledTbody.querySelectorAll('tr'));
+        let activated = 0;
+        rows.forEach(tr => {
+            const statusCell = tr.children[6];
+            if (!statusCell) return;
+            const badge = statusCell.querySelector('.status-badge');
+            if (badge && badge.classList.contains('draft')) {
+                badge.classList.remove('draft');
+                badge.classList.add('paid');
+                badge.textContent = 'Active';
+                activated++;
+            }
+        });
+        if (activated > 0) {
+            activationNote.style.display = 'block';
+            alert('All draft exams have been activated. They will appear in Active Exams.');
+        } else {
+            alert('No draft exams to activate.');
+        }
     });
 });
 </script>

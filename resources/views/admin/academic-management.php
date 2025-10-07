@@ -37,10 +37,44 @@ ob_start();
         <div class="batch-management-section">
             <div class="section-header">
                 <h3 class="section-title">Batch Management</h3>
-                <button class="add-btn">
-                    <i class="fas fa-plus"></i>
-                    Add Batch
-                </button>
+                <button class="simple-btn" id="toggleBatchForm"><i class="fas fa-plus"></i> Add Batch</button>
+            </div>
+
+            <!-- Inline Create Batch Form (hidden by default) -->
+            <div id="batchForm" class="simple-section" style="display:none; margin-top:12px;">
+                <div class="simple-header">
+                    <h4><i class="fas fa-folder-plus"></i> Create Batch</h4>
+                </div>
+                <div class="form-section">
+                    <div class="form-row">
+                        <div class="form-group" style="flex:2;">
+                            <label for="batchName">Batch Name</label>
+                            <input type="text" id="batchName" class="form-input" placeholder="e.g., 2025-2026">
+                        </div>
+                        <div class="form-group">
+                            <label for="batchStart">Start Date</label>
+                            <input type="date" id="batchStart" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="batchEnd">End Date</label>
+                            <input type="date" id="batchEnd" class="form-input">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="batchStatus">Status</label>
+                            <select id="batchStatus" class="form-select">
+                                <option value="Active">Active</option>
+                                <option value="Upcoming">Upcoming</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button id="cancelBatch" class="simple-btn secondary">Cancel</button>
+                        <button id="saveBatch" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
+                    </div>
+                </div>
             </div>
             
             <div class="batch-table-container">
@@ -198,10 +232,38 @@ ob_start();
         <div class="detail-management-section">
             <div class="section-header">
                 <h3 class="section-title">Grade Management</h3>
-                <button class="add-btn">
-                    <i class="fas fa-plus"></i>
-                    Add Grade
-                </button>
+                <button class="simple-btn" id="toggleGradeForm"><i class="fas fa-plus"></i> Add Grade</button>
+            </div>
+
+            <!-- Inline Create Grade Form -->
+            <div id="gradeForm" class="simple-section" style="display:none; margin-top:12px;">
+                <div class="simple-header">
+                    <h4><i class="fas fa-layer-group"></i> Create Grade</h4>
+                </div>
+                <div class="form-section">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="gradeLevel">Grade Level</label>
+                            <input type="number" id="gradeLevel" class="form-input" placeholder="e.g., 10">
+                        </div>
+                        <div class="form-group" style="flex:2;">
+                            <label for="gradeName">Grade Name</label>
+                            <input type="text" id="gradeName" class="form-input" placeholder="e.g., Grade 10">
+                        </div>
+                        <div class="form-group">
+                            <label for="gradeCategory">Category</label>
+                            <select id="gradeCategory" class="form-select">
+                                <option value="Primary">Primary</option>
+                                <option value="Middle">Middle</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button id="cancelGrade" class="simple-btn secondary">Cancel</button>
+                        <button id="saveGrade" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
+                    </div>
+                </div>
             </div>
             
             <div class="detail-table-container">
@@ -346,10 +408,44 @@ ob_start();
         <div class="detail-management-section">
             <div class="section-header">
                 <h3 class="section-title">Class Management</h3>
-                <button class="add-btn">
-                    <i class="fas fa-plus"></i>
-                    Add Class
-                </button>
+                <button class="simple-btn" id="toggleClassForm"><i class="fas fa-plus"></i> Add Class</button>
+            </div>
+
+            <!-- Inline Create Class Form -->
+            <div id="classForm" class="simple-section" style="display:none; margin-top:12px;">
+                <div class="simple-header">
+                    <h4><i class="fas fa-door-open"></i> Create Class</h4>
+                </div>
+                <div class="form-section">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="className">Class Name</label>
+                            <input type="text" id="className" class="form-input" placeholder="e.g., 10-A">
+                        </div>
+                        <div class="form-group">
+                            <label for="classGrade">Grade</label>
+                            <input type="text" id="classGrade" class="form-input" placeholder="e.g., Grade 10">
+                        </div>
+                        <div class="form-group">
+                            <label for="classRoom">Room</label>
+                            <input type="text" id="classRoom" class="form-input" placeholder="e.g., Room 201">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group" style="flex:2;">
+                            <label for="classTeacher">Class Teacher</label>
+                            <input type="text" id="classTeacher" class="form-input" placeholder="e.g., Ms. Smith">
+                        </div>
+                        <div class="form-group">
+                            <label for="classSchedule">Schedule</label>
+                            <input type="text" id="classSchedule" class="form-input" placeholder="e.g., 8:00 AM - 2:00 PM">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button id="cancelClass" class="simple-btn secondary">Cancel</button>
+                        <button id="saveClass" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
+                    </div>
+                </div>
             </div>
             
             <div class="detail-table-container">
@@ -494,10 +590,48 @@ ob_start();
         <div class="detail-management-section">
             <div class="section-header">
                 <h3 class="section-title">Room Management</h3>
-                <button class="add-btn">
-                    <i class="fas fa-plus"></i>
-                    Add Room
-                </button>
+                <button class="simple-btn" id="toggleRoomForm"><i class="fas fa-plus"></i> Add Room</button>
+            </div>
+
+            <!-- Inline Create Room Form -->
+            <div id="roomForm" class="simple-section" style="display:none; margin-top:12px;">
+                <div class="simple-header">
+                    <h4><i class="fas fa-door-closed"></i> Create Room</h4>
+                </div>
+                <div class="form-section">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="roomNumber">Room Number</label>
+                            <input type="text" id="roomNumber" class="form-input" placeholder="e.g., 101">
+                        </div>
+                        <div class="form-group" style="flex:2;">
+                            <label for="roomName">Room Name</label>
+                            <input type="text" id="roomName" class="form-input" placeholder="e.g., Classroom A">
+                        </div>
+                        <div class="form-group">
+                            <label for="roomFloor">Floor</label>
+                            <input type="text" id="roomFloor" class="form-input" placeholder="e.g., 1st Floor">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="roomCap">Capacity</label>
+                            <input type="number" id="roomCap" class="form-input" placeholder="e.g., 35">
+                        </div>
+                        <div class="form-group">
+                            <label for="roomStatus">Status</label>
+                            <select id="roomStatus" class="form-select">
+                                <option value="Occupied">Occupied</option>
+                                <option value="Available">Available</option>
+                                <option value="Maintenance">Maintenance</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button id="cancelRoom" class="simple-btn secondary">Cancel</button>
+                        <button id="saveRoom" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
+                    </div>
+                </div>
             </div>
             
             <div class="detail-table-container">
@@ -614,10 +748,43 @@ ob_start();
         <div class="detail-management-section">
             <div class="section-header">
                 <h3 class="section-title">Subject Management</h3>
-                <button class="add-btn">
-                    <i class="fas fa-plus"></i>
-                    Add Subject
-                </button>
+                <button class="simple-btn" id="toggleSubjectForm"><i class="fas fa-plus"></i> Add Subject</button>
+            </div>
+
+            <!-- Inline Create Subject Form -->
+            <div id="subjectForm" class="simple-section" style="display:none; margin-top:12px;">
+                <div class="simple-header">
+                    <h4><i class="fas fa-book"></i> Create Subject</h4>
+                </div>
+                <div class="form-section">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="subCode">Subject Code</label>
+                            <input type="text" id="subCode" class="form-input" placeholder="e.g., MATH">
+                        </div>
+                        <div class="form-group" style="flex:2;">
+                            <label for="subName">Subject Name</label>
+                            <input type="text" id="subName" class="form-input" placeholder="e.g., Mathematics">
+                        </div>
+                        <div class="form-group">
+                            <label for="subCat">Category</label>
+                            <select id="subCat" class="form-select">
+                                <option value="Core">Core</option>
+                                <option value="Elective">Elective</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="subHours">Hours / Week</label>
+                            <input type="number" id="subHours" class="form-input" placeholder="e.g., 5">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button id="cancelSubject" class="simple-btn secondary">Cancel</button>
+                        <button id="saveSubject" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
+                    </div>
+                </div>
             </div>
             
             <div class="detail-table-container">
@@ -788,6 +955,125 @@ function toggleExpand(row) {
         }
     }
 }
+
+// Toggle and Save handlers for inline forms
+document.addEventListener('DOMContentLoaded', function(){
+    function bindToggle(toggleId, formId, cancelId, saveId, onSave){
+        const t=document.getElementById(toggleId);
+        const f=document.getElementById(formId);
+        const c=document.getElementById(cancelId);
+        const s=document.getElementById(saveId);
+        if(t&&f) t.addEventListener('click', function(e){ e.preventDefault(); f.style.display = (f.style.display==='none')?'block':'none'; });
+        if(c&&f) c.addEventListener('click', function(e){ e.preventDefault(); f.style.display='none'; });
+        if(s&&onSave) s.addEventListener('click', function(e){ e.preventDefault(); onSave(); f.style.display='none'; alert('Saved (draft). Final fields after onboarding.'); });
+    }
+
+    bindToggle('toggleBatchForm','batchForm','cancelBatch','saveBatch', function(){
+        const name=(document.getElementById('batchName').value||'').trim(); if(!name){ alert('Enter batch name'); return; }
+        const tbody=document.querySelector('#batches-content .academic-table tbody');
+        const tr=document.createElement('tr');
+        tr.className='expandable-row';
+        tr.innerHTML=`
+            <td class="expand-cell"><i class="fas fa-chevron-right expand-icon"></i></td>
+            <td class="batch-name"><a href="#" class="batch-link" onclick="event.stopPropagation()">${name}</a></td>
+            <td><span class="status-badge active">${(document.getElementById('batchStatus').value||'Active')}</span></td>
+            <td class="student-count">0</td>
+            <td class="date-cell">${document.getElementById('batchStart').value||''}</td>
+            <td class="date-cell">${document.getElementById('batchEnd').value||''}</td>
+            <td class="actions-cell" onclick="event.stopPropagation()">
+                <button class="action-icon view" title="View"><i class="fas fa-eye"></i></button>
+                <button class="action-icon edit" title="Edit"><i class="fas fa-edit"></i></button>
+                <button class="action-icon delete" title="Delete"><i class="fas fa-trash"></i></button>
+            </td>`;
+        tbody.prepend(tr);
+    });
+
+    bindToggle('toggleGradeForm','gradeForm','cancelGrade','saveGrade', function(){
+        const name=(document.getElementById('gradeName').value||'').trim(); if(!name){ alert('Enter grade name'); return; }
+        const tbody=document.querySelector('#grades-content .academic-table tbody');
+        const tr=document.createElement('tr');
+        tr.className='expandable-row';
+        tr.setAttribute('onclick','toggleExpand(this)');
+        tr.innerHTML=`
+            <td class="expand-cell"><i class="fas fa-chevron-right expand-icon"></i></td>
+            <td class="grade-level"><a href="#" class="grade-link" onclick="event.stopPropagation()"><strong>${(document.getElementById('gradeLevel').value||'')}</strong></a></td>
+            <td>${name}</td>
+            <td><span class="category-badge">${(document.getElementById('gradeCategory').value||'')}</span></td>
+            <td class="class-count">0</td>
+            <td class="student-count">0</td>
+            <td class="age-range">-</td>
+            <td class="actions-cell" onclick="event.stopPropagation()">
+                <button class="action-icon view" title="View Details"><i class="fas fa-eye"></i></button>
+                <button class="action-icon edit" title="Edit Grade"><i class="fas fa-edit"></i></button>
+                <button class="action-icon delete" title="Delete Grade"><i class="fas fa-trash"></i></button>
+            </td>`;
+        tbody.prepend(tr);
+    });
+
+    bindToggle('toggleClassForm','classForm','cancelClass','saveClass', function(){
+        const name=(document.getElementById('className').value||'').trim(); if(!name){ alert('Enter class name'); return; }
+        const tbody=document.querySelector('#classes-content .academic-table tbody');
+        const tr=document.createElement('tr');
+        tr.className='expandable-row';
+        tr.setAttribute('onclick','toggleExpand(this)');
+        tr.innerHTML=`
+            <td class="expand-cell"><i class="fas fa-chevron-right expand-icon"></i></td>
+            <td class="class-name"><a href="#" class="class-link" onclick="event.stopPropagation()"><strong>${name}</strong></a></td>
+            <td>${(document.getElementById('classGrade').value||'')}</td>
+            <td>${(document.getElementById('classRoom').value||'')}</td>
+            <td class="student-count">0</td>
+            <td>${(document.getElementById('classTeacher').value||'')}</td>
+            <td class="schedule">${(document.getElementById('classSchedule').value||'')}</td>
+            <td class="actions-cell" onclick="event.stopPropagation()">
+                <button class="action-icon view" title="View Details"><i class="fas fa-eye"></i></button>
+                <button class="action-icon edit" title="Edit Class"><i class="fas fa-edit"></i></button>
+                <button class="action-icon delete" title="Delete Class"><i class="fas fa-trash"></i></button>
+            </td>`;
+        tbody.prepend(tr);
+    });
+
+    bindToggle('toggleRoomForm','roomForm','cancelRoom','saveRoom', function(){
+        const num=(document.getElementById('roomNumber').value||'').trim(); if(!num){ alert('Enter room number'); return; }
+        const tbody=document.querySelector('#rooms-content .academic-table tbody');
+        const tr=document.createElement('tr');
+        tr.className='expandable-row'; tr.setAttribute('onclick','toggleExpand(this)');
+        tr.innerHTML=`
+            <td class="expand-cell"><i class="fas fa-chevron-right expand-icon"></i></td>
+            <td class="room-number"><a href="#" class="room-link" onclick="event.stopPropagation()"><strong>${num}</strong></a></td>
+            <td>${(document.getElementById('roomName').value||'')}</td>
+            <td>${(document.getElementById('roomFloor').value||'')}</td>
+            <td class="capacity">${(document.getElementById('roomCap').value||'')}</td>
+            <td><a href="#" class="class-link" onclick="event.stopPropagation()"></a></td>
+            <td><span class="status-badge">${(document.getElementById('roomStatus').value||'')}</span></td>
+            <td class="actions-cell" onclick="event.stopPropagation()">
+                <button class="action-icon view" title="View Details"><i class="fas fa-eye"></i></button>
+                <button class="action-icon edit" title="Edit Room"><i class="fas fa-edit"></i></button>
+                <button class="action-icon delete" title="Delete Room"><i class="fas fa-trash"></i></button>
+            </td>`;
+        tbody.prepend(tr);
+    });
+
+    bindToggle('toggleSubjectForm','subjectForm','cancelSubject','saveSubject', function(){
+        const code=(document.getElementById('subCode').value||'').trim(); if(!code){ alert('Enter subject code'); return; }
+        const tbody=document.querySelector('#subjects-content .academic-table tbody');
+        const tr=document.createElement('tr');
+        tr.className='expandable-row'; tr.setAttribute('onclick','toggleExpand(this)');
+        tr.innerHTML=`
+            <td class="expand-cell"><i class="fas fa-chevron-right expand-icon"></i></td>
+            <td class="subject-code"><a href="#" class="subject-link" onclick="event.stopPropagation()"><strong>${code}</strong></a></td>
+            <td><a href="#" class="subject-link" onclick="event.stopPropagation()">${(document.getElementById('subName').value||'')}</a></td>
+            <td><span class="category-badge">${(document.getElementById('subCat').value||'')}</span></td>
+            <td> </td>
+            <td class="teacher-count">0</td>
+            <td class="hours">${(document.getElementById('subHours').value||'')}</td>
+            <td class="actions-cell" onclick="event.stopPropagation()">
+                <button class="action-icon view" title="View Details"><i class="fas fa-eye"></i></button>
+                <button class="action-icon edit" title="Edit Subject"><i class="fas fa-edit"></i></button>
+                <button class="action-icon delete" title="Delete Subject"><i class="fas fa-trash"></i></button>
+            </td>`;
+        tbody.prepend(tr);
+    });
+});
 </script>
 
 <?php

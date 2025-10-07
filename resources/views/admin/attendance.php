@@ -66,7 +66,6 @@ ob_start();
     <div class="simple-section">
         <div class="simple-header">
             <h3>Student Attendance by Class</h3>
-            <button class="simple-btn">Mark Attendance</button>
         </div>
         
         <div class="simple-table-container">
@@ -88,7 +87,7 @@ ob_start();
                         <td>29</td>
                         <td>1</td>
                         <td>0</td>
-                        <td><button class="view-btn">View Details</button></td>
+                        <td><a class="view-btn" href="/admin/attendance/class/Grade%209-A">View Details</a></td>
                     </tr>
                     <tr>
                         <td><strong>Grade 9-B</strong></td>
@@ -96,7 +95,7 @@ ob_start();
                         <td>26</td>
                         <td>2</td>
                         <td>0</td>
-                        <td><button class="view-btn">View Details</button></td>
+                        <td><a class="view-btn" href="/admin/attendance/class/Grade%209-B">View Details</a></td>
                     </tr>
                     <tr>
                         <td><strong>Grade 10-A</strong></td>
@@ -104,7 +103,7 @@ ob_start();
                         <td>32</td>
                         <td>0</td>
                         <td>0</td>
-                        <td><button class="view-btn">View Details</button></td>
+                        <td><a class="view-btn" href="/admin/attendance/class/Grade%2010-A">View Details</a></td>
                     </tr>
                     <tr>
                         <td><strong>Grade 10-B</strong></td>
@@ -112,7 +111,7 @@ ob_start();
                         <td>25</td>
                         <td>3</td>
                         <td>1</td>
-                        <td><button class="view-btn">View Details</button></td>
+                        <td><a class="view-btn" href="/admin/attendance/class/Grade%2010-B">View Details</a></td>
                     </tr>
                     <tr>
                         <td><strong>Grade 11-A</strong></td>
@@ -120,7 +119,7 @@ ob_start();
                         <td>32</td>
                         <td>0</td>
                         <td>0</td>
-                        <td><button class="view-btn">View Details</button></td>
+                        <td><a class="view-btn" href="/admin/attendance/class/Grade%2011-A">View Details</a></td>
                     </tr>
                     <tr>
                         <td><strong>Grade 11-B</strong></td>
@@ -128,7 +127,7 @@ ob_start();
                         <td>30</td>
                         <td>1</td>
                         <td>0</td>
-                        <td><button class="view-btn">View Details</button></td>
+                        <td><a class="view-btn" href="/admin/attendance/class/Grade%2011-B">View Details</a></td>
                     </tr>
                     <tr>
                         <td><strong>Grade 12-A</strong></td>
@@ -136,7 +135,7 @@ ob_start();
                         <td>27</td>
                         <td>0</td>
                         <td>0</td>
-                        <td><button class="view-btn">View Details</button></td>
+                        <td><a class="view-btn" href="/admin/attendance/class/Grade%2012-A">View Details</a></td>
                     </tr>
                     <tr>
                         <td><strong>Grade 12-B</strong></td>
@@ -144,7 +143,7 @@ ob_start();
                         <td>24</td>
                         <td>1</td>
                         <td>0</td>
-                        <td><button class="view-btn">View Details</button></td>
+                        <td><a class="view-btn" href="/admin/attendance/class/Grade%2012-B">View Details</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -155,7 +154,7 @@ ob_start();
     <div class="simple-section">
         <div class="simple-header">
             <h3>Teacher Attendance</h3>
-            <button class="simple-btn">Mark Attendance</button>
+            <
         </div>
         
         <div class="simple-table-container">
@@ -235,7 +234,7 @@ ob_start();
     <div class="simple-section">
         <div class="simple-header">
             <h3>Staff Attendance</h3>
-            <button class="simple-btn">Mark Attendance</button>
+            <a class="simple-btn" href="/admin/attendance/staff/mark"><i class="fas fa-clipboard-check"></i> Mark Attendance</a>
         </div>
         
         <div class="simple-table-container">

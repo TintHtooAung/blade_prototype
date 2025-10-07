@@ -41,6 +41,9 @@ switch ($path) {
     case '/admin/event-planner':
         include __DIR__ . '/../resources/views/admin/event-planner.php';
         break;
+    case '/admin/create-event':
+        include __DIR__ . '/../resources/views/admin/create-event.php';
+        break;
     case '/admin/schedule-planner':
         include __DIR__ . '/../resources/views/admin/schedule-planner.php';
         break;
@@ -82,6 +85,15 @@ switch ($path) {
         include __DIR__ . '/../resources/views/admin/report-centre.php';
         break;
     
+    // Attendance details
+    case (preg_match('/^\/admin\/attendance\/class\/(.+)$/', $uri, $matches) ? true : false):
+        $_GET['class'] = urldecode($matches[1]);
+        include __DIR__ . '/../resources/views/admin/attendance-class.php';
+        break;
+    case '/admin/attendance/staff/mark':
+        include __DIR__ . '/../resources/views/admin/attendance-staff-mark.php';
+        break;
+    
     // Academic detail pages
     case '/admin/academic/batches':
         include __DIR__ . '/../resources/views/admin/academic/batches.php';
@@ -119,6 +131,20 @@ switch ($path) {
     case (preg_match('/^\/admin\/academic\/subject-detail\/(.+)$/', $uri, $matches) ? true : false):
         $_GET['subject'] = $matches[1];
         include __DIR__ . '/../resources/views/admin/academic/subject-detail.php';
+        break;
+    
+    // Profile detail pages
+    case (preg_match('/^\/admin\/teacher-profile\/(.+)$/', $uri, $matches) ? true : false):
+        $_GET['id'] = $matches[1];
+        include __DIR__ . '/../resources/views/admin/teacher-profile.php';
+        break;
+    case (preg_match('/^\/admin\/student-profile\/(.+)$/', $uri, $matches) ? true : false):
+        $_GET['id'] = $matches[1];
+        include __DIR__ . '/../resources/views/admin/student-profile.php';
+        break;
+    case (preg_match('/^\/admin\/staff-profile\/(.+)$/', $uri, $matches) ? true : false):
+        $_GET['id'] = $matches[1];
+        include __DIR__ . '/../resources/views/admin/staff-profile.php';
         break;
         
     default:
