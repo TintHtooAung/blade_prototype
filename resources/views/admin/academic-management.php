@@ -22,19 +22,19 @@ ob_start();
 <div class="academic-structure-section">
     
     <div class="academic-tabs">
-        <button class="academic-tab active" data-tab="batches">Batches</button>
+        <button class="academic-tab active" data-tab="departments">Departments</button>
+        <button class="academic-tab" data-tab="batches">Batches</button>
         <button class="academic-tab" data-tab="grades">Grades</button>
-        <button class="academic-tab" data-tab="classes">Classes</button>
         <button class="academic-tab" data-tab="rooms">Rooms</button>
+        <button class="academic-tab" data-tab="classes">Classes</button>
         <button class="academic-tab" data-tab="subjects">Subjects</button>
-        <button class="academic-tab" data-tab="departments">Departments</button>
     </div>
 </div>
 
 <!-- Tab Content Container -->
 <div class="tab-content-container">
     <!-- Batches Tab Content -->
-    <div class="tab-content active" id="batches-content">
+    <div class="tab-content" id="batches-content">
         <div class="batch-management-section">
             <div class="section-header">
                 <h3 class="section-title">Batch Management</h3>
@@ -920,7 +920,7 @@ ob_start();
     </div>
 
     <!-- Departments Tab Content -->
-    <div class="tab-content" id="departments-content">
+    <div class="tab-content active" id="departments-content">
         <div class="detail-management-section">
             <div class="section-header">
                 <h3 class="section-title">Department Management</h3>

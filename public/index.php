@@ -41,6 +41,12 @@ switch ($path) {
     case '/admin/event-planner':
         include __DIR__ . '/../resources/views/admin/event-planner.php';
         break;
+    case '/admin/event-details':
+        include __DIR__ . '/../resources/views/admin/event-details.php';
+        break;
+    case '/admin/event-edit':
+        include __DIR__ . '/../resources/views/admin/event-edit.php';
+        break;
     case '/admin/event-calendar':
         include __DIR__ . '/../resources/views/admin/event-calendar.php';
         break;
@@ -68,12 +74,24 @@ switch ($path) {
     case '/admin/exam-details':
         include __DIR__ . '/../resources/views/admin/exam-details.php';
         break;
+    case '/admin/exam-edit':
+        include __DIR__ . '/../resources/views/admin/exam-edit.php';
+        break;
+    case '/admin/exam-results':
+        include __DIR__ . '/../resources/views/admin/exam-results.php';
+        break;
     case '/admin/create-exam':
         include __DIR__ . '/../resources/views/admin/create-exam.php';
         break;
 
     case '/admin/finance':
         include __DIR__ . '/../resources/views/admin/finance.php';
+        break;
+    case '/admin/invoice-details':
+        include __DIR__ . '/../resources/views/admin/invoice-details.php';
+        break;
+    case '/admin/invoice-edit':
+        include __DIR__ . '/../resources/views/admin/invoice-edit.php';
         break;
     case '/admin/salary-payroll':
         include __DIR__ . '/../resources/views/admin/salary-payroll.php';
@@ -86,6 +104,12 @@ switch ($path) {
         break;
     case '/admin/report-centre':
         include __DIR__ . '/../resources/views/admin/report-centre.php';
+        break;
+    case '/admin/report-details':
+        include __DIR__ . '/../resources/views/admin/report-details.php';
+        break;
+    case '/admin/report-edit':
+        include __DIR__ . '/../resources/views/admin/report-edit.php';
         break;
     
     // Attendance details
@@ -152,6 +176,17 @@ switch ($path) {
     case (preg_match('/^\/admin\/staff-profile\/(.+)$/', $uri, $matches) ? true : false):
         $_GET['id'] = $matches[1];
         include __DIR__ . '/../resources/views/admin/staff-profile.php';
+        break;
+    
+    // Profile edit pages
+    case '/admin/teacher-profile-edit':
+        include __DIR__ . '/../resources/views/admin/teacher-profile-edit.php';
+        break;
+    case '/admin/student-profile-edit':
+        include __DIR__ . '/../resources/views/admin/student-profile-edit.php';
+        break;
+    case '/admin/staff-profile-edit':
+        include __DIR__ . '/../resources/views/admin/staff-profile-edit.php';
         break;
         
     default:

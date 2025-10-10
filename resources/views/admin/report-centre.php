@@ -169,8 +169,8 @@ ob_start();
                     <td><span class="status-badge draft">Scheduled</span></td>
                     <td>Not Available</td>
                     <td>
-                        <button class="simple-btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
-                        <button class="simple-btn-icon" title="Cancel"><i class="fas fa-times"></i></button>
+                        <button class="simple-btn-icon" onclick="editReport('RPT-001')" title="Edit"><i class="fas fa-edit"></i></button>
+                        <button class="simple-btn-icon" onclick="cancelReport('RPT-001')" title="Cancel"><i class="fas fa-times"></i></button>
                     </td>
                 </tr>
                 <tr>
@@ -180,8 +180,8 @@ ob_start();
                     <td><span class="status-badge draft">Scheduled</span></td>
                     <td>Not Available</td>
                     <td>
-                        <button class="simple-btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
-                        <button class="simple-btn-icon" title="Cancel"><i class="fas fa-times"></i></button>
+                        <button class="simple-btn-icon" onclick="editReport('RPT-002')" title="Edit"><i class="fas fa-edit"></i></button>
+                        <button class="simple-btn-icon" onclick="cancelReport('RPT-002')" title="Cancel"><i class="fas fa-times"></i></button>
                     </td>
                 </tr>
                 <tr>
@@ -191,8 +191,8 @@ ob_start();
                     <td><span class="status-badge draft">Scheduled</span></td>
                     <td>Not Available</td>
                     <td>
-                        <button class="simple-btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
-                        <button class="simple-btn-icon" title="Cancel"><i class="fas fa-times"></i></button>
+                        <button class="simple-btn-icon" onclick="editReport('RPT-003')" title="Edit"><i class="fas fa-edit"></i></button>
+                        <button class="simple-btn-icon" onclick="cancelReport('RPT-003')" title="Cancel"><i class="fas fa-times"></i></button>
                     </td>
                 </tr>
             </tbody>
@@ -223,9 +223,9 @@ ob_start();
                     <td><span class="status-badge paid">Completed</span></td>
                     <td>Available</td>
                     <td>
-                        <button class="simple-btn-icon" title="View"><i class="fas fa-eye"></i></button>
-                        <button class="simple-btn-icon" title="Download"><i class="fas fa-download"></i></button>
-                        <button class="simple-btn-icon" title="Print"><i class="fas fa-print"></i></button>
+                        <button class="simple-btn-icon" onclick="viewReport('RPT-C001')" title="View"><i class="fas fa-eye"></i></button>
+                        <button class="simple-btn-icon" onclick="downloadReport('RPT-C001')" title="Download"><i class="fas fa-download"></i></button>
+                        <button class="simple-btn-icon" onclick="printReport('RPT-C001')" title="Print"><i class="fas fa-print"></i></button>
                     </td>
                 </tr>
                 <tr>
@@ -235,9 +235,9 @@ ob_start();
                     <td><span class="status-badge paid">Completed</span></td>
                     <td>Available</td>
                     <td>
-                        <button class="simple-btn-icon" title="View"><i class="fas fa-eye"></i></button>
-                        <button class="simple-btn-icon" title="Download"><i class="fas fa-download"></i></button>
-                        <button class="simple-btn-icon" title="Print"><i class="fas fa-print"></i></button>
+                        <button class="simple-btn-icon" onclick="viewReport('RPT-C002')" title="View"><i class="fas fa-eye"></i></button>
+                        <button class="simple-btn-icon" onclick="downloadReport('RPT-C002')" title="Download"><i class="fas fa-download"></i></button>
+                        <button class="simple-btn-icon" onclick="printReport('RPT-C002')" title="Print"><i class="fas fa-print"></i></button>
                     </td>
                 </tr>
                 <tr>
@@ -247,9 +247,9 @@ ob_start();
                     <td><span class="status-badge paid">Completed</span></td>
                     <td>Available</td>
                     <td>
-                        <button class="simple-btn-icon" title="View"><i class="fas fa-eye"></i></button>
-                        <button class="simple-btn-icon" title="Download"><i class="fas fa-download"></i></button>
-                        <button class="simple-btn-icon" title="Print"><i class="fas fa-print"></i></button>
+                        <button class="simple-btn-icon" onclick="viewReport('RPT-C003')" title="View"><i class="fas fa-eye"></i></button>
+                        <button class="simple-btn-icon" onclick="downloadReport('RPT-C003')" title="Download"><i class="fas fa-download"></i></button>
+                        <button class="simple-btn-icon" onclick="printReport('RPT-C003')" title="Print"><i class="fas fa-print"></i></button>
                     </td>
                 </tr>
                 <tr>
@@ -259,9 +259,9 @@ ob_start();
                     <td><span class="status-badge paid">Completed</span></td>
                     <td>Available</td>
                     <td>
-                        <button class="simple-btn-icon" title="View"><i class="fas fa-eye"></i></button>
-                        <button class="simple-btn-icon" title="Download"><i class="fas fa-download"></i></button>
-                        <button class="simple-btn-icon" title="Print"><i class="fas fa-print"></i></button>
+                        <button class="simple-btn-icon" onclick="viewReport('RPT-C004')" title="View"><i class="fas fa-eye"></i></button>
+                        <button class="simple-btn-icon" onclick="downloadReport('RPT-C004')" title="Download"><i class="fas fa-download"></i></button>
+                        <button class="simple-btn-icon" onclick="printReport('RPT-C004')" title="Print"><i class="fas fa-print"></i></button>
                     </td>
                 </tr>
             </tbody>
@@ -439,6 +439,37 @@ document.addEventListener('DOMContentLoaded', function() {
         alert('Report scheduled successfully!');
     });
 });
+
+// Navigation functions
+function viewReport(reportId) {
+    window.location.href = `/admin/report-details?id=${reportId}`;
+}
+
+function editReport(reportId) {
+    window.location.href = `/admin/report-edit?id=${reportId}`;
+}
+
+function cancelReport(reportId) {
+    showConfirmDialog({
+        title: 'Cancel Report',
+        message: 'Are you sure you want to cancel this scheduled report?',
+        confirmText: 'Cancel Report',
+        confirmIcon: 'fas fa-times',
+        onConfirm: () => {
+            alert('Report cancelled successfully!');
+            // Remove from table in real implementation
+        }
+    });
+}
+
+function downloadReport(reportId) {
+    alert(`Downloading report ${reportId}...`);
+    // Implement download logic
+}
+
+function printReport(reportId) {
+    window.print();
+}
 </script>
 
 <?php

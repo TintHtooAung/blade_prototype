@@ -29,14 +29,14 @@ ob_start();
     <div class="exam-details-header">
         <div class="exam-info-card">
             <div class="exam-title-section">
-                <h3>Mathematics Monthly Assessment</h3>
-                <span class="exam-id">EX010</span>
+                <h3 id="examTitle">Mathematics Monthly Assessment</h3>
+                <span class="exam-id" id="examId">EX010</span>
             </div>
-            <div class="exam-badges">
-                <span class="badge tutorial-badge">Monthly</span>
-                <span class="badge active-badge">Active</span>
-                <span class="badge grade-badge">Grade 10</span>
-                <span class="badge class-badge">Class A</span>
+            <div class="exam-badges" id="examBadges">
+                <span class="badge tutorial-badge" id="examType">Monthly</span>
+                <span class="badge active-badge" id="examStatus">Active</span>
+                <span class="badge grade-badge" id="examGrade">Grade 10</span>
+                <span class="badge class-badge" id="examClass">Class A</span>
             </div>
         </div>
     </div>
@@ -45,31 +45,32 @@ ob_start();
     <div class="exam-detail-card">
         <div class="exam-detail-header">
             <h4><i class="fas fa-info-circle"></i> Exam Summary</h4>
+            <button class="simple-btn" onclick="editExam()"><i class="fas fa-edit"></i> Edit Exam</button>
         </div>
         <div class="exam-detail-content">
             <div class="detail-row">
                 <label>Exam Name:</label>
-                <span>Mathematics Monthly Assessment</span>
+                <span id="detailName">Mathematics Monthly Assessment</span>
             </div>
             <div class="detail-row">
                 <label>Exam ID:</label>
-                <span>EX010</span>
+                <span id="detailId">EX010</span>
             </div>
             <div class="detail-row">
                 <label>Type:</label>
-                <span>Monthly (100 marks)</span>
+                <span id="detailType">Monthly (100 marks)</span>
             </div>
             <div class="detail-row">
                 <label>Grade:</label>
-                <span>Grade 10</span>
+                <span id="detailGrade">Grade 10</span>
             </div>
             <div class="detail-row">
                 <label>Class:</label>
-                <span>Class A</span>
+                <span id="detailClass">Class A</span>
             </div>
             <div class="detail-row">
                 <label>Status:</label>
-                <span>Active</span>
+                <span id="detailStatus">Active</span>
             </div>
         </div>
     </div>
@@ -91,27 +92,13 @@ ob_start();
                             <th>Room</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="scheduleTableBody">
                         <tr>
                             <td>Mathematics</td>
                             <td>100</td>
                             <td>2025-01-20</td>
                             <td>09:00</td>
                             <td>Room 201</td>
-                        </tr>
-                        <tr>
-                            <td>Science</td>
-                            <td>100</td>
-                            <td>2025-01-22</td>
-                            <td>10:30</td>
-                            <td>Lab A</td>
-                        </tr>
-                        <tr>
-                            <td>English</td>
-                            <td>100</td>
-                            <td>2025-01-24</td>
-                            <td>08:30</td>
-                            <td>Room 105</td>
                         </tr>
                     </tbody>
                 </table>
@@ -150,7 +137,7 @@ ob_start();
     <div class="exam-detail-card">
         <div class="exam-detail-header">
             <h4><i class="fas fa-table"></i> Student Results</h4>
-            <button class="simple-btn">Print Results</button>
+            <button class="simple-btn" onclick="viewResults()"><i class="fas fa-chart-bar"></i> View Full Results</button>
         </div>
         <div class="exam-detail-content">
             <div class="simple-table-container">
@@ -188,6 +175,101 @@ ob_start();
         </div>
     </div>
 </div>
+
+<script>
+// Get exam ID from URL
+const urlParams = new URLSearchParams(window.location.search);
+const examId = urlParams.get('id');
+
+// Sample exam data
+const sampleExams = {
+    'EX001': {
+        id: 'EX001',
+        name: 'Mathematics Tutorial 1',
+        type: 'Tutorial',
+        grade: 'Grade 9',
+        class: 'A',
+        status: 'Upcoming',
+        subjects: ['Mathematics']
+    },
+    'EX002': {
+        id: 'EX002',
+        name: 'Mid-term Exam',
+        type: 'Monthly',
+        grade: 'Grade 10',
+        class: 'B',
+        status: 'Upcoming',
+        subjects: ['Mathematics', 'Science', 'English', 'History', 'Geography', 'Physics']
+    },
+    'EX003': {
+        id: 'EX003',
+        name: 'Science Tutorial',
+        type: 'Tutorial',
+        grade: 'Grade 9',
+        class: 'B',
+        status: 'Upcoming',
+        subjects: ['Science']
+    },
+    'EX008': {
+        id: 'EX008',
+        name: 'English Monthly Test',
+        type: 'Monthly',
+        grade: 'Grade 11',
+        class: 'A',
+        status: 'Active',
+        subjects: ['English']
+    }
+};
+
+function loadExamDetails() {
+    if (!examId) {
+        alert('Exam ID not found');
+        window.location.href = '/admin/exam-database';
+        return;
+    }
+
+    const exam = sampleExams[examId];
+    
+    if (!exam) {
+        // Default to sample data if exam not found
+        console.log('Exam not found, using default data');
+        return;
+    }
+
+    // Update page content
+    document.getElementById('examTitle').textContent = exam.name;
+    document.getElementById('examId').textContent = exam.id;
+    document.getElementById('examType').textContent = exam.type;
+    document.getElementById('examStatus').textContent = exam.status;
+    document.getElementById('examGrade').textContent = exam.grade;
+    document.getElementById('examClass').textContent = 'Class ' + exam.class;
+    
+    document.getElementById('detailName').textContent = exam.name;
+    document.getElementById('detailId').textContent = exam.id;
+    document.getElementById('detailType').textContent = `${exam.type} (${exam.type === 'Tutorial' ? '25' : '100'} marks)`;
+    document.getElementById('detailGrade').textContent = exam.grade;
+    document.getElementById('detailClass').textContent = 'Class ' + exam.class;
+    document.getElementById('detailStatus').textContent = exam.status;
+    
+    // Update status badge color
+    const statusBadge = document.getElementById('examStatus');
+    statusBadge.className = 'badge';
+    if (exam.status === 'Upcoming') statusBadge.className += ' active-badge';
+    if (exam.status === 'Active') statusBadge.className += ' tutorial-badge';
+    if (exam.status === 'Completed') statusBadge.className += ' grade-badge';
+}
+
+function editExam() {
+    window.location.href = `/admin/exam-edit?id=${examId}`;
+}
+
+function viewResults() {
+    window.location.href = `/admin/exam-results?id=${examId}`;
+}
+
+// Load exam details on page load
+document.addEventListener('DOMContentLoaded', loadExamDetails);
+</script>
 
 <?php
 $content = ob_get_clean();

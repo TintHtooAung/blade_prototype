@@ -27,6 +27,9 @@ ob_start();
 <div class="simple-section">
     <div class="simple-header">
         <h3>Profile: <?php echo htmlspecialchars($id); ?></h3>
+        <button class="simple-btn" onclick="window.location.href='/admin/student-profile-edit?id=<?php echo htmlspecialchars($id); ?>'">
+            <i class="fas fa-edit"></i> Edit Profile
+        </button>
     </div>
 
     <div class="simple-table-container">

@@ -139,7 +139,7 @@ ob_start();
                     </thead>
                     <tbody>
                         <tr>
-                            <td><a href="#" class="invoice-link">INV-001</a></td>
+                            <td><a href="/admin/invoice-details?id=INV-001" class="invoice-link">INV-001</a></td>
                             <td>Alice Johnson</td>
                             <td>Grade 10A</td>
                             <td>$2,500.00</td>
@@ -147,12 +147,12 @@ ob_start();
                             <td>2025-01-15</td>
                             <td><span class="status-badge paid">Paid</span></td>
                             <td>
-                                <button class="simple-btn-icon"><i class="fas fa-eye"></i></button>
-                                <button class="simple-btn-icon"><i class="fas fa-edit"></i></button>
+                                <button class="simple-btn-icon" onclick="viewInvoice('INV-001')" title="View Details"><i class="fas fa-eye"></i></button>
+                                <button class="simple-btn-icon" onclick="editInvoice('INV-001')" title="Edit"><i class="fas fa-edit"></i></button>
                             </td>
                         </tr>
                         <tr>
-                            <td><a href="#" class="invoice-link">INV-002</a></td>
+                            <td><a href="/admin/invoice-details?id=INV-002" class="invoice-link">INV-002</a></td>
                             <td>Michael Brown</td>
                             <td>Grade 12B</td>
                             <td>$2,750.00</td>
@@ -160,12 +160,12 @@ ob_start();
                             <td>2025-01-15</td>
                             <td><span class="status-badge pending">Pending</span></td>
                             <td>
-                                <button class="simple-btn-icon"><i class="fas fa-eye"></i></button>
-                                <button class="simple-btn-icon"><i class="fas fa-edit"></i></button>
+                                <button class="simple-btn-icon" onclick="viewInvoice('INV-002')" title="View Details"><i class="fas fa-eye"></i></button>
+                                <button class="simple-btn-icon" onclick="editInvoice('INV-002')" title="Edit"><i class="fas fa-edit"></i></button>
                             </td>
                         </tr>
                         <tr>
-                            <td><a href="#" class="invoice-link">INV-003</a></td>
+                            <td><a href="/admin/invoice-details?id=INV-003" class="invoice-link">INV-003</a></td>
                             <td>Sarah Wilson</td>
                             <td>Grade 9C</td>
                             <td>$2,300.00</td>
@@ -173,12 +173,12 @@ ob_start();
                             <td>2025-01-20</td>
                             <td><span class="status-badge overdue">Overdue</span></td>
                             <td>
-                                <button class="simple-btn-icon"><i class="fas fa-eye"></i></button>
-                                <button class="simple-btn-icon"><i class="fas fa-edit"></i></button>
+                                <button class="simple-btn-icon" onclick="viewInvoice('INV-003')" title="View Details"><i class="fas fa-eye"></i></button>
+                                <button class="simple-btn-icon" onclick="editInvoice('INV-003')" title="Edit"><i class="fas fa-edit"></i></button>
                             </td>
                         </tr>
                         <tr>
-                            <td><a href="#" class="invoice-link">INV-004</a></td>
+                            <td><a href="/admin/invoice-details?id=INV-004" class="invoice-link">INV-004</a></td>
                             <td>David Lee</td>
                             <td>Grade 11A</td>
                             <td>$2,600.00</td>
@@ -186,12 +186,12 @@ ob_start();
                             <td>2025-01-25</td>
                             <td><span class="status-badge draft">Draft</span></td>
                             <td>
-                                <button class="simple-btn-icon"><i class="fas fa-eye"></i></button>
-                                <button class="simple-btn-icon"><i class="fas fa-edit"></i></button>
+                                <button class="simple-btn-icon" onclick="viewInvoice('INV-004')" title="View Details"><i class="fas fa-eye"></i></button>
+                                <button class="simple-btn-icon" onclick="editInvoice('INV-004')" title="Edit"><i class="fas fa-edit"></i></button>
                             </td>
                         </tr>
                         <tr>
-                            <td><a href="#" class="invoice-link">INV-005</a></td>
+                            <td><a href="/admin/invoice-details?id=INV-005" class="invoice-link">INV-005</a></td>
                             <td>Emma Davis</td>
                             <td>Grade 8B</td>
                             <td>$2,200.00</td>
@@ -199,8 +199,8 @@ ob_start();
                             <td>2025-01-28</td>
                             <td><span class="status-badge paid">Paid</span></td>
                             <td>
-                                <button class="simple-btn-icon"><i class="fas fa-eye"></i></button>
-                                <button class="simple-btn-icon"><i class="fas fa-edit"></i></button>
+                                <button class="simple-btn-icon" onclick="viewInvoice('INV-005')" title="View Details"><i class="fas fa-eye"></i></button>
+                                <button class="simple-btn-icon" onclick="editInvoice('INV-005')" title="Edit"><i class="fas fa-edit"></i></button>
                             </td>
                         </tr>
                     </tbody>
@@ -381,6 +381,15 @@ document.addEventListener('DOMContentLoaded', function() {
         alert('Invoice generated successfully!');
     });
 });
+
+// Navigation functions
+function viewInvoice(invoiceId) {
+    window.location.href = `/admin/invoice-details?id=${invoiceId}`;
+}
+
+function editInvoice(invoiceId) {
+    window.location.href = `/admin/invoice-edit?id=${invoiceId}`;
+}
 </script>
 
 <?php

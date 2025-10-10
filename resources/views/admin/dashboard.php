@@ -19,7 +19,7 @@ ob_start();
 <!-- Statistics Grid - Top Row -->
 <div class="stats-grid">
     <!-- Total Students -->
-    <div class="stat-card">
+    <div class="stat-card clickable-card" onclick="window.location.href='/admin/student-profiles'">
         <div class="stat-icon blue">
             <i class="fas fa-user-graduate"></i>
         </div>
@@ -33,7 +33,7 @@ ob_start();
     </div>
 
     <!-- Total Staff -->
-    <div class="stat-card">
+    <div class="stat-card clickable-card" onclick="window.location.href='/admin/employee-profiles'">
         <div class="stat-icon green">
             <i class="fas fa-users-cog"></i>
         </div>
@@ -47,7 +47,7 @@ ob_start();
     </div>
 
     <!-- Total Teachers -->
-    <div class="stat-card">
+    <div class="stat-card clickable-card" onclick="window.location.href='/admin/teacher-profiles'">
         <div class="stat-icon yellow">
             <i class="fas fa-chalkboard-teacher"></i>
         </div>
@@ -61,7 +61,7 @@ ob_start();
     </div>
 
     <!-- Fee Collection -->
-    <div class="stat-card">
+    <div class="stat-card clickable-card" onclick="window.location.href='/admin/finance'">
         <div class="stat-icon purple">
             <i class="fas fa-dollar-sign"></i>
         </div>
@@ -76,7 +76,7 @@ ob_start();
 <!-- Statistics Grid - Bottom Row -->
 <div class="stats-grid-secondary">
     <!-- Active Batch -->
-    <div class="stat-card-secondary">
+    <div class="stat-card-secondary clickable-card" onclick="window.location.href='/admin/academic/batches'">
         <div class="stat-icon yellow">
             <i class="fas fa-calendar-alt"></i>
         </div>
@@ -86,7 +86,7 @@ ob_start();
     </div>
 
     <!-- Total Grades -->
-    <div class="stat-card-secondary">
+    <div class="stat-card-secondary clickable-card" onclick="window.location.href='/admin/academic/grades'">
         <div class="stat-icon teal">
             <i class="fas fa-layer-group"></i>
         </div>
@@ -96,7 +96,7 @@ ob_start();
     </div>
 
     <!-- Total Classes -->
-    <div class="stat-card-secondary">
+    <div class="stat-card-secondary clickable-card" onclick="window.location.href='/admin/academic/classes'">
         <div class="stat-icon blue">
             <i class="fas fa-chalkboard"></i>
         </div>
@@ -106,7 +106,7 @@ ob_start();
     </div>
 
     <!-- Total Subjects -->
-    <div class="stat-card-secondary">
+    <div class="stat-card-secondary clickable-card" onclick="window.location.href='/admin/academic/subjects'">
         <div class="stat-icon purple">
             <i class="fas fa-book"></i>
         </div>
@@ -124,34 +124,38 @@ ob_start();
             <div class="dashboard-card-header">
                 <i class="fas fa-bell"></i>
                 <h5>Upcoming Events</h5>
+                <a href="/admin/event-planner" class="simple-btn-sm">View All</a>
             </div>
             <div class="dashboard-card-body">
-                <div class="activity-item">
+                <div class="activity-item clickable-item" onclick="window.location.href='/admin/event-details?id=EVT004'">
                     <div class="activity-icon blue">
                         <i class="fas fa-calendar"></i>
                     </div>
                     <div class="activity-content">
                         <h6>Parent-Teacher Conference</h6>
-                        <p>Jan 15, 2024 • Meeting</p>
+                        <p>Dec 22, 2024 • Meeting</p>
                     </div>
+                    <i class="fas fa-chevron-right"></i>
                 </div>
-                <div class="activity-item">
+                <div class="activity-item clickable-item" onclick="window.location.href='/admin/event-details?id=EVT003'">
                     <div class="activity-icon blue">
                         <i class="fas fa-calendar"></i>
                     </div>
                     <div class="activity-content">
-                        <h6>Science Fair</h6>
-                        <p>Jan 20, 2024 • Academic</p>
+                        <h6>Cultural Festival</h6>
+                        <p>Dec 20, 2024 • Cultural</p>
                     </div>
+                    <i class="fas fa-chevron-right"></i>
                 </div>
-                <div class="activity-item">
+                <div class="activity-item clickable-item" onclick="window.location.href='/admin/event-details?id=EVT002'">
                     <div class="activity-icon blue">
                         <i class="fas fa-calendar"></i>
                     </div>
                     <div class="activity-content">
-                        <h6>Sports Day</h6>
-                        <p>Jan 25, 2024 • Sports</p>
+                        <h6>Football Championship</h6>
+                        <p>Dec 18, 2024 • Sports</p>
                     </div>
+                    <i class="fas fa-chevron-right"></i>
                 </div>
             </div>
         </div>
@@ -163,39 +167,101 @@ ob_start();
             <div class="dashboard-card-header">
                 <i class="fas fa-clipboard-list"></i>
                 <h5>Upcoming Exams</h5>
+                <a href="/admin/exam-database" class="simple-btn-sm">View All</a>
             </div>
             <div class="dashboard-card-body">
-                <div class="activity-item">
+                <div class="activity-item clickable-item" onclick="window.location.href='/admin/exam-details?id=EX002'">
                     <div class="activity-icon red">
                         <i class="fas fa-file-alt"></i>
                     </div>
                     <div class="activity-content">
-                        <h6>Mathematics Final Exam</h6>
-                        <p>Feb 5, 2024 • Grade 10</p>
+                        <h6>Mid-term Exam</h6>
+                        <p>Feb 5, 2025 • Grade 10-B</p>
                     </div>
+                    <i class="fas fa-chevron-right"></i>
                 </div>
-                <div class="activity-item">
+                <div class="activity-item clickable-item" onclick="window.location.href='/admin/exam-details?id=EX003'">
                     <div class="activity-icon red">
                         <i class="fas fa-file-alt"></i>
                     </div>
                     <div class="activity-content">
-                        <h6>English Literature Test</h6>
-                        <p>Feb 8, 2024 • Grade 9</p>
+                        <h6>Science Tutorial</h6>
+                        <p>Jan 25, 2025 • Grade 9-B</p>
                     </div>
+                    <i class="fas fa-chevron-right"></i>
                 </div>
-                <div class="activity-item">
+                <div class="activity-item clickable-item" onclick="window.location.href='/admin/exam-details?id=EX001'">
                     <div class="activity-icon red">
                         <i class="fas fa-file-alt"></i>
                     </div>
                     <div class="activity-content">
-                        <h6>Physics Mid-term</h6>
-                        <p>Feb 12, 2024 • Grade 11</p>
+                        <h6>Mathematics Tutorial 1</h6>
+                        <p>Jan 20, 2025 • Grade 9-A</p>
                     </div>
+                    <i class="fas fa-chevron-right"></i>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+/* Clickable Cards */
+.clickable-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.clickable-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Clickable Items */
+.clickable-item {
+    cursor: pointer;
+    transition: background 0.2s ease;
+    position: relative;
+}
+
+.clickable-item:hover {
+    background: #f0f7ff;
+}
+
+.clickable-item .fa-chevron-right {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 0.85rem;
+}
+
+/* Small Button */
+.simple-btn-sm {
+    padding: 4px 12px;
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.simple-btn-sm:hover {
+    background: #1565c0;
+    color: #fff;
+}
+
+.dashboard-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+</style>
 <?php
 $content = ob_get_clean();
 

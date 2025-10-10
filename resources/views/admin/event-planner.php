@@ -1,14 +1,12 @@
 <?php
 $pageTitle = 'Smart Campus Nova Hub - Event Planner';
-$pageIcon = 'fas fa-calendar-alt';
-$pageHeading = 'Event Planner';
-$activePage = 'event-planner';
-
-// Include UI components
-include __DIR__ . '/../components/ui/card.php';
+$pageIcon = 'fas fa-calendar-check';
+$pageHeading = 'Event Management';
+$activePage = 'events';
 
 ob_start();
 ?>
+
 <!-- Compact Page Header -->
 <div class="page-header-compact">
     <div class="page-icon-compact">
@@ -17,225 +15,522 @@ ob_start();
     <div class="page-title-compact">
         <h2><?php echo $pageHeading; ?></h2>
     </div>
-    <div class="page-actions">
-        <a href="/admin/create-event" class="create-event-btn">
-            <i class="fas fa-plus"></i>
-            Create Event
-        </a>
-    </div>
 </div>
 
-<!-- Event Statistics -->
-<div class="event-stats-grid">
-    <div class="stat-card"><div class="stat-icon"><i class="fas fa-calendar-alt"></i></div><div class="stat-content"><h3>Total Events</h3><div class="stat-number">12</div></div></div>
-    <div class="stat-card"><div class="stat-icon"><i class="fas fa-calendar-day"></i></div><div class="stat-content"><h3>This Month</h3><div class="stat-number">4</div></div></div>
-    <div class="stat-card"><div class="stat-icon"><i class="fas fa-clock"></i></div><div class="stat-content"><h3>Upcoming</h3><div class="stat-number">7</div></div></div>
-    <div class="stat-card"><div class="stat-icon"><i class="fas fa-play-circle"></i></div><div class="stat-content"><h3>Active Events</h3><div class="stat-number">3</div></div></div>
+<!-- Create Event Section -->
+<div class="simple-section">
+    <div class="simple-header">
+        <h3>Create New Event</h3>
+        <button class="simple-btn" id="toggleEventForm"><i class="fas fa-plus"></i> Add Event</button>
 </div>
 
-<!-- Event Controls -->
-<div class="event-controls">
-    <div class="view-toggle">
-        <div class="toggle-switch">
-            <input type="radio" id="list-view-toggle" name="view-toggle" value="list" checked>
-            <label for="list-view-toggle" class="toggle-option">
-                <i class="fas fa-list"></i>
-                <span>List View</span>
-            </label>
-            <input type="radio" id="calendar-view-toggle" name="view-toggle" value="calendar">
-            <label for="calendar-view-toggle" class="toggle-option">
-                <i class="fas fa-calendar"></i>
-                <span>Calendar View</span>
-            </label>
+    <!-- Inline Event Form -->
+    <div id="eventForm" class="preview-card" style="display:none; margin-top:12px;">
+        <div class="preview-header">
+            <div class="preview-title"><i class="fas fa-calendar-plus"></i> Event Details</div>
         </div>
+        <div class="preview-body">
+            <div class="form-section" style="padding:0;">
+                <div class="form-row">
+                    <div class="form-group" style="flex:2;">
+                        <label>Event Title</label>
+                        <input type="text" class="form-input" id="eventTitle" placeholder="e.g., Annual Science Fair">
     </div>
-    <div class="event-filters">
-        <select id="filterCategory" class="filter-select">
-            <option value="all">All Events</option>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select class="form-select" id="eventCategory">
             <option value="academic">Academic</option>
             <option value="sports">Sports</option>
             <option value="cultural">Cultural</option>
             <option value="meeting">Meeting</option>
+                            <option value="holiday">Holiday</option>
         </select>
-        <select id="filterTime" class="filter-select">
-            <option value="all-time">All Time</option>
-            <option value="today">Today</option>
-            <option value="this-week">This Week</option>
-            <option value="this-month">This Month</option>
-            <option value="upcoming">Upcoming</option>
-        </select>
-        <button class="clear-filters-btn"><i class="fas fa-times"></i></button>
-    </div>
-</div>
-
-<!-- Event Views Container -->
-<div class="event-views-container">
-    <!-- List View -->
-    <div class="event-view active" id="list-view">
-        <div id="eventsList" class="events-list"></div>
-    </div>
-
-    <!-- Calendar View -->
-    <div class="event-view" id="calendar-view">
-        <div class="calendar-container">
-            <div class="calendar-grid">
-                <div class="calendar-header">
-                    <button class="calendar-nav prev-month" id="prevMonth"><i class="fas fa-chevron-left"></i></button>
-                    <h3 id="currentMonth">December 2024</h3>
-                    <button class="calendar-nav next-month" id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+                    </div>
                 </div>
-                <div class="calendar-days" id="calendarDays"></div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Event Date</label>
+                        <input type="date" class="form-input" id="eventDate">
+                </div>
+                    <div class="form-group">
+                        <label>Start Time</label>
+                        <input type="time" class="form-input" id="eventStart">
+                    </div>
+                    <div class="form-group">
+                        <label>End Time</label>
+                        <input type="time" class="form-input" id="eventEnd">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" class="form-input" id="eventLocation" placeholder="e.g., Main Hall">
+                    </div>
+                    <div class="form-group">
+                        <label>Participants</label>
+                        <select class="form-select" id="eventAudience">
+                            <option value="all">All School</option>
+                            <option value="students">Students</option>
+                            <option value="teachers">Teachers</option>
+                            <option value="staff">Staff</option>
+                            <option value="parents">Parents</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:1;">
+                        <label>Description</label>
+                        <textarea class="form-input" id="eventDesc" rows="3" placeholder="Event description..."></textarea>
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="form-actions">
+            <button id="cancelEvent" class="simple-btn secondary"><i class="fas fa-times"></i> Cancel</button>
+            <button id="saveEvent" class="simple-btn primary"><i class="fas fa-check"></i> Save Event</button>
+        </div>
+    </div>
+                </div>
+
+<!-- Events List -->
+<div class="simple-section" style="margin-top:16px;">
+    <div class="simple-header">
+        <h4>All Events</h4>
+        <div style="display:flex; gap:12px;">
+            <select class="form-select" id="filterCategory" style="width:auto;">
+                <option value="all">All Categories</option>
+                <option value="academic">Academic</option>
+                <option value="sports">Sports</option>
+                <option value="cultural">Cultural</option>
+                <option value="meeting">Meeting</option>
+                <option value="holiday">Holiday</option>
+            </select>
+            <select class="form-select" id="filterStatus" style="width:auto;">
+                <option value="all">All Status</option>
+                <option value="upcoming">Upcoming</option>
+                <option value="active">Active</option>
+                <option value="completed">Completed</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="simple-table-container">
+        <table class="basic-table responsive-table">
+            <thead>
+                <tr>
+                    <th>Event Title</th>
+                    <th>Category</th>
+                    <th>Date & Time</th>
+                    <th>Location</th>
+                    <th>Participants</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="eventsTableBody">
+                <tr>
+                    <td data-label="Event Title" class="clickable" onclick="viewEventDetails('EVT001')">
+                        <strong>Mathematics Final Exam</strong>
+                    </td>
+                    <td data-label="Category">
+                        <span class="badge-type academic">Academic</span>
+                    </td>
+                    <td data-label="Date & Time">
+                        <div>Dec 15, 2024</div>
+                        <small style="color:#666;">09:00 - 12:00</small>
+                    </td>
+                    <td data-label="Location">Main Hall</td>
+                    <td data-label="Participants">
+                        <span class="tag">Grade 10</span>
+                    </td>
+                    <td data-label="Status">
+                        <span class="status-badge pending">Upcoming</span>
+                    </td>
+                    <td data-label="Actions" class="actions-cell">
+                        <button class="simple-btn-icon" onclick="viewEventDetails('EVT001')" title="View Details">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="simple-btn-icon" onclick="editEvent('EVT001')" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="simple-btn-icon" onclick="deleteEvent('EVT001', this)" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-label="Event Title" class="clickable" onclick="viewEventDetails('EVT002')">
+                        <strong>Football Championship</strong>
+                    </td>
+                    <td data-label="Category">
+                        <span class="badge-type sports">Sports</span>
+                    </td>
+                    <td data-label="Date & Time">
+                        <div>Dec 18, 2024</div>
+                        <small style="color:#666;">14:00 - 17:00</small>
+                    </td>
+                    <td data-label="Location">School Ground</td>
+                    <td data-label="Participants">
+                        <span class="tag">All School</span>
+                    </td>
+                    <td data-label="Status">
+                        <span class="status-badge paid">Active</span>
+                    </td>
+                    <td data-label="Actions" class="actions-cell">
+                        <button class="simple-btn-icon" onclick="viewEventDetails('EVT002')" title="View Details">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="simple-btn-icon" onclick="editEvent('EVT002')" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="simple-btn-icon" onclick="deleteEvent('EVT002', this)" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-label="Event Title" class="clickable" onclick="viewEventDetails('EVT003')">
+                        <strong>Cultural Festival</strong>
+                    </td>
+                    <td data-label="Category">
+                        <span class="badge-type cultural">Cultural</span>
+                    </td>
+                    <td data-label="Date & Time">
+                        <div>Dec 20, 2024</div>
+                        <small style="color:#666;">10:00 - 16:00</small>
+                    </td>
+                    <td data-label="Location">Assembly Hall</td>
+                    <td data-label="Participants">
+                        <span class="tag">All School</span>
+                    </td>
+                    <td data-label="Status">
+                        <span class="status-badge pending">Upcoming</span>
+                    </td>
+                    <td data-label="Actions" class="actions-cell">
+                        <button class="simple-btn-icon" onclick="viewEventDetails('EVT003')" title="View Details">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="simple-btn-icon" onclick="editEvent('EVT003')" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="simple-btn-icon" onclick="deleteEvent('EVT003', this)" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-label="Event Title" class="clickable" onclick="viewEventDetails('EVT004')">
+                        <strong>Parent-Teacher Meeting</strong>
+                    </td>
+                    <td data-label="Category">
+                        <span class="badge-type meeting">Meeting</span>
+                    </td>
+                    <td data-label="Date & Time">
+                        <div>Dec 22, 2024</div>
+                        <small style="color:#666;">08:00 - 17:00</small>
+                    </td>
+                    <td data-label="Location">Conference Room</td>
+                    <td data-label="Participants">
+                        <span class="tag">Parents</span>
+                    </td>
+                    <td data-label="Status">
+                        <span class="status-badge pending">Upcoming</span>
+                    </td>
+                    <td data-label="Actions" class="actions-cell">
+                        <button class="simple-btn-icon" onclick="viewEventDetails('EVT004')" title="View Details">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="simple-btn-icon" onclick="editEvent('EVT004')" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="simple-btn-icon" onclick="deleteEvent('EVT004', this)" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
+<style>
+/* Category Badges */
+.badge-type.academic {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.badge-type.sports {
+    background: #f3e5f5;
+    color: #7b1fa2;
+}
+
+.badge-type.cultural {
+    background: #fff3e0;
+    color: #ef6c00;
+}
+
+.badge-type.meeting {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.badge-type.holiday {
+    background: #ffebee;
+    color: #c62828;
+}
+
+/* Clickable cells */
+.clickable {
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.clickable:hover {
+    background: #f0f7ff;
+}
+
+.clickable strong {
+    color: #1976d2;
+}
+
+.clickable strong:hover {
+    text-decoration: underline;
+}
+
+/* Tags */
+.tag {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #f0f0f0;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* Responsive table */
+@media screen and (max-width: 768px) {
+    .responsive-table thead {
+        display: none;
+    }
+    
+    .responsive-table tbody tr {
+        display: block;
+        margin-bottom: 16px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .responsive-table tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        border: none;
+        border-bottom: 1px solid #f5f5f5;
+    }
+    
+    .responsive-table tbody td:last-child {
+        border-bottom: none;
+    }
+    
+    .responsive-table tbody td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #666;
+        margin-right: 12px;
+    }
+}
+</style>
+
 <script>
-(function(){
-    // Utility
-    function escapeHtml(str){ return String(str||'').replace(/[&<>\"]/g, s=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[s])); }
-    function fmtDate(d){ if(!d) return ''; const dt=new Date(d); return dt.toLocaleDateString(undefined,{month:'short', day:'numeric', year:'numeric'}); }
-    function timeRange(s,e){ return (s? s : '') + (e? ' - '+e : ''); }
-    function pad2(n){ return n<10? '0'+n : ''+n; }
+let editingEventId = null;
 
-    // Samples (baseline)
-    const sample = [
-        { title:'Mathematics Final Exam', category:'academic', date:'2024-12-15', start:'09:00', end:'12:00', location:'Main Hall', desc:'Final examination for Grade 10 Mathematics covering all topics from the semester.', audience:'Grade 10' },
-        { title:'Football Championship', category:'sports', date:'2024-12-18', start:'14:00', end:'17:00', location:'School Ground', desc:'Annual inter-school football championship featuring teams from 8 different schools.', audience:'All' },
-        { title:'Cultural Festival', category:'cultural', date:'2024-12-20', start:'10:00', end:'16:00', location:'Assembly Hall', desc:'Annual cultural festival showcasing traditional music, dance, and art from different regions.', audience:'All' },
-        { title:'Parent-Teacher Meeting', category:'meeting', date:'2024-12-22', start:'08:00', end:'17:00', location:'Conference Room', desc:'Scheduled parent-teacher meetings to discuss student progress.', audience:'Parents' }
-    ];
-
-    // Merge stored events
-    let stored=[]; try{ stored=JSON.parse(localStorage.getItem('events')||'[]'); }catch(e){ stored=[]; }
-    let events=[...stored, ...sample];
-
-    const eventsList=document.getElementById('eventsList');
-    const filterCategory=document.getElementById('filterCategory');
-    const filterTime=document.getElementById('filterTime');
-
-    function computeStatus(ev){
-        const today=new Date(); today.setSeconds(0,0);
-        const evDate = ev.date ? new Date(ev.date + 'T00:00:00') : null;
-        if (!evDate) return { label:'Upcoming', class:'upcoming' };
-        const startTime = ev.start ? ev.start : '00:00';
-        const endTime = ev.end ? ev.end : '23:59';
-        const start = new Date(evDate); const end = new Date(evDate);
-        start.setHours(parseInt(startTime.split(':')[0]||'0',10), parseInt(startTime.split(':')[1]||'0',10), 0, 0);
-        end.setHours(parseInt(endTime.split(':')[0]||'23',10), parseInt(endTime.split(':')[1]||'59',10), 59, 999);
-        if (today < start) return { label:'Upcoming', class:'upcoming' };
-        if (today > end) return { label:'Completed', class:'completed' };
-        return { label:'Active', class:'this-month' };
+// Toggle form
+document.getElementById('toggleEventForm').addEventListener('click', function() {
+    const form = document.getElementById('eventForm');
+    const isHidden = form.style.display === 'none';
+    form.style.display = isHidden ? 'block' : 'none';
+    
+    if (isHidden) {
+        editingEventId = null;
+        clearForm();
     }
+});
 
-    function eventCard(ev){
-        const status=computeStatus(ev);
-        const div=document.createElement('div');
-        div.className = `event-card ${escapeHtml(ev.category||'')}`;
-        div.innerHTML = `
-            <div class=\"event-icon\"><i class=\"${iconFor(ev.category)}\"></i></div>
-            <div class=\"event-content\">
-                <div class=\"event-title\">${escapeHtml(ev.title)}</div>
-                <div class=\"event-meta\">
-                    <span class=\"event-date\"><i class=\"fas fa-calendar\"></i> ${escapeHtml(fmtDate(ev.date))}</span>
-                    <span class=\"event-time\"><i class=\"fas fa-clock\"></i> ${escapeHtml(timeRange(ev.start, ev.end))}</span>
-                    <span class=\"event-location\"><i class=\"fas fa-map-marker-alt\"></i> ${escapeHtml(ev.location||'')}</span>
-                    <span class=\"status-badge ${escapeHtml(status.class)}\" style=\"margin-left:8px;\">${escapeHtml(status.label)}</span>
-                </div>
-                <div class=\"event-description\">${escapeHtml(ev.desc||'')}</div>
-                <div class=\"event-tags\">
-                    <span class=\"tag ${escapeHtml(ev.category||'')}\">${capitalize(ev.category||'')}</span>
-                    <span class=\"tag audience\">${escapeHtml(ev.audience||'')}</span>
-                </div>
-            </div>
-            <div class=\"event-actions\">
-                <button class=\"event-action-btn delete\" title=\"Delete\"><i class=\"fas fa-trash\"></i></button>
-            </div>`;
-        div.querySelector('.event-action-btn.delete').addEventListener('click', function(e){
-            e.stopPropagation();
-            div.remove();
-            const idx = stored.findIndex(s => matchesStored(s, ev));
-            if (idx>-1){ stored.splice(idx,1); localStorage.setItem('events', JSON.stringify(stored)); }
-        });
-        return div;
+// Cancel event
+document.getElementById('cancelEvent').addEventListener('click', function() {
+    document.getElementById('eventForm').style.display = 'none';
+    editingEventId = null;
+    clearForm();
+});
+
+// Save event
+document.getElementById('saveEvent').addEventListener('click', function() {
+    const title = document.getElementById('eventTitle').value.trim();
+    const category = document.getElementById('eventCategory').value;
+    const date = document.getElementById('eventDate').value;
+    const start = document.getElementById('eventStart').value;
+    const end = document.getElementById('eventEnd').value;
+    const location = document.getElementById('eventLocation').value.trim();
+    const audience = document.getElementById('eventAudience').value;
+    const desc = document.getElementById('eventDesc').value.trim();
+    
+    if (!title || !date || !start || !location) {
+        alert('Please fill all required fields');
+        return;
     }
-
-    function iconFor(cat){
-        switch(cat){
-            case 'academic': return 'fas fa-graduation-cap';
-            case 'sports': return 'fas fa-futbol';
-            case 'cultural': return 'fas fa-music';
-            case 'meeting': return 'fas fa-users';
-            default: return 'fas fa-calendar-alt';
+    
+    const eventData = {
+        id: editingEventId || 'EVT' + Date.now(),
+        title,
+        category,
+        date,
+        start,
+        end,
+        location,
+        audience,
+        desc
+    };
+    
+    // Save to localStorage
+    let events = JSON.parse(localStorage.getItem('adminEvents') || '[]');
+    
+    if (editingEventId) {
+        const index = events.findIndex(e => e.id === editingEventId);
+        if (index > -1) {
+            events[index] = eventData;
         }
+    } else {
+        events.push(eventData);
     }
-    function capitalize(s){ return s ? s.charAt(0).toUpperCase()+s.slice(1) : s; }
-    function matchesStored(a,b){ return a.title===b.title && a.date===b.date && a.start===b.start && a.location===b.location; }
+    
+    localStorage.setItem('adminEvents', JSON.stringify(events));
+    
+    alert(editingEventId ? 'Event updated successfully!' : 'Event created successfully!');
+    
+    document.getElementById('eventForm').style.display = 'none';
+    editingEventId = null;
+    clearForm();
+    loadEvents();
+});
 
-    function passesTimeFilter(ev){
-        const v=filterTime.value;
-        const today=new Date(); today.setHours(0,0,0,0);
-        const ed = ev.date ? new Date(ev.date) : null;
-        if (!ed) return v==='all-time';
-        const diffDays = Math.floor((ed - today)/(1000*60*60*24));
-        if (v==='today') return diffDays===0;
-        if (v==='this-week') return diffDays>=0 && diffDays<7;
-        if (v==='this-month') return ed.getMonth()===today.getMonth() && ed.getFullYear()===today.getFullYear();
-        if (v==='upcoming') return ed>=today;
-        return true;
-    }
+function clearForm() {
+    document.getElementById('eventTitle').value = '';
+    document.getElementById('eventCategory').value = 'academic';
+    document.getElementById('eventDate').value = '';
+    document.getElementById('eventStart').value = '';
+    document.getElementById('eventEnd').value = '';
+    document.getElementById('eventLocation').value = '';
+    document.getElementById('eventAudience').value = 'all';
+    document.getElementById('eventDesc').value = '';
+}
 
-    function render(){
-        eventsList.innerHTML='';
-        events.forEach(ev => {
-            if (filterCategory.value!=='all' && ev.category!==filterCategory.value) return;
-            if (!passesTimeFilter(ev)) return;
-            eventsList.appendChild(eventCard(ev));
-        });
-        renderCalendar();
-    }
+function viewEventDetails(eventId) {
+    window.location.href = `/admin/event-details?id=${eventId}`;
+}
 
-    function renderCalendar(){
-        const calendarDaysEl=document.getElementById('calendarDays');
-        if(!calendarDaysEl) return;
-        calendarDaysEl.innerHTML='';
-        const date=new Date();
-        date.setDate(1);
-        const month=date.getMonth();
-        const year=date.getFullYear();
-        const startDay=(new Date(year, month, 1)).getDay();
-        const daysInMonth=new Date(year, month+1, 0).getDate();
-        const headers=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-        headers.forEach(h=>{ const d=document.createElement('div'); d.className='day-header'; d.textContent=h; calendarDaysEl.appendChild(d);});
-        for(let i=0;i<startDay;i++){ const e=document.createElement('div'); e.className='calendar-day empty'; calendarDaysEl.appendChild(e);} 
-        for(let d=1; d<=daysInMonth; d++){
-            const ed=new Date(year, month, d);
-            const cell=document.createElement('div');
-            cell.className='calendar-day';
-            const has=events.filter(ev=> ev.date && (new Date(ev.date)).toDateString()===ed.toDateString());
-            if(has.length>0){ cell.classList.add('has-event'); }
-            const num=document.createElement('span'); num.className='day-number'; num.textContent=String(d); cell.appendChild(num);
-            if(has.length>0){
-                const wrap=document.createElement('div'); wrap.className='day-events';
-                has.forEach(ev=>{ const dot=document.createElement('div'); dot.className='day-event'; dot.dataset.title=ev.title; wrap.appendChild(dot); });
-                cell.appendChild(wrap);
-            }
-            calendarDaysEl.appendChild(cell);
+function editEvent(eventId) {
+    // Navigate to edit event page (same pattern as exam section)
+    window.location.href = `/admin/event-edit?id=${eventId}`;
+}
+
+function deleteEvent(eventId, btn) {
+    showConfirmDialog({
+        title: 'Delete Event',
+        message: 'Are you sure you want to delete this event? This action cannot be undone.',
+        confirmText: 'Delete',
+        confirmIcon: 'fas fa-trash',
+        onConfirm: () => {
+            let events = JSON.parse(localStorage.getItem('adminEvents') || '[]');
+            events = events.filter(e => e.id !== eventId);
+            localStorage.setItem('adminEvents', JSON.stringify(events));
+            
+            btn.closest('tr').remove();
+            alert('Event deleted successfully!');
         }
-    }
-
-    document.querySelector('.clear-filters-btn').addEventListener('click', function(){
-        filterCategory.value='all'; filterTime.value='all-time'; render();
     });
-    filterCategory.addEventListener('change', render);
-    filterTime.addEventListener('change', render);
+}
 
-    render();
-})();
+function getEventStatus(event) {
+    const now = new Date();
+    const eventDate = new Date(event.date + 'T' + event.start);
+    const eventEnd = new Date(event.date + 'T' + (event.end || '23:59'));
+    
+    if (now < eventDate) return { label: 'Upcoming', class: 'pending' };
+    if (now >= eventDate && now <= eventEnd) return { label: 'Active', class: 'paid' };
+    return { label: 'Completed', class: 'completed' };
+}
+
+function loadEvents() {
+    const tbody = document.getElementById('eventsTableBody');
+    const events = JSON.parse(localStorage.getItem('adminEvents') || '[]');
+    const filterCat = document.getElementById('filterCategory').value;
+    const filterStat = document.getElementById('filterStatus').value;
+    
+    // Keep existing sample events, add new ones
+    const sampleIds = ['EVT001', 'EVT002', 'EVT003', 'EVT004'];
+    
+    events.forEach(event => {
+        if (sampleIds.includes(event.id)) return; // Skip duplicates
+        
+        const status = getEventStatus(event);
+        
+        if (filterCat !== 'all' && event.category !== filterCat) return;
+        if (filterStat !== 'all' && status.label.toLowerCase() !== filterStat) return;
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td data-label="Event Title" class="clickable" onclick="viewEventDetails('${event.id}')">
+                <strong>${event.title}</strong>
+            </td>
+            <td data-label="Category">
+                <span class="badge-type ${event.category}">${event.category.charAt(0).toUpperCase() + event.category.slice(1)}</span>
+            </td>
+            <td data-label="Date & Time">
+                <div>${new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
+                <small style="color:#666;">${event.start} - ${event.end || 'N/A'}</small>
+            </td>
+            <td data-label="Location">${event.location}</td>
+            <td data-label="Participants">
+                <span class="tag">${event.audience.charAt(0).toUpperCase() + event.audience.slice(1)}</span>
+            </td>
+            <td data-label="Status">
+                <span class="status-badge ${status.class}">${status.label}</span>
+            </td>
+            <td data-label="Actions" class="actions-cell">
+                <button class="simple-btn-icon" onclick="viewEventDetails('${event.id}')" title="View Details">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <button class="simple-btn-icon" onclick="editEvent('${event.id}')" title="Edit">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="simple-btn-icon" onclick="deleteEvent('${event.id}', this)" title="Delete">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+// Filters
+document.getElementById('filterCategory').addEventListener('change', function() {
+    // Filter logic would go here in production
+    console.log('Filter by category:', this.value);
+});
+
+document.getElementById('filterStatus').addEventListener('change', function() {
+    // Filter logic would go here in production
+    console.log('Filter by status:', this.value);
+});
+
+// Load events on page load
+document.addEventListener('DOMContentLoaded', loadEvents);
 </script>
 
 <?php
 $content = ob_get_clean();
-
 include __DIR__ . '/../components/admin-layout.php';
 ?>
