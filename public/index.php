@@ -41,6 +41,9 @@ switch ($path) {
     case '/admin/event-planner':
         include __DIR__ . '/../resources/views/admin/event-planner.php';
         break;
+    case '/admin/event-calendar':
+        include __DIR__ . '/../resources/views/admin/event-calendar.php';
+        break;
     case '/admin/create-event':
         include __DIR__ . '/../resources/views/admin/create-event.php';
         break;
@@ -131,6 +134,10 @@ switch ($path) {
     case (preg_match('/^\/admin\/academic\/subject-detail\/(.+)$/', $uri, $matches) ? true : false):
         $_GET['subject'] = $matches[1];
         include __DIR__ . '/../resources/views/admin/academic/subject-detail.php';
+        break;
+    case (preg_match('/^\/admin\/academic\/department-detail\/(.+)$/', $uri, $matches) ? true : false):
+        $_GET['dept'] = urldecode($matches[1]);
+        include __DIR__ . '/../resources/views/admin/academic/department-detail.php';
         break;
     
     // Profile detail pages

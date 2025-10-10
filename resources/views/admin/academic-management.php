@@ -27,6 +27,7 @@ ob_start();
         <button class="academic-tab" data-tab="classes">Classes</button>
         <button class="academic-tab" data-tab="rooms">Rooms</button>
         <button class="academic-tab" data-tab="subjects">Subjects</button>
+        <button class="academic-tab" data-tab="departments">Departments</button>
     </div>
 </div>
 
@@ -917,6 +918,252 @@ ob_start();
             </div>
         </div>
     </div>
+
+    <!-- Departments Tab Content -->
+    <div class="tab-content" id="departments-content">
+        <div class="detail-management-section">
+            <div class="section-header">
+                <h3 class="section-title">Department Management</h3>
+                <button class="simple-btn" id="toggleDepartmentForm"><i class="fas fa-plus"></i> Add Department</button>
+            </div>
+
+            <!-- Inline Create Department Form -->
+            <div id="departmentForm" class="simple-section" style="display:none; margin-top:12px;">
+                <div class="simple-header">
+                    <h4><i class="fas fa-building"></i> Create Department</h4>
+                </div>
+                <div class="form-section">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deptCode">Department Code</label>
+                            <input type="text" id="deptCode" class="form-input" placeholder="e.g., MATH">
+                        </div>
+                        <div class="form-group" style="flex:2;">
+                            <label for="deptName">Department Name</label>
+                            <input type="text" id="deptName" class="form-input" placeholder="e.g., Mathematics Department">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group" style="flex:2;">
+                            <label for="deptHead">Department Head</label>
+                            <input type="text" id="deptHead" class="form-input" placeholder="e.g., Dr. John Smith">
+                        </div>
+                        <div class="form-group">
+                            <label for="deptBuilding">Building/Location</label>
+                            <input type="text" id="deptBuilding" class="form-input" placeholder="e.g., Building A">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button id="cancelDepartment" class="simple-btn secondary">Cancel</button>
+                        <button id="saveDepartment" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="detail-table-container">
+                <table class="academic-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Department Code</th>
+                            <th>Department Name</th>
+                            <th>Department Head</th>
+                            <th>Staff Count</th>
+                            <th>Building</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="expandable-row" onclick="toggleExpand(this)">
+                            <td class="expand-cell">
+                                <i class="fas fa-chevron-right expand-icon"></i>
+                            </td>
+                            <td class="batch-name">
+                                <a href="/admin/academic/department-detail/PRIMARY" class="batch-link" onclick="event.stopPropagation()">PRIMARY</a>
+                            </td>
+                            <td>Primary Teachers</td>
+                            <td>Ms. Sarah Johnson</td>
+                            <td class="student-count">15</td>
+                            <td>Building A</td>
+                            <td class="actions-cell" onclick="event.stopPropagation()">
+                                <button class="action-icon view" title="View"><i class="fas fa-eye"></i></button>
+                                <button class="action-icon edit" title="Edit"><i class="fas fa-edit"></i></button>
+                                <button class="action-icon delete" title="Delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr class="expandable-content" style="display: none;">
+                            <td colspan="7">
+                                <div class="expanded-section">
+                                    <div class="expanded-info">
+                                        <div class="info-card">
+                                            <div class="info-label">Contact</div>
+                                            <div class="info-value">primary@school.edu</div>
+                                        </div>
+                                        <div class="info-card">
+                                            <div class="info-label">Extension</div>
+                                            <div class="info-value">ext. 101</div>
+                                        </div>
+                                        <div class="info-card">
+                                            <div class="info-label">Office Room</div>
+                                            <div class="info-value">A-105</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="expandable-row" onclick="toggleExpand(this)">
+                            <td class="expand-cell">
+                                <i class="fas fa-chevron-right expand-icon"></i>
+                            </td>
+                            <td class="batch-name">
+                                <a href="/admin/academic/department-detail/LANG" class="batch-link" onclick="event.stopPropagation()">LANG</a>
+                            </td>
+                            <td>Language Teachers</td>
+                            <td>Dr. Emily Chen</td>
+                            <td class="student-count">8</td>
+                            <td>Building B</td>
+                            <td class="actions-cell" onclick="event.stopPropagation()">
+                                <button class="action-icon view" title="View"><i class="fas fa-eye"></i></button>
+                                <button class="action-icon edit" title="Edit"><i class="fas fa-edit"></i></button>
+                                <button class="action-icon delete" title="Delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr class="expandable-content" style="display: none;">
+                            <td colspan="7">
+                                <div class="expanded-section">
+                                    <div class="expanded-info">
+                                        <div class="info-card">
+                                            <div class="info-label">Contact</div>
+                                            <div class="info-value">language@school.edu</div>
+                                        </div>
+                                        <div class="info-card">
+                                            <div class="info-label">Extension</div>
+                                            <div class="info-value">ext. 102</div>
+                                        </div>
+                                        <div class="info-card">
+                                            <div class="info-label">Office Room</div>
+                                            <div class="info-value">B-201</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="expandable-row" onclick="toggleExpand(this)">
+                            <td class="expand-cell">
+                                <i class="fas fa-chevron-right expand-icon"></i>
+                            </td>
+                            <td class="batch-name">
+                                <a href="/admin/academic/department-detail/ICT" class="batch-link" onclick="event.stopPropagation()">ICT</a>
+                            </td>
+                            <td>ICT Staff</td>
+                            <td>Mr. David Kumar</td>
+                            <td class="student-count">5</td>
+                            <td>Building C</td>
+                            <td class="actions-cell" onclick="event.stopPropagation()">
+                                <button class="action-icon view" title="View"><i class="fas fa-eye"></i></button>
+                                <button class="action-icon edit" title="Edit"><i class="fas fa-edit"></i></button>
+                                <button class="action-icon delete" title="Delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr class="expandable-content" style="display: none;">
+                            <td colspan="7">
+                                <div class="expanded-section">
+                                    <div class="expanded-info">
+                                        <div class="info-card">
+                                            <div class="info-label">Contact</div>
+                                            <div class="info-value">ict@school.edu</div>
+                                        </div>
+                                        <div class="info-card">
+                                            <div class="info-label">Extension</div>
+                                            <div class="info-value">ext. 301</div>
+                                        </div>
+                                        <div class="info-card">
+                                            <div class="info-label">Office Room</div>
+                                            <div class="info-value">C-105</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="expandable-row" onclick="toggleExpand(this)">
+                            <td class="expand-cell">
+                                <i class="fas fa-chevron-right expand-icon"></i>
+                            </td>
+                            <td class="batch-name">
+                                <a href="/admin/academic/department-detail/ADMIN" class="batch-link" onclick="event.stopPropagation()">ADMIN</a>
+                            </td>
+                            <td>Administrative Staff</td>
+                            <td>Ms. Lisa Park</td>
+                            <td class="student-count">12</td>
+                            <td>Main Building</td>
+                            <td class="actions-cell" onclick="event.stopPropagation()">
+                                <button class="action-icon view" title="View"><i class="fas fa-eye"></i></button>
+                                <button class="action-icon edit" title="Edit"><i class="fas fa-edit"></i></button>
+                                <button class="action-icon delete" title="Delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr class="expandable-content" style="display: none;">
+                            <td colspan="7">
+                                <div class="expanded-section">
+                                    <div class="expanded-info">
+                                        <div class="info-card">
+                                            <div class="info-label">Contact</div>
+                                            <div class="info-value">admin@school.edu</div>
+                                        </div>
+                                        <div class="info-card">
+                                            <div class="info-label">Extension</div>
+                                            <div class="info-value">ext. 100</div>
+                                        </div>
+                                        <div class="info-card">
+                                            <div class="info-label">Office Room</div>
+                                            <div class="info-value">Main-201</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="expandable-row" onclick="toggleExpand(this)">
+                            <td class="expand-cell">
+                                <i class="fas fa-chevron-right expand-icon"></i>
+                            </td>
+                            <td class="batch-name">
+                                <a href="/admin/academic/department-detail/MAINT" class="batch-link" onclick="event.stopPropagation()">MAINT</a>
+                            </td>
+                            <td>Maintenance & Security</td>
+                            <td>Mr. Robert Jones</td>
+                            <td class="student-count">10</td>
+                            <td>Service Building</td>
+                            <td class="actions-cell" onclick="event.stopPropagation()">
+                                <button class="action-icon view" title="View"><i class="fas fa-eye"></i></button>
+                                <button class="action-icon edit" title="Edit"><i class="fas fa-edit"></i></button>
+                                <button class="action-icon delete" title="Delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr class="expandable-content" style="display: none;">
+                            <td colspan="7">
+                                <div class="expanded-section">
+                                    <div class="expanded-info">
+                                        <div class="info-card">
+                                            <div class="info-label">Contact</div>
+                                            <div class="info-value">maintenance@school.edu</div>
+                                        </div>
+                                        <div class="info-card">
+                                            <div class="info-label">Extension</div>
+                                            <div class="info-value">ext. 500</div>
+                                        </div>
+                                        <div class="info-card">
+                                            <div class="info-label">Office Room</div>
+                                            <div class="info-value">Service-01</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -1070,6 +1317,26 @@ document.addEventListener('DOMContentLoaded', function(){
                 <button class="action-icon view" title="View Details"><i class="fas fa-eye"></i></button>
                 <button class="action-icon edit" title="Edit Subject"><i class="fas fa-edit"></i></button>
                 <button class="action-icon delete" title="Delete Subject"><i class="fas fa-trash"></i></button>
+            </td>`;
+        tbody.prepend(tr);
+    });
+
+    bindToggle('toggleDepartmentForm','departmentForm','cancelDepartment','saveDepartment', function(){
+        const code=(document.getElementById('deptCode').value||'').trim(); if(!code){ alert('Enter department code'); return; }
+        const tbody=document.querySelector('#departments-content .academic-table tbody');
+        const tr=document.createElement('tr');
+        tr.className='expandable-row'; tr.setAttribute('onclick','toggleExpand(this)');
+        tr.innerHTML=`
+            <td class="expand-cell"><i class="fas fa-chevron-right expand-icon"></i></td>
+            <td class="batch-name"><a href="/admin/academic/department-detail/${code}" class="batch-link" onclick="event.stopPropagation()">${code}</a></td>
+            <td>${(document.getElementById('deptName').value||'')}</td>
+            <td>${(document.getElementById('deptHead').value||'')}</td>
+            <td class="student-count">0</td>
+            <td>${(document.getElementById('deptBuilding').value||'')}</td>
+            <td class="actions-cell" onclick="event.stopPropagation()">
+                <button class="action-icon view" title="View"><i class="fas fa-eye"></i></button>
+                <button class="action-icon edit" title="Edit"><i class="fas fa-edit"></i></button>
+                <button class="action-icon delete" title="Delete"><i class="fas fa-trash"></i></button>
             </td>`;
         tbody.prepend(tr);
     });

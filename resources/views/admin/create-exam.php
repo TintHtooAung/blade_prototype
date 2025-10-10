@@ -31,14 +31,14 @@ ob_start();
         <div class="simple-actions">
             <button id="toggleExamForm" class="simple-btn"><i class="fas fa-plus"></i> Create Draft Exam</button>
             <button id="activateAll" class="simple-btn secondary"><i class="fas fa-bolt"></i> Activate All Draft Exams</button>
-        </div>
-    </div>
+                </div>
+            </div>
 
     <!-- Inline Scheduler (hidden by default) -->
     <div id="examForm" class="preview-card" style="display:none;">
         <div class="preview-header">
             <div class="preview-title"><i class="fas fa-calendar-plus"></i> Configure Exam</div>
-        </div>
+                </div>
         <div class="preview-body">
             <div class="form-section" style="padding:0;">
                 <div class="form-row">
@@ -84,12 +84,7 @@ ob_start();
                 </div>
             </div>
 
-            <!-- Subject controls -->
-            <div class="form-actions" style="justify-content:flex-start; margin-top:8px;">
-                <button id="addRow" class="simple-btn"><i class="fas fa-plus"></i> Add Subject</button>
-                <button id="removeRow" class="simple-btn secondary"><i class="fas fa-minus"></i> Remove Subject</button>
-            </div>
-
+            <!-- Subjects auto-loaded from Grade/Class -->
             <div class="simple-table-container" style="margin-top:12px;">
                 <table class="basic-table">
                     <thead>
@@ -99,23 +94,22 @@ ob_start();
                             <th style="width: 20%;">Date</th>
                             <th style="width: 20%;">Start Time</th>
                             <th style="width: 15%;">Room</th>
-                            <th style="width: 0; text-align:right;">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="subjectRows"></tbody>
                 </table>
             </div>
-        </div>
+                </div>
         <div class="form-actions">
             <button id="cancelExam" class="simple-btn secondary"><i class="fas fa-times"></i> Cancel</button>
             <button id="saveSchedule" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
-        </div>
-    </div>
+                </div>
+            </div>
 
     <!-- Scheduled Exams List -->
     <div class="simple-header" style="margin-top:16px;">
         <h4>Scheduled Exams</h4>
-    </div>
+            </div>
     <div class="simple-table-container">
         <table class="basic-table">
             <thead>
@@ -155,41 +149,43 @@ document.addEventListener('DOMContentLoaded', function() {
     const examForm = document.getElementById('examForm');
     const toggleFormBtn = document.getElementById('toggleExamForm');
     const cancelBtn = document.getElementById('cancelExam');
-    const addRowBtn = document.getElementById('addRow');
-    const removeRowBtn = document.getElementById('removeRow');
     const rowsBody = document.getElementById('subjectRows');
     const saveBtn = document.getElementById('saveSchedule');
     const scheduledTbody = document.getElementById('scheduledTbody');
     const activateAllBtn = document.getElementById('activateAll');
     const activationNote = document.getElementById('activationNote');
+    const gradeSelect = document.getElementById('grade');
+    const classSelect = document.getElementById('class');
 
     let editingRow = null;
 
-    function newRow() {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>
-                <select class="filter-select">
-                    <option>Mathematics</option>
-                    <option>English</option>
-                    <option>Science</option>
-                    <option>Myanmar</option>
-                    <option>History</option>
-                    <option>Geography</option>
-                </select>
-            </td>
-            <td><input type="number" class="form-input" value="100"></td>
-            <td><input type="date" class="form-input"></td>
-            <td><input type="time" class="form-input"></td>
-            <td><input type="text" class="form-input" placeholder="Room"></td>
-            <td style="text-align:right;">
-                <button class="simple-btn-icon" title="Remove" onclick="this.closest('tr').remove();"><i class="fas fa-minus"></i></button>
-            </td>
-        `;
-        return tr;
-    }
+    // Subject mapping by grade and class
+    const subjectsByGradeClass = {
+        'Grade 7': ['Mathematics', 'English', 'Science', 'Myanmar', 'History', 'Geography'],
+        'Grade 8': ['Mathematics', 'English', 'Science', 'Myanmar', 'History', 'Geography', 'Physics'],
+        'Grade 9': ['Mathematics', 'English', 'Science', 'Myanmar', 'History', 'Geography', 'Physics', 'Chemistry'],
+        'Grade 10': ['Mathematics', 'English', 'Science', 'Myanmar', 'History', 'Geography', 'Physics', 'Chemistry', 'Biology'],
+        'Grade 11': ['Mathematics', 'English', 'Physics', 'Chemistry', 'Biology', 'Economics'],
+        'Grade 12': ['Mathematics', 'English', 'Physics', 'Chemistry', 'Biology', 'Economics', 'Computer Science']
+    };
 
-    function addRow() { rowsBody.appendChild(newRow()); }
+    function loadSubjects() {
+        const grade = gradeSelect.value;
+        const subjects = subjectsByGradeClass[grade] || [];
+        rowsBody.innerHTML = '';
+        
+        subjects.forEach(subject => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><strong>${subject}</strong></td>
+                <td><input type="number" class="form-input" value="100"></td>
+                <td><input type="date" class="form-input"></td>
+                <td><input type="time" class="form-input"></td>
+                <td><input type="text" class="form-input" placeholder="Room"></td>
+            `;
+            rowsBody.appendChild(tr);
+        });
+    }
 
     function bindRowActions(tr) {
         const editBtn = tr.querySelector('.edit-exam');
@@ -204,18 +200,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('grade').value = tr.children[3].innerText.trim();
                 document.getElementById('class').value = tr.children[4].innerText.trim();
                 examForm.style.display = 'block';
-                if (rowsBody.children.length === 0) addRow();
+                loadSubjects();
             });
         }
     }
 
     Array.from(scheduledTbody.querySelectorAll('tr')).forEach(bindRowActions);
 
+    // Load subjects when grade or class changes
+    gradeSelect.addEventListener('change', loadSubjects);
+    classSelect.addEventListener('change', loadSubjects);
+
     toggleFormBtn.addEventListener('click', function(e) {
         e.preventDefault();
         const willShow = examForm.style.display === 'none';
         examForm.style.display = willShow ? 'block' : 'none';
-        if (willShow && rowsBody.children.length === 0) addRow();
+        if (willShow) loadSubjects();
         if (!willShow) editingRow = null;
     });
 
@@ -223,16 +223,13 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         document.getElementById('examName').value = '';
         document.getElementById('examId').value = '';
-        document.getElementById('examType').value = 'monthly';
-        document.getElementById('grade').value = 'Grade 10';
+        document.getElementById('examType').value = 'tutorial';
+        document.getElementById('grade').value = 'Grade 7';
         document.getElementById('class').value = 'Class A';
         rowsBody.innerHTML = '';
         examForm.style.display = 'none';
         editingRow = null;
     });
-
-    addRowBtn.addEventListener('click', function(e){ e.preventDefault(); addRow(); });
-    removeRowBtn.addEventListener('click', function(e){ e.preventDefault(); if (rowsBody.lastElementChild) rowsBody.removeChild(rowsBody.lastElementChild); });
 
     saveBtn.addEventListener('click', function(e){
         e.preventDefault();
@@ -243,12 +240,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const klass = document.getElementById('class').value;
         if (!examName || !examId) { alert('Please provide Exam Name and Exam ID.'); return; }
 
+        const subjectCount = rowsBody.children.length;
+
         if (editingRow) {
             editingRow.children[0].innerHTML = `<strong>${examId}</strong>`;
             editingRow.children[1].innerText = examName;
             editingRow.children[2].innerText = examType.charAt(0).toUpperCase() + examType.slice(1);
             editingRow.children[3].innerText = grade;
             editingRow.children[4].innerText = klass;
+            editingRow.children[5].innerText = subjectCount > 1 ? 'Multiple' : 'Single';
         } else {
             const tr = document.createElement('tr');
             tr.innerHTML = `
@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>${(examType.charAt(0).toUpperCase() + examType.slice(1))}</td>
                 <td>${grade}</td>
                 <td>${klass}</td>
-                <td>${rowsBody.children.length > 1 ? 'Multiple' : 'Single'}</td>
+                <td>${subjectCount > 1 ? 'Multiple' : 'Single'}</td>
                 <td><span class="status-badge draft">Draft</span></td>
                 <td>
                     <button class="simple-btn-icon edit-exam" title="Edit"><i class="fas fa-edit"></i></button>
