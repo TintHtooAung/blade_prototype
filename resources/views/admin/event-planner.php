@@ -25,72 +25,70 @@ ob_start();
 </div>
 
     <!-- Inline Event Form -->
-    <div id="eventForm" class="preview-card" style="display:none; margin-top:12px;">
-        <div class="preview-header">
-            <div class="preview-title"><i class="fas fa-calendar-plus"></i> Event Details</div>
+    <div id="eventForm" class="simple-section" style="display:none; margin-top:12px;">
+        <div class="simple-header">
+            <h4><i class="fas fa-calendar-plus"></i> Create Event</h4>
         </div>
-        <div class="preview-body">
-            <div class="form-section" style="padding:0;">
-                <div class="form-row">
-                    <div class="form-group" style="flex:2;">
-                        <label>Event Title</label>
-                        <input type="text" class="form-input" id="eventTitle" placeholder="e.g., Annual Science Fair">
-    </div>
-                    <div class="form-group">
-                        <label>Category</label>
-                        <select class="form-select" id="eventCategory">
-            <option value="academic">Academic</option>
-            <option value="sports">Sports</option>
-            <option value="cultural">Cultural</option>
-            <option value="meeting">Meeting</option>
-                            <option value="holiday">Holiday</option>
-        </select>
-                    </div>
+        <div class="form-section">
+            <div class="form-row">
+                <div class="form-group" style="flex:2;">
+                    <label>Event Title</label>
+                    <input type="text" class="form-input" id="eventTitle" placeholder="e.g., Annual Science Fair">
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Event Date</label>
-                        <input type="date" class="form-input" id="eventDate">
-                </div>
-                    <div class="form-group">
-                        <label>Start Time</label>
-                        <input type="time" class="form-input" id="eventStart">
-                    </div>
-                    <div class="form-group">
-                        <label>End Time</label>
-                        <input type="time" class="form-input" id="eventEnd">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Location</label>
-                        <input type="text" class="form-input" id="eventLocation" placeholder="e.g., Main Hall">
-                    </div>
-                    <div class="form-group">
-                        <label>Participants</label>
-                        <select class="form-select" id="eventAudience">
-                            <option value="all">All School</option>
-                            <option value="students">Students</option>
-                            <option value="teachers">Teachers</option>
-                            <option value="staff">Staff</option>
-                            <option value="parents">Parents</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group" style="flex:1;">
-                        <label>Description</label>
-                        <textarea class="form-input" id="eventDesc" rows="3" placeholder="Event description..."></textarea>
-                    </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select class="form-select" id="eventCategory">
+                        <option value="academic">Academic</option>
+                        <option value="sports">Sports</option>
+                        <option value="cultural">Cultural</option>
+                        <option value="meeting">Meeting</option>
+                        <option value="holiday">Holiday</option>
+                    </select>
                 </div>
             </div>
-        </div>
-        <div class="form-actions">
-            <button id="cancelEvent" class="simple-btn secondary"><i class="fas fa-times"></i> Cancel</button>
-            <button id="saveEvent" class="simple-btn primary"><i class="fas fa-check"></i> Save Event</button>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Event Date</label>
+                    <input type="date" class="form-input" id="eventDate">
+                </div>
+                <div class="form-group">
+                    <label>Start Time</label>
+                    <input type="time" class="form-input" id="eventStart">
+                </div>
+                <div class="form-group">
+                    <label>End Time</label>
+                    <input type="time" class="form-input" id="eventEnd">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" class="form-input" id="eventLocation" placeholder="e.g., Main Hall">
+                </div>
+                <div class="form-group">
+                    <label>Participants</label>
+                    <select class="form-select" id="eventAudience">
+                        <option value="all">All School</option>
+                        <option value="students">Students</option>
+                        <option value="teachers">Teachers</option>
+                        <option value="staff">Staff</option>
+                        <option value="parents">Parents</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group" style="flex:1;">
+                    <label>Description</label>
+                    <textarea class="form-input" id="eventDesc" rows="3" placeholder="Event description..."></textarea>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button id="cancelEvent" class="simple-btn secondary"><i class="fas fa-times"></i> Cancel</button>
+                <button id="saveEvent" class="simple-btn primary"><i class="fas fa-check"></i> Save Event</button>
+            </div>
         </div>
     </div>
-                </div>
+</div>
 
 <!-- Events List -->
 <div class="simple-section" style="margin-top:16px;">

@@ -46,6 +46,35 @@ ob_start();
         </table>
     </div>
 
+    <!-- Portal Access Information -->
+    <div class="simple-header" style="margin-top:24px;">
+        <h4><i class="fas fa-user-lock"></i> Teacher Portal Access</h4>
+        <button class="simple-btn" onclick="handlePortalAction()" id="portalActionBtn">
+            <i class="fas fa-check-circle"></i> Complete Setup
+        </button>
+    </div>
+    <div class="simple-table-container">
+        <table class="basic-table">
+            <tbody>
+                <tr>
+                    <th style="width:220px;">Portal User ID</th>
+                    <td>
+                        <input type="text" class="form-input" id="portalUserIdInput" placeholder="e.g., TP001" style="width:100%;">
+                    </td>
+                </tr>
+                <tr>
+                    <th>Portal Email</th>
+                    <td>
+                        <input type="email" class="form-input" id="portalEmailInput" placeholder="teacher@school.edu" style="width:100%;">
+                    </td>
+                </tr>
+                <tr><th>Portal Role</th><td>Teacher Portal</td></tr>
+                <tr><th>Setup Status</th><td><span class="status-badge draft" id="setupStatus">Incomplete</span></td></tr>
+                <tr><th>Last Updated</th><td id="lastUpdated">-</td></tr>
+            </tbody>
+        </table>
+    </div>
+
     <div class="simple-header" style="margin-top:16px;">
         <h4>Assigned Classes</h4>
     </div>
@@ -140,6 +169,92 @@ ob_start();
         </a>
     </div>
 </div>
+
+<script>
+const profileId = '<?php echo htmlspecialchars($id); ?>';
+let setupComplete = false;
+
+// Load portal setup from localStorage
+document.addEventListener('DOMContentLoaded', function() {
+    const portalSetups = JSON.parse(localStorage.getItem('portalSetups') || '{}');
+    
+    if (portalSetups[profileId]) {
+        const setup = portalSetups[profileId];
+        document.getElementById('portalUserIdInput').value = setup.userId;
+        document.getElementById('portalEmailInput').value = setup.email;
+        
+        if (setup.accountCreated) {
+            document.getElementById('setupStatus').textContent = 'Account Created';
+            document.getElementById('setupStatus').className = 'status-badge paid';
+            document.getElementById('portalUserIdInput').readOnly = true;
+            document.getElementById('portalEmailInput').readOnly = true;
+            document.getElementById('portalActionBtn').style.display = 'none';
+        } else if (setup.setupComplete) {
+            setupComplete = true;
+            document.getElementById('setupStatus').textContent = 'Ready for Account Creation';
+            document.getElementById('setupStatus').className = 'status-badge pending';
+            document.getElementById('portalActionBtn').innerHTML = '<i class="fas fa-user-plus"></i> Create Portal Account';
+        }
+        
+        document.getElementById('lastUpdated').textContent = setup.updatedAt;
+    }
+});
+
+function handlePortalAction() {
+    if (!setupComplete) {
+        const userId = document.getElementById('portalUserIdInput').value.trim();
+        const email = document.getElementById('portalEmailInput').value.trim();
+        
+        if (!userId || !email) {
+            alert('Please fill in both Portal User ID and Portal Email fields.');
+            return;
+        }
+        
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            alert('Please enter a valid email address.');
+            return;
+        }
+        
+        const portalSetups = JSON.parse(localStorage.getItem('portalSetups') || '{}');
+        portalSetups[profileId] = {
+            profileId: profileId,
+            userId: userId,
+            email: email,
+            fullName: 'Placeholder Name',
+            role: 'Teacher Portal',
+            profileType: 'teacher',
+            setupComplete: true,
+            accountCreated: false,
+            updatedAt: new Date().toLocaleString()
+        };
+        localStorage.setItem('portalSetups', JSON.stringify(portalSetups));
+        
+        setupComplete = true;
+        document.getElementById('setupStatus').textContent = 'Ready for Account Creation';
+        document.getElementById('setupStatus').className = 'status-badge pending';
+        document.getElementById('lastUpdated').textContent = portalSetups[profileId].updatedAt;
+        document.getElementById('portalActionBtn').innerHTML = '<i class="fas fa-user-plus"></i> Create Portal Account';
+        
+        alert('Setup completed! Click "Create Portal Account" to finalize.');
+    } else {
+        const portalSetups = JSON.parse(localStorage.getItem('portalSetups') || '{}');
+        portalSetups[profileId].accountCreated = true;
+        portalSetups[profileId].status = 'active';
+        portalSetups[profileId].updatedAt = new Date().toLocaleString();
+        localStorage.setItem('portalSetups', JSON.stringify(portalSetups));
+        
+        document.getElementById('setupStatus').textContent = 'Account Created';
+        document.getElementById('setupStatus').className = 'status-badge paid';
+        document.getElementById('portalUserIdInput').readOnly = true;
+        document.getElementById('portalEmailInput').readOnly = true;
+        document.getElementById('portalActionBtn').style.display = 'none';
+        document.getElementById('lastUpdated').textContent = portalSetups[profileId].updatedAt;
+        
+        alert('Portal account created successfully! This profile will now appear in User Management.');
+    }
+}
+</script>
 
 <?php
 $content = ob_get_clean();
