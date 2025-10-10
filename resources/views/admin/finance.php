@@ -1,7 +1,7 @@
 <?php
 $pageTitle = 'Smart Campus Nova Hub - Finance Management';
 $pageIcon = 'fas fa-dollar-sign';
-$pageHeading = 'Finance Management';
+$pageHeading = 'Student Fee & Invoice Management';
 $activePage = 'finance';
 
 ob_start();
@@ -13,194 +13,118 @@ ob_start();
         <i class="fas fa-dollar-sign"></i>
     </div>
     <div class="page-title-compact">
-        <h2>Finance Management</h2>
+        <h2>Student Fee & Invoice Management</h2>
     </div>
 </div>
 
-<!-- Compact Finance Stats -->
+<!-- Quick Finance KPIs -->
 <div class="stats-grid-secondary vertical-stats">
     <div class="stat-card">
         <div class="stat-icon">
-            <i class="fas fa-chart-line"></i>
+            <i class="fas fa-wallet"></i>
         </div>
         <div class="stat-content">
-            <h3>Collection Rate</h3>
-            <div class="stat-number">78.5%</div>
-            <div class="stat-change positive">+5% this month</div>
+            <h3>Total Receivable</h3>
+            <div class="stat-number" id="totalReceivable">$125,000</div>
+            <div class="stat-change positive">January 2025</div>
         </div>
     </div>
     <div class="stat-card">
         <div class="stat-icon">
-            <i class="fas fa-file-invoice"></i>
+            <i class="fas fa-users"></i>
         </div>
         <div class="stat-content">
-            <h3>Total Invoices</h3>
-            <div class="stat-number">124</div>
-            <div class="stat-change">98 paid</div>
+            <h3>Total Students</h3>
+            <div class="stat-number" id="totalStudents">250</div>
+            <div class="stat-change">Active students</div>
         </div>
     </div>
     <div class="stat-card">
         <div class="stat-icon">
-            <i class="fas fa-money-bill-wave"></i>
+            <i class="fas fa-check-circle"></i>
         </div>
         <div class="stat-content">
-            <h3>Collected</h3>
-            <div class="stat-number">$98,750</div>
-            <div class="stat-change positive">+12% this month</div>
+            <h3>Payments Received</h3>
+            <div class="stat-number" id="paidCount">0 / 250</div>
+            <div class="stat-change">0% collected</div>
         </div>
     </div>
     <div class="stat-card">
         <div class="stat-icon">
-            <i class="fas fa-clock"></i>
+            <i class="fas fa-flag"></i>
         </div>
         <div class="stat-content">
-            <h3>Pending</h3>
-            <div class="stat-number">$26,250</div>
-            <div class="stat-change negative">22% remaining</div>
+            <h3>Status</h3>
+            <div class="stat-number" id="invoiceStatus">Draft</div>
+            <div class="stat-change">Editable</div>
         </div>
     </div>
 </div>
 
-<!-- Invoice Management -->
+<!-- Invoice Management Section -->
 <div class="simple-section">
     <div class="simple-header">
-        <h3>Invoice Management</h3>
-        <button id="generateInvoice" class="simple-btn"><i class="fas fa-plus"></i> Generate Invoice</button>
-    </div>
-    
-    <!-- Generate Invoice Form (hidden by default) -->
-    <div id="invoiceForm" class="simple-section" style="display:none; margin-top:16px;">
-            <div class="simple-header">
-            <h3><i class="fas fa-file-invoice"></i> Generate New Invoice</h3>
-        </div>
-        <div class="form-section">
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="studentName">Student Name</label>
-                    <input type="text" id="studentName" class="form-input" placeholder="Enter student name or ID">
-                </div>
-                <div class="form-group">
-                    <label for="invoiceDate">Invoice Date</label>
-                    <input type="date" id="invoiceDate" class="form-input">
-                </div>
-                <div class="form-group">
-                    <label for="dueDate">Due Date</label>
-                    <input type="date" id="dueDate" class="form-input">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group" style="flex:2;">
-                    <label for="itemDescription">Item Description</label>
-                    <input type="text" id="itemDescription" class="form-input" placeholder="e.g., Tuition Fee, Books, etc.">
-                </div>
-                    <div class="form-group">
-                    <label for="itemAmount">Amount</label>
-                    <input type="number" id="itemAmount" class="form-input" placeholder="0.00" step="0.01">
-                    </div>
-                    <div class="form-group">
-                    <label for="totalAmount">Total Amount</label>
-                    <input type="text" id="totalAmount" class="form-input" value="$0.00" readonly>
-                        </div>
-                    </div>
-                    <div class="form-actions">
-                <button id="cancelInvoice" class="simple-btn secondary"><i class="fas fa-times"></i> Cancel</button>
-                <button id="saveInvoice" class="simple-btn primary"><i class="fas fa-check"></i> Generate Invoice</button>
-            </div>
+        <h3>Invoices for January 2025</h3>
+        <div style="display: flex; gap: 12px;">
+            <button class="simple-btn" onclick="generateInvoices()" id="generateBtn">
+                <i class="fas fa-file-invoice"></i> Generate Invoices (This Month)
+            </button>
+            <button class="simple-btn primary" onclick="clearInvoicesForNextMonth()" id="clearAllBtn" style="display:none;" disabled>
+                <i class="fas fa-broom"></i> Clear All for Next Month
+            </button>
         </div>
     </div>
     
-    <!-- Invoice List -->
-    <div class="simple-header" style="margin-top:16px;">
-        <h4>Invoice List</h4>
-                <div class="simple-actions">
-                    <select class="filter-select">
+    <!-- Filters -->
+    <div class="simple-header" style="margin-top:16px; padding: 12px 20px; background: #f8f9fa; border-radius: 6px;">
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            <label style="font-weight: 600; color: #666;">Filters:</label>
+            <select class="filter-select" id="gradeFilter" onchange="applyFilters()">
+                <option value="all">All Grades</option>
+                <option value="7">Grade 7</option>
+                <option value="8">Grade 8</option>
+                <option value="9">Grade 9</option>
+                <option value="10">Grade 10</option>
+                <option value="11">Grade 11</option>
+                <option value="12">Grade 12</option>
+            </select>
+            <select class="filter-select" id="classFilter" onchange="applyFilters()">
+                <option value="all">All Classes</option>
+                <option value="A">Class A</option>
+                <option value="B">Class B</option>
+                <option value="C">Class C</option>
+            </select>
+            <select class="filter-select" id="statusFilter" onchange="applyFilters()">
                         <option value="all">All Status</option>
+                <option value="draft">Draft</option>
                         <option value="paid">Paid</option>
                         <option value="pending">Pending</option>
-                        <option value="overdue">Overdue</option>
-                        <option value="draft">Draft</option>
                     </select>
-                    <input type="text" class="simple-search" placeholder="Search invoices...">
+            <input type="text" class="simple-search" id="searchStudent" placeholder="Search by name or ID..." onkeyup="applyFilters()">
                 </div>
             </div>
-            <div class="simple-table-container">
-                <table class="basic-table">
+
+    <!-- Invoice Table -->
+    <div class="simple-table-container" style="margin-top:16px;">
+        <table class="basic-table" id="invoiceTable">
                     <thead>
                         <tr>
                             <th>Invoice #</th>
+                    <th>Student ID</th>
                             <th>Student Name</th>
-                            <th>Grade</th>
+                    <th>Grade/Class</th>
                             <th>Amount</th>
-                            <th>Issue Date</th>
-                            <th>Due Date</th>
+                    <th>Payment Type</th>
                             <th>Status</th>
+                    <th>Paid By/Time</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td><a href="/admin/invoice-details?id=INV-001" class="invoice-link">INV-001</a></td>
-                            <td>Alice Johnson</td>
-                            <td>Grade 10A</td>
-                            <td>$2,500.00</td>
-                            <td>2024-12-15</td>
-                            <td>2025-01-15</td>
-                            <td><span class="status-badge paid">Paid</span></td>
-                            <td>
-                                <button class="simple-btn-icon" onclick="viewInvoice('INV-001')" title="View Details"><i class="fas fa-eye"></i></button>
-                                <button class="simple-btn-icon" onclick="editInvoice('INV-001')" title="Edit"><i class="fas fa-edit"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><a href="/admin/invoice-details?id=INV-002" class="invoice-link">INV-002</a></td>
-                            <td>Michael Brown</td>
-                            <td>Grade 12B</td>
-                            <td>$2,750.00</td>
-                            <td>2024-12-15</td>
-                            <td>2025-01-15</td>
-                            <td><span class="status-badge pending">Pending</span></td>
-                            <td>
-                                <button class="simple-btn-icon" onclick="viewInvoice('INV-002')" title="View Details"><i class="fas fa-eye"></i></button>
-                                <button class="simple-btn-icon" onclick="editInvoice('INV-002')" title="Edit"><i class="fas fa-edit"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><a href="/admin/invoice-details?id=INV-003" class="invoice-link">INV-003</a></td>
-                            <td>Sarah Wilson</td>
-                            <td>Grade 9C</td>
-                            <td>$2,300.00</td>
-                            <td>2024-12-20</td>
-                            <td>2025-01-20</td>
-                            <td><span class="status-badge overdue">Overdue</span></td>
-                            <td>
-                                <button class="simple-btn-icon" onclick="viewInvoice('INV-003')" title="View Details"><i class="fas fa-eye"></i></button>
-                                <button class="simple-btn-icon" onclick="editInvoice('INV-003')" title="Edit"><i class="fas fa-edit"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><a href="/admin/invoice-details?id=INV-004" class="invoice-link">INV-004</a></td>
-                            <td>David Lee</td>
-                            <td>Grade 11A</td>
-                            <td>$2,600.00</td>
-                            <td>2024-12-25</td>
-                            <td>2025-01-25</td>
-                            <td><span class="status-badge draft">Draft</span></td>
-                            <td>
-                                <button class="simple-btn-icon" onclick="viewInvoice('INV-004')" title="View Details"><i class="fas fa-eye"></i></button>
-                                <button class="simple-btn-icon" onclick="editInvoice('INV-004')" title="Edit"><i class="fas fa-edit"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><a href="/admin/invoice-details?id=INV-005" class="invoice-link">INV-005</a></td>
-                            <td>Emma Davis</td>
-                            <td>Grade 8B</td>
-                            <td>$2,200.00</td>
-                            <td>2024-12-28</td>
-                            <td>2025-01-28</td>
-                            <td><span class="status-badge paid">Paid</span></td>
-                            <td>
-                                <button class="simple-btn-icon" onclick="viewInvoice('INV-005')" title="View Details"><i class="fas fa-eye"></i></button>
-                                <button class="simple-btn-icon" onclick="editInvoice('INV-005')" title="Edit"><i class="fas fa-edit"></i></button>
+            <tbody id="invoiceTableBody">
+                <tr class="no-data-row">
+                    <td colspan="9" style="text-align:center; padding:40px; color:#999;">
+                        <i class="fas fa-inbox" style="font-size:48px; margin-bottom:12px; display:block;"></i>
+                        No invoices generated yet. Click "Generate Invoices" to create invoices for all students this month.
                             </td>
                         </tr>
                     </tbody>
@@ -208,187 +132,348 @@ ob_start();
         </div>
     </div>
     
-<!-- Fee Collection Status -->
+<!-- Payment History Section -->
         <div class="simple-section">
             <div class="simple-header">
-                <h3>Fee Collection Status</h3>
-                <div class="simple-actions">
-                    <select class="filter-select">
-                        <option value="all">All Months</option>
+        <h3><i class="fas fa-history"></i> Payment History</h3>
+        <select class="filter-select" id="historyMonthFilter" onchange="loadPaymentHistory()">
                         <option value="2025-01">January 2025</option>
-                        <option value="2025-02">February 2025</option>
-                        <option value="2024-12">December 2024</option>
+            <option value="2024-12" selected>December 2024</option>
                         <option value="2024-11">November 2024</option>
-                        <option value="2025-03">March 2025</option>
+            <option value="2024-10">October 2024</option>
+            <option value="2024-09">September 2024</option>
                     </select>
-                    <input type="text" class="simple-search" placeholder="Search months...">
                 </div>
-            </div>
-            <div class="simple-table-container">
+
+    <div class="simple-table-container" style="margin-top:16px;">
                 <table class="basic-table">
                     <thead>
                         <tr>
-                            <th>Academic Month</th>
-                            <th>Total Amount</th>
-                            <th>Collected</th>
-                            <th>Collection %</th>
-                            <th>Status</th>
+                    <th>Invoice #</th>
+                    <th>Student Name</th>
+                    <th>Grade/Class</th>
+                    <th>Amount</th>
+                    <th>Payment Type</th>
+                    <th>Payment Date</th>
+                    <th>Received By</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>January 2025</td>
-                            <td>$125,000.00</td>
-                            <td class="collected-amount">$98,750.00</td>
-                            <td>
-                                <div class="progress-container">
-                                    <div class="progress-bar" style="width: 79%"></div>
-                                    <span class="progress-text">79%</span>
-                                </div>
-                            </td>
-                            <td><span class="status-badge this-month">This Month</span></td>
+            <tbody id="historyTableBody">
+                <tr>
+                    <td>INV-2024-12-001</td>
+                    <td>Alice Johnson</td>
+                    <td>Grade 10-A</td>
+                    <td>$500.00</td>
+                    <td>Bank Transfer</td>
+                    <td>2024-12-15 10:30</td>
+                    <td>R001 - Receptionist Sarah</td>
                         </tr>
                         <tr>
-                            <td>February 2025</td>
-                            <td>$130,000.00</td>
-                            <td class="collected-amount">$0.00</td>
-                            <td>
-                                <div class="progress-container">
-                                    <div class="progress-bar" style="width: 0%"></div>
-                                    <span class="progress-text">0%</span>
-                                </div>
-                            </td>
-                            <td><span class="status-badge upcoming">Upcoming</span></td>
+                    <td>INV-2024-12-002</td>
+                    <td>Michael Brown</td>
+                    <td>Grade 12-B</td>
+                    <td>$500.00</td>
+                    <td>Cash</td>
+                    <td>2024-12-15 14:20</td>
+                    <td>R002 - Receptionist John</td>
                         </tr>
                         <tr>
-                            <td>December 2024</td>
-                            <td>$120,000.00</td>
-                            <td class="collected-amount">$120,000.00</td>
-                            <td>
-                                <div class="progress-container">
-                                    <div class="progress-bar completed" style="width: 100%"></div>
-                                    <span class="progress-text">100%</span>
-                                </div>
-                            </td>
-                            <td><span class="status-badge completed">Completed</span></td>
-                        </tr>
-                        <tr>
-                            <td>November 2024</td>
-                            <td>$118,000.00</td>
-                            <td class="collected-amount">$118,000.00</td>
-                            <td>
-                                <div class="progress-container">
-                            <div class="progress-bar completed" style="width: 100%</div>
-                                    <span class="progress-text">100%</span>
-                                </div>
-                            </td>
-                            <td><span class="status-badge completed">Completed</span></td>
-                        </tr>
-                        <tr>
-                            <td>March 2025</td>
-                            <td>$135,000.00</td>
-                            <td class="collected-amount">$0.00</td>
-                            <td>
-                                <div class="progress-container">
-                                    <div class="progress-bar" style="width: 0%"></div>
-                                    <span class="progress-text">0%</span>
-                                </div>
-                            </td>
-                            <td><span class="status-badge upcoming">Upcoming</span></td>
+                    <td>INV-2024-12-003</td>
+                    <td>Emma Davis</td>
+                    <td>Grade 8-B</td>
+                    <td>$500.00</td>
+                    <td>K-Pay</td>
+                    <td>2024-12-16 09:15</td>
+                    <td>R001 - Receptionist Sarah</td>
                         </tr>
                     </tbody>
                 </table>
+    </div>
+</div>
+
+<!-- Payment Processing Modal -->
+<div id="paymentModal" class="confirm-dialog-overlay" style="display:none;">
+    <div class="confirm-dialog-content" style="max-width: 500px;">
+        <div class="confirm-dialog-header" style="border-bottom: 1px solid #e0e0e0; padding-bottom: 12px;">
+            <h4 style="margin:0;"><i class="fas fa-money-check-alt"></i> Process Payment</h4>
+            <button class="icon-btn" onclick="closePaymentModal()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="confirm-dialog-body" style="padding: 20px;">
+            <p id="paymentStudentInfo" style="margin-bottom: 20px; font-weight: 600;"></p>
+            <div class="form-section" style="padding:0;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Receptionist ID</label>
+                        <input type="text" class="form-input" id="paymentReceptionistId" placeholder="e.g., R001">
+                    </div>
+                    <div class="form-group">
+                        <label>Receptionist Name</label>
+                        <input type="text" class="form-input" id="paymentReceptionistName" placeholder="Enter name">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="confirm-dialog-actions">
+            <button class="simple-btn secondary" onclick="closePaymentModal()">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+            <button class="simple-btn primary" onclick="confirmPayment()">
+                <i class="fas fa-check"></i> Confirm Payment
+            </button>
+        </div>
     </div>
 </div>
 
 <script>
+// Sample invoice data
+let invoiceData = [];
+let currentEditingId = null;
+let currentPaymentId = null;
+
+// Load saved data from localStorage on page load
 document.addEventListener('DOMContentLoaded', function() {
-    // Invoice Management functionality
-    const invoiceForm = document.getElementById('invoiceForm');
-    const generateInvoiceBtn = document.getElementById('generateInvoice');
-    const cancelInvoiceBtn = document.getElementById('cancelInvoice');
-    const saveInvoiceBtn = document.getElementById('saveInvoice');
-    const itemAmountInput = document.getElementById('itemAmount');
-    const totalAmountInput = document.getElementById('totalAmount');
+    const savedInvoices = localStorage.getItem('invoiceData');
+    if (savedInvoices) {
+        invoiceData = JSON.parse(savedInvoices);
+        document.getElementById('generateBtn').style.display = 'none';
+        document.getElementById('clearAllBtn').style.display = 'inline-flex';
+        document.getElementById('invoiceStatus').textContent = 'Generated';
+        renderInvoiceTable();
+        updateStats();
+    }
+});
 
-    // Toggle invoice form
-    generateInvoiceBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        invoiceForm.style.display = invoiceForm.style.display === 'none' ? 'block' : 'none';
-    });
+// Sample students database
+const studentsDatabase = [
+    {id: 'S001', name: 'Alice Johnson', grade: 10, class: 'A', amount: 500, paymentType: 'Bank Transfer'},
+    {id: 'S002', name: 'Michael Brown', grade: 12, class: 'B', amount: 500, paymentType: 'Bank Transfer'},
+    {id: 'S003', name: 'Sarah Wilson', grade: 9, class: 'C', amount: 500, paymentType: 'Cash'},
+    {id: 'S004', name: 'David Lee', grade: 11, class: 'A', amount: 500, paymentType: 'K-Pay'},
+    {id: 'S005', name: 'Emma Davis', grade: 8, class: 'B', amount: 500, paymentType: 'Bank Transfer'},
+    {id: 'S006', name: 'James Wilson', grade: 10, class: 'B', amount: 500, paymentType: 'Cash'},
+    {id: 'S007', name: 'Olivia Taylor', grade: 9, class: 'A', amount: 500, paymentType: 'K-Pay'},
+    {id: 'S008', name: 'Noah Anderson', grade: 12, class: 'C', amount: 500, paymentType: 'Bank Transfer'},
+];
 
-    // Cancel invoice form
-    cancelInvoiceBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        invoiceForm.style.display = 'none';
-        // Clear form
-        document.getElementById('studentName').value = '';
-        document.getElementById('invoiceDate').value = '';
-        document.getElementById('dueDate').value = '';
-        document.getElementById('itemDescription').value = '';
-        document.getElementById('itemAmount').value = '';
-        totalAmountInput.value = '$0.00';
-    });
+function generateInvoices() {
+    if (!confirm('Generate invoices for all students for January 2025?\n\nThis will create invoice entries for all active students.')) {
+        return;
+    }
+            invoiceData = [];
+            let idCounter = 1;
+            
+            studentsDatabase.forEach(student => {
+                invoiceData.push({
+                    id: 'INV-2025-01-' + String(idCounter++).padStart(3, '0'),
+                    studentId: student.id,
+                    name: student.name,
+                    grade: student.grade,
+                    class: student.class,
+                    amount: student.amount,
+                    paymentType: student.paymentType,
+                    status: 'draft',
+                    paidBy: null,
+                    paidTime: null
+                });
+            });
+            
+            document.getElementById('generateBtn').style.display = 'none';
+            document.getElementById('clearAllBtn').style.display = 'inline-flex';
+            document.getElementById('invoiceStatus').textContent = 'Generated';
+            
+            // Save to localStorage
+            localStorage.setItem('invoiceData', JSON.stringify(invoiceData));
+            
+            renderInvoiceTable();
+            updateStats();
+            alert('Invoices generated successfully for January 2025!');
+}
 
-    // Update total amount when item amount changes
-    itemAmountInput.addEventListener('input', function() {
-        const amount = parseFloat(this.value) || 0;
-        totalAmountInput.value = '$' + amount.toFixed(2);
-    });
-
-    // Save invoice
-    saveInvoiceBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const studentName = document.getElementById('studentName').value;
-        const invoiceDate = document.getElementById('invoiceDate').value;
-        const dueDate = document.getElementById('dueDate').value;
-        const itemDescription = document.getElementById('itemDescription').value;
-        const itemAmount = document.getElementById('itemAmount').value;
-
-        if (!studentName || !invoiceDate || !dueDate || !itemDescription || !itemAmount) {
-            alert('Please fill in all required fields.');
+function renderInvoiceTable() {
+    const tbody = document.getElementById('invoiceTableBody');
+    if (invoiceData.length === 0) {
+        tbody.innerHTML = `<tr class="no-data-row">
+            <td colspan="9" style="text-align:center; padding:40px; color:#999;">
+                <i class="fas fa-inbox" style="font-size:48px; margin-bottom:12px; display:block;"></i>
+                No invoices generated yet. Click "Generate Invoices" to create invoices for all students this month.
+            </td>
+        </tr>`;
             return;
         }
 
-        // Add to invoice list table (in real app, this would save to database)
-        const invoiceTable = document.querySelector('.simple-table-container tbody');
-        const newRow = document.createElement('tr');
-        const invoiceNumber = 'INV-' + String(invoiceTable.children.length + 1).padStart(3, '0');
-        newRow.innerHTML = `
-            <td><a href="#" class="invoice-link">${invoiceNumber}</a></td>
-            <td>${studentName}</td>
-            <td>Grade 10A</td>
-            <td>$${parseFloat(itemAmount).toFixed(2)}</td>
-            <td>${invoiceDate}</td>
-            <td>${dueDate}</td>
-            <td><span class="status-badge draft">Draft</span></td>
+    let filteredData = applyDataFilters();
+    
+    tbody.innerHTML = filteredData.map(invoice => `
+        <tr>
+            <td><strong><a href="/admin/invoice-details?id=${invoice.id}" class="invoice-link">${invoice.id}</a></strong></td>
+            <td>${invoice.studentId}</td>
+            <td>${invoice.name}</td>
+            <td>Grade ${invoice.grade}-${invoice.class}</td>
+            <td><strong>$${invoice.amount.toFixed(2)}</strong></td>
+            <td>${invoice.paymentType}</td>
+            <td><span class="status-badge ${invoice.status}">${invoice.status === 'draft' ? 'Draft' : invoice.status === 'paid' ? 'Paid' : 'Pending'}</span></td>
+            <td>${invoice.paidBy ? `${invoice.paidBy}<br><small style="color:#999;">${invoice.paidTime}</small>` : '-'}</td>
             <td>
-                <button class="simple-btn-icon"><i class="fas fa-eye"></i></button>
-                <button class="simple-btn-icon"><i class="fas fa-edit"></i></button>
+                ${invoice.status === 'draft' ? `
+                    <button class="simple-btn-icon" onclick="viewInvoiceDetails('${invoice.id}')" title="View Details">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="simple-btn-icon" onclick="editInvoiceDetails('${invoice.id}')" title="Edit">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="simple-btn-icon" onclick="processPayment('${invoice.id}')" title="Process Payment">
+                        <i class="fas fa-money-check-alt"></i>
+                    </button>
+                ` : `
+                    <button class="simple-btn-icon" onclick="viewInvoiceDetails('${invoice.id}')" title="View Invoice">
+                        <i class="fas fa-file-invoice"></i>
+                    </button>
+                    <button class="simple-btn-icon" onclick="viewPaymentReceipt('${invoice.id}')" title="View Payment Receipt">
+                        <i class="fas fa-receipt"></i>
+                    </button>
+                `}
             </td>
-        `;
-        invoiceTable.appendChild(newRow);
+        </tr>
+    `).join('');
+}
 
-        // Clear form and hide form
-        document.getElementById('studentName').value = '';
-        document.getElementById('invoiceDate').value = '';
-        document.getElementById('dueDate').value = '';
-        document.getElementById('itemDescription').value = '';
-        document.getElementById('itemAmount').value = '';
-        totalAmountInput.value = '$0.00';
-        invoiceForm.style.display = 'none';
-
-        alert('Invoice generated successfully!');
+function applyDataFilters() {
+    const gradeFilter = document.getElementById('gradeFilter').value;
+    const classFilter = document.getElementById('classFilter').value;
+    const statusFilter = document.getElementById('statusFilter').value;
+    const searchTerm = document.getElementById('searchStudent').value.toLowerCase();
+    
+    return invoiceData.filter(invoice => {
+        if (gradeFilter !== 'all' && invoice.grade != gradeFilter) return false;
+        if (classFilter !== 'all' && invoice.class !== classFilter) return false;
+        if (statusFilter !== 'all' && invoice.status !== statusFilter) return false;
+        if (searchTerm && !invoice.name.toLowerCase().includes(searchTerm) && !invoice.studentId.toLowerCase().includes(searchTerm)) return false;
+        return true;
     });
-});
+}
 
-// Navigation functions
-function viewInvoice(invoiceId) {
+function applyFilters() {
+    renderInvoiceTable();
+}
+
+function viewInvoiceDetails(invoiceId) {
     window.location.href = `/admin/invoice-details?id=${invoiceId}`;
 }
 
-function editInvoice(invoiceId) {
+function editInvoiceDetails(invoiceId) {
     window.location.href = `/admin/invoice-edit?id=${invoiceId}`;
+}
+
+function viewPaymentReceipt(invoiceId) {
+    const invoice = invoiceData.find(inv => inv.id === invoiceId);
+    if (!invoice) return;
+    alert(`Payment Receipt\n\nInvoice: ${invoice.id}\nStudent: ${invoice.name}\nAmount: $${invoice.amount.toFixed(2)}\nPayment Type: ${invoice.paymentType}\nPaid By: ${invoice.paidBy}\nTime: ${invoice.paidTime}`);
+}
+
+function processPayment(invoiceId) {
+    const invoice = invoiceData.find(inv => inv.id === invoiceId);
+    if (!invoice || invoice.status !== 'draft') {
+        alert('Can only process payment for draft invoices');
+        return;
+    }
+    
+    currentPaymentId = invoiceId;
+    document.getElementById('paymentStudentInfo').textContent = 
+        `Processing payment for: ${invoice.name} (${invoice.studentId}) - $${invoice.amount.toFixed(2)}`;
+    document.getElementById('paymentReceptionistId').value = '';
+    document.getElementById('paymentReceptionistName').value = '';
+    document.getElementById('paymentModal').style.display = 'flex';
+}
+
+function closePaymentModal() {
+    document.getElementById('paymentModal').style.display = 'none';
+    currentPaymentId = null;
+}
+
+function confirmPayment() {
+    const receptionistId = document.getElementById('paymentReceptionistId').value.trim();
+    const receptionistName = document.getElementById('paymentReceptionistName').value.trim();
+    
+    if (!receptionistId || !receptionistName) {
+        alert('Please enter both Receptionist ID and Name');
+        return;
+    }
+    
+    const invoice = invoiceData.find(inv => inv.id === currentPaymentId);
+    if (!invoice) return;
+    
+    invoice.status = 'paid';
+    invoice.paidBy = `${receptionistId} - ${receptionistName}`;
+    invoice.paidTime = new Date().toLocaleString('en-US', { 
+        year: 'numeric', 
+        month: '2-digit', 
+        day: '2-digit', 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: false 
+    });
+    
+    // Save to localStorage
+    localStorage.setItem('invoiceData', JSON.stringify(invoiceData));
+    
+    closePaymentModal();
+    renderInvoiceTable();
+    updateStats();
+    alert('Payment accepted and recorded successfully!');
+}
+
+function clearInvoicesForNextMonth() {
+    const paid = invoiceData.filter(inv => inv.status === 'paid').length;
+    if (paid !== invoiceData.length) {
+        alert(`Cannot clear invoices. ${invoiceData.length - paid} payments are still pending.`);
+        return;
+    }
+    
+    showConfirmDialog({
+        title: 'Clear All Invoices',
+        message: 'All payments have been received. This will archive all records and prepare for next month. Continue?',
+        confirmText: 'Clear All',
+        confirmIcon: 'fas fa-broom',
+        onConfirm: () => {
+            invoiceData = [];
+            // Clear from localStorage
+            localStorage.removeItem('invoiceData');
+            
+            document.getElementById('generateBtn').style.display = 'inline-flex';
+            document.getElementById('clearAllBtn').style.display = 'none';
+            renderInvoiceTable();
+            updateStats();
+            alert('Invoices cleared successfully! Ready for next month.');
+        }
+    });
+}
+
+function updateStats() {
+    const total = invoiceData.reduce((sum, inv) => sum + inv.amount, 0);
+    const paid = invoiceData.filter(inv => inv.status === 'paid').length;
+    
+    document.getElementById('totalReceivable').textContent = '$' + total.toFixed(2);
+    document.getElementById('totalStudents').textContent = invoiceData.length;
+    document.getElementById('paidCount').textContent = `${paid} / ${invoiceData.length}`;
+    
+    const percentage = invoiceData.length > 0 ? Math.round((paid / invoiceData.length) * 100) : 0;
+    document.querySelector('#paidCount').nextElementSibling.textContent = `${percentage}% collected`;
+    
+    // Enable/disable clear button based on completion
+    const clearBtn = document.getElementById('clearAllBtn');
+    if (invoiceData.length > 0 && paid === invoiceData.length) {
+        clearBtn.disabled = false;
+        clearBtn.title = 'All payments received - Ready to clear';
+    } else {
+        clearBtn.disabled = true;
+        clearBtn.title = `Cannot clear - ${invoiceData.length - paid} payments pending`;
+    }
+}
+
+function loadPaymentHistory() {
+    const month = document.getElementById('historyMonthFilter').value;
+    // In real implementation, load from database based on selected month
+    console.log('Loading payment history for:', month);
 }
 </script>
 

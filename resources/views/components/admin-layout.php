@@ -159,10 +159,133 @@ $activePage = $activePage ?? 'dashboard';
         .confirm-dialog-content {
             width: 95%;
         }
-        
+
         .confirm-dialog-actions .simple-btn {
             max-width: none;
         }
+    }
+
+    /* Filter and Search Controls */
+    .filter-select {
+        padding: 8px 12px;
+        border: 1px solid #d0d5dd;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #344054;
+        background: #fff;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        min-width: 160px;
+    }
+
+    .filter-select:hover {
+        border-color: #98a2b3;
+    }
+
+    .filter-select:focus {
+        outline: none;
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    .simple-search {
+        padding: 8px 12px 8px 36px;
+        border: 1px solid #d0d5dd;
+        border-radius: 6px;
+        font-size: 14px;
+        color: #344054;
+        background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23667085' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 10px center;
+        background-size: 18px;
+        transition: all 0.2s ease;
+        min-width: 220px;
+    }
+
+    .simple-search:hover {
+        border-color: #98a2b3;
+    }
+
+    .simple-search:focus {
+        outline: none;
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    .simple-search::placeholder {
+        color: #98a2b3;
+    }
+
+    /* Icon Button */
+    .simple-btn-icon {
+        padding: 6px 10px;
+        border: 1px solid #d0d5dd;
+        border-radius: 6px;
+        background: #fff;
+        color: #667085;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 14px;
+    }
+
+    .simple-btn-icon:hover {
+        background: #f9fafb;
+        border-color: #98a2b3;
+        color: #344054;
+    }
+
+    .simple-btn-icon:active {
+        transform: scale(0.95);
+    }
+
+    .icon-btn {
+        padding: 8px;
+        border: none;
+        background: transparent;
+        color: #667085;
+        cursor: pointer;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+        font-size: 18px;
+    }
+
+    .icon-btn:hover {
+        background: #f3f4f6;
+        color: #344054;
+    }
+
+    /* Status Badge for Withdrawn */
+    .status-badge.withdrawn {
+        background: #d1fae5;
+        color: #065f46;
+    }
+
+    /* Confirm Dialog Header Variant */
+    .confirm-dialog-header {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .confirm-dialog-header h4 {
+        color: #111827;
+        font-weight: 600;
+    }
+
+    /* Disabled Button State */
+    .simple-btn:disabled,
+    .simple-btn.primary:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background: #9ca3af;
+        border-color: #9ca3af;
+    }
+
+    .simple-btn:disabled:hover,
+    .simple-btn.primary:disabled:hover {
+        background: #9ca3af;
+        transform: none;
     }
     </style>
 
