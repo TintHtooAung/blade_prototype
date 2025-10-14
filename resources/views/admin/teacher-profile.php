@@ -42,6 +42,25 @@ ob_start();
                 <tr><th>Email</th><td>placeholder@school.edu</td></tr>
                 <tr><th>Phone</th><td>+1-555-0101</td></tr>
                 <tr><th>Status</th><td><span class="status-badge paid">Active</span></td></tr>
+                <tr><th>Join Date</th><td>2023-01-15</td></tr>
+                <tr><th>Salary</th><td>$3,500.00 / month</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Personal Information Section -->
+    <div class="simple-header" style="margin-top:24px;">
+        <h4><i class="fas fa-user"></i> Personal Information</h4>
+    </div>
+    <div class="simple-table-container">
+        <table class="basic-table">
+            <tbody>
+                <tr><th style="width:220px;">NRC Number</th><td>12/ABC(N)123456</td></tr>
+                <tr><th>Date of Birth</th><td>1985-03-15</td></tr>
+                <tr><th>Gender</th><td>Male</td></tr>
+                <tr><th>Address</th><td>123 Main Street, City, State 12345</td></tr>
+                <tr><th>Emergency Contact</th><td>Jane Smith - +1-555-0102</td></tr>
+                <tr><th>Blood Type</th><td>O+</td></tr>
             </tbody>
         </table>
     </div>
@@ -75,99 +94,8 @@ ob_start();
         </table>
     </div>
 
-    <div class="simple-header" style="margin-top:16px;">
-        <h4>Assigned Classes</h4>
-    </div>
-    <div class="simple-table-container">
-        <table class="basic-table">
-            <thead><tr><th>Class</th><th>Grade</th><th>Room</th><th>Schedule</th></tr></thead>
-            <tbody>
-                <tr><td>10-A</td><td>Grade 10</td><td>Room 201</td><td>Mon/Wed 10:00-12:00</td></tr>
-                <tr><td>9-B</td><td>Grade 9</td><td>Room 108</td><td>Tue/Thu 09:00-11:00</td></tr>
-            </tbody>
-        </table>
-    </div>
+    
 
-    <!-- Salary & Payroll Information -->
-    <div class="simple-header" style="margin-top:24px;">
-        <h4><i class="fas fa-dollar-sign"></i> Salary Information</h4>
-    </div>
-    <div class="simple-table-container">
-        <table class="basic-table">
-            <tbody>
-                <tr><th style="width:220px;">Base Salary</th><td>$3,500.00 / month</td></tr>
-                <tr><th>Teaching Allowance</th><td>$500.00 / month</td></tr>
-                <tr><th>Experience Bonus</th><td>$300.00 / month</td></tr>
-                <tr><th>Total Gross Salary</th><td><strong>$4,300.00 / month</strong></td></tr>
-                <tr><th>Tax Deduction</th><td>$430.00 (10%)</td></tr>
-                <tr><th>Insurance</th><td>$150.00</td></tr>
-                <tr><th>Retirement Fund</th><td>$215.00 (5%)</td></tr>
-                <tr><th>Net Salary</th><td><strong style="color: #2e7d32;">$3,505.00 / month</strong></td></tr>
-                <tr><th>Payment Method</th><td>Bank Transfer</td></tr>
-                <tr><th>Bank Account</th><td>**** **** **** 4567 (School Bank)</td></tr>
-                <tr><th>Payment Schedule</th><td>Monthly - Last working day</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="simple-header" style="margin-top:24px;">
-        <h4><i class="fas fa-history"></i> Recent Payroll History</h4>
-    </div>
-    <div class="simple-table-container">
-        <table class="basic-table">
-            <thead>
-                <tr>
-                    <th>Period</th>
-                    <th>Gross Pay</th>
-                    <th>Deductions</th>
-                    <th>Net Pay</th>
-                    <th>Payment Date</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>January 2025</td>
-                    <td>$4,300.00</td>
-                    <td>$795.00</td>
-                    <td>$3,505.00</td>
-                    <td>2025-01-31</td>
-                    <td><span class="status-badge paid">Paid</span></td>
-                </tr>
-                <tr>
-                    <td>December 2024</td>
-                    <td>$4,300.00</td>
-                    <td>$795.00</td>
-                    <td>$3,505.00</td>
-                    <td>2024-12-31</td>
-                    <td><span class="status-badge paid">Paid</span></td>
-                </tr>
-                <tr>
-                    <td>November 2024</td>
-                    <td>$4,300.00</td>
-                    <td>$795.00</td>
-                    <td>$3,505.00</td>
-                    <td>2024-11-30</td>
-                    <td><span class="status-badge paid">Paid</span></td>
-                </tr>
-                <tr>
-                    <td>October 2024</td>
-                    <td>$4,300.00</td>
-                    <td>$795.00</td>
-                    <td>$3,505.00</td>
-                    <td>2024-10-31</td>
-                    <td><span class="status-badge paid">Paid</span></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- View Full Payroll Button -->
-    <div style="margin-top:16px; text-align:right;">
-        <a href="/admin/salary-payroll?id=<?php echo htmlspecialchars($id); ?>&type=teacher" class="simple-btn">
-            <i class="fas fa-file-invoice-dollar"></i> View Full Payroll History
-        </a>
-    </div>
 </div>
 
 <script>

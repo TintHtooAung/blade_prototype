@@ -284,18 +284,17 @@ document.addEventListener('DOMContentLoaded', function(){
         alert('Class assigned successfully');
     });
 
-    // Helper function
-    function renderAvailableClasses(classes) {
-        if (!availableClassesBody) return;
-        availableClassesBody.innerHTML = classes.map(cls => `
-            <tr>
-                <td><input type="radio" name="selectedClass" value="${cls.name}"></td>
-                <td>${cls.name}</td>
-                <td>${cls.grade}</td>
-                <td>${cls.room}</td>
-                <td>${cls.teacher}</td>
-            </tr>
-        `).join('');
+    // Helper functions
+    function populateClassSelect(classes) {
+        if (!classSelect) return;
+        classSelect.innerHTML = '<option value="">Choose a class...</option>' + 
+            classes.map(cls => `<option value="${cls.name}">${cls.name} - ${cls.room}</option>`).join('');
+    }
+
+    function populateTeacherSelect(teachers) {
+        if (!teacherSelect) return;
+        teacherSelect.innerHTML = '<option value="">Choose a teacher...</option>' + 
+            teachers.map(teacher => `<option value="${teacher.name}">${teacher.name}</option>`).join('');
     }
 });
 </script>

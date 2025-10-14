@@ -54,7 +54,7 @@ ob_start();
                     <input type="email" id="eEmail" class="form-input" placeholder="name@school.edu">
                 </div>
                 <div class="form-group">
-                    <label for="eHire">Hire Date</label>
+                    <label for="eHire">Join Date</label>
                     <input type="date" id="eHire" class="form-input">
                 </div>
             </div>
@@ -182,7 +182,7 @@ ob_start();
                     <th>Position</th>
                     <th>Phone</th>
                     <th>Email</th>
-                    <th>Hire Date</th>
+                    <th>Join Date</th>
                     <th>Salary</th>
                     <th>Status</th>
                     <th>Actions</th>

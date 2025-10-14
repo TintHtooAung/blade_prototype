@@ -43,6 +43,26 @@ ob_start();
                 <tr><th>Guardian Email</th><td>parent@email.com</td></tr>
                 <tr><th>Phone</th><td>+1-555-1000</td></tr>
                 <tr><th>Status</th><td><span class="status-badge paid">Active</span></td></tr>
+                <tr><th>Join Date</th><td>2023-09-01</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Personal Information Section -->
+    <div class="simple-header" style="margin-top:24px;">
+        <h4><i class="fas fa-user"></i> Personal Information</h4>
+    </div>
+    <div class="simple-table-container">
+        <table class="basic-table">
+            <tbody>
+                <tr><th style="width:220px;">NRC Number</th><td>12/STU(N)345678</td></tr>
+                <tr><th>Date of Birth</th><td>2008-05-12</td></tr>
+                <tr><th>Gender</th><td>Male</td></tr>
+                <tr><th>Address</th><td>789 Student Lane, City, State 12345</td></tr>
+                <tr><th>Emergency Contact</th><td>Mary Johnson - +1-555-1001</td></tr>
+                <tr><th>Blood Type</th><td>B+</td></tr>
+                <tr><th>Medical Conditions</th><td>None</td></tr>
+                <tr><th>Allergies</th><td>None</td></tr>
             </tbody>
         </table>
     </div>
@@ -76,18 +96,6 @@ ob_start();
         </table>
     </div>
 
-    <div class="simple-header" style="margin-top:16px;">
-        <h4>Enrollment History</h4>
-    </div>
-    <div class="simple-table-container">
-        <table class="basic-table">
-            <thead><tr><th>Academic Year</th><th>Grade</th><th>Class</th><th>Status</th></tr></thead>
-            <tbody>
-                <tr><td>2024-2025</td><td>Grade 10</td><td>10-A</td><td>Active</td></tr>
-                <tr><td>2023-2024</td><td>Grade 9</td><td>9-B</td><td>Completed</td></tr>
-            </tbody>
-        </table>
-    </div>
 </div>
 
 <script>
