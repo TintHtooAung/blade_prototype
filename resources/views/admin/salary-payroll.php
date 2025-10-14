@@ -15,6 +15,11 @@ ob_start();
     <div class="page-title-compact">
         <h2>Salary & Payroll Management</h2>
     </div>
+    <div style="display: flex; gap: 12px; margin-left: auto;">
+        <button class="simple-btn secondary" onclick="window.location.href='/admin/payroll-history'">
+            <i class="fas fa-history"></i> Payroll History
+        </button>
+    </div>
 </div>
 
 <!-- Quick Payroll KPIs -->
@@ -131,64 +136,6 @@ ob_start();
     </div>
 </div>
 
-<!-- Payroll History Section -->
-<div class="simple-section">
-    <div class="simple-header">
-        <h3><i class="fas fa-history"></i> Payroll History</h3>
-        <select class="filter-select" id="historyMonthFilter" onchange="loadPayrollHistory()">
-            <option value="2025-01">January 2025</option>
-            <option value="2024-12" selected>December 2024</option>
-            <option value="2024-11">November 2024</option>
-            <option value="2024-10">October 2024</option>
-            <option value="2024-09">September 2024</option>
-        </select>
-    </div>
-
-    <div class="simple-table-container" style="margin-top:16px;">
-        <table class="basic-table">
-            <thead>
-                <tr>
-                    <th>Employee ID</th>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Net Pay</th>
-                    <th>Payment Type</th>
-                    <th>Withdrawn Date</th>
-                    <th>Withdrawn By</th>
-                </tr>
-            </thead>
-            <tbody id="historyTableBody">
-                <tr>
-                    <td>T001</td>
-                    <td>Emma Wilson</td>
-                    <td>Teacher</td>
-                    <td>$3,505.00</td>
-                    <td>Bank Transfer</td>
-                    <td>2024-12-31 14:30</td>
-                    <td>R001 - Admin User</td>
-                </tr>
-                <tr>
-                    <td>T002</td>
-                    <td>Liam Johnson</td>
-                    <td>Teacher</td>
-                    <td>$3,505.00</td>
-                    <td>Cash</td>
-                    <td>2024-12-31 15:15</td>
-                    <td>R002 - Receptionist Sarah</td>
-                </tr>
-                <tr>
-                    <td>E001</td>
-                    <td>Ava Martinez</td>
-                    <td>Staff</td>
-                    <td>$2,195.00</td>
-                    <td>K-Pay</td>
-                    <td>2024-12-31 10:45</td>
-                    <td>R001 - Admin User</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
 
 <!-- Withdrawal Processing Modal -->
 <div id="withdrawalModal" class="confirm-dialog-overlay" style="display:none;">
@@ -305,7 +252,7 @@ function generatePayroll() {
             
             renderPayrollTable();
             updateStats();
-            alert('Payroll generated successfully for January 2025!');
+            showToast(`${payrollData.length} payroll entries generated successfully for January 2025`, 'success');
 }
 
 function renderPayrollTable() {
@@ -378,7 +325,68 @@ function applyFilters() {
 function viewPayrollDetails(payrollId) {
     const entry = payrollData.find(e => e.id === payrollId);
     if (!entry) return;
-    alert(`Payroll Details\n\nEmployee: ${entry.name} (${entry.employeeId})\nType: ${entry.type}\nDepartment: ${entry.dept}\nNet Pay: $${entry.netPay.toFixed(2)}\nPayment Type: ${entry.paymentType}\nStatus: ${entry.status}`);
+    
+    // Create custom payroll details dialog
+    const payrollDialog = document.createElement('div');
+    payrollDialog.className = 'receipt-dialog-overlay';
+    payrollDialog.style.display = 'flex';
+    
+    payrollDialog.innerHTML = `
+        <div class="receipt-dialog-content">
+            <div class="receipt-dialog-header">
+                <h3><i class="fas fa-file-invoice-dollar"></i> Payroll Details</h3>
+                <button class="receipt-close" onclick="this.closest('.receipt-dialog-overlay').remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="receipt-dialog-body">
+                <div class="receipt-info">
+                    <div class="receipt-row">
+                        <span class="receipt-label">Employee Name:</span>
+                        <span class="receipt-value">${entry.name}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Employee ID:</span>
+                        <span class="receipt-value">${entry.employeeId}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Employee Type:</span>
+                        <span class="receipt-value">${entry.type}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Department:</span>
+                        <span class="receipt-value">${entry.dept}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Net Pay:</span>
+                        <span class="receipt-value">$${entry.netPay.toFixed(2)}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Payment Type:</span>
+                        <span class="receipt-value">${entry.paymentType}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Status:</span>
+                        <span class="receipt-value">${entry.status}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="receipt-dialog-actions">
+                <button class="simple-btn secondary" onclick="this.closest('.receipt-dialog-overlay').remove()">
+                    <i class="fas fa-times"></i> Close
+                </button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(payrollDialog);
+    
+    // Close on overlay click
+    payrollDialog.addEventListener('click', function(e) {
+        if (e.target === payrollDialog) {
+            payrollDialog.remove();
+        }
+    });
 }
 
 function editPayrollDetails(payrollId) {
@@ -389,13 +397,129 @@ function editPayrollDetails(payrollId) {
 function viewWithdrawalReceipt(payrollId) {
     const entry = payrollData.find(e => e.id === payrollId);
     if (!entry) return;
-    alert(`Withdrawal Receipt\n\nPayroll: ${entry.id}\nEmployee: ${entry.name}\nAmount: $${entry.netPay.toFixed(2)}\nPayment Type: ${entry.paymentType}\nWithdrawn By: ${entry.withdrawnBy}\nTime: ${entry.withdrawnTime}`);
+    
+    // Create custom withdrawal receipt dialog
+    const receiptDialog = document.createElement('div');
+    receiptDialog.className = 'receipt-dialog-overlay';
+    receiptDialog.style.display = 'flex';
+    
+    receiptDialog.innerHTML = `
+        <div class="receipt-dialog-content">
+            <div class="receipt-dialog-header">
+                <h3><i class="fas fa-receipt"></i> Withdrawal Receipt</h3>
+                <button class="receipt-close" onclick="this.closest('.receipt-dialog-overlay').remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="receipt-dialog-body">
+                <div class="receipt-info">
+                    <div class="receipt-row">
+                        <span class="receipt-label">Payroll ID:</span>
+                        <span class="receipt-value">${entry.id}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Employee Name:</span>
+                        <span class="receipt-value">${entry.name}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Amount:</span>
+                        <span class="receipt-value">$${entry.netPay.toFixed(2)}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Payment Type:</span>
+                        <span class="receipt-value">${entry.paymentType}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Withdrawn By:</span>
+                        <span class="receipt-value">${entry.withdrawnBy}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Withdrawal Time:</span>
+                        <span class="receipt-value">${entry.withdrawnTime}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="receipt-dialog-actions">
+                <button class="simple-btn secondary" onclick="this.closest('.receipt-dialog-overlay').remove()">
+                    <i class="fas fa-times"></i> Close
+                </button>
+                <button class="simple-btn primary" onclick="printWithdrawalReceipt('${payrollId}')">
+                    <i class="fas fa-print"></i> Print Receipt
+                </button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(receiptDialog);
+    
+    // Close on overlay click
+    receiptDialog.addEventListener('click', function(e) {
+        if (e.target === receiptDialog) {
+            receiptDialog.remove();
+        }
+    });
+}
+
+function printWithdrawalReceipt(payrollId) {
+    const entry = payrollData.find(e => e.id === payrollId);
+    if (!entry) return;
+    
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+        <html>
+        <head>
+            <title>Withdrawal Receipt - ${entry.id}</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                .receipt-header { text-align: center; margin-bottom: 30px; }
+                .receipt-details { margin: 20px 0; }
+                .receipt-row { display: flex; justify-content: space-between; margin: 10px 0; padding: 5px 0; border-bottom: 1px solid #eee; }
+                .receipt-label { font-weight: bold; }
+                .receipt-value { color: #333; }
+            </style>
+        </head>
+        <body>
+            <div class="receipt-header">
+                <h2>Withdrawal Receipt</h2>
+                <p>Smart Campus Nova Hub</p>
+            </div>
+            <div class="receipt-details">
+                <div class="receipt-row">
+                    <span class="receipt-label">Payroll ID:</span>
+                    <span class="receipt-value">${entry.id}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Employee Name:</span>
+                    <span class="receipt-value">${entry.name}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Amount:</span>
+                    <span class="receipt-value">$${entry.netPay.toFixed(2)}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Payment Type:</span>
+                    <span class="receipt-value">${entry.paymentType}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Withdrawn By:</span>
+                    <span class="receipt-value">${entry.withdrawnBy}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Withdrawal Time:</span>
+                    <span class="receipt-value">${entry.withdrawnTime}</span>
+                </div>
+            </div>
+        </body>
+        </html>
+    `);
+    printWindow.document.close();
+    printWindow.print();
 }
 
 function processWithdrawal(payrollId) {
     const entry = payrollData.find(e => e.id === payrollId);
     if (!entry || entry.status !== 'draft') {
-        alert('Can only process withdrawal for draft payrolls');
+        showToast('Can only process withdrawal for draft payrolls', 'warning');
         return;
     }
     
@@ -417,7 +541,7 @@ function confirmWithdrawal() {
     const receptionistName = document.getElementById('receptionistName').value.trim();
     
     if (!receptionistId || !receptionistName) {
-        alert('Please enter both Receptionist ID and Name');
+        showToast('Please enter both Receptionist ID and Name', 'warning');
         return;
     }
     
@@ -441,13 +565,13 @@ function confirmWithdrawal() {
     closeWithdrawalModal();
     renderPayrollTable();
     updateStats();
-    alert('Withdrawal recorded successfully!');
+    showToast(`Withdrawal for ${entry.name} (${entry.employeeId}) recorded successfully`, 'success');
 }
 
 function clearPayrollForNextMonth() {
     const withdrawn = payrollData.filter(e => e.status === 'withdrawn').length;
     if (withdrawn !== payrollData.length) {
-        alert(`Cannot clear payroll. ${payrollData.length - withdrawn} withdrawals are still pending.`);
+        showToast(`Cannot clear payroll. ${payrollData.length - withdrawn} withdrawals are still pending.`, 'warning');
         return;
     }
     
@@ -457,6 +581,7 @@ function clearPayrollForNextMonth() {
         confirmText: 'Clear All',
         confirmIcon: 'fas fa-broom',
         onConfirm: () => {
+            const clearedCount = payrollData.length;
             payrollData = [];
             // Clear from localStorage
             localStorage.removeItem('payrollData');
@@ -465,7 +590,7 @@ function clearPayrollForNextMonth() {
             document.getElementById('clearAllBtn').style.display = 'none';
             renderPayrollTable();
             updateStats();
-            alert('Payroll cleared successfully! Ready for next month.');
+            showToast(`${clearedCount} payroll entries cleared successfully for next month`, 'success');
         }
     });
 }

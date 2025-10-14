@@ -1,0 +1,217 @@
+/* Academic Management Styles */
+.academic-tabs {
+    display: flex;
+    gap: 8px;
+    margin: 20px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.academic-tab {
+    padding: 12px 20px;
+    border: none;
+    background: #f8fafc;
+    color: #64748b;
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.academic-tab.active {
+    background: #3b82f6;
+    color: white;
+}
+
+.academic-tab:hover:not(.active) {
+    background: #e2e8f0;
+    color: #475569;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Expandable functionality */
+.expandable-row {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.expandable-row:hover {
+    background-color: #f8fafc;
+}
+
+.expand-cell {
+    width: 30px;
+    text-align: center;
+}
+
+.expand-icon {
+    transition: transform 0.2s ease;
+    color: #64748b;
+}
+
+.expandable-content {
+    background-color: #f8fafc;
+}
+
+.expand-content {
+    padding: 20px;
+}
+
+.expand-content h4 {
+    margin: 0 0 16px 0;
+    color: #374151;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Card layouts */
+.subject-cards, .grade-cards, .class-cards, .schedule-cards, .teaching-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 12px;
+}
+
+.subject-card, .grade-card, .class-card, .schedule-card, .teaching-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px;
+    transition: all 0.2s ease;
+}
+
+.subject-card:hover, .grade-card:hover, .class-card:hover, .schedule-card:hover, .teaching-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-color: #3b82f6;
+}
+
+.subject-header, .grade-header, .class-header, .schedule-header, .teaching-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.subject-stats, .grade-stats, .class-stats, .schedule-stats, .teaching-stats {
+    display: flex;
+    gap: 12px;
+    font-size: 12px;
+    color: #64748b;
+}
+
+/* Navigation links */
+.entity-link, .teacher-link, .department-link, .grade-link, .class-link, .subject-link {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.entity-link:hover, .teacher-link:hover, .department-link:hover, .grade-link:hover, .class-link:hover, .subject-link:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
+
+.room-info, .time-slot, .grade-info {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+/* Badge styles */
+.code-badge, .level-badge, .section-badge {
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.type-badge {
+    background: #f3e8ff;
+    color: #7c3aed;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.category-badge.primary {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.category-badge.core {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-badge.active {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+/* Action buttons */
+.actions-cell {
+    white-space: nowrap;
+}
+
+.simple-btn-icon {
+    padding: 6px 8px;
+    margin: 0 2px;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 12px;
+}
+
+.simple-btn-icon:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #475569;
+}
+
+.simple-btn-icon.edit-btn:hover {
+    background: #eff6ff;
+    border-color: #3b82f6;
+    color: #1d4ed8;
+}
+
+.simple-btn-icon.delete-btn:hover {
+    background: #fef2f2;
+    border-color: #ef4444;
+    color: #dc2626;
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+    .academic-tabs {
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+    
+    .academic-tab {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+    
+    .subject-cards, .grade-cards, .class-cards, .schedule-cards, .teaching-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .expand-content {
+        padding: 12px;
+    }
+}

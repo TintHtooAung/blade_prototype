@@ -132,7 +132,7 @@ document.getElementById('createExamBtn').addEventListener('click', function() {
     const classLetter = document.getElementById('classSelect').value;
     
     if (!grade || !classLetter) {
-        alert('Please select both Grade and Class');
+        showToast('Please select both Grade and Class', 'warning');
         return;
     }
     
@@ -238,7 +238,7 @@ function saveExam(examId) {
     const gradeClass = form.querySelector('.exam-form-header h3').textContent.trim();
     
     if (!examName || !examIdValue) {
-        alert('Please enter Exam Name and Exam ID');
+        showToast('Please enter Exam Name and Exam ID', 'warning');
         return;
     }
     
@@ -266,7 +266,7 @@ function saveExam(examId) {
     
     // Hide form
     form.style.display = 'none';
-    alert('Exam saved as draft!');
+    showToast(`Exam "${examName}" (${examIdValue}) saved as draft`, 'success');
 }
 
 function editExam(examId) {
@@ -322,9 +322,9 @@ document.getElementById('activateAllBtn').addEventListener('click', function() {
     });
     
     if (count > 0) {
-        alert(`${count} exam(s) activated successfully!`);
+        showToast(`${count} exam${count > 1 ? 's' : ''} activated successfully`, 'success');
     } else {
-        alert('No draft exams to activate');
+        showToast('No draft exams to activate', 'info');
     }
 });
 </script>

@@ -232,15 +232,16 @@ function saveDraft() {
     console.log('Save draft:', examData);
     // Backend: POST /api/exams/{id} with status=draft
     
-    alert('Exam saved as draft successfully!');
-    window.location.href = '/admin/exam-database';
+    const examName = document.getElementById('examName').value.trim();
+    const examId = document.getElementById('examId').value.trim();
+    redirectWithStatus('/admin/exam-database', `Exam "${examName}" (${examId}) saved as draft successfully`, 'success');
 }
 
 function saveAndActivate() {
     // Validate all fields
     const examName = document.getElementById('examName').value;
     if (!examName.trim()) {
-        alert('Please enter exam name');
+        showToast('Please enter exam name', 'warning');
         return;
     }
     
@@ -254,7 +255,7 @@ function saveAndActivate() {
     });
     
     if (!valid) {
-        alert('Please fill all required fields (Subject, Date, Time)');
+        showToast('Please fill all required fields (Subject, Date, Time)', 'warning');
         return;
     }
     
@@ -283,8 +284,9 @@ function saveAndActivate() {
     console.log('Save and activate:', examData);
     // Backend: POST /api/exams/{id} with status=active
     
-    alert('Exam saved and activated successfully!');
-    window.location.href = '/admin/exam-database';
+    const examNameActivate = document.getElementById('examName').value.trim();
+    const examIdActivate = document.getElementById('examId').value.trim();
+    redirectWithStatus('/admin/exam-database', `Exam "${examNameActivate}" (${examIdActivate}) saved and activated successfully`, 'success');
 }
 
 // Auto-update marks when exam type changes

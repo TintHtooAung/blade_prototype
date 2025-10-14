@@ -376,7 +376,7 @@ document.getElementById('saveEvent').addEventListener('click', function() {
     const desc = document.getElementById('eventDesc').value.trim();
     
     if (!title || !date || !start || !location) {
-        alert('Please fill all required fields');
+        showToast('Please fill all required fields', 'warning');
         return;
     }
     
@@ -406,7 +406,10 @@ document.getElementById('saveEvent').addEventListener('click', function() {
     
     localStorage.setItem('adminEvents', JSON.stringify(events));
     
-    alert(editingEventId ? 'Event updated successfully!' : 'Event created successfully!');
+    showToast(editingEventId ? 
+        `Event "${eventData.title}" (${eventData.id}) updated successfully` : 
+        `Event "${eventData.title}" (${eventData.id}) created successfully`, 
+        'success');
     
     document.getElementById('eventForm').style.display = 'none';
     editingEventId = null;
@@ -442,11 +445,14 @@ function deleteEvent(eventId, btn) {
         confirmIcon: 'fas fa-trash',
         onConfirm: () => {
             let events = JSON.parse(localStorage.getItem('adminEvents') || '[]');
+            const event = events.find(e => e.id === eventId);
+            const eventName = event ? event.title : 'Event';
+            
             events = events.filter(e => e.id !== eventId);
             localStorage.setItem('adminEvents', JSON.stringify(events));
             
             btn.closest('tr').remove();
-            alert('Event deleted successfully!');
+            showToast(`Event "${eventName}" (${eventId}) deleted successfully`, 'success');
         }
     });
 }

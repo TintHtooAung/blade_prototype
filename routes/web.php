@@ -100,3 +100,10 @@ Route::prefix('admin')->group(function () {
         include resource_path('views/admin/report-centre.php'); 
     })->name('admin.report-centre');
 });
+
+// API Routes for Academic Management
+Route::prefix('api')->group(function () {
+    Route::get('/academic/data', function() {
+        include public_path('api/academic.php');
+    })->name('api.academic.data');
+});

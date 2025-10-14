@@ -335,7 +335,7 @@ function saveEvent() {
     const location = document.getElementById('eventLocation').value.trim();
     
     if (!title || !date || !start || !location) {
-        alert('Please fill all required fields (Title, Date, Start Time, Location)');
+        showToast('Please fill all required fields (Title, Date, Start Time, Location)', 'warning');
         return;
     }
     
@@ -367,8 +367,8 @@ function saveEvent() {
     console.log('Save event:', eventData);
     // Backend: PUT /api/events/{id}
     
-    alert('Event updated successfully!');
-    window.location.href = '/admin/event-planner';
+    const eventTitle = document.getElementById('eventTitle').value.trim();
+    redirectWithStatus('/admin/event-planner', `Event "${eventTitle}" (${eventId}) updated successfully`, 'success');
 }
 
 function deleteEventConfirm() {
@@ -384,8 +384,8 @@ function deleteEventConfirm() {
             
             // Backend: DELETE /api/events/{id}
             
-            alert('Event deleted successfully!');
-            window.location.href = '/admin/event-planner';
+            const deletedEventTitle = document.getElementById('eventTitle').value.trim();
+            redirectWithStatus('/admin/event-planner', `Event "${deletedEventTitle}" (${eventId}) deleted successfully`, 'success');
         }
     });
 }

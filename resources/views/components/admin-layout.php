@@ -23,6 +23,17 @@ $activePage = $activePage ?? 'dashboard';
         
         <!-- Main Content -->
         <div class="main-content">
+            <!-- Action Status Message (appears after actions) -->
+            <div id="actionStatusBar" class="action-status-bar" style="display:none;">
+                <div class="action-status-content">
+                    <i class="fas fa-check-circle action-status-icon"></i>
+                    <span class="action-status-text"></span>
+                </div>
+                <button class="action-status-close" onclick="closeActionStatus()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
             <!-- Page Content -->
             <?php echo $content ?? ''; ?>
         </div>
@@ -50,6 +61,9 @@ $activePage = $activePage ?? 'dashboard';
             </div>
         </div>
     </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="toast-container"></div>
 
     <style>
     /* Confirmation Dialog Styles */
@@ -287,6 +301,340 @@ $activePage = $activePage ?? 'dashboard';
         background: #9ca3af;
         transform: none;
     }
+
+    /* Action Status Bar - Main Content Area */
+    .action-status-bar {
+        background: white;
+        border-left: 4px solid #10b981;
+        border-radius: 8px;
+        padding: 16px 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        animation: slideDown 0.3s ease-out;
+    }
+
+    .action-status-bar.success {
+        border-left-color: #10b981;
+        background: #f0fdf4;
+    }
+
+    .action-status-bar.error {
+        border-left-color: #ef4444;
+        background: #fef2f2;
+    }
+
+    .action-status-bar.warning {
+        border-left-color: #f59e0b;
+        background: #fffbeb;
+    }
+
+    .action-status-bar.info {
+        border-left-color: #3b82f6;
+        background: #eff6ff;
+    }
+
+    .action-status-content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex: 1;
+    }
+
+    .action-status-icon {
+        font-size: 20px;
+        flex-shrink: 0;
+    }
+
+    .action-status-bar.success .action-status-icon {
+        color: #10b981;
+    }
+
+    .action-status-bar.error .action-status-icon {
+        color: #ef4444;
+    }
+
+    .action-status-bar.warning .action-status-icon {
+        color: #f59e0b;
+    }
+
+    .action-status-bar.info .action-status-icon {
+        color: #3b82f6;
+    }
+
+    .action-status-text {
+        font-size: 15px;
+        font-weight: 500;
+        color: #1f2937;
+        line-height: 1.5;
+    }
+
+    .action-status-close {
+        background: none;
+        border: none;
+        color: #9ca3af;
+        cursor: pointer;
+        padding: 4px 8px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.2s;
+        margin-left: 12px;
+    }
+
+    .action-status-close:hover {
+        color: #4b5563;
+    }
+
+    @keyframes slideDown {
+        from {
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* Toast Notification Styles */
+    .toast-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 10000;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        pointer-events: none;
+    }
+
+    .toast {
+        background: white;
+        border-radius: 8px;
+        padding: 16px 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 320px;
+        max-width: 450px;
+        pointer-events: auto;
+        animation: slideIn 0.3s ease-out;
+        border-left: 4px solid #10b981;
+    }
+
+    .toast.success {
+        border-left-color: #10b981;
+    }
+
+    .toast.error {
+        border-left-color: #ef4444;
+    }
+
+    .toast.warning {
+        border-left-color: #f59e0b;
+    }
+
+    .toast.info {
+        border-left-color: #3b82f6;
+    }
+
+    .toast-icon {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+
+    .toast.success .toast-icon {
+        background: #d1fae5;
+        color: #10b981;
+    }
+
+    .toast.error .toast-icon {
+        background: #fee2e2;
+        color: #ef4444;
+    }
+
+    .toast.warning .toast-icon {
+        background: #fef3c7;
+        color: #f59e0b;
+    }
+
+    .toast.info .toast-icon {
+        background: #dbeafe;
+        color: #3b82f6;
+    }
+
+    .toast-content {
+        flex: 1;
+        font-size: 14px;
+        color: #1f2937;
+        line-height: 1.5;
+    }
+
+    .toast-close {
+        background: none;
+        border: none;
+        color: #9ca3af;
+        cursor: pointer;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.2s;
+    }
+
+    .toast-close:hover {
+        color: #4b5563;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+    }
+
+    .toast.hiding {
+        animation: slideOut 0.3s ease-out forwards;
+    }
+
+    /* Receipt Dialog Styles */
+    .receipt-dialog-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+    }
+
+    .receipt-dialog-content {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        max-width: 500px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        animation: slideUp 0.3s ease-out;
+    }
+
+    .receipt-dialog-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 24px 16px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .receipt-dialog-header h3 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+        color: #111827;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .receipt-close {
+        background: none;
+        border: none;
+        color: #9ca3af;
+        cursor: pointer;
+        padding: 4px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.2s;
+    }
+
+    .receipt-close:hover {
+        color: #4b5563;
+    }
+
+    .receipt-dialog-body {
+        padding: 20px 24px;
+    }
+
+    .receipt-info {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .receipt-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid #f3f4f6;
+    }
+
+    .receipt-row:last-child {
+        border-bottom: none;
+    }
+
+    .receipt-label {
+        font-weight: 500;
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+    .receipt-value {
+        font-weight: 600;
+        color: #111827;
+        font-size: 14px;
+        text-align: right;
+    }
+
+    .receipt-dialog-actions {
+        display: flex;
+        gap: 12px;
+        padding: 16px 24px 20px;
+        border-top: 1px solid #e5e7eb;
+        justify-content: flex-end;
+    }
+
+    @keyframes slideUp {
+        from {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
     </style>
 
     <script>
@@ -343,6 +691,219 @@ $activePage = $activePage ?? 'dashboard';
             closeConfirmDialog();
         }
     });
+
+    // Action Status System - Shows in main content area
+    function showActionStatus(message, type = 'success') {
+        const statusBar = document.getElementById('actionStatusBar');
+        const statusText = statusBar.querySelector('.action-status-text');
+        const statusIcon = statusBar.querySelector('.action-status-icon');
+        
+        // Icon based on type
+        const icons = {
+            success: 'fa-check-circle',
+            error: 'fa-times-circle',
+            warning: 'fa-exclamation-circle',
+            info: 'fa-info-circle'
+        };
+        
+        // Update content
+        statusText.textContent = message;
+        statusIcon.className = `fas ${icons[type] || icons.success} action-status-icon`;
+        
+        // Update styling
+        statusBar.className = `action-status-bar ${type}`;
+        statusBar.style.display = 'flex';
+        
+        // Scroll to top to ensure visibility
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Store in sessionStorage for activity log
+        try {
+            const activityLog = JSON.parse(sessionStorage.getItem('activityLog') || '[]');
+            activityLog.push({
+                message: message,
+                type: type,
+                timestamp: new Date().toISOString()
+            });
+            // Keep last 50 actions
+            if (activityLog.length > 50) activityLog.shift();
+            sessionStorage.setItem('activityLog', JSON.stringify(activityLog));
+        } catch (e) {
+            console.error('Failed to log activity:', e);
+        }
+    }
+
+    function closeActionStatus() {
+        const statusBar = document.getElementById('actionStatusBar');
+        statusBar.style.display = 'none';
+    }
+
+    // Legacy showToast for compatibility (calls showActionStatus)
+    function showToast(message, type = 'success', duration = 3000) {
+        showActionStatus(message, type);
+    }
+
+    // Check for pending status message on page load (after redirect)
+    document.addEventListener('DOMContentLoaded', function() {
+        const pendingMessage = sessionStorage.getItem('pendingActionMessage');
+        const pendingType = sessionStorage.getItem('pendingActionType') || 'success';
+        
+        if (pendingMessage) {
+            showActionStatus(pendingMessage, pendingType);
+            sessionStorage.removeItem('pendingActionMessage');
+            sessionStorage.removeItem('pendingActionType');
+        }
+    });
+
+    // Helper for redirects with status message
+    function redirectWithStatus(url, message, type = 'success', delay = 1000) {
+        sessionStorage.setItem('pendingActionMessage', message);
+        sessionStorage.setItem('pendingActionType', type);
+        setTimeout(() => window.location.href = url, delay);
+    }
+
+    // Initialize demo data for prototype presentation (auto-populate once)
+    (function initializeDemoData() {
+        if (localStorage.getItem('demoDataInitialized')) {
+            return; // Already initialized
+        }
+
+        const portalSetups = {
+            // Students - Guardian Portal
+            'S001': {
+                profileId: 'S001',
+                profileType: 'student',
+                userId: 'GP001',
+                email: 'parent.johnson@gmail.com',
+                fullName: 'Mr. Robert Johnson',
+                role: 'Guardian Portal',
+                setupComplete: true,
+                accountCreated: true,
+                status: 'active',
+                updatedAt: '2025-01-10 09:30:00'
+            },
+            'S002': {
+                profileId: 'S002',
+                profileType: 'student',
+                userId: 'GP002',
+                email: 'sarah.wilson@gmail.com',
+                fullName: 'Mrs. Sarah Wilson',
+                role: 'Guardian Portal',
+                setupComplete: true,
+                accountCreated: true,
+                status: 'active',
+                updatedAt: '2025-01-10 10:15:00'
+            },
+            'S003': {
+                profileId: 'S003',
+                profileType: 'student',
+                userId: 'GP003',
+                email: 'michael.brown@gmail.com',
+                fullName: 'Mr. Michael Brown',
+                role: 'Guardian Portal',
+                setupComplete: true,
+                accountCreated: true,
+                status: 'active',
+                updatedAt: '2025-01-09 14:20:00'
+            },
+            // Teachers
+            'T001': {
+                profileId: 'T001',
+                profileType: 'teacher',
+                userId: 'TP001',
+                email: 'emma.wilson@novahub.edu',
+                fullName: 'Emma Wilson',
+                role: 'Teacher Portal',
+                setupComplete: true,
+                accountCreated: true,
+                status: 'active',
+                updatedAt: '2025-01-10 08:45:00'
+            },
+            'T002': {
+                profileId: 'T002',
+                profileType: 'teacher',
+                userId: 'TP002',
+                email: 'james.anderson@novahub.edu',
+                fullName: 'James Anderson',
+                role: 'Teacher Portal',
+                setupComplete: true,
+                accountCreated: true,
+                status: 'active',
+                updatedAt: '2025-01-10 09:00:00'
+            },
+            'T003': {
+                profileId: 'T003',
+                profileType: 'teacher',
+                userId: 'TP003',
+                email: 'sophia.davis@novahub.edu',
+                fullName: 'Sophia Davis',
+                role: 'Teacher Portal',
+                setupComplete: true,
+                accountCreated: true,
+                status: 'active',
+                updatedAt: '2025-01-09 16:30:00'
+            },
+            // Staff - Reception
+            'E001': {
+                profileId: 'E001',
+                profileType: 'staff',
+                userId: 'SP001',
+                email: 'ava.martinez@novahub.edu',
+                fullName: 'Ava Martinez',
+                role: 'Reception Access',
+                setupComplete: true,
+                accountCreated: true,
+                status: 'active',
+                updatedAt: '2025-01-10 07:30:00'
+            },
+            // Staff - IT
+            'E002': {
+                profileId: 'E002',
+                profileType: 'staff',
+                userId: 'SP002',
+                email: 'ethan.garcia@novahub.edu',
+                fullName: 'Ethan Garcia',
+                role: 'IT Access',
+                setupComplete: true,
+                accountCreated: true,
+                status: 'active',
+                updatedAt: '2025-01-09 15:45:00'
+            },
+            // Staff - General
+            'E003': {
+                profileId: 'E003',
+                profileType: 'staff',
+                userId: 'SP003',
+                email: 'olivia.martinez@novahub.edu',
+                fullName: 'Olivia Martinez',
+                role: 'Staff Access',
+                setupComplete: true,
+                accountCreated: true,
+                status: 'active',
+                updatedAt: '2025-01-10 06:50:00'
+            }
+        };
+
+        // Save to localStorage
+        localStorage.setItem('portalSetups', JSON.stringify(portalSetups));
+        
+        // Create user accounts array
+        const userAccounts = Object.values(portalSetups).map(setup => ({
+            userId: setup.userId,
+            email: setup.email,
+            fullName: setup.fullName,
+            role: setup.role,
+            profileId: setup.profileId,
+            profileType: setup.profileType,
+            status: setup.status,
+            password: '********',
+            updatedAt: setup.updatedAt
+        }));
+
+        localStorage.setItem('userAccounts', JSON.stringify(userAccounts));
+        localStorage.setItem('lastUserRefresh', new Date().toISOString());
+        localStorage.setItem('demoDataInitialized', 'true');
+    })();
     </script>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -129,14 +129,14 @@ function handlePortalAction() {
         const email = document.getElementById('portalEmailInput').value.trim();
         
         if (!userId || !email) {
-            alert('Please fill in both Portal User ID and Portal Email fields.');
+            showToast('Please fill in both Portal User ID and Portal Email fields.', 'warning');
             return;
         }
         
         // Validate email format
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            alert('Please enter a valid email address.');
+            showToast('Please enter a valid email address.', 'error');
             return;
         }
         
@@ -162,7 +162,7 @@ function handlePortalAction() {
         document.getElementById('lastUpdated').textContent = portalSetups[profileId].updatedAt;
         document.getElementById('portalActionBtn').innerHTML = '<i class="fas fa-user-plus"></i> Create Portal Account';
         
-        alert('Setup completed! Click "Create Portal Account" to finalize.');
+        showToast(`Portal setup completed for Student ${profileId}. Click "Create Portal Account" to finalize.`, 'success');
     } else {
         // Create Portal Account
         const portalSetups = JSON.parse(localStorage.getItem('portalSetups') || '{}');
@@ -179,7 +179,8 @@ function handlePortalAction() {
         document.getElementById('portalActionBtn').style.display = 'none';
         document.getElementById('lastUpdated').textContent = portalSetups[profileId].updatedAt;
         
-        alert('Portal account created successfully! This profile will now appear in User Management.');
+        const userId = portalSetups[profileId].userId;
+        showToast(`Guardian Portal account ${userId} created successfully for Student ${profileId}`, 'success');
     }
 }
 </script>

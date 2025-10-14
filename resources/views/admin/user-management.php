@@ -216,9 +216,9 @@ function refreshUsersFromProfiles() {
     updateStats();
     
     if (createdAccounts.length === 0) {
-        alert('No portal accounts found.\n\nPlease complete portal setup and create accounts in Student, Teacher, or Staff profile pages first.');
+        showToast('No portal accounts found. Please complete portal setup in profile pages first.', 'info');
     } else {
-        alert(`Successfully refreshed ${createdAccounts.length} user account(s) from profiles!`);
+        showToast(`${createdAccounts.length} user account${createdAccounts.length > 1 ? 's' : ''} refreshed successfully from profiles`, 'success');
     }
 }
 
@@ -312,13 +312,13 @@ function saveUserEdit() {
     // Update email
     const newEmail = document.getElementById('editEmail').value.trim();
     if (!newEmail) {
-        alert('Email cannot be empty');
+        showToast('Email cannot be empty', 'error');
         return;
     }
     
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(newEmail)) {
-        alert('Please enter a valid email address');
+        showToast('Please enter a valid email address', 'error');
         return;
     }
     
@@ -350,7 +350,7 @@ function saveUserEdit() {
     renderUserTable();
     updateStats();
     
-    alert('User account updated successfully!');
+    showToast(`User ${user.fullName} (${user.userId}) updated successfully`, 'success');
 }
 
 function updateStats() {
@@ -385,9 +385,9 @@ function deactivateUser(userId) {
             // Save to localStorage
             localStorage.setItem('userAccounts', JSON.stringify(userAccounts));
             
-            renderUserTable();
-            updateStats();
-            alert('User deactivated successfully!');
+                renderUserTable();
+                updateStats();
+                showToast(`User ${user.fullName} (${user.userId}) deactivated successfully`, 'success');
         }
     });
 }
@@ -418,7 +418,7 @@ function reactivateUser(userId) {
             
             renderUserTable();
             updateStats();
-            alert('User reactivated successfully!');
+            showToast(`User ${user.fullName} (${user.userId}) reactivated successfully`, 'success');
         }
     });
 }
@@ -428,7 +428,7 @@ function deleteUser(userId) {
     if (!user) return;
     
     if (user.status === 'active') {
-        alert('Cannot delete an active user. Please deactivate the user first.');
+        showToast('Cannot delete an active user. Please deactivate the user first.', 'warning');
         return;
     }
     
@@ -453,7 +453,7 @@ function deleteUser(userId) {
             
             renderUserTable();
             updateStats();
-            alert('User deleted successfully!');
+            showToast(`User ${user.fullName} (${user.userId}) deleted successfully`, 'success');
         }
     });
 }

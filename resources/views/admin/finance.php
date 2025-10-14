@@ -286,7 +286,7 @@ function generateInvoices() {
             
             renderInvoiceTable();
             updateStats();
-            alert('Invoices generated successfully for January 2025!');
+            showToast(`${invoiceData.length} invoices generated successfully for January 2025`, 'success');
 }
 
 function renderInvoiceTable() {
@@ -367,13 +367,129 @@ function editInvoiceDetails(invoiceId) {
 function viewPaymentReceipt(invoiceId) {
     const invoice = invoiceData.find(inv => inv.id === invoiceId);
     if (!invoice) return;
-    alert(`Payment Receipt\n\nInvoice: ${invoice.id}\nStudent: ${invoice.name}\nAmount: $${invoice.amount.toFixed(2)}\nPayment Type: ${invoice.paymentType}\nPaid By: ${invoice.paidBy}\nTime: ${invoice.paidTime}`);
+    
+    // Create custom receipt dialog
+    const receiptDialog = document.createElement('div');
+    receiptDialog.className = 'receipt-dialog-overlay';
+    receiptDialog.style.display = 'flex';
+    
+    receiptDialog.innerHTML = `
+        <div class="receipt-dialog-content">
+            <div class="receipt-dialog-header">
+                <h3><i class="fas fa-receipt"></i> Payment Receipt</h3>
+                <button class="receipt-close" onclick="this.closest('.receipt-dialog-overlay').remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="receipt-dialog-body">
+                <div class="receipt-info">
+                    <div class="receipt-row">
+                        <span class="receipt-label">Invoice Number:</span>
+                        <span class="receipt-value">${invoice.id}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Student Name:</span>
+                        <span class="receipt-value">${invoice.name}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Amount:</span>
+                        <span class="receipt-value">$${invoice.amount.toFixed(2)}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Payment Type:</span>
+                        <span class="receipt-value">${invoice.paymentType}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Processed By:</span>
+                        <span class="receipt-value">${invoice.paidBy}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Payment Time:</span>
+                        <span class="receipt-value">${invoice.paidTime}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="receipt-dialog-actions">
+                <button class="simple-btn secondary" onclick="this.closest('.receipt-dialog-overlay').remove()">
+                    <i class="fas fa-times"></i> Close
+                </button>
+                <button class="simple-btn primary" onclick="printReceipt('${invoiceId}')">
+                    <i class="fas fa-print"></i> Print Receipt
+                </button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(receiptDialog);
+    
+    // Close on overlay click
+    receiptDialog.addEventListener('click', function(e) {
+        if (e.target === receiptDialog) {
+            receiptDialog.remove();
+        }
+    });
+}
+
+function printReceipt(invoiceId) {
+    const invoice = invoiceData.find(inv => inv.id === invoiceId);
+    if (!invoice) return;
+    
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+        <html>
+        <head>
+            <title>Payment Receipt - ${invoice.id}</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                .receipt-header { text-align: center; margin-bottom: 30px; }
+                .receipt-details { margin: 20px 0; }
+                .receipt-row { display: flex; justify-content: space-between; margin: 10px 0; padding: 5px 0; border-bottom: 1px solid #eee; }
+                .receipt-label { font-weight: bold; }
+                .receipt-value { color: #333; }
+            </style>
+        </head>
+        <body>
+            <div class="receipt-header">
+                <h2>Payment Receipt</h2>
+                <p>Smart Campus Nova Hub</p>
+            </div>
+            <div class="receipt-details">
+                <div class="receipt-row">
+                    <span class="receipt-label">Invoice Number:</span>
+                    <span class="receipt-value">${invoice.id}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Student Name:</span>
+                    <span class="receipt-value">${invoice.name}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Amount:</span>
+                    <span class="receipt-value">$${invoice.amount.toFixed(2)}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Payment Type:</span>
+                    <span class="receipt-value">${invoice.paymentType}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Processed By:</span>
+                    <span class="receipt-value">${invoice.paidBy}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Payment Time:</span>
+                    <span class="receipt-value">${invoice.paidTime}</span>
+                </div>
+            </div>
+        </body>
+        </html>
+    `);
+    printWindow.document.close();
+    printWindow.print();
 }
 
 function processPayment(invoiceId) {
     const invoice = invoiceData.find(inv => inv.id === invoiceId);
     if (!invoice || invoice.status !== 'draft') {
-        alert('Can only process payment for draft invoices');
+        showToast('Can only process payment for draft invoices', 'warning');
         return;
     }
     
@@ -395,7 +511,7 @@ function confirmPayment() {
     const receptionistName = document.getElementById('paymentReceptionistName').value.trim();
     
     if (!receptionistId || !receptionistName) {
-        alert('Please enter both Receptionist ID and Name');
+        showToast('Please enter both Receptionist ID and Name', 'warning');
         return;
     }
     
@@ -419,13 +535,13 @@ function confirmPayment() {
     closePaymentModal();
     renderInvoiceTable();
     updateStats();
-    alert('Payment accepted and recorded successfully!');
+    showToast(`Payment for Invoice ${invoice.id} (${invoice.name}) recorded successfully`, 'success');
 }
 
 function clearInvoicesForNextMonth() {
     const paid = invoiceData.filter(inv => inv.status === 'paid').length;
     if (paid !== invoiceData.length) {
-        alert(`Cannot clear invoices. ${invoiceData.length - paid} payments are still pending.`);
+        showToast(`Cannot clear invoices. ${invoiceData.length - paid} payments are still pending.`, 'warning');
         return;
     }
     
@@ -435,6 +551,7 @@ function clearInvoicesForNextMonth() {
         confirmText: 'Clear All',
         confirmIcon: 'fas fa-broom',
         onConfirm: () => {
+            const clearedCount = invoiceData.length;
             invoiceData = [];
             // Clear from localStorage
             localStorage.removeItem('invoiceData');
@@ -443,7 +560,7 @@ function clearInvoicesForNextMonth() {
             document.getElementById('clearAllBtn').style.display = 'none';
             renderInvoiceTable();
             updateStats();
-            alert('Invoices cleared successfully! Ready for next month.');
+            showToast(`${clearedCount} invoices cleared successfully for next month`, 'success');
         }
     });
 }

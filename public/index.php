@@ -85,7 +85,17 @@ switch ($path) {
         break;
 
     case '/admin/finance':
-        include __DIR__ . '/../resources/views/admin/finance.php';
+    case '/admin/student-fee-management':
+        include __DIR__ . '/../resources/views/admin/student-fee-management.php';
+        break;
+    case '/admin/fee-structure':
+        include __DIR__ . '/../resources/views/admin/fee-structure.php';
+        break;
+    case '/admin/payment-history':
+        include __DIR__ . '/../resources/views/admin/payment-history.php';
+        break;
+    case '/admin/payroll-history':
+        include __DIR__ . '/../resources/views/admin/payroll-history.php';
         break;
     case '/admin/invoice-details':
         include __DIR__ . '/../resources/views/admin/invoice-details.php';

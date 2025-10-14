@@ -1,6 +1,6 @@
 <?php
 $pageTitle = 'Smart Campus Nova Hub - Report Centre';
-$pageIcon = 'fas fa-file-alt';
+$pageIcon = 'fas fa-chart-line';
 $pageHeading = 'Report Centre';
 $activePage = 'reports';
 
@@ -10,258 +10,297 @@ ob_start();
 <!-- Compact Page Header -->
 <div class="page-header-compact">
     <div class="page-icon-compact">
-        <i class="fas fa-file-alt"></i>
+        <i class="fas fa-chart-line"></i>
     </div>
     <div class="page-title-compact">
         <h2>Report Centre</h2>
+        <p style="font-size: 14px; color: #666; margin: 4px 0 0 0;">Generate and manage comprehensive school reports and analytics</p>
+    </div>
+    <div style="display: flex; gap: 12px; margin-left: auto;">
+        <button class="simple-btn secondary" onclick="refreshReportData()">
+            <i class="fas fa-sync-alt"></i> Refresh Data
+        </button>
+        <button class="simple-btn secondary" onclick="exportAllReports()">
+            <i class="fas fa-download"></i> Export All
+        </button>
     </div>
     </div>
 
-<!-- Template Gallery -->
-<div class="simple-section">
-    <div class="simple-header">
-        <h3>Templates</h3>
+<!-- Report Overview KPIs -->
+<div class="stats-grid-secondary vertical-stats">
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-content">
+            <h3>Total Students</h3>
+            <div class="stat-number" id="totalStudents">1,247</div>
+            <div class="stat-change positive">+12 this month</div>
+        </div>
     </div>
-    <div class="template-grid">
-        <div class="template-card" data-type="attendance">
-            <div class="template-icon"><i class="fas fa-user-check"></i></div>
-            <div class="template-title">Attendance Report</div>
-            <button class="simple-btn open-preview">Preview & Print</button>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-chalkboard-teacher"></i>
         </div>
-        <div class="template-card" data-type="examStats">
-            <div class="template-icon"><i class="fas fa-chart-bar"></i></div>
-            <div class="template-title">Exam Stats</div>
-            <button class="simple-btn open-preview">Preview & Print</button>
+        <div class="stat-content">
+            <h3>Active Teachers</h3>
+            <div class="stat-number" id="totalTeachers">156</div>
+            <div class="stat-change">All departments</div>
         </div>
-        <div class="template-card" data-type="academic">
-            <div class="template-icon"><i class="fas fa-graduation-cap"></i></div>
-            <div class="template-title">Academic Reports</div>
-            <button class="simple-btn open-preview">Preview & Print</button>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-graduation-cap"></i>
         </div>
-        <div class="template-card" data-type="reportCard">
-            <div class="template-icon"><i class="fas fa-file-signature"></i></div>
-            <div class="template-title">Report Card (Guardian)</div>
-            <button class="simple-btn open-preview">Preview & Print</button>
+        <div class="stat-content">
+            <h3>Graduation Rate</h3>
+            <div class="stat-number" id="graduationRate">94.2%</div>
+            <div class="stat-change positive">Above target</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="stat-content">
+            <h3>Avg. Performance</h3>
+            <div class="stat-number" id="avgPerformance">87.5%</div>
+            <div class="stat-change positive">+3.2% vs last term</div>
         </div>
     </div>
 </div>
 
-<!-- Modal Preview -->
-<div id="reportModal" class="modal" style="display:none;">
-    <div class="modal-content">
-        <div class="modal-header">
-            <div class="modal-title"><i class="fas fa-file-alt"></i> <span id="modalTitle">Report Preview</span></div>
-            <button id="modalClose" class="simple-btn-icon"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="modal-controls">
-            <select id="templateStyle" class="filter-select">
-                <option value="default">Default</option>
-                <option value="compact">Compact</option>
-                <option value="detailed">Detailed</option>
-            </select>
-            <select id="grade" class="filter-select">
-                <option value="">All Grades</option>
-                <option>Grade 8</option>
-                <option>Grade 9</option>
-                <option>Grade 10</option>
-                <option>Grade 11</option>
-                <option>Grade 12</option>
-            </select>
-            <select id="class" class="filter-select">
-                <option value="">All Classes</option>
-                <option>A</option>
-                <option>B</option>
-                <option>C</option>
-            </select>
-            <input type="text" id="student" class="form-input" placeholder="Optional: Student name or ID">
-            <button id="printBtn" class="btn-secondary"><i class="fas fa-print"></i> Print</button>
-        </div>
-        <div id="preview" class="preview-card"></div>
-    </div>
-</div>
-
-<!-- Reports Schedule & History -->
+<!-- Quick Report Categories -->
 <div class="simple-section">
     <div class="simple-header">
-        <h3>Reports Schedule & History</h3>
-        <button id="scheduleNewReport" class="simple-btn"><i class="fas fa-plus"></i> Schedule New Report</button>
+        <h3><i class="fas fa-chart-bar"></i> Quick Reports</h3>
+        <p style="margin: 4px 0 0 0; font-size: 14px; color: #666;">
+            Generate instant reports for common administrative needs
+        </p>
     </div>
     
-    <!-- Schedule Form (hidden by default) -->
-    <div id="scheduleForm" class="simple-section" style="display:none; margin-top:16px;">
-        <div class="simple-header">
-            <h3><i class="fas fa-calendar-plus"></i> Schedule New Report</h3>
+    <div class="report-categories-grid">
+        <!-- Academic Reports -->
+        <div class="report-category-card">
+            <div class="category-header">
+                <div class="category-icon">
+                    <i class="fas fa-graduation-cap"></i>
         </div>
-        <div class="form-section">
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="reportTypeSchedule">Report Type</label>
-                    <select id="reportTypeSchedule" class="filter-select">
-                        <option value="attendance">Attendance Report</option>
-                        <option value="examStats">Exam Report (Class Avg & Classification)</option>
-                        <option value="academic">Academic Reports</option>
-                        <option value="reportCard">Report Card (Guardian)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="reportName">Report Name</label>
-                    <input type="text" id="reportName" class="form-input" placeholder="Enter report name">
-                </div>
-                <div class="form-group">
-                    <label for="scheduledDate">Scheduled Date</label>
-                    <input type="date" id="scheduledDate" class="form-input">
+                <div class="category-info">
+                    <h4>Academic Reports</h4>
+                    <p>Student performance and academic analytics</p>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="gradeSchedule">Grade</label>
-                    <select id="gradeSchedule" class="filter-select">
-                        <option value="">All Grades</option>
-                        <option>Grade 8</option>
-                        <option>Grade 9</option>
-                        <option>Grade 10</option>
-                        <option>Grade 11</option>
-                        <option>Grade 12</option>
-                    </select>
+            <div class="category-reports">
+                <button class="report-item" onclick="generateReport('student-performance')">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Student Performance</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="report-item" onclick="generateReport('grade-analysis')">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Grade Analysis</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="report-item" onclick="generateReport('subject-statistics')">
+                    <i class="fas fa-book"></i>
+                    <span>Subject Statistics</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="report-item" onclick="generateReport('exam-results')">
+                    <i class="fas fa-clipboard-check"></i>
+                    <span>Exam Results Summary</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Attendance Reports -->
+        <div class="report-category-card">
+            <div class="category-header">
+                <div class="category-icon">
+                    <i class="fas fa-user-check"></i>
                 </div>
-                <div class="form-group">
-                    <label for="classSchedule">Class</label>
-                    <select id="classSchedule" class="filter-select">
-                        <option value="">All Classes</option>
-                        <option>A</option>
-                        <option>B</option>
-                        <option>C</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="studentSchedule">Student (Optional)</label>
-                    <input type="text" id="studentSchedule" class="form-input" placeholder="Student name or ID">
+                <div class="category-info">
+                    <h4>Attendance Reports</h4>
+                    <p>Student and staff attendance tracking</p>
                 </div>
             </div>
-            <div class="form-actions">
-                <button id="cancelSchedule" class="simple-btn secondary"><i class="fas fa-times"></i> Cancel</button>
-                <button id="saveSchedule" class="simple-btn primary"><i class="fas fa-check"></i> Schedule Report</button>
+            <div class="category-reports">
+                <button class="report-item" onclick="generateReport('student-attendance')">
+                    <i class="fas fa-users"></i>
+                    <span>Student Attendance</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="report-item" onclick="generateReport('teacher-attendance')">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>Teacher Attendance</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="report-item" onclick="generateReport('attendance-trends')">
+                    <i class="fas fa-chart-area"></i>
+                    <span>Attendance Trends</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="report-item" onclick="generateReport('absentee-analysis')">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Absentee Analysis</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Financial Reports -->
+        <div class="report-category-card">
+            <div class="category-header">
+                <div class="category-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="category-info">
+                    <h4>Financial Reports</h4>
+                    <p>Fee collection and financial analytics</p>
+                </div>
+            </div>
+            <div class="category-reports">
+                <button class="report-item" onclick="generateReport('fee-collection')">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Fee Collection Report</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="report-item" onclick="generateReport('payment-analysis')">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Payment Analysis</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="report-item" onclick="generateReport('outstanding-fees')">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>Outstanding Fees</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="report-item" onclick="generateReport('revenue-summary')">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Revenue Summary</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Administrative Reports -->
+        <div class="report-category-card">
+            <div class="category-header">
+                <div class="category-icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <div class="category-info">
+                    <h4>Administrative Reports</h4>
+                    <p>School operations and management reports</p>
+                </div>
+            </div>
+            <div class="category-reports">
+                <button class="report-item" onclick="generateReport('staff-directory')">
+                    <i class="fas fa-address-book"></i>
+                    <span>Staff Directory</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="report-item" onclick="generateReport('student-directory')">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Student Directory</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="report-item" onclick="generateReport('class-schedules')">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Class Schedules</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="report-item" onclick="generateReport('facility-usage')">
+                    <i class="fas fa-building"></i>
+                    <span>Facility Usage</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
             </div>
         </div>
     </div>
 
-    <!-- Upcoming Reports -->
-    <div class="simple-header" style="margin-top:16px;">
-        <h4>Upcoming Reports</h4>
+<!-- Report Generation History -->
+<div class="simple-section">
+    <div class="simple-header">
+        <h3><i class="fas fa-history"></i> Recent Reports</h3>
+        <div style="display: flex; gap: 12px;">
+            <button class="simple-btn secondary" onclick="clearReportHistory()">
+                <i class="fas fa-trash"></i> Clear History
+            </button>
+            <button class="simple-btn" onclick="viewAllReports()">
+                <i class="fas fa-list"></i> View All Reports
+            </button>
     </div>
-    <div class="simple-table-container">
-        <table class="basic-table">
-            <thead>
-                <tr>
-                    <th>Report Type</th>
-                    <th>Scheduled Date</th>
-                    <th>Grade/Class</th>
-                    <th>Status</th>
-                    <th>Availability</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Attendance Report</td>
-                    <td>2025-01-15</td>
-                    <td>Grade 9A</td>
-                    <td><span class="status-badge draft">Scheduled</span></td>
-                    <td>Not Available</td>
-                    <td>
-                        <button class="simple-btn-icon" onclick="editReport('RPT-001')" title="Edit"><i class="fas fa-edit"></i></button>
-                        <button class="simple-btn-icon" onclick="cancelReport('RPT-001')" title="Cancel"><i class="fas fa-times"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Exam Report (Class Avg)</td>
-                    <td>2025-01-20</td>
-                    <td>Grade 10B</td>
-                    <td><span class="status-badge draft">Scheduled</span></td>
-                    <td>Not Available</td>
-                    <td>
-                        <button class="simple-btn-icon" onclick="editReport('RPT-002')" title="Edit"><i class="fas fa-edit"></i></button>
-                        <button class="simple-btn-icon" onclick="cancelReport('RPT-002')" title="Cancel"><i class="fas fa-times"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Report Card (Guardian)</td>
-                    <td>2025-01-25</td>
-                    <td>Grade 8C</td>
-                    <td><span class="status-badge draft">Scheduled</span></td>
-                    <td>Not Available</td>
-                    <td>
-                        <button class="simple-btn-icon" onclick="editReport('RPT-003')" title="Edit"><i class="fas fa-edit"></i></button>
-                        <button class="simple-btn-icon" onclick="cancelReport('RPT-003')" title="Cancel"><i class="fas fa-times"></i></button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
     </div>
 
-    <!-- Completed Reports -->
-    <div class="simple-header" style="margin-top:16px;">
-        <h4>Completed Reports</h4>
-    </div>
-    <div class="simple-table-container">
+    <div class="simple-table-container" style="margin-top: 16px;">
         <table class="basic-table">
             <thead>
                 <tr>
-                    <th>Report Type</th>
-                    <th>Generated Date</th>
-                    <th>Grade/Class</th>
+                    <th>Report Name</th>
+                    <th>Type</th>
+                    <th>Generated By</th>
+                    <th>Date Generated</th>
                     <th>Status</th>
-                    <th>Availability</th>
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="recentReportsBody">
                 <tr>
-                    <td>Attendance Report</td>
-                    <td>2025-01-10</td>
-                    <td>Grade 9A</td>
-                    <td><span class="status-badge paid">Completed</span></td>
-                    <td>Available</td>
-                    <td>
-                        <button class="simple-btn-icon" onclick="viewReport('RPT-C001')" title="View"><i class="fas fa-eye"></i></button>
-                        <button class="simple-btn-icon" onclick="downloadReport('RPT-C001')" title="Download"><i class="fas fa-download"></i></button>
-                        <button class="simple-btn-icon" onclick="printReport('RPT-C001')" title="Print"><i class="fas fa-print"></i></button>
+                    <td><strong>Student Performance Q1 2025</strong></td>
+                    <td><span class="badge-type academic">Academic</span></td>
+                    <td>Admin User</td>
+                    <td>2025-01-15 14:30</td>
+                    <td><span class="status-badge completed">Completed</span></td>
+                    <td class="actions-cell">
+                        <button class="simple-btn-icon" onclick="viewReport('RPT001')" title="View">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="simple-btn-icon" onclick="downloadReport('RPT001')" title="Download">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="simple-btn-icon" onclick="shareReport('RPT001')" title="Share">
+                            <i class="fas fa-share"></i>
+                        </button>
                     </td>
                 </tr>
                 <tr>
-                    <td>Exam Report (Class Avg)</td>
-                    <td>2025-01-08</td>
-                    <td>Grade 10B</td>
-                    <td><span class="status-badge paid">Completed</span></td>
-                    <td>Available</td>
-                    <td>
-                        <button class="simple-btn-icon" onclick="viewReport('RPT-C002')" title="View"><i class="fas fa-eye"></i></button>
-                        <button class="simple-btn-icon" onclick="downloadReport('RPT-C002')" title="Download"><i class="fas fa-download"></i></button>
-                        <button class="simple-btn-icon" onclick="printReport('RPT-C002')" title="Print"><i class="fas fa-print"></i></button>
+                    <td><strong>Fee Collection January 2025</strong></td>
+                    <td><span class="badge-type financial">Financial</span></td>
+                    <td>Finance Manager</td>
+                    <td>2025-01-14 10:15</td>
+                    <td><span class="status-badge completed">Completed</span></td>
+                    <td class="actions-cell">
+                        <button class="simple-btn-icon" onclick="viewReport('RPT002')" title="View">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="simple-btn-icon" onclick="downloadReport('RPT002')" title="Download">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="simple-btn-icon" onclick="shareReport('RPT002')" title="Share">
+                            <i class="fas fa-share"></i>
+                        </button>
                     </td>
                 </tr>
                 <tr>
-                    <td>Academic Report</td>
-                    <td>2025-01-05</td>
-                    <td>Grade 11A</td>
-                    <td><span class="status-badge paid">Completed</span></td>
-                    <td>Available</td>
-                    <td>
-                        <button class="simple-btn-icon" onclick="viewReport('RPT-C003')" title="View"><i class="fas fa-eye"></i></button>
-                        <button class="simple-btn-icon" onclick="downloadReport('RPT-C003')" title="Download"><i class="fas fa-download"></i></button>
-                        <button class="simple-btn-icon" onclick="printReport('RPT-C003')" title="Print"><i class="fas fa-print"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Report Card (Guardian)</td>
-                    <td>2025-01-03</td>
-                    <td>Grade 8C</td>
-                    <td><span class="status-badge paid">Completed</span></td>
-                    <td>Available</td>
-                    <td>
-                        <button class="simple-btn-icon" onclick="viewReport('RPT-C004')" title="View"><i class="fas fa-eye"></i></button>
-                        <button class="simple-btn-icon" onclick="downloadReport('RPT-C004')" title="Download"><i class="fas fa-download"></i></button>
-                        <button class="simple-btn-icon" onclick="printReport('RPT-C004')" title="Print"><i class="fas fa-print"></i></button>
+                    <td><strong>Attendance Summary December 2024</strong></td>
+                    <td><span class="badge-type attendance">Attendance</span></td>
+                    <td>Admin User</td>
+                    <td>2024-12-31 16:45</td>
+                    <td><span class="status-badge completed">Completed</span></td>
+                    <td class="actions-cell">
+                        <button class="simple-btn-icon" onclick="viewReport('RPT003')" title="View">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="simple-btn-icon" onclick="downloadReport('RPT003')" title="Download">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="simple-btn-icon" onclick="shareReport('RPT003')" title="Share">
+                            <i class="fas fa-share"></i>
+                        </button>
                     </td>
                 </tr>
             </tbody>
@@ -269,206 +308,498 @@ ob_start();
     </div>
 </div>
 
+<!-- Report Generation Modal -->
+<div id="reportGenerationModal" class="receipt-dialog-overlay" style="display:none;">
+    <div class="receipt-dialog-content" style="max-width: 600px;">
+        <div class="receipt-dialog-header">
+            <h3><i class="fas fa-chart-line"></i> <span id="reportModalTitle">Generate Report</span></h3>
+            <button class="receipt-close" onclick="closeReportModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="receipt-dialog-body">
+            <div id="reportGenerationContent">
+                <!-- Dynamic content based on report type -->
+            </div>
+        </div>
+        <div class="receipt-dialog-actions">
+            <button class="simple-btn secondary" onclick="closeReportModal()">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+            <button class="simple-btn primary" onclick="generateReportNow()">
+                <i class="fas fa-chart-line"></i> Generate Report
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Include Shared Styles -->
+<link rel="stylesheet" href="/css/shared/fee-management.css">
+
+<style>
+/* Report Centre Specific Styles */
+.report-categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 16px;
+}
+
+.report-category-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    transition: all 0.2s ease;
+}
+
+.report-category-card:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+}
+
+.category-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.category-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #3b82f6;
+    background: #eff6ff;
+}
+
+.category-info h4 {
+    margin: 0 0 4px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.category-info p {
+    margin: 0;
+    font-size: 14px;
+    color: #64748b;
+}
+
+.category-reports {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.report-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background: #fff;
+    color: #374151;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.report-item:hover {
+    border-color: #3b82f6;
+    background: #f8fafc;
+    color: #1d4ed8;
+}
+
+.report-item i:first-child {
+    color: #6b7280;
+    width: 16px;
+    text-align: center;
+}
+
+.report-item span {
+    flex: 1;
+    font-weight: 500;
+}
+
+.report-item i:last-child {
+    color: #9ca3af;
+    font-size: 12px;
+}
+
+/* Badge Types */
+.badge-type.academic {
+    background: #e0f2f1;
+    color: #00695c;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.badge-type.financial {
+    background: #e3f2fd;
+    color: #1976d2;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.badge-type.attendance {
+    background: #fff3e0;
+    color: #ef6c00;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.badge-type.administrative {
+    background: #f3e5f5;
+    color: #7b1fa2;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+/* Status Badges */
+.status-badge.completed {
+    background: #d1fae5;
+    color: #059669;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.status-badge.processing {
+    background: #fef3c7;
+    color: #d97706;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.status-badge.failed {
+    background: #fee2e2;
+    color: #dc2626;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+/* Action Buttons */
+.actions-cell {
+    white-space: nowrap;
+}
+
+.simple-btn-icon {
+    padding: 6px 8px;
+    margin: 0 2px;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 12px;
+}
+
+.simple-btn-icon:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #475569;
+}
+
+.simple-btn-icon:hover i {
+    color: #3b82f6;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .report-categories-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .category-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .report-item {
+        padding: 10px 12px;
+    }
+}
+</style>
 
 <script>
+// Report Centre JavaScript
+let currentReportType = null;
+let reportGenerationInProgress = false;
+
+// Initialize page
 document.addEventListener('DOMContentLoaded', function() {
-    let currentType = null;
-    const modal = document.getElementById('reportModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalClose = document.getElementById('modalClose');
-    const preview = document.getElementById('preview');
-    const printBtn = document.getElementById('printBtn');
-    const templateStyle = document.getElementById('templateStyle');
-    const grade = document.getElementById('grade');
-    const klass = document.getElementById('class');
-    const student = document.getElementById('student');
+    loadRecentReports();
+    updateReportStats();
+});
 
-    function buildPreview() {
-        const titleMap = {
-            attendance: 'Attendance Report',
-            examStats: 'Exam Report - Class Averages & Classification',
-            academic: 'Academic Report Summary',
-            reportCard: 'Exam Report Card (Guardian Copy)'
-        };
+// Generate report function
+function generateReport(reportType) {
+    currentReportType = reportType;
+    const modal = document.getElementById('reportGenerationModal');
+    const title = document.getElementById('reportModalTitle');
+    const content = document.getElementById('reportGenerationContent');
+    
+    // Set modal title
+    title.textContent = getReportTitle(reportType);
+    
+    // Generate form content based on report type
+    content.innerHTML = generateReportForm(reportType);
+    
+    modal.style.display = 'flex';
+}
 
-        const headerHtml = `
-            <div class="preview-header">
-                <div class="preview-title"><i class="fas fa-file-alt"></i> ${titleMap[currentType]}</div>
-                <div class="preview-subtitle">Template: ${getValue('templateStyle','Default')} · Grade: ${getValue('grade','All')} · Class: ${getValue('class','All')} · Student: ${getValue('student','All')}</div>
+// Get report title
+function getReportTitle(reportType) {
+    const titles = {
+        'student-performance': 'Student Performance Report',
+        'grade-analysis': 'Grade Analysis Report',
+        'subject-statistics': 'Subject Statistics Report',
+        'exam-results': 'Exam Results Summary',
+        'student-attendance': 'Student Attendance Report',
+        'teacher-attendance': 'Teacher Attendance Report',
+        'attendance-trends': 'Attendance Trends Report',
+        'absentee-analysis': 'Absentee Analysis Report',
+        'fee-collection': 'Fee Collection Report',
+        'payment-analysis': 'Payment Analysis Report',
+        'outstanding-fees': 'Outstanding Fees Report',
+        'revenue-summary': 'Revenue Summary Report',
+        'staff-directory': 'Staff Directory Report',
+        'student-directory': 'Student Directory Report',
+        'class-schedules': 'Class Schedules Report',
+        'facility-usage': 'Facility Usage Report'
+    };
+    return titles[reportType] || 'Generate Report';
+}
+
+// Generate report form
+function generateReportForm(reportType) {
+    const commonFields = `
+        <div class="form-row">
+            <div class="form-group">
+                <label>Date Range</label>
+                <select class="form-input" id="dateRange">
+                    <option value="current-month">Current Month</option>
+                    <option value="last-month">Last Month</option>
+                    <option value="current-quarter">Current Quarter</option>
+                    <option value="last-quarter">Last Quarter</option>
+                    <option value="current-year">Current Year</option>
+                    <option value="custom">Custom Range</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Format</label>
+                <select class="form-input" id="reportFormat">
+                    <option value="pdf">PDF</option>
+                    <option value="excel">Excel</option>
+                    <option value="csv">CSV</option>
+                </select>
+            </div>
             </div>
         `;
 
-        let bodyHtml = '';
-        if (currentType === 'attendance') {
-            bodyHtml += `
-                <div class="simple-table-container">
-                    <table class="basic-table">
-                        <thead><tr><th>Student</th><th>Attendance %</th><th>Present</th><th>Absent</th></tr></thead>
-                        <tbody>
-                            <tr><td>Alice Johnson</td><td>94%</td><td>135</td><td>9</td></tr>
-                            <tr><td>Michael Brown</td><td>88%</td><td>126</td><td>18</td></tr>
-                        </tbody>
-                    </table>
+    let specificFields = '';
+    
+    if (reportType.includes('student') || reportType.includes('grade')) {
+        specificFields = `
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Grade Level</label>
+                    <select class="form-input" id="gradeLevel">
+                        <option value="all">All Grades</option>
+                        <option value="7">Grade 7</option>
+                        <option value="8">Grade 8</option>
+                        <option value="9">Grade 9</option>
+                        <option value="10">Grade 10</option>
+                        <option value="11">Grade 11</option>
+                        <option value="12">Grade 12</option>
+                    </select>
                 </div>
-            `;
-        } else if (currentType === 'examStats') {
-            bodyHtml += `
-                <div class="stats-grid-secondary vertical-stats">
-                    <div class="stat-card"><div class="stat-icon"><i class="fas fa-chart-line"></i></div><div class="stat-content"><h3>Class Average</h3><div class="stat-number">76%</div><div class="stat-change">Term</div></div></div>
-                    <div class="stat-card"><div class="stat-icon"><i class="fas fa-star"></i></div><div class="stat-content"><h3>Distinction</h3><div class="stat-number">12</div><div class="stat-change">>= 85%</div></div></div>
-                    <div class="stat-card"><div class="stat-icon"><i class="fas fa-award"></i></div><div class="stat-content"><h3>Merit</h3><div class="stat-number">18</div><div class="stat-change">70–84%</div></div></div>
-                    <div class="stat-card"><div class="stat-icon"><i class="fas fa-check"></i></div><div class="stat-content"><h3>Pass</h3><div class="stat-number">20</div><div class="stat-change">50–69%</div></div></div>
+                <div class="form-group">
+                    <label>Class</label>
+                    <select class="form-input" id="classFilter">
+                        <option value="all">All Classes</option>
+                        <option value="A">Class A</option>
+                        <option value="B">Class B</option>
+                        <option value="C">Class C</option>
+                    </select>
                 </div>
-            `;
-        } else if (currentType === 'academic') {
-            bodyHtml += `
-                <div class="placeholder">Academic overview: enrollments, subject coverage, timetable density, etc.</div>
-            `;
-        } else if (currentType === 'reportCard') {
-            bodyHtml += `
-                <div class="simple-table-container">
-                    <table class="basic-table">
-                        <thead><tr><th>Subject</th><th>Marks</th><th>Grade</th><th>Teacher</th></tr></thead>
-                        <tbody>
-                            <tr><td>Mathematics</td><td>88</td><td>A</td><td>E. Wilson</td></tr>
-                            <tr><td>Science</td><td>81</td><td>A-</td><td>L. Johnson</td></tr>
-                            <tr><td>English</td><td>75</td><td>B+</td><td>N. Davis</td></tr>
-                        </tbody>
-                    </table>
                 </div>
-                <div class="placeholder">Guardian copy. Layout/fields can be configured per template.</div>
-            `;
-        }
-
-        preview.innerHTML = headerHtml + '<div class="preview-body">' + bodyHtml + '</div>';
-    }
-
-    function getValue(id, fallback) {
-        const el = document.getElementById(id);
-        if (!el) return fallback;
-        const v = (el.value || '').trim();
-        return v === '' ? fallback : v;
-    }
-
-    // Open modal from template cards
-    document.querySelectorAll('.open-preview').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const card = this.closest('.template-card');
-            currentType = card.getAttribute('data-type');
-            modalTitle.textContent = {
-                attendance: 'Attendance Report',
-                examStats: 'Exam Stats',
-                academic: 'Academic Reports',
-                reportCard: 'Report Card (Guardian)'
-            }[currentType] || 'Report Preview';
-            modal.style.display = 'block';
-            buildPreview();
-        });
-    });
-
-    modalClose.addEventListener('click', function(){ modal.style.display = 'none'; });
-    window.addEventListener('click', function(e){ if (e.target === modal) modal.style.display = 'none'; });
-
-    templateStyle.addEventListener('change', buildPreview);
-    grade.addEventListener('change', buildPreview);
-    klass.addEventListener('change', buildPreview);
-    student.addEventListener('input', buildPreview);
-    printBtn.addEventListener('click', function(e){ e.preventDefault(); window.print(); });
-
-    // Schedule Report functionality
-    const scheduleForm = document.getElementById('scheduleForm');
-    const scheduleNewReportBtn = document.getElementById('scheduleNewReport');
-    const cancelScheduleBtn = document.getElementById('cancelSchedule');
-    const saveScheduleBtn = document.getElementById('saveSchedule');
-
-    scheduleNewReportBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        scheduleForm.style.display = scheduleForm.style.display === 'none' ? 'block' : 'none';
-    });
-
-    cancelScheduleBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        scheduleForm.style.display = 'none';
-        // Clear form
-        document.getElementById('reportName').value = '';
-        document.getElementById('scheduledDate').value = '';
-        document.getElementById('gradeSchedule').value = '';
-        document.getElementById('classSchedule').value = '';
-        document.getElementById('studentSchedule').value = '';
-    });
-
-    saveScheduleBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const reportType = document.getElementById('reportTypeSchedule').value;
-        const reportName = document.getElementById('reportName').value;
-        const scheduledDate = document.getElementById('scheduledDate').value;
-        const grade = document.getElementById('gradeSchedule').value;
-        const klass = document.getElementById('classSchedule').value;
-        const student = document.getElementById('studentSchedule').value;
-
-        if (!reportName || !scheduledDate) {
-            alert('Please fill in report name and scheduled date.');
-            return;
-        }
-
-        // Add to upcoming reports table (in real app, this would save to database)
-        const upcomingTable = document.querySelector('.simple-table-container tbody');
-        const newRow = document.createElement('tr');
-        newRow.innerHTML = `
-            <td>${reportName}</td>
-            <td>${scheduledDate}</td>
-            <td>${grade || 'All'}${klass ? '/' + klass : ''}</td>
-            <td><span class="status-badge draft">Scheduled</span></td>
-            <td>Not Available</td>
-            <td>
-                <button class="simple-btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
-                <button class="simple-btn-icon" title="Cancel"><i class="fas fa-times"></i></button>
-            </td>
         `;
-        upcomingTable.appendChild(newRow);
+    }
+    
+    if (reportType.includes('attendance')) {
+        specificFields += `
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Include Details</label>
+                    <div style="display: flex; gap: 16px; margin-top: 8px;">
+                        <label style="display: flex; align-items: center; font-weight: normal; cursor: pointer;">
+                            <input type="checkbox" id="includeCharts" checked style="margin-right: 6px;"> Include Charts
+                        </label>
+                        <label style="display: flex; align-items: center; font-weight: normal; cursor: pointer;">
+                            <input type="checkbox" id="includeTrends" checked style="margin-right: 6px;"> Include Trends
+                        </label>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    return commonFields + specificFields;
+}
 
-        // Clear form and hide form
-        document.getElementById('reportName').value = '';
-        document.getElementById('scheduledDate').value = '';
-        document.getElementById('gradeSchedule').value = '';
-        document.getElementById('classSchedule').value = '';
-        document.getElementById('studentSchedule').value = '';
-        scheduleForm.style.display = 'none';
+// Generate report now
+function generateReportNow() {
+    if (reportGenerationInProgress) return;
+    
+    reportGenerationInProgress = true;
+    const generateBtn = document.querySelector('#reportGenerationModal .simple-btn.primary');
+    const originalText = generateBtn.innerHTML;
+    
+    generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+    generateBtn.disabled = true;
+    
+    // Simulate report generation
+    setTimeout(() => {
+        const reportId = 'RPT' + Date.now();
+        const reportName = getReportTitle(currentReportType);
+        const reportType = getReportType(currentReportType);
+        
+        // Add to recent reports
+        addToRecentReports({
+            id: reportId,
+            name: reportName,
+            type: reportType,
+            generatedBy: 'Admin User',
+            date: new Date().toLocaleString(),
+            status: 'completed'
+        });
+        
+        showToast(`Report "${reportName}" generated successfully`, 'success');
+        closeReportModal();
+        
+        generateBtn.innerHTML = originalText;
+        generateBtn.disabled = false;
+        reportGenerationInProgress = false;
+        
+        // Refresh recent reports
+        loadRecentReports();
+    }, 2000);
+}
 
-        alert('Report scheduled successfully!');
-    });
-});
+// Get report type for badge
+function getReportType(reportType) {
+    if (reportType.includes('attendance')) return 'attendance';
+    if (reportType.includes('fee') || reportType.includes('payment') || reportType.includes('revenue')) return 'financial';
+    if (reportType.includes('staff') || reportType.includes('student-directory') || reportType.includes('class') || reportType.includes('facility')) return 'administrative';
+    return 'academic';
+}
 
-// Navigation functions
+// Close report modal
+function closeReportModal() {
+    document.getElementById('reportGenerationModal').style.display = 'none';
+    currentReportType = null;
+}
+
+// Load recent reports
+function loadRecentReports() {
+    // This would typically load from localStorage or API
+    console.log('Loading recent reports...');
+}
+
+// Update report stats
+function updateReportStats() {
+    // This would typically load from API
+    console.log('Updating report stats...');
+}
+
+// Add to recent reports
+function addToRecentReports(report) {
+    // This would typically save to localStorage or API
+    console.log('Adding report to history:', report);
+}
+
+// View report
 function viewReport(reportId) {
     window.location.href = `/admin/report-details?id=${reportId}`;
 }
 
-function editReport(reportId) {
-    window.location.href = `/admin/report-edit?id=${reportId}`;
-}
-
-function cancelReport(reportId) {
-    showConfirmDialog({
-        title: 'Cancel Report',
-        message: 'Are you sure you want to cancel this scheduled report?',
-        confirmText: 'Cancel Report',
-        confirmIcon: 'fas fa-times',
-        onConfirm: () => {
-            alert('Report cancelled successfully!');
-            // Remove from table in real implementation
-        }
-    });
-}
-
+// Download report
 function downloadReport(reportId) {
-    alert(`Downloading report ${reportId}...`);
-    // Implement download logic
+    showToast(`Downloading report ${reportId}`, 'success');
+    // Simulate download
+    setTimeout(() => {
+        const link = document.createElement('a');
+        link.href = '#';
+        link.download = `report-${reportId}.pdf`;
+        link.click();
+    }, 500);
 }
 
-function printReport(reportId) {
-    window.print();
+// Share report
+function shareReport(reportId) {
+    if (navigator.share) {
+        navigator.share({
+            title: `Report ${reportId}`,
+            text: 'Check out this school report',
+            url: window.location.href
+        }).catch(err => console.log('Error sharing:', err));
+    } else {
+        // Fallback for browsers that don't support Web Share API
+        const shareUrl = `${window.location.origin}/admin/report-details?id=${reportId}`;
+        navigator.clipboard.writeText(shareUrl).then(() => {
+            showToast('Report link copied to clipboard', 'success');
+        }).catch(() => {
+            showToast('Unable to share report', 'warning');
+        });
+    }
+}
+
+// Refresh report data
+function refreshReportData() {
+    showToast('Refreshing report data...', 'info');
+    setTimeout(() => {
+        showToast('Report data refreshed successfully', 'success');
+    }, 1000);
+}
+
+// Export all reports
+function exportAllReports() {
+    showToast('Exporting all reports...', 'info');
+}
+
+// Clear report history
+function clearReportHistory() {
+    if (confirm('Are you sure you want to clear all report history?')) {
+        showToast('Report history cleared', 'success');
+    }
+}
+
+// View all reports
+function viewAllReports() {
+    showToast('Opening all reports view...', 'info');
 }
 </script>
 
