@@ -27,7 +27,7 @@ ob_start();
             <h1>Room <?php echo htmlspecialchars($roomNumber); ?></h1>
             <div class="batch-meta">
                 <span class="status-badge active">Occupied</span>
-                <span class="meta-info">Classroom A</span>
+                <span class="meta-info">Building A · 1st Floor</span>
             </div>
         </div>
     </div>
@@ -41,51 +41,9 @@ ob_start();
     </div>
 </div>
 
-<!-- Room Statistics -->
-<div class="detail-stats-grid">
-    <?php echo renderStatCard([
-        'title' => 'Room Number',
-        'value' => 'Room ' . $roomNumber,
-        'icon' => 'fas fa-door-open',
-        'iconColor' => 'blue'
-    ]); ?>
-    
-    <?php echo renderStatCard([
-        'title' => 'Capacity',
-        'value' => '35',
-        'icon' => 'fas fa-users',
-        'iconColor' => 'green'
-    ]); ?>
-    
-    <?php echo renderStatCard([
-        'title' => 'Current Students',
-        'value' => '30',
-        'icon' => 'fas fa-user-graduate',
-        'iconColor' => 'purple'
-    ]); ?>
-</div>
+<!-- Room Statistics removed to avoid duplication with header -->
 
-<!-- Room Information Section -->
-<div class="detail-section">
-    <div class="section-header">
-        <h3 class="section-title">Room Information</h3>
-    </div>
-    
-    <div class="academic-year-info">
-        <div class="year-detail">
-            <label>Room Name</label>
-            <span>Classroom A</span>
-        </div>
-        <div class="year-detail">
-            <label>Floor</label>
-            <span>1st Floor</span>
-        </div>
-        <div class="year-detail">
-            <label>Building</label>
-            <span>Main Academic Block</span>
-        </div>
-    </div>
-</div>
+<!-- Room Information Section removed per model simplification -->
 
 <!-- Facilities Section -->
 <div class="detail-section">
@@ -112,18 +70,12 @@ ob_start();
 <!-- Room Schedule Section -->
 <div class="detail-section">
     <div class="section-header">
-        <h3 class="section-title">Room Schedule - Room <?php echo htmlspecialchars($roomNumber); ?></h3>
-        <button class="add-btn">
-            <i class="fas fa-plus"></i>
-            Schedule Class
-        </button>
+        <h3 class="section-title">Assigned Class</h3>
     </div>
-    
-    <div class="grades-grid">
+    <div class="grades-grid" id="roomScheduleGrid">
         <div class="grade-detail-card">
             <div class="grade-card-header">
                 <a href="/admin/academic/class-detail/<?php echo substr($roomNumber, -1); ?>A" class="grade-link">Class <?php echo substr($roomNumber, -1); ?>A</a>
-                <span class="time-slot">8:00 AM - 2:00 PM</span>
             </div>
             <div class="grade-card-body">
                 <div class="grade-stat">
@@ -140,48 +92,6 @@ ob_start();
                 </div>
             </div>
         </div>
-        
-        <div class="grade-detail-card">
-            <div class="grade-card-header">
-                <span class="grade-link">Evening Study Session</span>
-                <span class="time-slot">4:00 PM - 6:00 PM</span>
-            </div>
-            <div class="grade-card-body">
-                <div class="grade-stat">
-                    <span class="stat-label">Activity</span>
-                    <span class="stat-value">Homework Support</span>
-                </div>
-                <div class="grade-stat">
-                    <span class="stat-label">Supervisor</span>
-                    <span class="stat-value">Ms. Jennifer Lee</span>
-                </div>
-                <div class="grade-stat">
-                    <span class="stat-label">Capacity</span>
-                    <span class="stat-value">20 students</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="grade-detail-card">
-            <div class="grade-card-header">
-                <span class="grade-link">Weekend Activities</span>
-                <span class="time-slot">Saturday 9:00 AM - 12:00 PM</span>
-            </div>
-            <div class="grade-card-body">
-                <div class="grade-stat">
-                    <span class="stat-label">Activity</span>
-                    <span class="stat-value">Art Workshop</span>
-                </div>
-                <div class="grade-stat">
-                    <span class="stat-label">Instructor</span>
-                    <span class="stat-value">Ms. Anna Rodriguez</span>
-                </div>
-                <div class="grade-stat">
-                    <span class="stat-label">Participants</span>
-                    <span class="stat-value">15 students</span>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -190,3 +100,5 @@ $content = ob_get_clean();
 
 include __DIR__ . '/../../components/admin-layout.php';
 ?>
+
+<script></script>

@@ -38,7 +38,7 @@ ob_start();
                 <tr><th style="width:220px;">Staff ID</th><td><?php echo htmlspecialchars($id); ?></td></tr>
                 <tr><th>Full Name</th><td>Placeholder Name</td></tr>
                 <tr><th>Department</th><td>Administration</td></tr>
-                <tr><th>Position</th><td>Secretary</td></tr>
+                <tr><th>Position</th><td id="positionCell">Secretary</td></tr>
                 <tr><th>Email</th><td>placeholder@school.edu</td></tr>
                 <tr><th>Phone</th><td>+1-555-2001</td></tr>
                 <tr><th>Status</th><td><span class="status-badge paid">Active</span></td></tr>
@@ -199,6 +199,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.getElementById('lastUpdated').textContent = setup.updatedAt;
     }
+
+    // Position is already present in the table markup; no override from localStorage
 });
 
 function handlePortalAction() {

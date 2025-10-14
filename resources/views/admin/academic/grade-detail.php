@@ -66,27 +66,7 @@ ob_start();
     ]); ?>
 </div>
 
-<!-- Grade Information Section -->
-<div class="detail-section">
-    <div class="section-header">
-        <h3 class="section-title">Grade Information</h3>
-    </div>
-    
-    <div class="academic-year-info">
-        <div class="year-detail">
-            <label>Grade Name</label>
-            <span>First Grade</span>
-        </div>
-        <div class="year-detail">
-            <label>Category</label>
-            <span>Primary Education</span>
-        </div>
-        <div class="year-detail">
-            <label>Age Range</label>
-            <span>6-7 years</span>
-        </div>
-    </div>
-</div>
+<!-- Grade Information Section removed per updated model -->
 
 <!-- Academic Statistics Section -->
 <div class="detail-section">
@@ -120,7 +100,40 @@ ob_start();
         </button>
     </div>
     
-    <div class="grades-grid">
+    <!-- Inline Add Class Form (placed directly under header) -->
+    <div id="addClassForm" class="simple-section" style="display:none; margin-top:12px;">
+        <div class="simple-header">
+            <h4><i class="fas fa-door-open"></i> Create Class</h4>
+        </div>
+        <div class="form-section">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="className">Class Name</label>
+                    <input type="text" id="className" class="form-input" placeholder="e.g., 10-A">
+                </div>
+                <div class="form-group">
+                    <label for="classGrade">Grade</label>
+                    <input type="text" id="classGrade" class="form-input" placeholder="e.g., Grade 10">
+                </div>
+                <div class="form-group">
+                    <label for="classRoom">Room</label>
+                    <input type="text" id="classRoom" class="form-input" placeholder="e.g., Room 201">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group" style="flex:2;">
+                    <label for="classTeacher">Class Teacher</label>
+                    <input type="text" id="classTeacher" class="form-input" placeholder="e.g., Ms. Smith">
+                </div>
+            </div>
+            <div class="form-actions">
+                <button id="cancelAddClass" class="simple-btn secondary">Cancel</button>
+                <button id="saveAddClass" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="grades-grid" id="classesGrid">
         <div class="grade-detail-card">
             <div class="grade-card-header">
                 <a href="/admin/academic/class-detail/<?php echo $gradeId; ?>A" class="grade-link">Class <?php echo $gradeId; ?>A</a>
@@ -135,10 +148,7 @@ ob_start();
                     <span class="stat-label">Teacher</span>
                     <span class="stat-value">Ms. Sarah Johnson</span>
                 </div>
-                <div class="grade-stat">
-                    <span class="stat-label">Schedule</span>
-                    <span class="stat-value">8:00 AM - 2:00 PM</span>
-                </div>
+        
             </div>
         </div>
         
@@ -156,10 +166,7 @@ ob_start();
                     <span class="stat-label">Teacher</span>
                     <span class="stat-value">Mr. David Chen</span>
                 </div>
-                <div class="grade-stat">
-                    <span class="stat-label">Schedule</span>
-                    <span class="stat-value">8:00 AM - 2:00 PM</span>
-                </div>
+        
             </div>
         </div>
         
@@ -177,10 +184,7 @@ ob_start();
                     <span class="stat-label">Teacher</span>
                     <span class="stat-value">Ms. Emily Rodriguez</span>
                 </div>
-                <div class="grade-stat">
-                    <span class="stat-label">Schedule</span>
-                    <span class="stat-value">8:00 AM - 2:00 PM</span>
-                </div>
+        
             </div>
         </div>
         
@@ -198,10 +202,7 @@ ob_start();
                     <span class="stat-label">Teacher</span>
                     <span class="stat-value">Dr. James Wilson</span>
                 </div>
-                <div class="grade-stat">
-                    <span class="stat-label">Schedule</span>
-                    <span class="stat-value">8:00 AM - 2:00 PM</span>
-                </div>
+        
             </div>
         </div>
     </div>
@@ -212,3 +213,37 @@ $content = ob_get_clean();
 
 include __DIR__ . '/../../components/admin-layout.php';
 ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    const addBtn = document.querySelector('.detail-section .add-btn');
+    const form = document.getElementById('addClassForm');
+    const cancelBtn = document.getElementById('cancelAddClass');
+    const saveBtn = document.getElementById('saveAddClass');
+    const grid = document.getElementById('classesGrid');
+
+    function toggle(){ if(form) form.style.display = (form.style.display==='none' || !form.style.display) ? 'block' : 'none'; }
+    addBtn && addBtn.addEventListener('click', function(e){ e.preventDefault(); toggle(); });
+    cancelBtn && cancelBtn.addEventListener('click', function(e){ e.preventDefault(); toggle(); });
+    saveBtn && saveBtn.addEventListener('click', function(e){
+        e.preventDefault();
+        const name = (document.getElementById('newClassName').value||'').trim();
+        if (!name) { alert('Enter class name'); return; }
+        const room = document.getElementById('newClassRoom').value || '';
+        const card = document.createElement('div');
+        card.className = 'grade-detail-card';
+        card.innerHTML = `
+            <div class="grade-card-header">
+                <a href="#" class="grade-link">Class ${name}</a>
+                ${room ? `<span class=\"room-info\">${room}</span>` : ''}
+            </div>
+            <div class="grade-card-body">
+                <div class="grade-stat"><span class="stat-label">Students</span><span class="stat-value">0 students</span></div>
+                <div class="grade-stat"><span class="stat-label">Teacher</span><span class="stat-value">-</span></div>
+            </div>`;
+        grid && grid.prepend(card);
+        toggle();
+        alert('Saved (draft).');
+    });
+});
+</script>
