@@ -31,10 +31,10 @@ ob_start();
         </div>
     </div>
     <div class="batch-actions">
-        <button class="action-btn-header edit">
+        <button class="action-btn-header edit" id="editClassBtn">
             <i class="fas fa-edit"></i> Edit Class
         </button>
-        <button class="action-btn-header delete">
+        <button class="action-btn-header delete" id="deleteClassBtn">
             <i class="fas fa-trash"></i> Delete Class
         </button>
     </div>
@@ -62,6 +62,39 @@ ob_start();
         'icon' => 'fas fa-chalkboard-teacher',
         'iconColor' => 'blue'
     ]); ?>
+</div>
+
+<!-- Edit Class Form -->
+<div id="editClassForm" class="simple-section" style="display:none; margin-top:12px;">
+    <div class="simple-header">
+        <h4><i class="fas fa-edit"></i> Edit Class</h4>
+    </div>
+    <div class="form-section">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="editClassName">Class Name</label>
+                <input type="text" id="editClassName" class="form-input" value="<?php echo htmlspecialchars($className); ?>">
+            </div>
+            <div class="form-group">
+                <label for="editClassGrade">Grade</label>
+                <input type="text" id="editClassGrade" class="form-input" value="Grade 1">
+            </div>
+            <div class="form-group">
+                <label for="editClassRoom">Room</label>
+                <input type="text" id="editClassRoom" class="form-input" value="Room 101">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="editClassTeacher">Class Teacher</label>
+                <input type="text" id="editClassTeacher" class="form-input" value="Ms. Sarah Johnson">
+            </div>
+        </div>
+        <div class="form-actions">
+            <button id="cancelEditClass" class="simple-btn secondary">Cancel</button>
+            <button id="saveEditClass" class="simple-btn primary"><i class="fas fa-check"></i> Update Class</button>
+        </div>
+    </div>
 </div>
 
 <!-- Class Information Section removed; details moved to header meta -->
@@ -506,5 +539,66 @@ document.addEventListener('DOMContentLoaded', function(){
             </tr>
         `).join('');
     }
+    
+    // Edit Class functionality
+    const editClassBtn = document.getElementById('editClassBtn');
+    const editClassForm = document.getElementById('editClassForm');
+    const cancelEditClassBtn = document.getElementById('cancelEditClass');
+    const saveEditClassBtn = document.getElementById('saveEditClass');
+    
+    editClassBtn.addEventListener('click', function() {
+        editClassForm.style.display = 'block';
+    });
+    
+    // Check if edit parameter is present in URL and clean it up immediately
+    if (window.location.search.includes('edit=true')) {
+        editClassForm.style.display = 'block';
+        // Remove edit parameter from URL immediately
+        const cleanUrl = window.location.pathname + window.location.search.replace(/[?&]edit=true/, '').replace(/[?&]$/, '');
+        window.history.replaceState({}, document.title, cleanUrl);
+    }
+    
+    cancelEditClassBtn.addEventListener('click', function() {
+        editClassForm.style.display = 'none';
+    });
+    
+    saveEditClassBtn.addEventListener('click', function() {
+        const newName = document.getElementById('editClassName').value.trim();
+        const newGrade = document.getElementById('editClassGrade').value.trim();
+        const newRoom = document.getElementById('editClassRoom').value.trim();
+        const newTeacher = document.getElementById('editClassTeacher').value.trim();
+        
+        if (!newName || !newGrade || !newRoom || !newTeacher) {
+            alert('Please fill in all fields');
+            return;
+        }
+        
+        // Update page title
+        document.querySelector('.batch-info h1').textContent = `Class ${newName}`;
+        
+        // Hide form
+        editClassForm.style.display = 'none';
+        
+        showActionStatus('Class updated successfully!', 'success');
+    });
+    
+    // Delete Class functionality
+    const deleteClassBtn = document.getElementById('deleteClassBtn');
+    deleteClassBtn.addEventListener('click', function() {
+        const className = 'Class <?php echo htmlspecialchars($className); ?>';
+        showConfirmDialog({
+            title: 'Delete Class',
+            message: `Are you sure you want to delete ${className}? This will remove all students from this class and cannot be undone.`,
+            confirmText: 'Delete',
+            confirmIcon: 'fas fa-door-open',
+            onConfirm: function() {
+                showActionStatus('Class deleted successfully!', 'success');
+                // In a real application, this would redirect or update the UI
+                setTimeout(() => {
+                    window.location.href = '/admin/academic-management';
+                }, 1500);
+            }
+        });
+    });
 });
 </script>

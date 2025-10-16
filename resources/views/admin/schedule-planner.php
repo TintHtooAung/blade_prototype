@@ -59,6 +59,8 @@ ob_start();
                 <tr>
                     <th>Class</th>
                     <th>Status</th>
+                    <th>Changes</th>
+                    <th>Last Change</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -87,6 +89,8 @@ ob_start();
         </div>
     </div>
 </div>
+
+<!-- View/Edit Modal removed: View now opens inline editor with saved data -->
 
 <!-- Time Period Settings Modal -->
 <div id="settingsModal" class="settings-modal" style="display:none;">
@@ -177,6 +181,163 @@ ob_start();
     background: #fff3e0;
     border-color: #ffb74d;
     color: #e65100;
+}
+
+.period-card {
+    position: relative;
+    display: inline-block;
+}
+
+.period-input {
+    padding-right: 32px; /* Make room for close button */
+}
+
+.period-close-btn {
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: #ff4444;
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    transition: all 0.2s ease;
+    opacity: 0.8;
+}
+
+.period-close-btn:hover {
+    background: #cc0000;
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.period-close-btn:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-badge.draft {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.status-badge.saved {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status-badge.published {
+    background: #cce5ff;
+    color: #004085;
+    border: 1px solid #b3d7ff;
+}
+
+/* Schedule Modal */
+.schedule-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.schedule-modal-content {
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 1200px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.schedule-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.schedule-modal-header h4 {
+    margin: 0;
+    color: #333;
+    font-size: 1.25rem;
+}
+
+.schedule-modal-body {
+    padding: 24px;
+}
+
+.schedule-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 20px 24px;
+    border-top: 1px solid #e0e0e0;
+    background: #f8f9fa;
+    border-radius: 0 0 12px 12px;
+}
+
+/* Subject Info in Grid */
+.subject-info {
+    padding: 4px;
+    font-size: 0.75rem;
+    line-height: 1.2;
+}
+
+.subject-name {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.subject-teacher {
+    color: #666;
+    font-size: 0.7rem;
+    margin-bottom: 1px;
+}
+
+.subject-room {
+    color: #888;
+    font-size: 0.65rem;
+}
+
+/* Changes pill in table */
+.changes-pill {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.changes-pill.warning {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
 }
 
 /* Time Picker Modal */
@@ -745,6 +906,139 @@ ob_start();
 let currentCell = null;
 let currentScheduleId = null;
 
+// Mock schedule data for the list table
+const mockSchedules = [
+    {
+        id: 'SCH001',
+        className: 'Grade 9-A',
+        status: 'published',
+        statusText: 'Published',
+        createdAt: '2025-01-15',
+        lastEditedAt: '2025-01-15T09:00:00Z',
+        lastPublishedAt: '2025-01-15T09:05:00Z',
+        hasUnpublishedChanges: false,
+        periods: [
+            { label: 'Period 1', time: '08:00-09:00', type: 'period' },
+            { label: 'Period 2', time: '09:00-10:00', type: 'period' },
+            { label: 'Break', time: '10:00-10:30', type: 'break' },
+            { label: 'Period 3', time: '10:30-11:30', type: 'period' },
+            { label: 'Period 4', time: '11:30-12:30', type: 'period' }
+        ],
+        schedule: {
+            '0-0': { subject: 'Mathematics', teacher: 'Daw Khin Khin', room: 'A101' },
+            '0-1': { subject: 'English', teacher: 'Ms. Sarah Johnson', room: 'A102' },
+            '0-2': { subject: 'Physics', teacher: 'U Aung Myint', room: 'LAB001' },
+            '0-3': { subject: 'Chemistry', teacher: 'Daw Mya Mya', room: 'LAB002' },
+            '1-0': { subject: 'Biology', teacher: 'U Zaw Win', room: 'LAB003' },
+            '1-1': { subject: 'Myanmar', teacher: 'Daw Aye Aye', room: 'A103' },
+            '1-2': { subject: 'History', teacher: 'U Kyaw Soe', room: 'A104' },
+            '1-3': { subject: 'Geography', teacher: 'Daw Nu Nu', room: 'A105' },
+            '3-0': { subject: 'Mathematics', teacher: 'Daw Khin Khin', room: 'A101' },
+            '3-1': { subject: 'English', teacher: 'Ms. Sarah Johnson', room: 'A102' },
+            '3-2': { subject: 'Physics', teacher: 'U Aung Myint', room: 'LAB001' },
+            '3-3': { subject: 'Chemistry', teacher: 'Daw Mya Mya', room: 'LAB002' },
+            '4-0': { subject: 'Biology', teacher: 'U Zaw Win', room: 'LAB003' },
+            '4-1': { subject: 'Myanmar', teacher: 'Daw Aye Aye', room: 'A103' },
+            '4-2': { subject: 'History', teacher: 'U Kyaw Soe', room: 'A104' },
+            '4-3': { subject: 'Geography', teacher: 'Daw Nu Nu', room: 'A105' }
+        }
+    },
+    {
+        id: 'SCH002', 
+        className: 'Grade 10-B',
+        status: 'draft',
+        statusText: 'Draft',
+        createdAt: '2025-01-14',
+        lastEditedAt: '2025-01-14T10:00:00Z',
+        lastPublishedAt: null,
+        hasUnpublishedChanges: true,
+        periods: [
+            { label: 'Period 1', time: '08:00-09:00', type: 'period' },
+            { label: 'Period 2', time: '09:00-10:00', type: 'period' },
+            { label: 'Break', time: '10:00-10:30', type: 'break' },
+            { label: 'Period 3', time: '10:30-11:30', type: 'period' },
+            { label: 'Period 4', time: '11:30-12:30', type: 'period' }
+        ],
+        schedule: {
+            '0-0': { subject: 'Advanced Mathematics', teacher: 'Dr. Anderson', room: 'A201' },
+            '0-1': { subject: 'Literature', teacher: 'Ms. Garcia', room: 'A202' },
+            '1-0': { subject: 'Physics', teacher: 'Dr. Lee', room: 'LAB003' },
+            '1-1': { subject: 'Chemistry', teacher: 'Ms. Martinez', room: 'LAB004' },
+            '3-0': { subject: 'Programming', teacher: 'Mr. Kim', room: 'LAB005' },
+            '3-1': { subject: 'Art', teacher: 'Ms. Rodriguez', room: 'ART001' }
+        }
+    },
+    {
+        id: 'SCH003',
+        className: 'Grade 11-A',
+        status: 'published',
+        statusText: 'Published',
+        createdAt: '2025-01-13',
+        lastEditedAt: '2025-01-13T08:00:00Z',
+        lastPublishedAt: '2025-01-13T08:10:00Z',
+        hasUnpublishedChanges: false,
+        periods: [
+            { label: 'Period 1', time: '08:00-09:00', type: 'period' },
+            { label: 'Period 2', time: '09:00-10:00', type: 'period' },
+            { label: 'Break', time: '10:00-10:30', type: 'break' },
+            { label: 'Period 3', time: '10:30-11:30', type: 'period' },
+            { label: 'Period 4', time: '11:30-12:30', type: 'period' }
+        ],
+        schedule: {
+            '0-0': { subject: 'Calculus', teacher: 'Dr. Thompson', room: 'A301' },
+            '0-1': { subject: 'Advanced English', teacher: 'Ms. White', room: 'A302' },
+            '1-0': { subject: 'Advanced Physics', teacher: 'Dr. Clark', room: 'LAB006' },
+            '1-1': { subject: 'Biology', teacher: 'Dr. Lewis', room: 'LAB007' },
+            '3-0': { subject: 'Data Structures', teacher: 'Mr. Hall', room: 'LAB008' },
+            '3-1': { subject: 'Economics', teacher: 'Ms. Adams', room: 'A303' }
+        }
+    },
+    {
+        id: 'SCH004',
+        className: 'Grade 8-C',
+        status: 'draft',
+        statusText: 'Draft',
+        createdAt: '2025-01-12',
+        lastEditedAt: '2025-01-12T07:00:00Z',
+        lastPublishedAt: null,
+        hasUnpublishedChanges: true,
+        periods: [
+            { label: 'Period 1', time: '08:00-09:00', type: 'period' },
+            { label: 'Period 2', time: '09:00-10:00', type: 'period' },
+            { label: 'Break', time: '10:00-10:30', type: 'break' },
+            { label: 'Period 3', time: '10:30-11:30', type: 'period' },
+            { label: 'Period 4', time: '11:30-12:30', type: 'period' }
+        ],
+        schedule: {
+            '0-0': { subject: 'Mathematics', teacher: 'Daw Khin Khin', room: 'A101' },
+            '0-1': { subject: 'English', teacher: 'Ms. Sarah Johnson', room: 'A102' },
+            '1-0': { subject: 'Science', teacher: 'U Aung Myint', room: 'LAB001' },
+            '1-1': { subject: 'Myanmar', teacher: 'Daw Aye Aye', room: 'A103' }
+        }
+    },
+    {
+        id: 'SCH005',
+        className: 'Grade 12-A',
+        status: 'draft',
+        statusText: 'Draft',
+        createdAt: '2025-01-11',
+        lastEditedAt: '2025-01-11T11:00:00Z',
+        lastPublishedAt: null,
+        hasUnpublishedChanges: false,
+        periods: [
+            { label: 'Period 1', time: '08:00-09:00', type: 'period' },
+            { label: 'Period 2', time: '09:00-10:00', type: 'period' },
+            { label: 'Break', time: '10:00-10:30', type: 'break' },
+            { label: 'Period 3', time: '10:30-11:30', type: 'period' },
+            { label: 'Period 4', time: '11:30-12:30', type: 'period' }
+        ],
+        schedule: {
+            '0-0': { subject: 'Advanced Calculus', teacher: 'Dr. Thompson', room: 'A301' },
+            '0-1': { subject: 'Literature', teacher: 'Ms. White', room: 'A302' }
+        }
+    }
+];
+
 const subjectsDatabase = [
     {name: 'Mathematics', teacher: 'Daw Khin Khin', icon: '📐', color: '#4285f4'},
     {name: 'English', teacher: 'Ms. Sarah Johnson', icon: '📚', color: '#34a853'},
@@ -755,6 +1049,60 @@ const subjectsDatabase = [
     {name: 'History', teacher: 'U Kyaw Soe', icon: '📜', color: '#00796b'},
     {name: 'Geography', teacher: 'Daw Nu Nu', icon: '🌍', color: '#f57c00'}
 ];
+
+// Initialize page with mock data
+document.addEventListener('DOMContentLoaded', function() {
+    populateScheduleList();
+});
+
+function formatChangesPill(schedule) {
+    if (schedule.status === 'published' && schedule.hasUnpublishedChanges) {
+        return '<span class="changes-pill warning">Unpublished changes</span>';
+    }
+    return '—';
+}
+
+function formatLastChange(schedule) {
+    const edited = schedule.lastEditedAt ? new Date(schedule.lastEditedAt) : null;
+    const published = schedule.lastPublishedAt ? new Date(schedule.lastPublishedAt) : null;
+    if (schedule.status === 'published') {
+        if (schedule.hasUnpublishedChanges && edited) {
+            return `Edited ${edited.toLocaleString()}`;
+        }
+        if (published) {
+            return `Published ${published.toLocaleString()}`;
+        }
+    } else {
+        if (edited) {
+            return `Edited ${edited.toLocaleString()}`;
+        }
+    }
+    return '—';
+}
+
+function populateScheduleList() {
+    const body = document.getElementById('scheduleListBody');
+    const noRow = body.querySelector('.no-schedule-row');
+    
+    if (noRow) {
+        noRow.remove();
+    }
+    
+    // Add mock schedule rows
+    mockSchedules.forEach(schedule => {
+        const tr = document.createElement('tr');
+        tr.dataset.scheduleId = schedule.id;
+        tr.innerHTML = `
+            <td><strong>${schedule.className}</strong></td>
+            <td><span class="status-badge ${schedule.status === 'published' ? 'published' : 'draft'}">${schedule.status === 'published' ? 'Published' : 'Draft'}</span></td>
+            <td class="changes-cell">${formatChangesPill(schedule)}</td>
+            <td class="last-change-cell">${formatLastChange(schedule)}</td>
+            <td></td>
+        `;
+        body.appendChild(tr);
+        updateRowActionsForStatus(tr, schedule.status === 'published' ? 'published' : 'draft');
+    });
+}
 
 function createSchedule() {
     const classSelect = document.getElementById('classSelect');
@@ -775,16 +1123,35 @@ function createSchedule() {
                 <div class="simple-actions">
                     <button class="simple-btn" onclick="openSettingsDialog('${scheduleId}')"><i class="fas fa-cog"></i> Settings</button>
                     <button class="simple-btn secondary" onclick="saveSchedule('${scheduleId}')"><i class="fas fa-save"></i> Save</button>
-                    <button class="simple-btn-icon" onclick="removeSchedule('${scheduleId}')"><i class="fas fa-times"></i></button>
                 </div>
             </div>
             
             <div class="form-section">
                 <div class="periods-inline" id="periods-${scheduleId}">
+                    <div class="period-card">
                     <input type="text" class="period-input" value="Period 1: 08:00-09:00" onclick="editPeriodTime(this, '${scheduleId}', 0)" readonly />
+                        <button class="period-close-btn" onclick="removePeriod('${scheduleId}', 0)" title="Remove Period">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="period-card">
                     <input type="text" class="period-input" value="Period 2: 09:00-10:00" onclick="editPeriodTime(this, '${scheduleId}', 1)" readonly />
+                        <button class="period-close-btn" onclick="removePeriod('${scheduleId}', 1)" title="Remove Period">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="period-card">
                     <input type="text" class="period-input" value="Period 3: 10:00-11:00" onclick="editPeriodTime(this, '${scheduleId}', 2)" readonly />
+                        <button class="period-close-btn" onclick="removePeriod('${scheduleId}', 2)" title="Remove Period">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="period-card">
                     <input type="text" class="period-input" value="Period 4: 11:00-12:00" onclick="editPeriodTime(this, '${scheduleId}', 3)" readonly />
+                        <button class="period-close-btn" onclick="removePeriod('${scheduleId}', 3)" title="Remove Period">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                     <button class="add-period-compact" onclick="addPeriod('${scheduleId}', 'period')">
                         <i class="fas fa-plus"></i> Period
                     </button>
@@ -857,12 +1224,12 @@ function createSchedule() {
     tr.innerHTML = `
         <td><strong>${className}</strong></td>
         <td><span class="status-badge draft">Draft</span></td>
-        <td>
-            <button class="simple-btn-icon" onclick="viewSchedule('${scheduleId}')" title="View Schedule"><i class="fas fa-eye"></i></button>
-            <button class="simple-btn-icon" onclick="removeSchedule('${scheduleId}')" title="Remove Schedule"><i class="fas fa-trash"></i></button>
-        </td>
+        <td class="changes-cell">—</td>
+        <td class="last-change-cell">Just now</td>
+        <td></td>
     `;
     body.appendChild(tr);
+    updateRowActionsForStatus(tr, 'draft');
     
     classSelect.value = '';
     document.getElementById(scheduleId).scrollIntoView({behavior: 'smooth'});
@@ -983,6 +1350,10 @@ function addPeriod(scheduleId, type) {
     const inputs = container.querySelectorAll('.period-input');
     const periodNum = inputs.length + 1;
     
+    // Create period card container
+    const periodCard = document.createElement('div');
+    periodCard.className = 'period-card';
+    
     const input = document.createElement('input');
     input.type = 'text';
     input.className = 'period-input';
@@ -997,8 +1368,19 @@ function addPeriod(scheduleId, type) {
     
     input.onclick = () => editPeriodTime(input, scheduleId, periodNum - 1);
     
+    // Create close button
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'period-close-btn';
+    closeBtn.title = 'Remove Period';
+    closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+    closeBtn.onclick = () => removePeriod(scheduleId, periodNum - 1);
+    
+    // Append input and close button to period card
+    periodCard.appendChild(input);
+    periodCard.appendChild(closeBtn);
+    
     const buttons = container.querySelectorAll('.add-period-compact');
-    container.insertBefore(input, buttons[0]);
+    container.insertBefore(periodCard, buttons[0]);
     
     const row = document.createElement('tr');
     if (type === 'break') {
@@ -1021,6 +1403,74 @@ function addPeriod(scheduleId, type) {
         `;
     }
     grid.appendChild(row);
+}
+
+function removePeriod(scheduleId, periodIdx) {
+    const container = document.getElementById(`periods-${scheduleId}`);
+    const grid = document.getElementById(`grid-${scheduleId}`);
+    const periodCards = container.querySelectorAll('.period-card');
+    
+    // Check if there's only one period left
+    if (periodCards.length <= 1) {
+        showConfirmDialog({
+            title: 'Cannot Remove Period',
+            message: 'At least one period must remain in the schedule.',
+            confirmText: 'OK',
+            confirmIcon: 'fas fa-info-circle',
+            onConfirm: () => {}
+        });
+        return;
+    }
+    
+    // Show confirmation dialog
+    showConfirmDialog({
+        title: 'Remove Period',
+        message: 'Are you sure you want to remove this period? This action cannot be undone.',
+        confirmText: 'Remove',
+        confirmIcon: 'fas fa-trash',
+        onConfirm: () => {
+            // Remove period card
+            if (periodCards[periodIdx]) {
+                periodCards[periodIdx].remove();
+            }
+            
+            // Remove corresponding grid row
+            const gridRows = grid.querySelectorAll('tr');
+            if (gridRows[periodIdx]) {
+                gridRows[periodIdx].remove();
+            }
+            
+            // Update onclick handlers for remaining periods
+            updatePeriodIndices(scheduleId);
+        }
+    });
+}
+
+function updatePeriodIndices(scheduleId) {
+    const container = document.getElementById(`periods-${scheduleId}`);
+    const grid = document.getElementById(`grid-${scheduleId}`);
+    const periodCards = container.querySelectorAll('.period-card');
+    const gridRows = grid.querySelectorAll('tr');
+    
+    // Update period indices for remaining periods
+    periodCards.forEach((card, index) => {
+        const input = card.querySelector('.period-input');
+        const closeBtn = card.querySelector('.period-close-btn');
+        
+        // Update input onclick
+        input.onclick = () => editPeriodTime(input, scheduleId, index);
+        
+        // Update close button onclick
+        closeBtn.onclick = () => removePeriod(scheduleId, index);
+    });
+    
+    // Update grid row onclick handlers
+    gridRows.forEach((row, index) => {
+        const cells = row.querySelectorAll('.schedule-slot');
+        cells.forEach((cell, dayIdx) => {
+            cell.onclick = () => openSubjectModal(cell, scheduleId, index, dayIdx);
+        });
+    });
 }
 
 function openSubjectModal(cell, scheduleId, periodIdx, dayIdx) {
@@ -1064,45 +1514,489 @@ function filterSubjects() {
 }
 
 function assignSubject(subject) {
-    if (!currentCell) return;
+    if (!currentCell || !currentScheduleId) return;
     
+    // Get period and day indices from the cell's onclick attribute
+    const onclickAttr = currentCell.getAttribute('onclick');
+    const match = onclickAttr.match(/openSubjectModal\(this, '[^']+', (\d+), (\d+)\)/);
+    
+    if (!match) return;
+    
+    const periodIndex = parseInt(match[1]);
+    const dayIndex = parseInt(match[2]);
+    
+    // Update the cell display
     currentCell.classList.add('assigned');
     currentCell.innerHTML = `
-        <div style="background: ${subject.color}; color: #fff; padding: 4px 8px; border-radius: 12px; font-size: 0.85rem; font-weight: 500;">
-            ${subject.icon} ${subject.name}
+        <div class="subject-info">
+            <div class="subject-name">${subject.name}</div>
+            <div class="subject-teacher">${subject.teacher}</div>
+            <div class="subject-room">Room TBD</div>
         </div>
-        <small style="color: #666; margin-top: 2px; display: block;">${subject.teacher}</small>
     `;
+    currentCell.style.background = '#e8f5e8';
+    
+    // Update mock data for inline editor
+    const schedule = mockSchedules.find(s => s.id === currentScheduleId);
+    if (schedule) {
+        const key = `${periodIndex}-${dayIndex}`;
+        schedule.schedule[key] = {
+            subject: subject.name,
+            teacher: subject.teacher,
+            room: 'Room TBD'
+        };
+        schedule.lastEditedAt = new Date().toISOString();
+        if (schedule.status === 'published') schedule.hasUnpublishedChanges = true;
+        const row = document.querySelector(`tr[data-schedule-id="${schedule.id}"]`);
+        if (row) {
+            const lastCell = row.querySelector('.last-change-cell');
+            if (lastCell) lastCell.textContent = formatLastChange(schedule);
+            const changesCell = row.querySelector('.changes-cell');
+            if (changesCell) changesCell.innerHTML = formatChangesPill(schedule);
+        }
+    }
     
     closeSubjectModal();
 }
 
 function viewSchedule(scheduleId) {
-    const scheduleElement = document.getElementById(scheduleId);
-    if (scheduleElement) {
-        // If hidden, show it
-        if (scheduleElement.dataset.hidden === 'true' || scheduleElement.style.display === 'none') {
-            scheduleElement.style.display = 'block';
-            scheduleElement.dataset.hidden = 'false';
+    const schedule = mockSchedules.find(s => s.id === scheduleId);
+    if (!schedule) return;
+    
+    currentScheduleId = scheduleId;
+    // Mark edit time and unpublished changes when opening in editor
+    schedule.lastEditedAt = new Date().toISOString();
+    if (schedule.status === 'published') {
+        schedule.hasUnpublishedChanges = true;
+    }
+    const container = document.getElementById('schedulesContainer');
+    
+    // Build periods HTML
+    const periodsHtml = schedule.periods.map((p, idx) => {
+        const isBreak = p.type === 'break';
+        const breakClass = isBreak ? ' break-period' : '';
+        return `
+            <div class="period-card">
+                <input type="text" class="period-input${breakClass}" value="${p.label}: ${p.time}" onclick="editPeriodTime(this, '${scheduleId}', ${idx})" readonly />
+                <button class="period-close-btn" onclick="removePeriod('${scheduleId}', ${idx})" title="Remove Period">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+    }).join('');
+    
+    // Build rows HTML
+    const rowsHtml = schedule.periods.map((p, pIdx) => {
+        if (p.type === 'break') {
+            return `
+                <tr>
+                    <td class="period-label" style="background:#fff3e0; color:#e65100;">${p.label}<br><small>${p.time}</small></td>
+                    <td style="background:#fafafa; cursor:default;">-</td>
+                    <td style="background:#fafafa; cursor:default;">-</td>
+                    <td style="background:#fafafa; cursor:default;">-</td>
+                    <td style="background:#fafafa; cursor:default;">-</td>
+                    <td style="background:#fafafa; cursor:default;">-</td>
+                </tr>
+            `;
         }
-        // Scroll to it
-        scheduleElement.scrollIntoView({behavior: 'smooth'});
+        let cells = '';
+        for (let d = 0; d < 5; d++) {
+            const key = `${pIdx}-${d}`;
+            const data = schedule.schedule[key];
+            if (data) {
+                cells += `
+                    <td class="schedule-slot assigned" onclick="openSubjectModal(this, '${scheduleId}', ${pIdx}, ${d})">
+                        <div class="subject-info">
+                            <div class="subject-name">${data.subject}</div>
+                            <div class="subject-teacher">${data.teacher}</div>
+                            <div class="subject-room">${data.room}</div>
+                        </div>
+                    </td>
+                `;
+            } else {
+                cells += `<td class="schedule-slot" onclick="openSubjectModal(this, '${scheduleId}', ${pIdx}, ${d})">+</td>`;
+            }
+        }
+        return `
+            <tr>
+                <td class="period-label">${p.label}<br><small>${p.time}</small></td>
+                ${cells}
+            </tr>
+        `;
+    }).join('');
+    
+    const existing = document.getElementById(scheduleId);
+    
+    // Reminder banner for unpublished changes
+    const reminderBanner = schedule.status === 'published' && schedule.hasUnpublishedChanges ? `
+        <div class="reminder-banner">
+            <i class="fas fa-exclamation-triangle"></i> Unpublished changes. Click <strong>Update Changes</strong> in the table to publish.
+        </div>
+    ` : '';
+    const scheduleHTML = `
+        <div class="simple-section" id="${scheduleId}" style="margin-top:16px;">
+            <div class="simple-header">
+                    <h3>${schedule.className}</h3>
+                <div class="simple-actions">
+                    <button class="simple-btn" onclick="openSettingsDialog('${scheduleId}')"><i class="fas fa-cog"></i> Settings</button>
+                    <button class="simple-btn secondary" onclick="saveSchedule('${scheduleId}')"><i class="fas fa-save"></i> Save</button>
+                </div>
+            </div>
+            
+            
+            <div class="form-section">
+                <div class="periods-inline" id="periods-${scheduleId}">
+                    ${periodsHtml}
+                    <button class="add-period-compact" onclick="addPeriod('${scheduleId}', 'period')">
+                        <i class="fas fa-plus"></i> Period
+                    </button>
+                    <button class="add-period-compact" onclick="addPeriod('${scheduleId}', 'break')">
+                        <i class="fas fa-coffee"></i> Break
+                    </button>
+                </div>
+            </div>
+            
+            <div class="simple-table-container">
+                <table class="schedule-table-inline">
+                    <thead>
+                        <tr>
+                            <th style="width:100px;">Period</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                        </tr>
+                    </thead>
+                    <tbody id="grid-${scheduleId}">
+                        ${rowsHtml}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+    
+    if (existing) {
+        existing.outerHTML = scheduleHTML;
+    } else {
+        container.insertAdjacentHTML('beforeend', scheduleHTML);
+    }
+    
+    // Scroll into view
+    document.getElementById(scheduleId).scrollIntoView({behavior: 'smooth'});
+}
+
+function populateModalPeriods(schedule) {
+    const container = document.getElementById('modalPeriods');
+    container.innerHTML = '';
+    
+    schedule.periods.forEach((period, index) => {
+        const periodCard = document.createElement('div');
+        periodCard.className = 'period-card';
+        
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'period-input';
+        input.value = `${period.label}: ${period.time}`;
+        input.readOnly = true;
+        
+        if (period.type === 'break') {
+            input.classList.add('break-period');
+        }
+        
+        // Close button will be injected only in edit mode
+        periodCard.appendChild(input);
+        container.appendChild(periodCard);
+    });
+    
+    // Add buttons only in edit mode (injected by enable function)
+}
+
+function populateModalGrid(schedule) {
+    const grid = document.getElementById('modalGrid');
+    grid.innerHTML = '';
+    
+    schedule.periods.forEach((period, periodIndex) => {
+        const row = document.createElement('tr');
+        
+        // Period label cell
+        const labelCell = document.createElement('td');
+        labelCell.className = 'period-label';
+        labelCell.innerHTML = `${period.label}<br><small>${period.time}</small>`;
+        
+        if (period.type === 'break') {
+            labelCell.style.background = '#fff3e0';
+            labelCell.style.color = '#e65100';
+        }
+        
+        row.appendChild(labelCell);
+        
+        // Day cells
+        for (let dayIndex = 0; dayIndex < 5; dayIndex++) {
+            const cell = document.createElement('td');
+            cell.className = 'schedule-slot';
+            
+            const key = `${periodIndex}-${dayIndex}`;
+            const scheduleData = schedule.schedule[key];
+            
+            if (scheduleData) {
+                cell.innerHTML = `
+                    <div class="subject-info">
+                        <div class="subject-name">${scheduleData.subject}</div>
+                        <div class="subject-teacher">${scheduleData.teacher}</div>
+                        <div class="subject-room">${scheduleData.room}</div>
+                    </div>
+                `;
+                cell.style.background = '#e8f5e8';
+                // Click enabled only in edit mode
+            } else if (period.type === 'break') {
+                cell.innerHTML = '-';
+                cell.style.background = '#fafafa';
+                cell.style.cursor = 'default';
+            } else {
+                cell.innerHTML = '+';
+                // Click enabled only in edit mode
+            }
+            
+            row.appendChild(cell);
+        }
+        
+        grid.appendChild(row);
+    });
+}
+
+// Toggle read-only vs edit mode for the view modal
+function disableModalEditing(isReadonly) {
+    const modal = document.getElementById('scheduleModal');
+    const periodsContainer = document.getElementById('modalPeriods');
+    const grid = document.getElementById('modalGrid');
+    
+    // Clear and re-render periods so no close buttons exist in readonly
+    const schedule = mockSchedules.find(s => s.id === currentScheduleId);
+    if (!schedule) return;
+    
+    // Re-render base UI
+    populateModalPeriods(schedule);
+    populateModalGrid(schedule);
+    
+    // Inject controls only if editing
+    if (!isReadonly) {
+        // Add close buttons to periods
+        const periodCards = periodsContainer.querySelectorAll('.period-card');
+        periodCards.forEach((card, index) => {
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'period-close-btn';
+            closeBtn.title = 'Remove Period';
+            closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+            closeBtn.onclick = () => removeModalPeriod(index);
+            card.appendChild(closeBtn);
+        });
+        
+        // Add add buttons
+        const addPeriodBtn = document.createElement('button');
+        addPeriodBtn.className = 'add-period-compact';
+        addPeriodBtn.innerHTML = '<i class="fas fa-plus"></i> Period';
+        addPeriodBtn.onclick = () => addModalPeriod('period');
+        periodsContainer.appendChild(addPeriodBtn);
+        
+        const addBreakBtn = document.createElement('button');
+        addBreakBtn.className = 'add-period-compact';
+        addBreakBtn.innerHTML = '<i class="fas fa-coffee"></i> Break';
+        addBreakBtn.onclick = () => addModalPeriod('break');
+        periodsContainer.appendChild(addBreakBtn);
+        
+        // Enable slot clicks
+        grid.querySelectorAll('td.schedule-slot').forEach((cell) => {
+            const labelCell = cell.parentElement.querySelector('.period-label');
+            const periodIndex = Array.from(grid.children).indexOf(cell.parentElement);
+            const dayIndex = Array.from(cell.parentElement.children).indexOf(cell) - 1;
+            const isBreak = labelCell && labelCell.textContent.toLowerCase().includes('break');
+            if (!isBreak) {
+                cell.style.cursor = 'pointer';
+                cell.onclick = () => openSubjectModal(cell, currentScheduleId, periodIndex, dayIndex);
+            }
+        });
+    } else {
+        // Ensure no clicks in readonly
+        grid.querySelectorAll('td.schedule-slot').forEach((cell) => {
+            cell.onclick = null;
+            cell.style.cursor = 'default';
+        });
     }
 }
 
-function saveSchedule(scheduleId) {
-    alert('Schedule saved successfully!');
+// Open editor populated from current schedule (switches modal into edit mode)
+function openEditorFromView() {
+    disableModalEditing(false);
+    showActionStatus('Editor enabled. You can now make changes.', 'info');
+}
+
+// Primary action in view modal: Publish for Draft, Update Changes for Published
+function primaryActionFromView() {
+    const schedule = mockSchedules.find(s => s.id === currentScheduleId);
+    if (!schedule) return;
+    
+    if (schedule.status === 'published') {
+        // Commit updates
+        showActionStatus('Changes updated for all users', 'success');
+    } else {
+        // Publish schedule
+        schedule.status = 'published';
+        schedule.statusText = 'Published';
+        const row = document.querySelector(`tr[data-schedule-id="${schedule.id}"]`);
+        if (row) {
+            const badge = row.querySelector('.status-badge');
+            badge.textContent = 'Published';
+            badge.className = 'status-badge published';
+            // Replace action button text if needed in table
+            updateRowActionsForStatus(row, schedule.status);
+        }
+        showActionStatus('Schedule published', 'success');
+    }
+}
+
+// Update the table row actions depending on status
+function updateRowActionsForStatus(row, status) {
+    const actionsCell = row.querySelector('td:last-child');
+    const scheduleId = row.dataset.scheduleId;
+    if (!actionsCell) return;
+    if (status === 'published') {
+        actionsCell.innerHTML = `
+            <button class="simple-btn-icon" onclick="viewSchedule('${scheduleId}')" title="View Schedule"><i class="fas fa-eye"></i></button>
+            <button class="simple-btn-icon" onclick="publishOrUpdate('${scheduleId}')" title="Update Changes"><i class="fas fa-upload"></i></button>
+            <button class="simple-btn-icon" onclick="removeSchedule('${scheduleId}')" title="Remove Schedule"><i class="fas fa-trash"></i></button>
+        `;
+    } else {
+        actionsCell.innerHTML = `
+            <button class="simple-btn-icon" onclick="viewSchedule('${scheduleId}')" title="View Schedule"><i class="fas fa-eye"></i></button>
+            <button class="simple-btn-icon" onclick="publishOrUpdate('${scheduleId}')" title="Publish Schedule"><i class="fas fa-bullhorn"></i></button>
+            <button class="simple-btn-icon" onclick="removeSchedule('${scheduleId}')" title="Remove Schedule"><i class="fas fa-trash"></i></button>
+        `;
+    }
+}
+
+// Table-level publish/update button handler (mirrors primaryActionFromView)
+function publishOrUpdate(scheduleId) {
+    const schedule = mockSchedules.find(s => s.id === scheduleId);
+    if (!schedule) return;
+    if (schedule.status === 'published') {
+        schedule.hasUnpublishedChanges = false;
+        schedule.lastPublishedAt = new Date().toISOString();
     const row = document.querySelector(`tr[data-schedule-id="${scheduleId}"]`);
     if (row) {
-        row.querySelector('.status-badge').textContent = 'Saved';
-        row.querySelector('.status-badge').className = 'status-badge paid';
+            const lastCell = row.querySelector('.last-change-cell');
+            if (lastCell) lastCell.textContent = formatLastChange(schedule);
+            const changesCell = row.querySelector('.changes-cell');
+            if (changesCell) changesCell.innerHTML = formatChangesPill(schedule);
+        }
+        showActionStatus('Changes updated for all users', 'success');
+    } else {
+        schedule.status = 'published';
+        schedule.statusText = 'Published';
+        schedule.hasUnpublishedChanges = false;
+        schedule.lastPublishedAt = new Date().toISOString();
+    const row = document.querySelector(`tr[data-schedule-id="${scheduleId}"]`);
+    if (row) {
+            const badge = row.querySelector('.status-badge');
+            badge.textContent = 'Published';
+            badge.className = 'status-badge published';
+            updateRowActionsForStatus(row, 'published');
+            const lastCell = row.querySelector('.last-change-cell');
+            if (lastCell) lastCell.textContent = formatLastChange(schedule);
+            const changesCell = row.querySelector('.changes-cell');
+            if (changesCell) changesCell.innerHTML = formatChangesPill(schedule);
+        }
+        showActionStatus('Schedule published', 'success');
+    }
+}
+
+function addModalPeriod(type) {
+    const schedule = mockSchedules.find(s => s.id === currentScheduleId);
+    if (!schedule) return;
+    
+    const periodNum = schedule.periods.length + 1;
+    const newPeriod = {
+        label: type === 'break' ? 'Break' : `Period ${periodNum}`,
+        time: type === 'break' ? '12:00-12:30' : '12:00-13:00',
+        type: type
+    };
+    
+    schedule.periods.push(newPeriod);
+    populateModalPeriods(schedule);
+    populateModalGrid(schedule);
+}
+
+function removeModalPeriod(periodIndex) {
+    const schedule = mockSchedules.find(s => s.id === currentScheduleId);
+    if (!schedule || schedule.periods.length <= 1) return;
+    
+    // Remove period
+    schedule.periods.splice(periodIndex, 1);
+    
+    // Remove schedule data for this period
+    Object.keys(schedule.schedule).forEach(key => {
+        if (key.startsWith(`${periodIndex}-`)) {
+            delete schedule.schedule[key];
+        }
+    });
+    
+    // Update remaining keys
+    const newSchedule = {};
+    Object.keys(schedule.schedule).forEach(key => {
+        const [periodIdx, dayIdx] = key.split('-').map(Number);
+        if (periodIdx > periodIndex) {
+            newSchedule[`${periodIdx - 1}-${dayIdx}`] = schedule.schedule[key];
+        } else {
+            newSchedule[key] = schedule.schedule[key];
+        }
+    });
+    schedule.schedule = newSchedule;
+    
+    populateModalPeriods(schedule);
+    populateModalGrid(schedule);
+}
+
+function closeScheduleModal() {
+    document.getElementById('scheduleModal').style.display = 'none';
+    currentScheduleId = null;
+}
+
+function saveScheduleModal() {
+    if (!currentScheduleId) return;
+    showActionStatus('Draft changes saved locally', 'success');
+}
+
+function saveSchedule(scheduleId) {
+    const schedule = mockSchedules.find(s => s.id === scheduleId);
+    if (!schedule) return;
+    
+    // Only show "Draft saved" if it's still a draft (never been published)
+    if (schedule.status === 'draft' && !schedule.lastPublishedAt) {
+        showActionStatus('Draft saved', 'success');
+    } else {
+        showActionStatus('Changes saved', 'success');
     }
     
-    // Ensure schedule is visible when saved
-    const scheduleElement = document.getElementById(scheduleId);
-    if (scheduleElement) {
-        scheduleElement.style.display = 'block';
-        scheduleElement.dataset.hidden = 'false';
+    const row = document.querySelector(`tr[data-schedule-id="${scheduleId}"]`);
+    if (row) {
+        // Don't change status if it was previously published
+        if (schedule.status === 'draft' && !schedule.lastPublishedAt) {
+            const badge = row.querySelector('.status-badge');
+            badge.textContent = 'Draft';
+            badge.className = 'status-badge draft';
+            updateRowActionsForStatus(row, 'draft');
+        }
+        
+        schedule.lastEditedAt = new Date().toISOString();
+        const lastCell = row.querySelector('.last-change-cell');
+        if (lastCell) lastCell.textContent = formatLastChange(schedule);
+        const changesCell = row.querySelector('.changes-cell');
+        if (changesCell) changesCell.innerHTML = formatChangesPill(schedule);
+    }
+    // Close inline editor section after saving
+    const section = document.getElementById(scheduleId);
+    if (section) {
+        section.remove();
     }
 }
 

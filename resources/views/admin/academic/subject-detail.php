@@ -38,10 +38,10 @@ ob_start();
         </div>
     </div>
     <div class="batch-actions">
-        <button class="action-btn-header edit">
+        <button class="action-btn-header edit" id="editSubjectBtn">
             <i class="fas fa-edit"></i> Edit Subject
         </button>
-        <button class="action-btn-header delete">
+        <button class="action-btn-header delete" id="deleteSubjectBtn">
             <i class="fas fa-trash"></i> Delete Subject
         </button>
     </div>
@@ -69,6 +69,42 @@ ob_start();
         'icon' => 'fas fa-users',
         'iconColor' => 'blue'
     ]); ?>
+</div>
+
+<!-- Edit Subject Form -->
+<div id="editSubjectForm" class="simple-section" style="display:none; margin-top:12px;">
+    <div class="simple-header">
+        <h4><i class="fas fa-edit"></i> Edit Subject</h4>
+    </div>
+    <div class="form-section">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="editSubjectCode">Subject Code</label>
+                <input type="text" id="editSubjectCode" class="form-input" value="<?php echo htmlspecialchars($subjectCode); ?>">
+            </div>
+            <div class="form-group" style="flex:2;">
+                <label for="editSubjectName">Subject Name</label>
+                <input type="text" id="editSubjectName" class="form-input" value="<?php echo htmlspecialchars($subjectName); ?>">
+            </div>
+            <div class="form-group">
+                <label for="editSubjectCategory">Category</label>
+                <select id="editSubjectCategory" class="form-select">
+                    <option value="Core" selected>Core</option>
+                    <option value="Elective">Elective</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="editSubjectGrade">Grade</label>
+                <input type="text" id="editSubjectGrade" class="form-input" value="Grade 1">
+            </div>
+        </div>
+        <div class="form-actions">
+            <button id="cancelEditSubject" class="simple-btn secondary">Cancel</button>
+            <button id="saveEditSubject" class="simple-btn primary"><i class="fas fa-check"></i> Update Subject</button>
+        </div>
+    </div>
 </div>
 
 <!-- Subject Information Section -->
@@ -296,5 +332,68 @@ document.addEventListener('DOMContentLoaded', function(){
         teacherSelect.innerHTML = '<option value="">Choose a teacher...</option>' + 
             teachers.map(teacher => `<option value="${teacher.name}">${teacher.name}</option>`).join('');
     }
+    
+    // Edit Subject functionality
+    const editSubjectBtn = document.getElementById('editSubjectBtn');
+    const editSubjectForm = document.getElementById('editSubjectForm');
+    const cancelEditSubjectBtn = document.getElementById('cancelEditSubject');
+    const saveEditSubjectBtn = document.getElementById('saveEditSubject');
+    
+    editSubjectBtn.addEventListener('click', function() {
+        editSubjectForm.style.display = 'block';
+    });
+    
+    // Check if edit parameter is present in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('edit') === 'true') {
+        editSubjectForm.style.display = 'block';
+        // Clean up URL by removing the edit parameter
+        urlParams.delete('edit');
+        const newUrl = urlParams.toString() ? window.location.pathname + '?' + urlParams.toString() : window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+    }
+    
+    cancelEditSubjectBtn.addEventListener('click', function() {
+        editSubjectForm.style.display = 'none';
+    });
+    
+    saveEditSubjectBtn.addEventListener('click', function() {
+        const newCode = document.getElementById('editSubjectCode').value.trim();
+        const newName = document.getElementById('editSubjectName').value.trim();
+        const newCategory = document.getElementById('editSubjectCategory').value.trim();
+        const newGrade = document.getElementById('editSubjectGrade').value.trim();
+        
+        if (!newCode || !newName || !newCategory || !newGrade) {
+            alert('Please fill in all fields');
+            return;
+        }
+        
+        // Update page title
+        document.querySelector('.batch-info h1').textContent = newName;
+        
+        // Hide form
+        editSubjectForm.style.display = 'none';
+        
+        showActionStatus('Subject updated successfully!', 'success');
+    });
+    
+    // Delete Subject functionality
+    const deleteSubjectBtn = document.getElementById('deleteSubjectBtn');
+    deleteSubjectBtn.addEventListener('click', function() {
+        const subjectName = '<?php echo htmlspecialchars($subjectName); ?>';
+        showConfirmDialog({
+            title: 'Delete Subject',
+            message: `Are you sure you want to delete ${subjectName}? This will remove it from all classes and schedules and cannot be undone.`,
+            confirmText: 'Delete',
+            confirmIcon: 'fas fa-book',
+            onConfirm: function() {
+                showActionStatus('Subject deleted successfully!', 'success');
+                // In a real application, this would redirect or update the UI
+                setTimeout(() => {
+                    window.location.href = '/admin/academic-management';
+                }, 1500);
+            }
+        });
+    });
 });
 </script>

@@ -18,45 +18,67 @@ ob_start();
 </div>
 
 <!-- Today's Summary -->
-<div class="simple-summary">
-    <div class="summary-header">
+<div class="simple-section">
+    <div class="simple-header">
         <h3>Today's Attendance Summary - <?php echo date('F d, Y'); ?></h3>
     </div>
-    <div class="summary-table">
-        <table class="basic-table">
-            <thead>
-                <tr>
-                    <th>Category</th>
-                    <th>Total</th>
-                    <th>Present</th>
-                    <th>Absent</th>
-                    <th>Late</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>Students</strong></td>
-                    <td>1,847</td>
-                    <td>1,723</td>
-                    <td>124</td>
-                    <td>0</td>
-                </tr>
-                <tr>
-                    <td><strong>Teachers</strong></td>
-                    <td>89</td>
-                    <td>84</td>
-                    <td>3</td>
-                    <td>2</td>
-                </tr>
-                <tr>
-                    <td><strong>Staff</strong></td>
-                    <td>45</td>
-                    <td>42</td>
-                    <td>2</td>
-                    <td>1</td>
-                </tr>
-            </tbody>
-        </table>
+    
+    <div class="stats-grid">
+        <!-- Students -->
+        <div class="stat-card">
+            <div class="stat-icon blue">
+                <i class="fas fa-user-graduate"></i>
+            </div>
+            <div class="stat-content">
+                <h3>1,723</h3>
+                <p>Students Present</p>
+                <div class="stat-badge">
+                    <i class="fas fa-users"></i> Total: 1,847 (93.3%)
+                </div>
+            </div>
+        </div>
+
+        <!-- Teachers -->
+        <div class="stat-card">
+            <div class="stat-icon yellow">
+                <i class="fas fa-chalkboard-teacher"></i>
+            </div>
+            <div class="stat-content">
+                <h3>84</h3>
+                <p>Teachers Present</p>
+                <div class="stat-badge">
+                    <i class="fas fa-users"></i> Total: 89 (94.4%)
+                </div>
+            </div>
+        </div>
+
+        <!-- Staff -->
+        <div class="stat-card">
+            <div class="stat-icon green">
+                <i class="fas fa-users-cog"></i>
+            </div>
+            <div class="stat-content">
+                <h3>42</h3>
+                <p>Staff Present</p>
+                <div class="stat-badge">
+                    <i class="fas fa-users"></i> Total: 45 (93.3%)
+                </div>
+            </div>
+        </div>
+
+        <!-- Absent -->
+        <div class="stat-card">
+            <div class="stat-icon red">
+                <i class="fas fa-user-times"></i>
+            </div>
+            <div class="stat-content">
+                <h3>129</h3>
+                <p>Total Absent</p>
+                <div class="stat-badge">
+                    <i class="fas fa-exclamation-triangle"></i> Students: 124, Teachers: 3, Staff: 2
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -304,39 +326,6 @@ ob_start();
     </div>
 </div>
 
-<!-- Search Individual Student -->
-<div class="simple-section">
-    <div class="simple-header">
-        <h3>Search Individual Student</h3>
-    </div>
-    
-    <div class="simple-search">
-        <input type="text" placeholder="Enter student name or ID..." class="simple-input">
-        <button class="simple-btn">Search</button>
-    </div>
-    
-    <div class="simple-table-container">
-        <table class="basic-table">
-            <thead>
-                <tr>
-                    <th>Student Name</th>
-                    <th>Student ID</th>
-                    <th>Class</th>
-                    <th>Today's Status</th>
-                    <th>This Week</th>
-                    <th>This Month</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td colspan="6" style="text-align: center; color: #86868b; padding: 2rem;">
-                        Enter student name or ID above to search attendance records
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
 
 <?php
 $content = ob_get_clean();

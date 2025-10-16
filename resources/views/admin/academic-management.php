@@ -106,13 +106,10 @@ ob_start();
                             <td class="date-cell">2024-04-01</td>
                             <td class="date-cell">2025-03-31</td>
                             <td class="actions-cell" onclick="event.stopPropagation()">
-                                <button class="action-icon view" title="View">
+                                <button class="action-icon view" title="View" onclick="viewBatch('2024-2025')">
                                     <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="action-icon edit" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-icon delete" title="Delete">
+                                <button class="action-icon delete" title="Delete" onclick="deleteBatch('2024-2025')">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
@@ -185,13 +182,10 @@ ob_start();
                             <td class="date-cell">2023-04-01</td>
                             <td class="date-cell">2024-03-31</td>
                             <td class="actions-cell">
-                                <button class="action-icon view" title="View">
+                                <button class="action-icon view" title="View" onclick="viewBatch('2023-2024')">
                                     <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="action-icon edit" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-icon delete" title="Delete">
+                                <button class="action-icon delete" title="Delete" onclick="deleteBatch('2023-2024')">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
@@ -211,13 +205,10 @@ ob_start();
                             <td class="date-cell">2025-04-01</td>
                             <td class="date-cell">2026-03-31</td>
                             <td class="actions-cell">
-                                <button class="action-icon view" title="View">
+                                <button class="action-icon view" title="View" onclick="viewBatch('2025-2026')">
                                     <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="action-icon edit" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-icon delete" title="Delete">
+                                <button class="action-icon delete" title="Delete" onclick="deleteBatch('2025-2026')">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
@@ -291,13 +282,10 @@ ob_start();
                             <td class="class-count">3</td>
                             <td class="student-count">90</td>
                             <td class="actions-cell" onclick="event.stopPropagation()">
-                                <button class="action-icon view" title="View Details">
+                                <button class="action-icon view" title="View Details" onclick="viewGrade('1')">
                                     <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="action-icon edit" title="Edit Grade">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-icon delete" title="Delete Grade">
+                                <button class="action-icon delete" title="Delete Grade" onclick="deleteGrade('1')">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
@@ -352,13 +340,10 @@ ob_start();
                             <td class="class-count">3</td>
                             <td class="student-count">85</td>
                             <td class="actions-cell" onclick="event.stopPropagation()">
-                                <button class="action-icon view" title="View Details">
+                                <button class="action-icon view" title="View Details" onclick="viewGrade('2')">
                                     <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="action-icon edit" title="Edit Grade">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-icon delete" title="Delete Grade">
+                                <button class="action-icon delete" title="Delete Grade" onclick="deleteGrade('2')">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
@@ -427,13 +412,9 @@ ob_start();
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group" style="flex:2;">
+                        <div class="form-group">
                             <label for="classTeacher">Class Teacher</label>
                             <input type="text" id="classTeacher" class="form-input" placeholder="e.g., Ms. Smith">
-                        </div>
-                        <div class="form-group">
-                            <label for="classSchedule">Schedule</label>
-                            <input type="text" id="classSchedule" class="form-input" placeholder="e.g., 8:00 AM - 2:00 PM">
                         </div>
                     </div>
                     <div class="form-actions">
@@ -469,13 +450,10 @@ ob_start();
                             <td class="student-count">30</td>
                             <td>Ms. Sarah Johnson</td>
                             <td class="actions-cell" onclick="event.stopPropagation()">
-                                <button class="action-icon view" title="View Details">
+                                <button class="action-icon view" title="View Details" onclick="viewClass('1A')">
                                     <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="action-icon edit" title="Edit Class">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-icon delete" title="Delete Class">
+                                <button class="action-icon delete" title="Delete Class" onclick="deleteClass('1A')">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
@@ -528,13 +506,10 @@ ob_start();
                             <td class="student-count">30</td>
                             <td>Mr. David Chen</td>
                             <td class="actions-cell" onclick="event.stopPropagation()">
-                                <button class="action-icon view" title="View Details">
+                                <button class="action-icon view" title="View Details" onclick="viewClass('1B')">
                                     <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="action-icon edit" title="Edit Class">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-icon delete" title="Delete Class">
+                                <button class="action-icon delete" title="Delete Class" onclick="deleteClass('1B')">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
@@ -664,13 +639,10 @@ ob_start();
                             <td><a href="/admin/academic/class-detail/1A" class="class-link" onclick="event.stopPropagation()">Class 1A</a></td>
                             <td><span class="status-badge active">Occupied</span></td>
                             <td class="actions-cell" onclick="event.stopPropagation()">
-                                <button class="action-icon view" title="View Details">
+                                <button class="action-icon view" title="View Details" onclick="viewRoom('101')">
                                     <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="action-icon edit" title="Edit Room">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-icon delete" title="Delete Room">
+                                <button class="action-icon delete" title="Delete Room" onclick="deleteRoom('101')">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
@@ -707,13 +679,10 @@ ob_start();
                             <td><a href="/admin/academic/class-detail/1B" class="class-link" onclick="event.stopPropagation()">Class 1B</a></td>
                             <td><span class="status-badge active">Occupied</span></td>
                             <td class="actions-cell" onclick="event.stopPropagation()">
-                                <button class="action-icon view" title="View Details">
+                                <button class="action-icon view" title="View Details" onclick="viewRoom('102')">
                                     <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="action-icon edit" title="Edit Room">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-icon delete" title="Delete Room">
+                                <button class="action-icon delete" title="Delete Room" onclick="deleteRoom('102')">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
@@ -830,13 +799,10 @@ ob_start();
                             <td>Grade 1</td>
                             <td class="teacher-count">2</td>
                             <td class="actions-cell" onclick="event.stopPropagation()">
-                                <button class="action-icon view" title="View Details">
+                                <button class="action-icon view" title="View Details" onclick="viewSubject('MATH')">
                                     <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="action-icon edit" title="Edit Subject">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-icon delete" title="Delete Subject">
+                                <button class="action-icon delete" title="Delete Subject" onclick="deleteSubject('MATH')">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
@@ -884,13 +850,10 @@ ob_start();
                             <td>Grade 1</td>
                             <td class="teacher-count">2</td>
                             <td class="actions-cell" onclick="event.stopPropagation()">
-                                <button class="action-icon view" title="View Details">
+                                <button class="action-icon view" title="View Details" onclick="viewSubject('ENG')">
                                     <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="action-icon edit" title="Edit Subject">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-icon delete" title="Delete Subject">
+                                <button class="action-icon delete" title="Delete Subject" onclick="deleteSubject('ENG')">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
@@ -986,9 +949,8 @@ ob_start();
                             <td class="department-name">Primary Teachers</td>
                             <td class="student-count">15</td>
                             <td class="actions-cell" onclick="event.stopPropagation()">
-                                <button class="action-icon view" title="View"><i class="fas fa-eye"></i></button>
-                                <button class="action-icon edit" title="Edit"><i class="fas fa-edit"></i></button>
-                                <button class="action-icon delete" title="Delete"><i class="fas fa-trash"></i></button>
+                                <button class="action-icon view" title="View" onclick="viewDepartment('PRIMARY')"><i class="fas fa-eye"></i></button>
+                                <button class="action-icon delete" title="Delete" onclick="deleteDepartment('PRIMARY')"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                         <tr>
@@ -999,9 +961,8 @@ ob_start();
                             <td class="department-name">Language Teachers</td>
                             <td class="student-count">8</td>
                             <td class="actions-cell" onclick="event.stopPropagation()">
-                                <button class="action-icon view" title="View"><i class="fas fa-eye"></i></button>
-                                <button class="action-icon edit" title="Edit"><i class="fas fa-edit"></i></button>
-                                <button class="action-icon delete" title="Delete"><i class="fas fa-trash"></i></button>
+                                <button class="action-icon view" title="View" onclick="viewDepartment('LANG')"><i class="fas fa-eye"></i></button>
+                                <button class="action-icon delete" title="Delete" onclick="deleteDepartment('LANG')"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                         <tr>
@@ -1012,9 +973,8 @@ ob_start();
                             <td class="department-name">ICT Staff</td>
                             <td class="student-count">5</td>
                             <td class="actions-cell" onclick="event.stopPropagation()">
-                                <button class="action-icon view" title="View"><i class="fas fa-eye"></i></button>
-                                <button class="action-icon edit" title="Edit"><i class="fas fa-edit"></i></button>
-                                <button class="action-icon delete" title="Delete"><i class="fas fa-trash"></i></button>
+                                <button class="action-icon view" title="View" onclick="viewDepartment('ICT')"><i class="fas fa-eye"></i></button>
+                                <button class="action-icon delete" title="Delete" onclick="deleteDepartment('ICT')"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                         <tr>
@@ -1025,9 +985,8 @@ ob_start();
                             <td class="department-name">Administrative Staff</td>
                             <td class="student-count">12</td>
                             <td class="actions-cell" onclick="event.stopPropagation()">
-                                <button class="action-icon view" title="View"><i class="fas fa-eye"></i></button>
-                                <button class="action-icon edit" title="Edit"><i class="fas fa-edit"></i></button>
-                                <button class="action-icon delete" title="Delete"><i class="fas fa-trash"></i></button>
+                                <button class="action-icon view" title="View" onclick="viewDepartment('ADMIN')"><i class="fas fa-eye"></i></button>
+                                <button class="action-icon delete" title="Delete" onclick="deleteDepartment('ADMIN')"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                         <tr>
@@ -1038,9 +997,8 @@ ob_start();
                             <td class="department-name">Maintenance & Security</td>
                             <td class="student-count">10</td>
                             <td class="actions-cell" onclick="event.stopPropagation()">
-                                <button class="action-icon view" title="View"><i class="fas fa-eye"></i></button>
-                                <button class="action-icon edit" title="Edit"><i class="fas fa-edit"></i></button>
-                                <button class="action-icon delete" title="Delete"><i class="fas fa-trash"></i></button>
+                                <button class="action-icon view" title="View" onclick="viewDepartment('MAINT')"><i class="fas fa-eye"></i></button>
+                                <button class="action-icon delete" title="Delete" onclick="deleteDepartment('MAINT')"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     </tbody>
@@ -1113,7 +1071,6 @@ document.addEventListener('DOMContentLoaded', function(){
             <td class="date-cell">${document.getElementById('batchEnd').value||''}</td>
             <td class="actions-cell" onclick="event.stopPropagation()">
                 <button class="action-icon view" title="View"><i class="fas fa-eye"></i></button>
-                <button class="action-icon edit" title="Edit"><i class="fas fa-edit"></i></button>
                 <button class="action-icon delete" title="Delete"><i class="fas fa-trash"></i></button>
             </td>`;
         tbody.prepend(tr);
@@ -1133,7 +1090,6 @@ document.addEventListener('DOMContentLoaded', function(){
             <td class="student-count">0</td>
             <td class="actions-cell" onclick="event.stopPropagation()">
                 <button class="action-icon view" title="View Details"><i class="fas fa-eye"></i></button>
-                <button class="action-icon edit" title="Edit Grade"><i class="fas fa-edit"></i></button>
                 <button class="action-icon delete" title="Delete Grade"><i class="fas fa-trash"></i></button>
             </td>`;
         tbody.prepend(tr);
@@ -1154,7 +1110,6 @@ document.addEventListener('DOMContentLoaded', function(){
             <td>${(document.getElementById('classTeacher').value||'')}</td>
             <td class="actions-cell" onclick="event.stopPropagation()">
                 <button class="action-icon view" title="View Details"><i class="fas fa-eye"></i></button>
-                <button class="action-icon edit" title="Edit Class"><i class="fas fa-edit"></i></button>
                 <button class="action-icon delete" title="Delete Class"><i class="fas fa-trash"></i></button>
             </td>`;
         tbody.prepend(tr);
@@ -1174,7 +1129,6 @@ document.addEventListener('DOMContentLoaded', function(){
             <td><span class="status-badge">${(document.getElementById('roomStatus').value||'')}</span></td>
             <td class="actions-cell" onclick="event.stopPropagation()">
                 <button class="action-icon view" title="View Details"><i class="fas fa-eye"></i></button>
-                <button class="action-icon edit" title="Edit Room"><i class="fas fa-edit"></i></button>
                 <button class="action-icon delete" title="Delete Room"><i class="fas fa-trash"></i></button>
             </td>`;
         tbody.prepend(tr);
@@ -1195,7 +1149,6 @@ document.addEventListener('DOMContentLoaded', function(){
             <td class="teacher-count">${teacherIds.length}</td>
             <td class="actions-cell" onclick="event.stopPropagation()">
                 <button class="action-icon view" title="View Details"><i class="fas fa-eye"></i></button>
-                <button class="action-icon edit" title="Edit Subject"><i class="fas fa-edit"></i></button>
                 <button class="action-icon delete" title="Delete Subject"><i class="fas fa-trash"></i></button>
             </td>`;
         tbody.prepend(tr);
@@ -1213,12 +1166,132 @@ document.addEventListener('DOMContentLoaded', function(){
             <td class="student-count">0</td>
             <td class="actions-cell" onclick="event.stopPropagation()">
                 <button class="action-icon view" title="View"><i class="fas fa-eye"></i></button>
-                <button class="action-icon edit" title="Edit"><i class="fas fa-edit"></i></button>
                 <button class="action-icon delete" title="Delete"><i class="fas fa-trash"></i></button>
             </td>`;
         tbody.prepend(tr);
     });
 });
+
+// Standard Action Functions for Academic Management
+function viewBatch(batchId) {
+    window.location.href = `/admin/academic/batch-detail/${batchId}`;
+}
+
+function editBatch(batchId) {
+    window.location.href = `/admin/academic/batch-detail.php?batch=${batchId}&edit=true`;
+}
+
+function deleteBatch(batchId) {
+    showConfirmDialog({
+        title: 'Delete Batch',
+        message: `Are you sure you want to delete batch ${batchId}? This action cannot be undone.`,
+        confirmText: 'Delete',
+        confirmIcon: 'fas fa-trash',
+        onConfirm: function() {
+            showActionStatus(`Batch ${batchId} deleted successfully!`, 'success');
+        }
+    });
+}
+
+function viewGrade(gradeId) {
+    window.location.href = `/admin/academic/grade-detail/${gradeId}`;
+}
+
+function editGrade(gradeId) {
+    window.location.href = `/admin/academic/grade-detail.php?grade=${gradeId}&edit=true`;
+}
+
+function deleteGrade(gradeId) {
+    showConfirmDialog({
+        title: 'Delete Grade',
+        message: `Are you sure you want to delete grade ${gradeId}? This will also delete all associated classes and students.`,
+        confirmText: 'Delete',
+        confirmIcon: 'fas fa-graduation-cap',
+        onConfirm: function() {
+            showActionStatus(`Grade ${gradeId} deleted successfully!`, 'success');
+        }
+    });
+}
+
+function viewClass(classId) {
+    window.location.href = `/admin/academic/class-detail/${classId}`;
+}
+
+function editClass(classId) {
+    window.location.href = `/admin/academic/class-detail.php?class=${classId}&edit=true`;
+}
+
+function deleteClass(classId) {
+    showConfirmDialog({
+        title: 'Delete Class',
+        message: `Are you sure you want to delete class ${classId}? This will also remove all students from this class.`,
+        confirmText: 'Delete',
+        confirmIcon: 'fas fa-door-open',
+        onConfirm: function() {
+            showActionStatus(`Class ${classId} deleted successfully!`, 'success');
+        }
+    });
+}
+
+function viewRoom(roomId) {
+    window.location.href = `/admin/academic/room-detail/${roomId}`;
+}
+
+function editRoom(roomId) {
+    window.location.href = `/admin/academic/room-detail.php?room=${roomId}&edit=true`;
+}
+
+function deleteRoom(roomId) {
+    showConfirmDialog({
+        title: 'Delete Room',
+        message: `Are you sure you want to delete room ${roomId}? This will unassign any classes currently using this room.`,
+        confirmText: 'Delete',
+        confirmIcon: 'fas fa-door-closed',
+        onConfirm: function() {
+            showActionStatus(`Room ${roomId} deleted successfully!`, 'success');
+        }
+    });
+}
+
+function viewSubject(subjectId) {
+    window.location.href = `/admin/academic/subject-detail/${subjectId}`;
+}
+
+function editSubject(subjectId) {
+    window.location.href = `/admin/academic/subject-detail.php?subject=${subjectId}&edit=true`;
+}
+
+function deleteSubject(subjectId) {
+    showConfirmDialog({
+        title: 'Delete Subject',
+        message: `Are you sure you want to delete subject ${subjectId}? This will remove it from all classes and schedules.`,
+        confirmText: 'Delete',
+        confirmIcon: 'fas fa-book',
+        onConfirm: function() {
+            showActionStatus(`Subject ${subjectId} deleted successfully!`, 'success');
+        }
+    });
+}
+
+function viewDepartment(deptId) {
+    window.location.href = `/admin/academic/department-detail/${deptId}`;
+}
+
+function editDepartment(deptId) {
+    window.location.href = `/admin/academic/department-detail.php?dept=${deptId}&edit=true`;
+}
+
+function deleteDepartment(deptId) {
+    showConfirmDialog({
+        title: 'Delete Department',
+        message: `Are you sure you want to delete department ${deptId}? This will remove all staff from this department.`,
+        confirmText: 'Delete',
+        confirmIcon: 'fas fa-building',
+        onConfirm: function() {
+            showActionStatus(`Department ${deptId} deleted successfully!`, 'success');
+        }
+    });
+}
 </script>
 
 <?php

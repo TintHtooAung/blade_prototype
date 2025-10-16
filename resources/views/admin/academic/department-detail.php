@@ -34,17 +34,17 @@ ob_start();
             <i class="fas fa-building"></i>
         </div>
         <div class="batch-info">
-            <h1><?php echo htmlspecialchars($deptCode); ?> - <?php echo htmlspecialchars($dept['name']); ?></h1>
+            <h1 id="deptTitle"><?php echo htmlspecialchars($deptCode); ?> - <?php echo htmlspecialchars($dept['name']); ?></h1>
             <div class="batch-meta">
                 <span class="status-badge active">Active</span>
             </div>
         </div>
     </div>
     <div class="batch-actions">
-        <button class="action-btn-header edit">
+        <button class="action-btn-header edit" id="editDeptBtn">
             <i class="fas fa-edit"></i> Edit Department
         </button>
-        <button class="action-btn-header delete">
+        <button class="action-btn-header delete" id="deleteDeptBtn">
             <i class="fas fa-trash"></i> Delete Department
         </button>
     </div>
@@ -65,6 +65,33 @@ ob_start();
         'iconColor' => 'purple'
     ]); ?>
     
+</div>
+
+<!-- Edit Department Form -->
+<div id="editDeptForm" class="simple-section" style="display:none; margin-top:12px;">
+    <div class="simple-header">
+        <h4><i class="fas fa-edit"></i> Edit Department</h4>
+    </div>
+    <div class="form-section">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="editDeptCode">Department Code</label>
+                <input type="text" id="editDeptCode" class="form-input" value="<?php echo htmlspecialchars($deptCode); ?>">
+            </div>
+            <div class="form-group">
+                <label for="editDeptName">Department Name</label>
+                <input type="text" id="editDeptName" class="form-input" value="<?php echo htmlspecialchars($dept['name']); ?>">
+            </div>
+            <div class="form-group">
+                <label for="editDeptBuilding">Building</label>
+                <input type="text" id="editDeptBuilding" class="form-input" value="<?php echo htmlspecialchars($dept['building']); ?>">
+            </div>
+        </div>
+        <div class="form-actions">
+            <button id="cancelEditDept" class="simple-btn secondary">Cancel</button>
+            <button id="saveEditDept" class="simple-btn primary"><i class="fas fa-check"></i> Update Department</button>
+        </div>
+    </div>
 </div>
 
 <?php
@@ -103,18 +130,27 @@ $staff = $staffLists[$deptCode] ?? [];
 <div class="detail-section">
     <div class="section-header">
         <h3 class="section-title">Department Staff</h3>
-        <button class="add-btn">
-            <i class="fas fa-plus"></i>
-            Add Staff
-        </button>
+        <div class="section-actions">
+            <button class="add-btn" id="editStaffBtn">
+                <i class="fas fa-edit"></i>
+                Edit Staff
+            </button>
+            <button class="add-btn">
+                <i class="fas fa-plus"></i>
+                Add Staff
+            </button>
+        </div>
     </div>
-    <div class="grades-grid">
-        <?php foreach ($staff as $member): ?>
-        <div class="grade-detail-card" onclick="window.location.href='<?php echo htmlspecialchars($member['url']); ?>'" style="cursor:pointer;">
+    <div class="grades-grid" id="staffGrid">
+        <?php foreach ($staff as $index => $member): ?>
+        <div class="grade-detail-card staff-card" data-staff-id="<?php echo $index; ?>" onclick="window.location.href='<?php echo htmlspecialchars($member['url']); ?>'" style="cursor:pointer; position:relative; padding-right: 40px;">
             <div class="grade-card-header">
                 <a href="<?php echo htmlspecialchars($member['url']); ?>" class="grade-link" onclick="event.stopPropagation()"><?php echo htmlspecialchars($member['name']); ?></a>
                 <span class="type-badge"><?php echo htmlspecialchars($member['role']); ?></span>
             </div>
+            <button class="remove-staff-btn" onclick="event.stopPropagation(); removeStaff(<?php echo $index; ?>)" title="Remove from Department" style="display:none;">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
         <?php endforeach; ?>
     </div>
@@ -180,7 +216,8 @@ const demoStaff = [
 ];
 
 document.addEventListener('DOMContentLoaded', function(){
-    const addBtn = document.querySelector('.detail-section .add-btn');
+    const addBtn = document.querySelector('.detail-section .add-btn:last-child');
+    const editStaffBtn = document.getElementById('editStaffBtn');
     const modal = document.getElementById('addStaffModal');
     const closeBtn = document.getElementById('closeAddStaff');
     const tabTeachers = document.getElementById('tabTeachers');
@@ -191,7 +228,67 @@ document.addEventListener('DOMContentLoaded', function(){
     const staffBody = document.getElementById('staffBody');
     const addSelectedBtn = document.getElementById('addSelectedBtn');
     const cardsContainer = document.querySelector('.detail-section .grades-grid');
-    const staffCountBadge = document.querySelector('.detail-stats-grid .stat-card:nth-child(2) .stat-value');
+    const staffCountBadge = document.getElementById('staffCountDisplay');
+    
+    let isEditMode = false;
+    
+    // Edit Department functionality
+    const editBtn = document.getElementById('editDeptBtn');
+    const editForm = document.getElementById('editDeptForm');
+    const cancelEditBtn = document.getElementById('cancelEditDept');
+    const saveEditBtn = document.getElementById('saveEditDept');
+    const deptTitle = document.getElementById('deptTitle');
+    
+    editBtn.addEventListener('click', function() {
+        editForm.style.display = 'block';
+    });
+    
+    // Check if edit parameter is present in URL and clean it up immediately
+    if (window.location.search.includes('edit=true')) {
+        editForm.style.display = 'block';
+        // Remove edit parameter from URL immediately
+        const cleanUrl = window.location.pathname + window.location.search.replace(/[?&]edit=true/, '').replace(/[?&]$/, '');
+        window.history.replaceState({}, document.title, cleanUrl);
+    }
+    
+    cancelEditBtn.addEventListener('click', function() {
+        editForm.style.display = 'none';
+    });
+    
+    saveEditBtn.addEventListener('click', function() {
+        const newCode = document.getElementById('editDeptCode').value.trim();
+        const newName = document.getElementById('editDeptName').value.trim();
+        const newBuilding = document.getElementById('editDeptBuilding').value.trim();
+        
+        if (!newCode || !newName || !newBuilding) {
+            alert('Please fill in all fields');
+            return;
+        }
+        
+        // Update page title
+        deptTitle.textContent = newCode + ' - ' + newName;
+        
+        // Hide form
+        editForm.style.display = 'none';
+        
+        showActionStatus('Department updated successfully!', 'success');
+    });
+    
+    // Edit Staff functionality
+    editStaffBtn.addEventListener('click', function() {
+        isEditMode = !isEditMode;
+        const removeButtons = document.querySelectorAll('.remove-staff-btn');
+        
+        if (isEditMode) {
+            editStaffBtn.innerHTML = '<i class="fas fa-check"></i> Done Editing';
+            editStaffBtn.style.background = '#2ed573';
+            removeButtons.forEach(btn => btn.style.display = 'block');
+        } else {
+            editStaffBtn.innerHTML = '<i class="fas fa-edit"></i> Edit Staff';
+            editStaffBtn.style.background = '';
+            removeButtons.forEach(btn => btn.style.display = 'none');
+        }
+    });
 
     function renderList(targetBody, items) {
         targetBody.innerHTML = '';
@@ -253,6 +350,110 @@ document.addEventListener('DOMContentLoaded', function(){
         } catch(e) {}
         closeModal();
     });
+    
+    // Delete Department functionality
+    const deleteDeptBtn = document.getElementById('deleteDeptBtn');
+    deleteDeptBtn.addEventListener('click', function() {
+        const deptName = deptTitle.textContent;
+        showConfirmDialog({
+            title: 'Delete Department',
+            message: `Are you sure you want to delete the ${deptName} department? This will remove all staff from this department and cannot be undone.`,
+            confirmText: 'Delete',
+            confirmIcon: 'fas fa-building',
+            onConfirm: function() {
+                showActionStatus('Department deleted successfully!', 'success');
+                // In a real application, this would redirect or update the UI
+                setTimeout(() => {
+                    window.location.href = '/admin/academic-management';
+                }, 1500);
+            }
+        });
+    });
 });
+
+// Remove staff function
+function removeStaff(staffId) {
+    const staffCard = document.querySelector(`[data-staff-id="${staffId}"]`);
+    const staffName = staffCard.querySelector('.grade-link').textContent;
+    
+    showConfirmDialog({
+        title: 'Remove Staff Member',
+        message: `Are you sure you want to remove ${staffName} from the department?`,
+        confirmText: 'Remove',
+        confirmIcon: 'fas fa-user-times',
+        onConfirm: function() {
+            staffCard.remove();
+            
+            // Update staff count
+            const staffCountBadge = document.getElementById('staffCountDisplay');
+            if (staffCountBadge) {
+                const current = parseInt(staffCountBadge.textContent) || 0;
+                staffCountBadge.textContent = Math.max(0, current - 1);
+            }
+            
+            showActionStatus('Staff member removed from department successfully!', 'success');
+        }
+    });
+}
 </script>
+
+<style>
+/* Section Actions Styles */
+.section-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* Staff Card Styles */
+.staff-card {
+    padding-right: 40px !important;
+}
+
+.staff-card .grade-card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.staff-card .type-badge {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+    background: #f3f4f6;
+    color: #6b7280;
+    border-radius: 4px;
+    max-width: calc(100% - 10px);
+    word-wrap: break-word;
+    line-height: 1.2;
+}
+
+/* Remove Staff Button Styles */
+.remove-staff-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #ff4757;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.remove-staff-btn:hover {
+    background: #ff3742;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+</style>
 
