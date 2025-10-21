@@ -46,6 +46,11 @@ ob_start();
             Holidays
             <i class="fas fa-check tag-check"></i>
         </button>
+        <button class="category-tag active" data-category="myanmar">
+            <span class="tag-dot" style="background: #ff6b35;"></span>
+            Myanmar Calendar
+            <i class="fas fa-check tag-check"></i>
+        </button>
     </div>
 </div>
 
@@ -69,28 +74,6 @@ ob_start();
             </div>
         </div>
 
-        <!-- Participant Filter -->
-        <div class="filter-section">
-            <h4 class="filter-title">Participants</h4>
-            <select class="filter-select" id="participantFilter">
-                <option value="all">All School</option>
-                <option value="students">Students</option>
-                <option value="parents">Parents</option>
-                <option value="teachers">Teachers</option>
-                <option value="staff">Staff</option>
-            </select>
-        </div>
-
-        <!-- Grade Filter -->
-        <div class="filter-section">
-            <h4 class="filter-title">Grade Level</h4>
-            <select class="filter-select" id="gradeFilter">
-                <option value="all">All Grades</option>
-                <option value="primary">Primary (1-5)</option>
-                <option value="middle">Middle (6-8)</option>
-                <option value="high">High (9-12)</option>
-            </select>
-        </div>
     </div>
 
     <!-- Main Calendar Area -->
@@ -187,6 +170,11 @@ ob_start();
             <div class="event-detail-row">
                 <i class="fas fa-align-left"></i>
                 <span id="eventModalDescription"></span>
+            </div>
+            <div class="event-detail-row" style="border-bottom:none; padding-top: 4px;">
+                <button class="simple-btn" onclick="viewEventDetailFromModal()">
+                    <i class="fas fa-external-link-alt"></i> View Event Detail
+                </button>
             </div>
         </div>
     </div>
@@ -733,16 +721,14 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentView = 'month';
     let miniCalendarDate = new Date();
     let activeFilters = {
-        categories: ['academic', 'sports', 'cultural', 'meeting', 'holiday'],
-        participant: 'all',
-        grade: 'all'
+        categories: ['academic', 'sports', 'cultural', 'meeting', 'holiday', 'myanmar']
     };
     
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     
     const categoryColors = {
-        academic: '#4285f4', sports: '#34a853', cultural: '#fbbc04', meeting: '#ea4335', holiday: '#9e9e9e'
+        academic: '#4285f4', sports: '#34a853', cultural: '#fbbc04', meeting: '#ea4335', holiday: '#9e9e9e', myanmar: '#ff6b35'
     };
     
     // Sample events
@@ -753,15 +739,16 @@ document.addEventListener('DOMContentLoaded', function() {
         {title: 'Mid-term Exams', date: '2025-10-10', startTime: '08:00', endTime: '12:00', time: '08:00 AM - 12:00 PM', location: 'All Classrooms', description: 'Mid-semester examination', category: 'academic', grade: 'all', participants: ['students', 'teachers']},
         {title: 'Cultural Festival', date: '2025-10-18', startTime: '09:00', endTime: '17:00', time: '09:00 AM - 05:00 PM', location: 'School Auditorium', description: 'Annual cultural program', category: 'cultural', grade: 'all', participants: ['all']},
         {title: 'Independence Day', date: '2025-10-04', startTime: '00:00', endTime: '23:59', time: 'All Day', location: 'School', description: 'National Holiday', category: 'holiday', grade: 'all', participants: ['all']},
-        {title: 'Staff Training', date: '2025-10-12', startTime: '09:00', endTime: '16:00', time: '09:00 AM - 04:00 PM', location: 'Conference Room', description: 'Professional development workshop', category: 'meeting', grade: 'all', participants: ['staff', 'teachers']}
+        {title: 'Staff Training', date: '2025-10-12', startTime: '09:00', endTime: '16:00', time: '09:00 AM - 04:00 PM', location: 'Conference Room', description: 'Professional development workshop', category: 'meeting', grade: 'all', participants: ['staff', 'teachers']},
+        {title: 'Thingyan Water Festival', date: '2025-04-13', startTime: '09:00', endTime: '17:00', time: '09:00 AM - 05:00 PM', location: 'School Grounds', description: 'Myanmar New Year Water Festival', category: 'myanmar', grade: 'all', participants: ['all']},
+        {title: 'Buddha Day', date: '2025-05-12', startTime: '08:00', endTime: '12:00', time: '08:00 AM - 12:00 PM', location: 'School Assembly Hall', description: 'Vesak Day - Buddha Birthday Celebration', category: 'myanmar', grade: 'all', participants: ['all']},
+        {title: 'Tazaungdaing Festival', date: '2025-11-08', startTime: '18:00', endTime: '22:00', time: '06:00 PM - 10:00 PM', location: 'School Auditorium', description: 'Myanmar Festival of Lights', category: 'myanmar', grade: 'all', participants: ['all']}
     ];
     
     function getFilteredEvents() {
         return events.filter(e => {
             const categoryMatch = activeFilters.categories.includes(e.category);
-            const gradeMatch = activeFilters.grade === 'all' || e.grade === 'all' || e.grade === activeFilters.grade;
-            const participantMatch = activeFilters.participant === 'all' || e.participants.includes('all') || e.participants.includes(activeFilters.participant);
-            return categoryMatch && gradeMatch && participantMatch;
+            return categoryMatch;
         });
     }
     
@@ -975,17 +962,28 @@ document.addEventListener('DOMContentLoaded', function() {
         renderMiniCalendar();
     }
     
+    let currentModalEvent = null;
+
     function showEventModal(event) {
         document.getElementById('eventModalTitle').textContent = event.title;
         document.getElementById('eventModalTime').textContent = event.time;
         document.getElementById('eventModalLocation').textContent = event.location;
         document.getElementById('eventModalDescription').textContent = event.description;
+        currentModalEvent = event;
         document.getElementById('eventModal').style.display = 'flex';
     }
     
     window.closeEventModal = function() {
         document.getElementById('eventModal').style.display = 'none';
     };
+
+    // Navigate to event detail from modal
+    window.viewEventDetailFromModal = function() {
+        if (!currentModalEvent) return;
+        // Build a simple event id based on title if no id exists in data
+        const eventId = currentModalEvent.id || (currentModalEvent.title ? `EVT_${encodeURIComponent(currentModalEvent.title).replace(/%20/g,'_')}` : 'EVT');
+        window.location.href = `/admin/event-details?id=${eventId}`;
+    }
     
     // View toggle
     document.querySelectorAll('.view-toggle-btn').forEach(btn => {
@@ -1041,17 +1039,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Participant Dropdown Filter
-    document.getElementById('participantFilter').addEventListener('change', function() {
-        activeFilters.participant = this.value;
-        renderCurrentView();
-    });
-    
-    // Grade Dropdown Filter
-    document.getElementById('gradeFilter').addEventListener('change', function() {
-        activeFilters.grade = this.value;
-        renderCurrentView();
-    });
     
     // Initial render
     renderCurrentView();

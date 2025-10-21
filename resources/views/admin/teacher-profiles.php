@@ -36,12 +36,34 @@ ob_start();
                     <input type="text" id="tName" class="form-input" placeholder="Enter full name">
                 </div>
                 <div class="form-group">
+                    <label for="tDOB">Date of Birth</label>
+                    <input type="date" id="tDOB" class="form-input">
+                </div>
+                <div class="form-group">
                     <label for="tDept">Department</label>
                     <input type="text" id="tDept" class="form-input" placeholder="e.g., Mathematics">
                 </div>
                 <div class="form-group">
                     <label for="tSubjects">Subjects</label>
                     <input type="text" id="tSubjects" class="form-input" placeholder="e.g., Algebra, Calculus">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="tGender">Gender</label>
+                    <select id="tGender" class="form-select">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tNRC">NRC Number</label>
+                    <input type="text" id="tNRC" class="form-input" placeholder="e.g., 12/TEA(N)123456">
+                </div>
+                <div class="form-group" style="flex:2;">
+                    <label for="tAddress">Address</label>
+                    <input type="text" id="tAddress" class="form-input" placeholder="Street, City, State">
                 </div>
             </div>
             <div class="form-row">
@@ -56,6 +78,26 @@ ob_start();
                 <div class="form-group">
                     <label for="tJoin">Join Date</label>
                     <input type="date" id="tJoin" class="form-input">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="tBlood">Blood Type</label>
+                    <select id="tBlood" class="form-select">
+                        <option value="">Select</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+                <div class="form-group" style="flex:2;">
+                    <label for="tEmergency">Emergency Contact</label>
+                    <input type="text" id="tEmergency" class="form-input" placeholder="Name - Phone">
                 </div>
             </div>
             <div class="form-row">
@@ -115,6 +157,12 @@ ob_start();
             const obj={
                 id:'T'+Date.now(),
                 name,
+                dob: document.getElementById('tDOB').value||'',
+                gender: document.getElementById('tGender') ? document.getElementById('tGender').value : '',
+                nrc: (document.getElementById('tNRC').value||'').trim(),
+                address: (document.getElementById('tAddress').value||'').trim(),
+                bloodType: document.getElementById('tBlood') ? document.getElementById('tBlood').value : '',
+                emergencyContact: (document.getElementById('tEmergency').value||'').trim(),
                 dept:(document.getElementById('tDept').value||'').trim(),
                 subjects:(document.getElementById('tSubjects').value||'').trim(),
                 phone:(document.getElementById('tPhone').value||'').trim(),

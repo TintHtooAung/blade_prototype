@@ -106,74 +106,37 @@ ob_start();
         </div>
     </div>
 
-    <!-- Results Overview -->
+    <!-- Exam Results Table -->
     <div class="exam-detail-card">
         <div class="exam-detail-header">
-            <h4><i class="fas fa-chart-bar"></i> Results Overview</h4>
-        </div>
-        <div class="exam-detail-content">
-            <div class="results-summary">
-                <div class="summary-item">
-                    <span class="summary-number">35</span>
-                    <span class="summary-label">Total Students</span>
-                </div>
-                <div class="summary-item">
-                    <span class="summary-number">30</span>
-                    <span class="summary-label">Results Available</span>
-                </div>
-                <div class="summary-item">
-                    <span class="summary-number">5</span>
-                    <span class="summary-label">Pending Results</span>
-                </div>
-                <div class="summary-item">
-                    <span class="summary-number">85%</span>
-                    <span class="summary-label">Completion Rate</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Student Results Table -->
-    <div class="exam-detail-card">
-        <div class="exam-detail-header">
-            <h4><i class="fas fa-table"></i> Student Results</h4>
-            <button class="simple-btn" onclick="viewResults()"><i class="fas fa-chart-bar"></i> View Full Results</button>
+            <h4><i class="fas fa-chart-bar"></i> Exam Results</h4>
         </div>
         <div class="exam-detail-content">
             <div class="simple-table-container">
-                <table class="basic-table">
+                <table class="basic-table responsive-table">
                     <thead>
                         <tr>
-                            <th>Student ID</th>
+                            <th>Rank</th>
+                            <th>Roll No</th>
                             <th>Student Name</th>
-                            <th>Marks Obtained</th>
-                            <th>Percentage</th>
+                            <th>Math</th>
+                            <th>Phys</th>
+                            <th>Chem</th>
+                            <th>Bio</th>
+                            <th>Eng</th>
+                            <th>Myan</th>
+                            <th>Total</th>
                             <th>Grade</th>
-                            <th>Status</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>S001</strong></td>
-                            <td>Student data will be loaded from database</td>
-                            <td>Results pending</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>Pending</td>
-                        </tr>
-                        <tr>
-                            <td><strong>S002</strong></td>
-                            <td>Student data will be loaded from database</td>
-                            <td>Results pending</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>Pending</td>
-                        </tr>
+                    <tbody id="examResultsTable">
+                        <!-- Exam results will be populated by JavaScript -->
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+
 </div>
 
 <script>
@@ -257,14 +220,76 @@ function loadExamDetails() {
     if (exam.status === 'Upcoming') statusBadge.className += ' active-badge';
     if (exam.status === 'Active') statusBadge.className += ' tutorial-badge';
     if (exam.status === 'Completed') statusBadge.className += ' grade-badge';
+    
+    // Load exam results
+    loadExamResults(examId);
 }
 
 function editExam() {
     window.location.href = `/admin/exam-edit?id=${examId}`;
 }
 
-function viewResults() {
-    window.location.href = `/admin/exam-results?id=${examId}`;
+// Mock exam results data
+const examResultsData = {
+    'EX001': [
+        { rank: 1, rollNo: '001', name: 'Aung Kyaw Min', math: 98, phys: 0, chem: 0, bio: 0, eng: 0, myan: 0, total: 98, grade: 'A+' },
+        { rank: 2, rollNo: '002', name: 'Su Myat Noe', math: 95, phys: 0, chem: 0, bio: 0, eng: 0, myan: 0, total: 95, grade: 'A+' },
+        { rank: 3, rollNo: '003', name: 'Thant Zin Oo', math: 92, phys: 0, chem: 0, bio: 0, eng: 0, myan: 0, total: 92, grade: 'A+' },
+        { rank: 4, rollNo: '004', name: 'Aye Chan Myae', math: 88, phys: 0, chem: 0, bio: 0, eng: 0, myan: 0, total: 88, grade: 'A' },
+        { rank: 5, rollNo: '005', name: 'Zaw Myo Htun', math: 85, phys: 0, chem: 0, bio: 0, eng: 0, myan: 0, total: 85, grade: 'A' }
+    ],
+    'EX002': [
+        { rank: 1, rollNo: '001', name: 'Aung Kyaw Min', math: 95, phys: 92, chem: 88, bio: 90, eng: 85, myan: 87, total: 537, grade: 'A+' },
+        { rank: 2, rollNo: '002', name: 'Su Myat Noe', math: 93, phys: 89, chem: 85, bio: 87, eng: 90, myan: 88, total: 532, grade: 'A+' },
+        { rank: 3, rollNo: '003', name: 'Thant Zin Oo', math: 90, phys: 87, chem: 82, bio: 85, eng: 88, myan: 85, total: 517, grade: 'A+' },
+        { rank: 4, rollNo: '004', name: 'Aye Chan Myae', math: 87, phys: 84, chem: 80, bio: 82, eng: 85, myan: 83, total: 501, grade: 'A' },
+        { rank: 5, rollNo: '005', name: 'Zaw Myo Htun', math: 84, phys: 81, chem: 78, bio: 80, eng: 82, myan: 80, total: 485, grade: 'A' }
+    ],
+    'EX003': [
+        { rank: 1, rollNo: '001', name: 'Aung Kyaw Min', math: 0, phys: 0, chem: 0, bio: 95, eng: 0, myan: 0, total: 95, grade: 'A+' },
+        { rank: 2, rollNo: '002', name: 'Su Myat Noe', math: 0, phys: 0, chem: 0, bio: 92, eng: 0, myan: 0, total: 92, grade: 'A+' },
+        { rank: 3, rollNo: '003', name: 'Thant Zin Oo', math: 0, phys: 0, chem: 0, bio: 89, eng: 0, myan: 0, total: 89, grade: 'A+' },
+        { rank: 4, rollNo: '004', name: 'Aye Chan Myae', math: 0, phys: 0, chem: 0, bio: 86, eng: 0, myan: 0, total: 86, grade: 'A' },
+        { rank: 5, rollNo: '005', name: 'Zaw Myo Htun', math: 0, phys: 0, chem: 0, bio: 83, eng: 0, myan: 0, total: 83, grade: 'A' }
+    ],
+    'EX008': [
+        { rank: 1, rollNo: '001', name: 'Aung Kyaw Min', math: 0, phys: 0, chem: 0, bio: 0, eng: 94, myan: 0, total: 94, grade: 'A+' },
+        { rank: 2, rollNo: '002', name: 'Su Myat Noe', math: 0, phys: 0, chem: 0, bio: 0, eng: 91, myan: 0, total: 91, grade: 'A+' },
+        { rank: 3, rollNo: '003', name: 'Thant Zin Oo', math: 0, phys: 0, chem: 0, bio: 0, eng: 88, myan: 0, total: 88, grade: 'A+' },
+        { rank: 4, rollNo: '004', name: 'Aye Chan Myae', math: 0, phys: 0, chem: 0, bio: 0, eng: 85, myan: 0, total: 85, grade: 'A' },
+        { rank: 5, rollNo: '005', name: 'Zaw Myo Htun', math: 0, phys: 0, chem: 0, bio: 0, eng: 82, myan: 0, total: 82, grade: 'A' }
+    ]
+};
+
+function loadExamResults(examId) {
+    const results = examResultsData[examId] || [];
+    const resultsTable = document.getElementById('examResultsTable');
+    
+    if (results.length === 0) {
+        resultsTable.innerHTML = '<tr><td colspan="11" style="text-align: center; padding: 20px; color: #666;">No results available yet</td></tr>';
+        return;
+    }
+    
+    resultsTable.innerHTML = results.map(result => `
+        <tr>
+            <td data-label="Rank">
+                ${result.rank <= 3 ? 
+                    `<span class="rank-badge ${result.rank === 1 ? 'gold' : result.rank === 2 ? 'silver' : 'bronze'}">${result.rank}</span>` : 
+                    result.rank
+                }
+            </td>
+            <td data-label="Roll No"><strong>${result.rollNo}</strong></td>
+            <td data-label="Student Name"><strong>${result.name}</strong></td>
+            <td data-label="Math">${result.math > 0 ? `<span class="subject-marks ${result.math >= 80 ? 'distinction' : ''}">${result.math}</span>` : '-'}</td>
+            <td data-label="Phys">${result.phys > 0 ? `<span class="subject-marks ${result.phys >= 80 ? 'distinction' : ''}">${result.phys}</span>` : '-'}</td>
+            <td data-label="Chem">${result.chem > 0 ? `<span class="subject-marks ${result.chem >= 80 ? 'distinction' : ''}">${result.chem}</span>` : '-'}</td>
+            <td data-label="Bio">${result.bio > 0 ? `<span class="subject-marks ${result.bio >= 80 ? 'distinction' : ''}">${result.bio}</span>` : '-'}</td>
+            <td data-label="Eng">${result.eng > 0 ? `<span class="subject-marks ${result.eng >= 80 ? 'distinction' : ''}">${result.eng}</span>` : '-'}</td>
+            <td data-label="Myan">${result.myan > 0 ? `<span class="subject-marks ${result.myan >= 80 ? 'distinction' : ''}">${result.myan}</span>` : '-'}</td>
+            <td data-label="Total"><strong>${result.total}</strong></td>
+            <td data-label="Grade"><span class="status-badge ${result.grade === 'A+' ? 'paid' : result.grade === 'A' ? 'active' : 'draft'}">${result.grade}</span></td>
+        </tr>
+    `).join('');
 }
 
 // Load exam details on page load

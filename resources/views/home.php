@@ -17,9 +17,9 @@
 
     <!-- Main Content -->
     <main>
-        <div class="role-selection-container">
+        <div class="login-container">
             <!-- Logo Section -->
-            <div class="home-logo">
+            <div class="login-logo">
                 <div class="logo-icon">
                     <i class="fas fa-graduation-cap"></i>
                 </div>
@@ -29,33 +29,78 @@
                 </div>
             </div>
             
-            <h1 class="role-selection-title">Select Your Role</h1>
-            <p class="role-selection-subtitle">Access the features and modules relevant to your position</p>
-            
-            <div class="role-cards">
-                <!-- Teacher Card -->
-                <a href="/teacher/dashboard" class="role-card">
-                    <div class="role-icon-circle teacher">
-                        <i class="fas fa-chalkboard-teacher"></i>
+            <div class="login-card">
+                <div class="login-header">
+                    <h1 class="login-title">Welcome Back</h1>
+                    <p class="login-subtitle">Sign in to your account</p>
+                </div>
+                
+                <form class="login-form" id="loginForm">
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
                     </div>
-                    <h3 class="role-title">Teacher</h3>
-                </a>
+                    
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="remember">
+                            <span class="checkmark"></span>
+                            Remember me
+                        </label>
+                        <a href="#" class="forgot-link">Forgot password?</a>
+                    </div>
+                    
+                    <button type="submit" class="login-btn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Sign In
+                    </button>
+                </form>
+                
+                <div class="demo-section">
+                    <div class="demo-divider">
+                        <span>Demo Accounts</span>
+                    </div>
+                    
+                    <div class="demo-cards">
+                        <!-- Teacher Demo -->
+                        <div class="demo-card" onclick="fillDemoCredentials('teacher')">
+                            <div class="demo-icon teacher">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                            </div>
+                            <div class="demo-info">
+                                <div class="demo-role">Teacher</div>
+                                <div class="demo-email">teacher@novahub.edu</div>
+                            </div>
+                        </div>
 
-                <!-- Staff Card -->
-                <a href="/staff/dashboard" class="role-card">
-                    <div class="role-icon-circle staff">
-                        <i class="fas fa-users-cog"></i>
-                    </div>
-                    <h3 class="role-title">Staff</h3>
-                </a>
+                        <!-- Staff Demo -->
+                        <div class="demo-card" onclick="fillDemoCredentials('staff')">
+                            <div class="demo-icon staff">
+                                <i class="fas fa-users-cog"></i>
+                            </div>
+                            <div class="demo-info">
+                                <div class="demo-role">Staff</div>
+                                <div class="demo-email">staff@novahub.edu</div>
+                            </div>
+                        </div>
 
-                <!-- Admin Card -->
-                <a href="/admin/dashboard" class="role-card">
-                    <div class="role-icon-circle admin">
-                        <i class="fas fa-user-shield"></i>
+                        <!-- Admin Demo -->
+                        <div class="demo-card" onclick="fillDemoCredentials('admin')">
+                            <div class="demo-icon admin">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <div class="demo-info">
+                                <div class="demo-role">Admin</div>
+                                <div class="demo-email">admin@novahub.edu</div>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="role-title">Super Admin</h3>
-                </a>
+                </div>
             </div>
         </div>
     </main>
@@ -69,5 +114,121 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+    // Demo credentials
+    const demoCredentials = {
+        teacher: {
+            email: 'teacher@novahub.edu',
+            password: 'teacher123',
+            role: 'teacher',
+            redirect: '/teacher/dashboard'
+        },
+        staff: {
+            email: 'staff@novahub.edu',
+            password: 'staff123',
+            role: 'staff',
+            redirect: '/staff/dashboard'
+        },
+        admin: {
+            email: 'admin@novahub.edu',
+            password: 'admin123',
+            role: 'admin',
+            redirect: '/admin/dashboard'
+        }
+    };
+
+    // Fill demo credentials
+    function fillDemoCredentials(role) {
+        const credentials = demoCredentials[role];
+        if (credentials) {
+            document.getElementById('email').value = credentials.email;
+            document.getElementById('password').value = credentials.password;
+            
+            // Add visual feedback
+            const demoCard = event.target.closest('.demo-card');
+            demoCard.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                demoCard.style.transform = 'scale(1)';
+            }, 150);
+        }
+    }
+
+    // Handle form submission
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        // Check if credentials match any demo account
+        for (const role in demoCredentials) {
+            const creds = demoCredentials[role];
+            if (email === creds.email && password === creds.password) {
+                // Show loading state
+                const submitBtn = document.querySelector('.login-btn');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+                submitBtn.disabled = true;
+                
+                // Simulate login process
+                setTimeout(() => {
+                    // Store user session
+                    localStorage.setItem('userRole', creds.role);
+                    localStorage.setItem('userEmail', creds.email);
+                    localStorage.setItem('isLoggedIn', 'true');
+                    
+                    // Redirect to appropriate dashboard
+                    window.location.href = creds.redirect;
+                }, 1500);
+                return;
+            }
+        }
+        
+        // Invalid credentials
+        showError('Invalid email or password. Please try again.');
+    });
+
+    // Show error message
+    function showError(message) {
+        // Remove existing error
+        const existingError = document.querySelector('.error-message');
+        if (existingError) {
+            existingError.remove();
+        }
+        
+        // Create error element
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        errorDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+        
+        // Insert after form
+        const form = document.getElementById('loginForm');
+        form.parentNode.insertBefore(errorDiv, form.nextSibling);
+        
+        // Remove error after 5 seconds
+        setTimeout(() => {
+            if (errorDiv.parentNode) {
+                errorDiv.remove();
+            }
+        }, 5000);
+    }
+
+    // Check if already logged in
+    document.addEventListener('DOMContentLoaded', function() {
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            const userRole = localStorage.getItem('userRole');
+            const redirects = {
+                'teacher': '/teacher/dashboard',
+                'staff': '/staff/dashboard',
+                'admin': '/admin/dashboard'
+            };
+            
+            if (redirects[userRole]) {
+                window.location.href = redirects[userRole];
+            }
+        }
+    });
+    </script>
 </body>
 </html>

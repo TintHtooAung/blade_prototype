@@ -80,6 +80,20 @@ ob_start();
                         </select>
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>NRC Number</label>
+                        <input type="text" class="form-input" placeholder="e.g., 12/STU(N)345678" value="12/STU(N)345678">
+                    </div>
+                    <div class="form-group" style="flex:2;">
+                        <label>Address</label>
+                        <input type="text" class="form-input" placeholder="Street, City, State" value="789 Student Lane, City, State 12345">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" class="form-input" placeholder="+1-555-0000" value="+1-555-1000">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -154,6 +168,7 @@ ob_start();
             </div>
         </div>
     </div>
+
 
     <!-- Action Buttons -->
     <div class="exam-detail-card">

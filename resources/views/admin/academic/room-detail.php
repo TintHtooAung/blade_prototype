@@ -41,33 +41,6 @@ ob_start();
     </div>
 </div>
 
-<!-- Room Statistics -->
-<div class="detail-stats-grid">
-    <?php echo renderStatCard([
-        'title' => 'Room Number',
-        'value' => $roomNumber,
-        'icon' => 'fas fa-door-open',
-        'iconColor' => 'blue'
-    ]); ?>
-    <?php echo renderStatCard([
-        'title' => 'Seating Capacity',
-        'value' => '35',
-        'icon' => 'fas fa-users',
-        'iconColor' => 'green'
-    ]); ?>
-    <?php echo renderStatCard([
-        'title' => 'Building',
-        'value' => 'Building A',
-        'icon' => 'fas fa-building',
-        'iconColor' => 'purple'
-    ]); ?>
-    <?php echo renderStatCard([
-        'title' => 'Floor',
-        'value' => '1st Floor',
-        'icon' => 'fas fa-layer-group',
-        'iconColor' => 'yellow'
-    ]); ?>
-</div>
 
 <!-- Edit Room Form -->
 <div id="editRoomForm" class="simple-section" style="display:none; margin-top:12px;">

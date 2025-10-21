@@ -25,19 +25,10 @@ ob_start();
     </div>
 </div>
 
-<!-- Filters and Search -->
+<!-- Announcements List -->
 <div class="simple-section">
     <div class="simple-header">
         <h3>Announcements</h3>
-        <div class="simple-actions">
-            <label style="margin-right:8px;">From</label>
-            <input type="date" id="fromDate" class="form-input" style="width:auto;">
-            <label style="margin:0 8px 0 12px;">To</label>
-            <input type="date" id="toDate" class="form-input" style="width:auto;">
-            <input type="text" id="searchText" class="simple-search" placeholder="Search title or message..." style="margin-left:12px;">
-            <button id="applyFilters" class="simple-btn" style="margin-left:8px;"><i class="fas fa-filter"></i> Apply</button>
-            <button id="clearFilters" class="simple-btn secondary" style="margin-left:4px;">Clear</button>
-        </div>
     </div>
 
     <div id="annFeed" class="announcements-list"></div>
@@ -63,9 +54,6 @@ ob_start();
     const data = [...stored, ...sample];
 
     const feed = document.getElementById('annFeed');
-    const fromEl = document.getElementById('fromDate');
-    const toEl = document.getElementById('toDate');
-    const searchEl = document.getElementById('searchText');
 
     function card(a){
         const div = document.createElement('div');
@@ -97,24 +85,12 @@ ob_start();
         return div;
     }
 
-    function apply(){
-        const fromD = parseDate(fromEl.value);
-        const toD = parseDate(toEl.value);
-        const q = (searchEl.value||'').toLowerCase();
+    function displayAnnouncements(){
         feed.innerHTML = '';
-        data.filter(a => {
-            const ad = parseDate(a.date);
-            if (fromD && (!ad || ad < fromD)) return false;
-            if (toD && (!ad || ad > toD)) return false;
-            if (q && !((a.title||'').toLowerCase().includes(q) || (a.message||'').toLowerCase().includes(q))) return false;
-            return true;
-        }).forEach(a => feed.appendChild(card(a)));
+        data.forEach(a => feed.appendChild(card(a)));
     }
 
-    document.getElementById('applyFilters').addEventListener('click', apply);
-    document.getElementById('clearFilters').addEventListener('click', function(){ fromEl.value=''; toEl.value=''; searchEl.value=''; apply(); });
-
-    apply();
+    displayAnnouncements();
 })();
 </script>
 

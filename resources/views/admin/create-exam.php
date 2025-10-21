@@ -47,6 +47,12 @@ ob_start();
                 <option value="E">E</option>
                 <option value="F">F</option>
                         </select>
+            <select id="examTypeSelect" class="form-select" style="min-width: 200px; height: 38px; background: #fff; border: 1px solid #ddd; padding: 8px 12px; font-size: 0.9rem;">
+                <option value="Tutorial">Tutorial (25 marks, 1 subject)</option>
+                <option value="Monthly">Monthly (100 marks, 6 subjects)</option>
+                <option value="Semester">Semester (100 marks, 6 subjects)</option>
+                <option value="Final">Final (100 marks, 6 subjects)</option>
+            </select>
             <button class="simple-btn" id="createExamBtn" style="white-space: nowrap;"><i class="fas fa-plus"></i> Create Draft Exam</button>
                     </div>
                 </div>
@@ -127,41 +133,55 @@ const subjectsByGrade = {
     'Grade 12': ['Mathematics', 'English', 'Physics', 'Chemistry', 'Biology', 'Economics', 'Computer Science']
 };
 
+/**
+ * Get subjects based on exam type
+ * Tutorial = 1 subject, Other types = 6 subjects (or all available if less than 6)
+ */
+function getSubjectsForExamType(allSubjects, examType) {
+    if (examType === 'Tutorial') {
+        // For tutorial, show only first subject by default
+        return allSubjects.slice(0, 1);
+    } else {
+        // For other types, show up to 6 subjects
+        return allSubjects.slice(0, 6);
+    }
+}
+
 document.getElementById('createExamBtn').addEventListener('click', function() {
     const grade = document.getElementById('gradeSelect').value;
     const classLetter = document.getElementById('classSelect').value;
-    
+    const examType = document.getElementById('examTypeSelect').value;
+
     if (!grade || !classLetter) {
         showToast('Please select both Grade and Class', 'warning');
         return;
     }
-    
+
     const className = `${grade}-${classLetter}`;
-    createExamForm(grade, className);
+    createExamForm(grade, className, examType);
     document.getElementById('gradeSelect').value = '';
     document.getElementById('classSelect').value = '';
 });
 
-function createExamForm(grade, className) {
+function createExamForm(grade, className, examType) {
     const examId = 'exam-' + Date.now();
     const container = document.getElementById('examsContainer');
-    const subjects = subjectsByGrade[grade] || [];
-    
-    // Default marks: 25 for single subject (tutorial), 100 for multiple subjects
-    const defaultMarks = subjects.length === 1 ? 25 : 100;
-    
+    const allSubjects = subjectsByGrade[grade] || [];
+
+    const subjects = getSubjectsForExamType(allSubjects, examType);
+
     const subjectRows = subjects.map(subject => `
-        <tr>
+        <tr class="subject-row" data-subject="${subject}">
             <td><strong>${subject}</strong></td>
-            <td><input type="number" class="form-input marks-input" value="${defaultMarks}"></td>
+            <td><input type="number" class="form-input marks-input" value="${examType === 'Tutorial' ? 25 : 100}"></td>
             <td><input type="date" class="form-input"></td>
             <td><input type="time" class="form-input"></td>
             <td><input type="text" class="form-input" placeholder="Room"></td>
         </tr>
     `).join('');
-    
+
     const formHTML = `
-        <div class="exam-inline-form" id="${examId}">
+        <div class="exam-inline-form" id="${examId}" data-grade="${grade}">
             <div class="exam-form-header">
                 <h3>${className}</h3>
                 <div class="exam-form-actions">
@@ -180,14 +200,9 @@ function createExamForm(grade, className) {
                             <label>Exam ID</label>
                             <input type="text" class="form-input" id="id-${examId}" placeholder="e.g., EX${String(examCounter).padStart(3, '0')}" value="EX${String(examCounter).padStart(3, '0')}">
                     </div>
-                    <div class="form-group">
+                        <div class="form-group">
                             <label>Exam Type</label>
-                            <select class="form-select" id="type-${examId}" onchange="updateMarks('${examId}', this.value)">
-                                <option value="Tutorial">Tutorial (25)</option>
-                                <option value="Monthly">Monthly (100)</option>
-                                <option value="Semester">Semester (100)</option>
-                                <option value="Final">Final (100)</option>
-                            </select>
+                            <span class="exam-type-display" style="padding: 10px 12px; background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 4px; font-size: 0.9rem; color: #333;">${examType} (${examType === 'Tutorial' ? '25 marks, 1 subject' : '100 marks, 6 subjects'})</span>
                         </div>
                     </div>
                 </div>
@@ -214,27 +229,48 @@ function createExamForm(grade, className) {
     
     container.insertAdjacentHTML('beforeend', formHTML);
     examCounter++;
-    
+
+    // Add subject selector for tutorial exams
+    if (examType === 'Tutorial') {
+        const form = document.getElementById(examId);
+        const firstRow = form.querySelector('.subject-row');
+        if (firstRow) {
+            const subjectCell = firstRow.querySelector('td:first-child');
+
+            // Create dropdown for subject selection
+            const select = document.createElement('select');
+            select.className = 'form-select';
+            select.style.maxWidth = '150px';
+
+            allSubjects.forEach(subject => {
+                const option = document.createElement('option');
+                option.value = subject;
+                option.textContent = subject;
+                select.appendChild(option);
+            });
+
+            select.addEventListener('change', function() {
+                const selectedSubject = this.value;
+                firstRow.setAttribute('data-subject', selectedSubject);
+            });
+
+            // Replace the subject name with dropdown
+            subjectCell.innerHTML = '';
+            subjectCell.appendChild(select);
+        }
+    }
+
     document.getElementById(examId).scrollIntoView({behavior: 'smooth'});
 }
 
-function updateMarks(examId, examType) {
-    const form = document.getElementById(examId);
-    const marksInputs = form.querySelectorAll('.marks-input');
-    
-    // Tutorial = 25 marks, others = 100 marks
-    const newMarks = examType === 'Tutorial' ? 25 : 100;
-    
-    marksInputs.forEach(input => {
-        input.value = newMarks;
-    });
-}
+// Note: updateMarks function removed since exam type is now fixed at form creation
 
 function saveExam(examId) {
     const form = document.getElementById(examId);
     const examName = document.getElementById(`name-${examId}`).value.trim();
     const examIdValue = document.getElementById(`id-${examId}`).value.trim();
-    const examType = document.getElementById(`type-${examId}`).value;
+    const examTypeDisplay = form.querySelector('.exam-type-display').textContent.trim();
+    const examType = examTypeDisplay.split(' ')[0]; // Extract exam type from display text
     const gradeClass = form.querySelector('.exam-form-header h3').textContent.trim();
     
     if (!examName || !examIdValue) {

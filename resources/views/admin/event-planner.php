@@ -82,6 +82,22 @@ ob_start();
                     <textarea class="form-input" id="eventDesc" rows="3" placeholder="Event description..."></textarea>
                 </div>
             </div>
+            <div class="form-row">
+                <div class="form-group" style="flex:1;">
+                    <label>Attach Files</label>
+                    <input type="file" class="form-input" id="eventAttachments" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.jpg,.jpeg,.png,.gif">
+                    <small style="color: #666; margin-top: 4px; display: block;">
+                        Supported formats: PDF, DOC, XLS, PPT, TXT, JPG, PNG (Max 10MB each)
+                    </small>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group" style="flex:1;">
+                    <div id="attachedFilesList" class="attached-files-list">
+                        <!-- Attached files will be displayed here -->
+                    </div>
+                </div>
+            </div>
             <div class="form-actions">
                 <button id="cancelEvent" class="simple-btn secondary"><i class="fas fa-times"></i> Cancel</button>
                 <button id="saveEvent" class="simple-btn primary"><i class="fas fa-check"></i> Save Event</button>
@@ -108,6 +124,14 @@ ob_start();
                 <option value="upcoming">Upcoming</option>
                 <option value="active">Active</option>
                 <option value="completed">Completed</option>
+            </select>
+            <select class="form-select" id="filterPeriod" style="width:auto;">
+                <option value="all">All Time</option>
+                <option value="today">Today</option>
+                <option value="this_week">This Week</option>
+                <option value="this_month">This Month</option>
+                <option value="next_month">Next Month</option>
+                <option value="this_year">This Year</option>
             </select>
         </div>
     </div>
@@ -389,7 +413,8 @@ document.getElementById('saveEvent').addEventListener('click', function() {
         end,
         location,
         audience,
-        desc
+        desc,
+        attachments: getCurrentAttachments()
     };
     
     // Save to localStorage
@@ -426,6 +451,9 @@ function clearForm() {
     document.getElementById('eventLocation').value = '';
     document.getElementById('eventAudience').value = 'all';
     document.getElementById('eventDesc').value = '';
+    document.getElementById('eventAttachments').value = '';
+    currentAttachments = [];
+    displayAttachedFiles(currentAttachments);
 }
 
 function viewEventDetails(eventId) {
@@ -472,17 +500,109 @@ function loadEvents() {
     const events = JSON.parse(localStorage.getItem('adminEvents') || '[]');
     const filterCat = document.getElementById('filterCategory').value;
     const filterStat = document.getElementById('filterStatus').value;
+    const filterPeriod = document.getElementById('filterPeriod').value;
     
-    // Keep existing sample events, add new ones
-    const sampleIds = ['EVT001', 'EVT002', 'EVT003', 'EVT004'];
+    // Clear existing table content
+    tbody.innerHTML = '';
     
-    events.forEach(event => {
-        if (sampleIds.includes(event.id)) return; // Skip duplicates
+    // Sample events data (static events that are always shown)
+    const sampleEvents = [
+        {
+            id: 'EVT001',
+            title: 'Mathematics Final Exam',
+            category: 'academic',
+            date: '2024-12-15',
+            start: '09:00',
+            end: '12:00',
+            location: 'Main Hall',
+            audience: 'students',
+            desc: 'Final examination for Mathematics course'
+        },
+        {
+            id: 'EVT002',
+            title: 'Football Championship',
+            category: 'sports',
+            date: '2024-12-18',
+            start: '14:00',
+            end: '17:00',
+            location: 'Sports Ground',
+            audience: 'all',
+            desc: 'Annual football championship finals'
+        },
+        {
+            id: 'EVT003',
+            title: 'Cultural Festival',
+            category: 'cultural',
+            date: '2024-12-20',
+            start: '10:00',
+            end: '16:00',
+            location: 'School Auditorium',
+            audience: 'all',
+            desc: 'Annual cultural festival showcasing student talents'
+        },
+        {
+            id: 'EVT004',
+            title: 'Parent-Teacher Conference',
+            category: 'meeting',
+            date: '2024-12-22',
+            start: '09:00',
+            end: '15:00',
+            location: 'Conference Room',
+            audience: 'parents',
+            desc: 'Scheduled parent-teacher meetings'
+        }
+    ];
+    
+    // Combine sample events with stored events
+    const allEvents = [...sampleEvents, ...events];
+    
+    allEvents.forEach(event => {
         
         const status = getEventStatus(event);
         
         if (filterCat !== 'all' && event.category !== filterCat) return;
         if (filterStat !== 'all' && status.label.toLowerCase() !== filterStat) return;
+        
+        // Period filtering logic
+        if (filterPeriod !== 'all') {
+            const eventDate = new Date(event.date);
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const weekStart = new Date(today);
+            weekStart.setDate(today.getDate() - today.getDay());
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekStart.getDate() + 6);
+            const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+            const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+            const nextMonthStart = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+            const nextMonthEnd = new Date(now.getFullYear(), now.getMonth() + 2, 0);
+            const yearStart = new Date(now.getFullYear(), 0, 1);
+            const yearEnd = new Date(now.getFullYear(), 11, 31);
+            
+            let includeEvent = false;
+            
+            switch (filterPeriod) {
+                case 'today':
+                    includeEvent = eventDate >= today && eventDate < tomorrow;
+                    break;
+                case 'this_week':
+                    includeEvent = eventDate >= weekStart && eventDate <= weekEnd;
+                    break;
+                case 'this_month':
+                    includeEvent = eventDate >= monthStart && eventDate <= monthEnd;
+                    break;
+                case 'next_month':
+                    includeEvent = eventDate >= nextMonthStart && eventDate <= nextMonthEnd;
+                    break;
+                case 'this_year':
+                    includeEvent = eventDate >= yearStart && eventDate <= yearEnd;
+                    break;
+            }
+            
+            if (!includeEvent) return;
+        }
         
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -521,18 +641,201 @@ function loadEvents() {
 
 // Filters
 document.getElementById('filterCategory').addEventListener('change', function() {
-    // Filter logic would go here in production
-    console.log('Filter by category:', this.value);
+    loadEvents();
 });
 
 document.getElementById('filterStatus').addEventListener('change', function() {
-    // Filter logic would go here in production
-    console.log('Filter by status:', this.value);
+    loadEvents();
 });
+
+document.getElementById('filterPeriod').addEventListener('change', function() {
+    loadEvents();
+});
+
+// File attachment handling for event planner
+let currentAttachments = [];
+
+// Handle file input change
+document.getElementById('eventAttachments').addEventListener('change', function(e) {
+    const files = Array.from(e.target.files);
+    
+    files.forEach(file => {
+        // Validate file size (10MB max)
+        if (file.size > 10 * 1024 * 1024) {
+            showToast(`File "${file.name}" is too large. Maximum size is 10MB.`, 'warning');
+            return;
+        }
+        
+        // Validate file type
+        const allowedTypes = [
+            'application/pdf',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.ms-excel',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'application/vnd.ms-powerpoint',
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            'text/plain',
+            'image/jpeg',
+            'image/jpg',
+            'image/png',
+            'image/gif'
+        ];
+        
+        if (!allowedTypes.includes(file.type)) {
+            showToast(`File "${file.name}" is not a supported format.`, 'warning');
+            return;
+        }
+        
+        // Add to current attachments
+        const attachment = {
+            id: Date.now() + Math.random(),
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            file: file
+        };
+        
+        currentAttachments.push(attachment);
+    });
+    
+    // Clear the input
+    e.target.value = '';
+    
+    // Update display
+    displayAttachedFiles(currentAttachments);
+});
+
+function displayAttachedFiles(attachments) {
+    const container = document.getElementById('attachedFilesList');
+    container.innerHTML = '';
+    
+    if (attachments.length === 0) {
+        container.innerHTML = '<p style="color: #666; font-style: italic; margin: 0;">No files attached</p>';
+        return;
+    }
+    
+    attachments.forEach(attachment => {
+        const fileItem = document.createElement('div');
+        fileItem.className = 'attached-file-item';
+        fileItem.innerHTML = `
+            <div class="attached-file-info">
+                <div class="attached-file-icon">
+                    <i class="fas fa-file"></i>
+                </div>
+                <div class="attached-file-details">
+                    <div class="attached-file-name">${attachment.name}</div>
+                    <div class="attached-file-size">${formatFileSize(attachment.size)}</div>
+                </div>
+            </div>
+            <div class="attached-file-actions">
+                <button class="remove-file-btn" onclick="removeFile('${attachment.id}')" title="Remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+        container.appendChild(fileItem);
+    });
+}
+
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+function removeFile(attachmentId) {
+    currentAttachments = currentAttachments.filter(att => att.id != attachmentId);
+    displayAttachedFiles(currentAttachments);
+}
+
+function getCurrentAttachments() {
+    return currentAttachments.map(att => ({
+        id: att.id,
+        name: att.name,
+        size: att.size,
+        type: att.type
+    }));
+}
 
 // Load events on page load
 document.addEventListener('DOMContentLoaded', loadEvents);
 </script>
+
+<style>
+/* File Attachments Styling */
+.attached-files-list {
+    margin-top: 12px;
+}
+
+.attached-file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+.attached-file-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.attached-file-icon {
+    width: 32px;
+    height: 32px;
+    background: #e3f2fd;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1976d2;
+    font-size: 14px;
+}
+
+.attached-file-details {
+    flex: 1;
+}
+
+.attached-file-name {
+    font-weight: 500;
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.attached-file-size {
+    font-size: 12px;
+    color: #666;
+}
+
+.attached-file-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.remove-file-btn {
+    background: #ffebee;
+    color: #d32f2f;
+    border: none;
+    padding: 6px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s;
+}
+
+.remove-file-btn:hover {
+    background: #ffcdd2;
+}
+</style>
 
 <?php
 $content = ob_get_clean();

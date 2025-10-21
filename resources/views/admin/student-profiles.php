@@ -36,12 +36,30 @@ ob_start();
                     <input type="text" id="sName" class="form-input" placeholder="Enter full name">
                 </div>
                 <div class="form-group">
+                    <label for="sDOB">Date of Birth</label>
+                    <input type="date" id="sDOB" class="form-input">
+                </div>
+                <div class="form-group">
                     <label for="sClass">Class</label>
                     <input type="text" id="sClass" class="form-input" placeholder="e.g., Grade 9-A">
                 </div>
+            </div>
+            <div class="form-row">
                 <div class="form-group">
-                    <label for="sAge">Age</label>
-                    <input type="number" id="sAge" class="form-input" placeholder="15">
+                    <label for="sGender">Gender</label>
+                    <select id="sGender" class="form-select">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="sNRC">NRC Number</label>
+                    <input type="text" id="sNRC" class="form-input" placeholder="e.g., 12/STU(N)345678">
+                </div>
+                <div class="form-group" style="flex:2;">
+                    <label for="sAddress">Address</label>
+                    <input type="text" id="sAddress" class="form-input" placeholder="Street, City, State">
                 </div>
             </div>
             <div class="form-row">
@@ -56,6 +74,26 @@ ob_start();
                 <div class="form-group">
                     <label for="sEmail">Email</label>
                     <input type="email" id="sEmail" class="form-input" placeholder="parent@email.com">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="sBlood">Blood Type</label>
+                    <select id="sBlood" class="form-select">
+                        <option value="">Select</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+                <div class="form-group" style="flex:2;">
+                    <label for="sEmergency">Emergency Contact</label>
+                    <input type="text" id="sEmergency" class="form-input" placeholder="Name - Phone">
                 </div>
             </div>
             <div class="form-row">
@@ -120,11 +158,16 @@ ob_start();
             const obj={
                 id:'S'+Date.now(),
                 name,
+                dob: document.getElementById('sDOB').value||'',
+                gender: document.getElementById('sGender') ? document.getElementById('sGender').value : '',
+                nrc: (document.getElementById('sNRC').value||'').trim(),
+                address: (document.getElementById('sAddress').value||'').trim(),
                 klass:(document.getElementById('sClass').value||'').trim(),
-                age:(document.getElementById('sAge').value||'').trim(),
                 parent:(document.getElementById('sParent').value||'').trim(),
                 phone:(document.getElementById('sPhone').value||'').trim(),
                 email:(document.getElementById('sEmail').value||'').trim(),
+                bloodType: document.getElementById('sBlood') ? document.getElementById('sBlood').value : '',
+                emergencyContact: (document.getElementById('sEmergency').value||'').trim(),
                 enroll:document.getElementById('sEnroll').value||'',
                 status:document.getElementById('sStatus').value||'Active'
             };

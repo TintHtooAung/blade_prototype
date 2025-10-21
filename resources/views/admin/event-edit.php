@@ -119,6 +119,33 @@ ob_start();
         </div>
     </div>
 
+    <!-- Event Attachments -->
+    <div class="exam-detail-card">
+        <div class="exam-detail-header">
+            <h4><i class="fas fa-paperclip"></i> Event Attachments</h4>
+        </div>
+        <div class="exam-detail-content">
+            <div class="form-section" style="padding:0;">
+                <div class="form-row">
+                    <div class="form-group" style="flex:1;">
+                        <label>Attach Files</label>
+                        <input type="file" class="form-input" id="eventAttachments" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.jpg,.jpeg,.png,.gif">
+                        <small style="color: #666; margin-top: 4px; display: block;">
+                            Supported formats: PDF, DOC, XLS, PPT, TXT, JPG, PNG (Max 10MB each)
+                        </small>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:1;">
+                        <div id="attachedFilesList" class="attached-files-list">
+                            <!-- Attached files will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Action Buttons -->
     <div class="exam-detail-card">
         <div class="form-actions" style="justify-content: space-between;">
@@ -155,6 +182,92 @@ ob_start();
     border-radius: 16px;
     font-size: 0.85rem;
     font-weight: 500;
+}
+
+/* File Attachments Styling */
+.attached-files-list {
+    margin-top: 12px;
+}
+
+.attached-file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+.attached-file-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.attached-file-icon {
+    width: 32px;
+    height: 32px;
+    background: #e3f2fd;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1976d2;
+    font-size: 14px;
+}
+
+.attached-file-details {
+    flex: 1;
+}
+
+.attached-file-name {
+    font-weight: 500;
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.attached-file-size {
+    font-size: 12px;
+    color: #666;
+}
+
+.attached-file-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.remove-file-btn {
+    background: #ffebee;
+    color: #d32f2f;
+    border: none;
+    padding: 6px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s;
+}
+
+.remove-file-btn:hover {
+    background: #ffcdd2;
+}
+
+.download-file-btn {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: none;
+    padding: 6px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s;
+}
+
+.download-file-btn:hover {
+    background: #c8e6c9;
 }
 
 /* Match exam-edit styling */
@@ -313,6 +426,11 @@ function loadEventData() {
     document.getElementById('eventAudience').value = eventData.audience;
     document.getElementById('eventDesc').value = eventData.desc || '';
     
+    // Load existing attachments
+    if (eventData.attachments) {
+        displayAttachedFiles(eventData.attachments);
+    }
+    
     // Update display elements
     document.getElementById('eventTitleDisplay').textContent = 'Edit: ' + eventData.title;
     document.getElementById('eventIdDisplay').textContent = eventData.id;
@@ -349,7 +467,8 @@ function saveEvent() {
         end: document.getElementById('eventEnd').value,
         location: location,
         audience: document.getElementById('eventAudience').value,
-        desc: document.getElementById('eventDesc').value.trim()
+        desc: document.getElementById('eventDesc').value.trim(),
+        attachments: getCurrentAttachments()
     };
     
     // Save to localStorage
@@ -433,6 +552,131 @@ document.getElementById('eventCategory').addEventListener('change', function() {
 document.getElementById('eventTitle').addEventListener('input', function() {
     document.getElementById('eventTitleDisplay').textContent = 'Edit: ' + this.value;
 });
+
+// File attachment handling
+let currentAttachments = [];
+
+// Handle file input change
+document.getElementById('eventAttachments').addEventListener('change', function(e) {
+    const files = Array.from(e.target.files);
+    
+    files.forEach(file => {
+        // Validate file size (10MB max)
+        if (file.size > 10 * 1024 * 1024) {
+            showToast(`File "${file.name}" is too large. Maximum size is 10MB.`, 'warning');
+            return;
+        }
+        
+        // Validate file type
+        const allowedTypes = [
+            'application/pdf',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.ms-excel',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'application/vnd.ms-powerpoint',
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            'text/plain',
+            'image/jpeg',
+            'image/jpg',
+            'image/png',
+            'image/gif'
+        ];
+        
+        if (!allowedTypes.includes(file.type)) {
+            showToast(`File "${file.name}" is not a supported format.`, 'warning');
+            return;
+        }
+        
+        // Add to current attachments
+        const attachment = {
+            id: Date.now() + Math.random(),
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            file: file
+        };
+        
+        currentAttachments.push(attachment);
+    });
+    
+    // Clear the input
+    e.target.value = '';
+    
+    // Update display
+    displayAttachedFiles(currentAttachments);
+});
+
+function displayAttachedFiles(attachments) {
+    const container = document.getElementById('attachedFilesList');
+    container.innerHTML = '';
+    
+    if (attachments.length === 0) {
+        container.innerHTML = '<p style="color: #666; font-style: italic; margin: 0;">No files attached</p>';
+        return;
+    }
+    
+    attachments.forEach(attachment => {
+        const fileItem = document.createElement('div');
+        fileItem.className = 'attached-file-item';
+        fileItem.innerHTML = `
+            <div class="attached-file-info">
+                <div class="attached-file-icon">
+                    <i class="fas fa-file"></i>
+                </div>
+                <div class="attached-file-details">
+                    <div class="attached-file-name">${attachment.name}</div>
+                    <div class="attached-file-size">${formatFileSize(attachment.size)}</div>
+                </div>
+            </div>
+            <div class="attached-file-actions">
+                <button class="download-file-btn" onclick="downloadFile('${attachment.id}')" title="Download">
+                    <i class="fas fa-download"></i>
+                </button>
+                <button class="remove-file-btn" onclick="removeFile('${attachment.id}')" title="Remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+        container.appendChild(fileItem);
+    });
+}
+
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+function removeFile(attachmentId) {
+    currentAttachments = currentAttachments.filter(att => att.id != attachmentId);
+    displayAttachedFiles(currentAttachments);
+}
+
+function downloadFile(attachmentId) {
+    const attachment = currentAttachments.find(att => att.id == attachmentId);
+    if (attachment && attachment.file) {
+        const url = URL.createObjectURL(attachment.file);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = attachment.name;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+}
+
+function getCurrentAttachments() {
+    return currentAttachments.map(att => ({
+        id: att.id,
+        name: att.name,
+        size: att.size,
+        type: att.type
+    }));
+}
 
 // Load event data on page load
 document.addEventListener('DOMContentLoaded', loadEventData);

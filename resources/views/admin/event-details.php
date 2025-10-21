@@ -89,52 +89,18 @@ ob_start();
         </div>
     </div>
 
-    <!-- Event Statistics -->
-    <div class="exam-detail-card">
+    <!-- Event Attachments -->
+    <div class="exam-detail-card" id="attachmentsSection" style="display: none;">
         <div class="exam-detail-header">
-            <h4><i class="fas fa-chart-bar"></i> Event Statistics</h4>
+            <h4><i class="fas fa-paperclip"></i> Event Attachments</h4>
         </div>
         <div class="exam-detail-content">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: #e3f2fd;">
-                        <i class="fas fa-users" style="color: #1976d2;"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-value">35</div>
-                        <div class="stat-label">Expected Participants</div>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: #f3e5f5;">
-                        <i class="fas fa-clock" style="color: #7b1fa2;"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-value">3 hrs</div>
-                        <div class="stat-label">Duration</div>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: #e8f5e9;">
-                        <i class="fas fa-map-marker-alt" style="color: #2e7d32;"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-value">Main Hall</div>
-                        <div class="stat-label">Venue</div>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: #fff3e0;">
-                        <i class="fas fa-calendar-check" style="color: #ef6c00;"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-value" id="daysUntil">5 days</div>
-                        <div class="stat-label">Until Event</div>
-                    </div>
-                </div>
+            <div id="attachedFilesList" class="attached-files-list">
+                <!-- Attached files will be displayed here -->
             </div>
         </div>
     </div>
+
 
     <!-- Participants List (If applicable) -->
     <div class="exam-detail-card">
@@ -187,54 +153,75 @@ ob_start();
 </div>
 
 <style>
-/* Stats Grid */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
+/* File Attachments Styling */
+.attached-files-list {
+    margin-top: 12px;
 }
 
-.stat-card {
+.attached-file-item {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 16px;
+    justify-content: space-between;
+    padding: 12px;
     background: #f8f9fa;
-    border-radius: 8px;
     border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 8px;
 }
 
-.stat-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 8px;
+.attached-file-info {
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-}
-
-.stat-content {
+    gap: 12px;
     flex: 1;
 }
 
-.stat-value {
-    font-size: 1.5rem;
-    font-weight: 700;
+.attached-file-icon {
+    width: 32px;
+    height: 32px;
+    background: #e3f2fd;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1976d2;
+    font-size: 14px;
+}
+
+.attached-file-details {
+    flex: 1;
+}
+
+.attached-file-name {
+    font-weight: 500;
     color: #333;
-    line-height: 1.2;
+    font-size: 14px;
+    margin-bottom: 2px;
 }
 
-.stat-label {
-    font-size: 0.85rem;
+.attached-file-size {
+    font-size: 12px;
     color: #666;
-    margin-top: 4px;
 }
 
-@media screen and (max-width: 768px) {
-    .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+.attached-file-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.download-file-btn {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: none;
+    padding: 6px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s;
+}
+
+.download-file-btn:hover {
+    background: #c8e6c9;
 }
 </style>
 
@@ -254,7 +241,21 @@ const sampleEvents = {
         end: '12:00',
         location: 'Main Hall',
         audience: 'Grade 10',
-        desc: 'Final examination for Grade 10 Mathematics covering all topics from the semester.'
+        desc: 'Final examination for Grade 10 Mathematics covering all topics from the semester.',
+        attachments: [
+            {
+                id: 'att1',
+                name: 'Exam Guidelines.pdf',
+                size: 245760,
+                type: 'application/pdf'
+            },
+            {
+                id: 'att2',
+                name: 'Sample Questions.docx',
+                size: 128000,
+                type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            }
+        ]
     },
     'EVT002': {
         id: 'EVT002',
@@ -265,7 +266,21 @@ const sampleEvents = {
         end: '17:00',
         location: 'School Ground',
         audience: 'All School',
-        desc: 'Annual inter-school football championship featuring teams from 8 different schools.'
+        desc: 'Annual inter-school football championship featuring teams from 8 different schools.',
+        attachments: [
+            {
+                id: 'att3',
+                name: 'Tournament Rules.pdf',
+                size: 189440,
+                type: 'application/pdf'
+            },
+            {
+                id: 'att4',
+                name: 'Team Schedule.xlsx',
+                size: 45632,
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            }
+        ]
     },
     'EVT003': {
         id: 'EVT003',
@@ -276,7 +291,27 @@ const sampleEvents = {
         end: '16:00',
         location: 'Assembly Hall',
         audience: 'All School',
-        desc: 'Annual cultural festival showcasing traditional music, dance, and art from different regions.'
+        desc: 'Annual cultural festival showcasing traditional music, dance, and art from different regions.',
+        attachments: [
+            {
+                id: 'att5',
+                name: 'Performance Schedule.pdf',
+                size: 156789,
+                type: 'application/pdf'
+            },
+            {
+                id: 'att6',
+                name: 'Participant List.xlsx',
+                size: 67890,
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            },
+            {
+                id: 'att7',
+                name: 'Event Poster.jpg',
+                size: 234567,
+                type: 'image/jpeg'
+            }
+        ]
     },
     'EVT004': {
         id: 'EVT004',
@@ -287,7 +322,21 @@ const sampleEvents = {
         end: '17:00',
         location: 'Conference Room',
         audience: 'Parents',
-        desc: 'Scheduled parent-teacher meetings to discuss student progress and academic performance.'
+        desc: 'Scheduled parent-teacher meetings to discuss student progress and academic performance.',
+        attachments: [
+            {
+                id: 'att8',
+                name: 'Meeting Agenda.pdf',
+                size: 98765,
+                type: 'application/pdf'
+            },
+            {
+                id: 'att9',
+                name: 'Student Progress Report Template.docx',
+                size: 54321,
+                type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            }
+        ]
     }
 };
 
@@ -315,22 +364,27 @@ function loadEventDetails() {
         document.getElementById('detailParticipants').textContent = event.audience;
         document.getElementById('eventDescription').textContent = event.desc || 'No description available.';
         
-        // Calculate days until event
+        // Load attachments if they exist
+        if (event.attachments && event.attachments.length > 0) {
+            displayAttachedFiles(event.attachments);
+            document.getElementById('attachmentsSection').style.display = 'block';
+        } else {
+            document.getElementById('attachmentsSection').style.display = 'none';
+        }
+        
+        // Calculate event status
         const eventDate = new Date(event.date);
         const today = new Date();
         const diffTime = eventDate - today;
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         
         if (diffDays > 0) {
-            document.getElementById('daysUntil').textContent = `${diffDays} days`;
             document.getElementById('eventStatus').textContent = 'Upcoming';
             document.getElementById('detailStatus').textContent = 'Upcoming';
         } else if (diffDays === 0) {
-            document.getElementById('daysUntil').textContent = 'Today';
             document.getElementById('eventStatus').textContent = 'Active';
             document.getElementById('detailStatus').textContent = 'Active';
         } else {
-            document.getElementById('daysUntil').textContent = 'Completed';
             document.getElementById('eventStatus').textContent = 'Completed';
             document.getElementById('detailStatus').textContent = 'Completed';
         }
@@ -356,6 +410,53 @@ function deleteEventFromDetails() {
             window.location.href = '/admin/event-planner';
         }
     });
+}
+
+function displayAttachedFiles(attachments) {
+    const container = document.getElementById('attachedFilesList');
+    container.innerHTML = '';
+    
+    if (attachments.length === 0) {
+        container.innerHTML = '<p style="color: #666; font-style: italic; margin: 0;">No files attached</p>';
+        return;
+    }
+    
+    attachments.forEach(attachment => {
+        const fileItem = document.createElement('div');
+        fileItem.className = 'attached-file-item';
+        fileItem.innerHTML = `
+            <div class="attached-file-info">
+                <div class="attached-file-icon">
+                    <i class="fas fa-file"></i>
+                </div>
+                <div class="attached-file-details">
+                    <div class="attached-file-name">${attachment.name}</div>
+                    <div class="attached-file-size">${formatFileSize(attachment.size)}</div>
+                </div>
+            </div>
+            <div class="attached-file-actions">
+                <button class="download-file-btn" onclick="downloadAttachment('${attachment.id}', '${attachment.name}')" title="Download">
+                    <i class="fas fa-download"></i>
+                </button>
+            </div>
+        `;
+        container.appendChild(fileItem);
+    });
+}
+
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+function downloadAttachment(attachmentId, fileName) {
+    // In a real application, this would download from the server
+    // For this prototype, we'll show a message
+    showToast(`Downloading "${fileName}"...`, 'info');
+    console.log(`Downloading attachment: ${attachmentId} - ${fileName}`);
 }
 
 // Load event details on page load

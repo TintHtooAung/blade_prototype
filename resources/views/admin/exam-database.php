@@ -20,12 +20,12 @@ ob_start();
 <!-- Exam Management Section -->
 <div class="simple-section">
     <div class="simple-header">
-        <h3>Upcoming Exams</h3>
+        <h3>All Exams</h3>
         <a href="/admin/create-exam" class="simple-btn"><i class="fas fa-plus"></i> Create New Exam</a>
     </div>
 
     <div class="simple-table-container">
-        <table class="basic-table responsive-table">
+        <table class="basic-table responsive-table" id="examDatabaseTable">
             <thead>
                 <tr>
                     <th data-label="Exam ID">Exam ID</th>
@@ -33,194 +33,12 @@ ob_start();
                     <th data-label="Type">Type</th>
                     <th data-label="Class">Class</th>
                     <th data-label="Subject(s)">Subject(s)</th>
-                    <th data-label="Date">Exam Date</th>
                     <th data-label="Status">Status</th>
                     <th data-label="Actions">Actions</th>
                 </tr>
             </thead>
-            <tbody id="upcomingExamsBody">
-                <tr>
-                    <td data-label="Exam ID"><strong>EX001</strong></td>
-                    <td data-label="Exam Name">Mathematics Tutorial 1</td>
-                    <td data-label="Type"><span class="badge-type tutorial">Tutorial</span></td>
-                    <td data-label="Class">Grade 9-A</td>
-                    <td data-label="Subject(s)">Mathematics</td>
-                    <td data-label="Date">2025-01-20</td>
-                    <td data-label="Status"><span class="status-badge pending">Upcoming</span></td>
-                    <td data-label="Actions" class="actions-cell">
-                        <button class="simple-btn-icon" onclick="viewExam('EX001')" title="View Details">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="simple-btn-icon" onclick="editExam('EX001')" title="Edit">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Exam ID"><strong>EX002</strong></td>
-                    <td data-label="Exam Name">Mid-term Exam</td>
-                    <td data-label="Type"><span class="badge-type monthly">Monthly</span></td>
-                    <td data-label="Class">Grade 10-B</td>
-                    <td data-label="Subject(s)">6 subjects</td>
-                    <td data-label="Date">2025-02-05</td>
-                    <td data-label="Status"><span class="status-badge pending">Upcoming</span></td>
-                    <td data-label="Actions" class="actions-cell">
-                        <button class="simple-btn-icon" onclick="viewExam('EX002')" title="View Details">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="simple-btn-icon" onclick="editExam('EX002')" title="Edit">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Exam ID"><strong>EX003</strong></td>
-                    <td data-label="Exam Name">Science Tutorial</td>
-                    <td data-label="Type"><span class="badge-type tutorial">Tutorial</span></td>
-                    <td data-label="Class">Grade 9-B</td>
-                    <td data-label="Subject(s)">Science</td>
-                    <td data-label="Date">2025-01-25</td>
-                    <td data-label="Status"><span class="status-badge pending">Upcoming</span></td>
-                    <td data-label="Actions" class="actions-cell">
-                        <button class="simple-btn-icon" onclick="viewExam('EX003')" title="View Details">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="simple-btn-icon" onclick="editExam('EX003')" title="Edit">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Active Exams -->
-    <div class="simple-header" style="margin-top:24px;">
-        <h3>Active Exams</h3>
-    </div>
-    <div class="simple-table-container">
-        <table class="basic-table responsive-table">
-            <thead>
-                <tr>
-                    <th data-label="Exam ID">Exam ID</th>
-                    <th data-label="Exam Name">Exam Name</th>
-                    <th data-label="Type">Type</th>
-                    <th data-label="Class">Class</th>
-                    <th data-label="Subject(s)">Subject(s)</th>
-                    <th data-label="Date">Exam Date</th>
-                    <th data-label="Status">Status</th>
-                    <th data-label="Actions">Actions</th>
-                </tr>
-            </thead>
-            <tbody id="activeExamsBody">
-                <tr>
-                    <td data-label="Exam ID"><strong>EX008</strong></td>
-                    <td data-label="Exam Name">English Monthly Test</td>
-                    <td data-label="Type"><span class="badge-type monthly">Monthly</span></td>
-                    <td data-label="Class">Grade 11-A</td>
-                    <td data-label="Subject(s)">English</td>
-                    <td data-label="Date">2025-01-15</td>
-                    <td data-label="Status"><span class="status-badge paid">Active</span></td>
-                    <td data-label="Actions" class="actions-cell">
-                        <button class="simple-btn-icon" onclick="viewExam('EX008')" title="View Details">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="simple-btn-icon disabled" onclick="alert('Cannot edit active exams')" title="Edit Disabled" disabled>
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Exam ID"><strong>EX009</strong></td>
-                    <td data-label="Exam Name">Physics Semester Exam</td>
-                    <td data-label="Type"><span class="badge-type semester">Semester</span></td>
-                    <td data-label="Class">Grade 12-A</td>
-                    <td data-label="Subject(s)">5 subjects</td>
-                    <td data-label="Date">2025-01-18</td>
-                    <td data-label="Status"><span class="status-badge paid">Active</span></td>
-                    <td data-label="Actions" class="actions-cell">
-                        <button class="simple-btn-icon" onclick="viewExam('EX009')" title="View Details">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="simple-btn-icon disabled" onclick="alert('Cannot edit active exams')" title="Edit Disabled" disabled>
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Completed Exams -->
-    <div class="simple-header" style="margin-top:24px;">
-        <h3>Completed Exams</h3>
-    </div>
-    <div class="simple-table-container">
-        <table class="basic-table responsive-table">
-            <thead>
-                <tr>
-                    <th data-label="Exam ID">Exam ID</th>
-                    <th data-label="Exam Name">Exam Name</th>
-                    <th data-label="Type">Type</th>
-                    <th data-label="Class">Class</th>
-                    <th data-label="Subject(s)">Subject(s)</th>
-                    <th data-label="Marks">Marks</th>
-                    <th data-label="Status">Status</th>
-                    <th data-label="Actions">Actions</th>
-                </tr>
-            </thead>
-            <tbody id="completedExamsBody">
-                <tr>
-                    <td data-label="Exam ID"><strong>EX005</strong></td>
-                    <td data-label="Exam Name">Final Exam - Science</td>
-                    <td data-label="Type"><span class="badge-type final">Final</span></td>
-                    <td data-label="Class">Grade 12-A</td>
-                    <td data-label="Subject(s)">7 subjects</td>
-                    <td data-label="Marks">100</td>
-                    <td data-label="Status"><span class="status-badge completed">Completed</span></td>
-                    <td data-label="Actions" class="actions-cell">
-                        <button class="simple-btn-icon" onclick="viewExam('EX005')" title="View Details">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="simple-btn-icon" onclick="viewResults('EX005')" title="View Results">
-                            <i class="fas fa-chart-bar"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Exam ID"><strong>EX006</strong></td>
-                    <td data-label="Exam Name">Mid-Semester Assessment</td>
-                    <td data-label="Type"><span class="badge-type semester">Semester</span></td>
-                    <td data-label="Class">Grade 11-B</td>
-                    <td data-label="Subject(s)">6 subjects</td>
-                    <td data-label="Marks">100</td>
-                    <td data-label="Status"><span class="status-badge completed">Completed</span></td>
-                    <td data-label="Actions" class="actions-cell">
-                        <button class="simple-btn-icon" onclick="viewExam('EX006')" title="View Details">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="simple-btn-icon" onclick="viewResults('EX006')" title="View Results">
-                            <i class="fas fa-chart-bar"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Exam ID"><strong>EX007</strong></td>
-                    <td data-label="Exam Name">Monthly Test - Math</td>
-                    <td data-label="Type"><span class="badge-type monthly">Monthly</span></td>
-                    <td data-label="Class">Grade 9-A</td>
-                    <td data-label="Subject(s)">Mathematics</td>
-                    <td data-label="Marks">100</td>
-                    <td data-label="Status"><span class="status-badge completed">Completed</span></td>
-                    <td data-label="Actions" class="actions-cell">
-                        <button class="simple-btn-icon" onclick="viewExam('EX007')" title="View Details">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="simple-btn-icon" onclick="viewResults('EX007')" title="View Results">
-                            <i class="fas fa-chart-bar"></i>
-                        </button>
-                    </td>
-                </tr>
+            <tbody id="allExamsBody">
+                <!-- Exams will be populated and sorted by status here -->
             </tbody>
         </table>
     </div>
@@ -257,14 +75,14 @@ ob_start();
     color: #c62828;
 }
 
-.status-badge.completed {
+.status-badge.ended {
     background: #e8f5e9;
     color: #2e7d32;
 }
 
-.status-badge.pending {
-    background: #fff3e0;
-    color: #ef6c00;
+.status-badge.active {
+    background: #e3f2fd;
+    color: #1976d2;
 }
 
 /* Disabled Button */
@@ -359,63 +177,170 @@ function editExam(examId) {
 }
 
 /**
+ * Delete exam (with confirmation)
+ * Backend: DELETE /api/exams/{examId}
+ */
+function deleteExam(examId, examName) {
+    showConfirmDialog({
+        title: 'Delete Exam',
+        message: `Are you sure you want to delete "${examName}" (ID: ${examId})? This action cannot be undone.`,
+        confirmText: 'Delete',
+        confirmIcon: 'fas fa-trash',
+        onConfirm: () => {
+            // TODO: Integrate backend call
+            // fetch(`/api/exams/${examId}`, { method: 'DELETE' })
+            //   .then(() => loadExams());
+            showActionStatus('Exam deleted successfully.', 'success');
+            // Remove from table immediately for prototype UX
+            const rowBtn = document.querySelector(`button[onclick*="deleteExam('${examId}'"]`);
+            if (rowBtn) {
+                const tr = rowBtn.closest('tr');
+                if (tr) tr.remove();
+            }
+        }
+    });
+}
+
+/**
  * View exam results
  * Backend: GET /api/exams/{examId}/results
  */
 function viewResults(examId) {
     // Navigate to results page
-    window.location.href = `/admin/exam-results?id=${examId}`;
+    // Deprecated: results page removed
 }
 
 /**
- * Load exams from backend
- * Backend: GET /api/exams?status={active|completed}
+ * Load and combine all exams from backend, sorted by status
+ * Backend: GET /api/exams
  */
 async function loadExams() {
     try {
+        // For now, use mock data - in real app this would come from backend
+        const allExams = [
+            // Active Exams
+            {
+                id: 'EX001',
+                name: 'Mathematics Tutorial 1',
+                type: 'tutorial',
+                class: 'Grade 9-A',
+                subjects: 'Mathematics',
+                status: 'Active'
+            },
+            {
+                id: 'EX002',
+                name: 'Mid-term Exam',
+                type: 'monthly',
+                class: 'Grade 10-B',
+                subjects: '6 subjects',
+                status: 'Active'
+            },
+            {
+                id: 'EX003',
+                name: 'Science Tutorial',
+                type: 'tutorial',
+                class: 'Grade 9-B',
+                subjects: 'Science',
+                status: 'Active'
+            },
+            {
+                id: 'EX004',
+                name: 'Chemistry Lab Test',
+                type: 'tutorial',
+                class: 'Grade 11-A',
+                subjects: 'Chemistry',
+                status: 'Active'
+            },
+            {
+                id: 'EX008',
+                name: 'English Monthly Test',
+                type: 'monthly',
+                class: 'Grade 11-A',
+                subjects: 'English',
+                status: 'Active'
+            },
+            {
+                id: 'EX009',
+                name: 'Physics Semester Exam',
+                type: 'semester',
+                class: 'Grade 12-A',
+                subjects: '5 subjects',
+                status: 'Active'
+            },
+
+            // Ended Exams
+            {
+                id: 'EX005',
+                name: 'Final Exam - Science',
+                type: 'final',
+                class: 'Grade 12-A',
+                subjects: '7 subjects',
+                status: 'Ended'
+            },
+            {
+                id: 'EX006',
+                name: 'Mid-Semester Assessment',
+                type: 'semester',
+                class: 'Grade 11-B',
+                subjects: '6 subjects',
+                status: 'Ended'
+            },
+            {
+                id: 'EX007',
+                name: 'Monthly Test - Math',
+                type: 'monthly',
+                class: 'Grade 9-A',
+                subjects: 'Mathematics',
+                status: 'Ended'
+            }
+        ];
+
+        // Sort exams by status priority: Active -> Ended
+        const statusOrder = { 'Active': 1, 'Ended': 2 };
+        allExams.sort((a, b) => {
+            const statusDiff = statusOrder[a.status] - statusOrder[b.status];
+            if (statusDiff !== 0) return statusDiff;
+
+            // Within same status, sort by exam name alphabetically
+            return a.name.localeCompare(b.name);
+        });
+
+        renderAllExams(allExams);
+
         // Example backend integration:
-        // const activeResponse = await fetch('/api/exams?status=active');
-        // const activeExams = await activeResponse.json();
-        // renderExams(activeExams, 'activeExamsBody');
-        
-        // const completedResponse = await fetch('/api/exams?status=completed');
-        // const completedExams = await completedResponse.json();
-        // renderExams(completedExams, 'completedExamsBody');
-        
-        console.log('Exam database ready for backend integration');
+        // const response = await fetch('/api/exams');
+        // const allExams = await response.json();
+        // renderAllExams(allExams);
+
+        console.log('Exam database loaded and sorted by status');
     } catch (error) {
         console.error('Error loading exams:', error);
     }
 }
 
 /**
- * Render exams to table
- * @param {Array} exams - Array of exam objects
- * @param {string} tableBodyId - Table body element ID
+ * Render all exams to combined table, sorted by status
+ * @param {Array} exams - Array of all exam objects
  */
-function renderExams(exams, tableBodyId) {
-    const tbody = document.getElementById(tableBodyId);
+function renderAllExams(exams) {
+    const tbody = document.getElementById('allExamsBody');
     if (!tbody) return;
     
     tbody.innerHTML = exams.map(exam => `
         <tr>
             <td data-label="Exam ID"><strong>${exam.id}</strong></td>
             <td data-label="Exam Name">${exam.name}</td>
-            <td data-label="Type"><span class="badge-type ${exam.type.toLowerCase()}">${exam.type}</span></td>
+            <td data-label="Type"><span class="badge-type ${exam.type}">${exam.type.charAt(0).toUpperCase() + exam.type.slice(1)}</span></td>
             <td data-label="Class">${exam.class}</td>
             <td data-label="Subject(s)">${exam.subjects}</td>
-            <td data-label="Date">${exam.date || '-'}</td>
             <td data-label="Status"><span class="status-badge ${exam.status.toLowerCase()}">${exam.status}</span></td>
             <td data-label="Actions" class="actions-cell">
                 <button class="simple-btn-icon" onclick="viewExam('${exam.id}')" title="View Details">
                     <i class="fas fa-eye"></i>
                 </button>
-                ${exam.status === 'Upcoming' ? 
-                    `<button class="simple-btn-icon" onclick="editExam('${exam.id}')" title="Edit"><i class="fas fa-edit"></i></button>` :
-                    exam.status === 'Active' ?
-                    `<button class="simple-btn-icon disabled" onclick="alert('Cannot edit active exams')" title="Edit Disabled" disabled><i class="fas fa-edit"></i></button>` :
-                    `<button class="simple-btn-icon" onclick="viewResults('${exam.id}')" title="View Results"><i class="fas fa-chart-bar"></i></button>`
-                }
+                <button class="simple-btn-icon" onclick="deleteExam('${exam.id}','${exam.name}')" title="Delete Exam">
+                    <i class="fas fa-trash"></i>
+                </button>
             </td>
         </tr>
     `).join('');

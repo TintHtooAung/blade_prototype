@@ -75,6 +75,34 @@ ob_start();
                         </select>
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Date of Birth</label>
+                        <input type="date" class="form-input" value="1988-06-15">
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select class="form-select">
+                            <option value="male" selected>Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>NRC Number</label>
+                        <input type="text" class="form-input" placeholder="e.g., 12/STU(N)345678" value="12/TEA(N)123456">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:2;">
+                        <label>Address</label>
+                        <input type="text" class="form-input" placeholder="Street, City, State" value="123 Teacher St, City, State">
+                    </div>
+                    <div class="form-group">
+                        <label>Emergency Contact</label>
+                        <input type="text" class="form-input" placeholder="Name - Phone" value="John Doe - +1-555-0111">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
