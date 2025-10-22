@@ -198,6 +198,78 @@ switch ($path) {
     case '/admin/staff-profile-edit':
         include __DIR__ . '/../resources/views/admin/staff-profile-edit.php';
         break;
+    
+    // Teacher Pages
+    case '/teacher/teacher-profile':
+        include __DIR__ . '/../resources/views/teacher/teacher-profile.php';
+        break;
+    case '/teacher/teacher-profile-edit':
+        include __DIR__ . '/../resources/views/teacher/teacher-profile-edit.php';
+        break;
+    
+    // Staff Pages
+    case '/staff/staff-profile':
+        include __DIR__ . '/../resources/views/staff/staff-profile.php';
+        break;
+    case '/staff/staff-profile-edit':
+        include __DIR__ . '/../resources/views/staff/staff-profile-edit.php';
+        break;
+    case '/staff/event-planner':
+        include __DIR__ . '/../resources/views/staff/event-planner.php';
+        break;
+    case '/staff/teacher-profiles':
+        include __DIR__ . '/../resources/views/staff/teacher-profiles.php';
+        break;
+    case '/staff/announcements':
+        include __DIR__ . '/../resources/views/staff/announcements.php';
+        break;
+    case '/staff/schedule-planner':
+        include __DIR__ . '/../resources/views/staff/schedule-planner.php';
+        break;
+    case '/staff/attendance':
+        include __DIR__ . '/../resources/views/staff/attendance.php';
+        break;
+    case '/staff/student-profiles':
+        include __DIR__ . '/../resources/views/staff/student-profiles.php';
+        break;
+    case '/staff/room-management':
+        include __DIR__ . '/../resources/views/staff/room-management.php';
+        break;
+    case '/staff/class-management':
+        include __DIR__ . '/../resources/views/staff/class-management.php';
+        break;
+    case '/staff/exam-database':
+        include __DIR__ . '/../resources/views/staff/exam-database.php';
+        break;
+    case '/staff/report-centre':
+        include __DIR__ . '/../resources/views/staff/report-centre.php';
+        break;
+    
+    // Teacher Pages
+    case '/teacher/notispace-events':
+        include __DIR__ . '/../resources/views/teacher/notispace-events.php';
+        break;
+    case '/teacher/schedule-view':
+        include __DIR__ . '/../resources/views/teacher/schedule-view.php';
+        break;
+    case '/teacher/attendance':
+        include __DIR__ . '/../resources/views/teacher/attendance.php';
+        break;
+    case '/teacher/student-profiles':
+        include __DIR__ . '/../resources/views/teacher/student-profiles.php';
+        break;
+    case '/teacher/subject-profiles':
+        include __DIR__ . '/../resources/views/teacher/subject-profiles.php';
+        break;
+    case '/teacher/class-profiles':
+        include __DIR__ . '/../resources/views/teacher/class-profiles.php';
+        break;
+    case '/teacher/exam-results':
+        include __DIR__ . '/../resources/views/teacher/exam-results.php';
+        break;
+    case '/teacher/enter-marks':
+        include __DIR__ . '/../resources/views/teacher/enter-marks.php';
+        break;
         
     default:
         http_response_code(404);
