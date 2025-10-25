@@ -232,11 +232,8 @@ switch ($path) {
     case '/staff/student-profiles':
         include __DIR__ . '/../resources/views/staff/student-profiles.php';
         break;
-    case '/staff/room-management':
-        include __DIR__ . '/../resources/views/staff/room-management.php';
-        break;
-    case '/staff/class-management':
-        include __DIR__ . '/../resources/views/staff/class-management.php';
+    case '/staff/academic-management':
+        include __DIR__ . '/../resources/views/staff/academic-management.php';
         break;
     case '/staff/exam-database':
         include __DIR__ . '/../resources/views/staff/exam-database.php';
@@ -246,8 +243,11 @@ switch ($path) {
         break;
     
     // Teacher Pages
-    case '/teacher/notispace-events':
-        include __DIR__ . '/../resources/views/teacher/notispace-events.php';
+    case '/teacher/event-calendar':
+        include __DIR__ . '/../resources/views/teacher/event-calendar.php';
+        break;
+    case '/teacher/announcements':
+        include __DIR__ . '/../resources/views/teacher/announcements.php';
         break;
     case '/teacher/schedule-view':
         include __DIR__ . '/../resources/views/teacher/schedule-view.php';
@@ -266,6 +266,27 @@ switch ($path) {
         break;
     case '/teacher/exam-results':
         include __DIR__ . '/../resources/views/teacher/exam-results.php';
+        break;
+    case '/teacher/class-schedules':
+        include __DIR__ . '/../resources/views/teacher/class-schedules.php';
+        break;
+    case '/teacher/class-schedule/Grade-10A':
+        include __DIR__ . '/../resources/views/teacher/class-schedule-detail.php';
+        break;
+    case '/teacher/class-schedule/Grade-10B':
+        include __DIR__ . '/../resources/views/teacher/class-schedule-detail.php';
+        break;
+    case '/teacher/class-schedule/Grade-11A':
+        include __DIR__ . '/../resources/views/teacher/class-schedule-detail.php';
+        break;
+    case '/teacher/class-schedule/Grade-11B':
+        include __DIR__ . '/../resources/views/teacher/class-schedule-detail.php';
+        break;
+    case '/teacher/class-schedule/Grade-12A':
+        include __DIR__ . '/../resources/views/teacher/class-schedule-detail.php';
+        break;
+    case '/teacher/class-schedule/Grade-12B':
+        include __DIR__ . '/../resources/views/teacher/class-schedule-detail.php';
         break;
     case '/teacher/enter-marks':
         include __DIR__ . '/../resources/views/teacher/enter-marks.php';

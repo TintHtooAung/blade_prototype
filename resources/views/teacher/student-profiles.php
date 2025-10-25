@@ -2,10 +2,11 @@
 $pageTitle = 'Smart Campus Nova Hub - Student Profiles';
 $pageIcon = 'fas fa-user-graduate';
 $pageHeading = 'Student Profiles';
-$activePage = 'students';
+$activePage = 'student-profiles';
 
 ob_start();
 ?>
+
 <!-- Compact Page Header -->
 <div class="page-header-compact">
     <div class="page-icon-compact">
@@ -16,110 +17,187 @@ ob_start();
     </div>
 </div>
 
-<!-- Content Section -->
+<!-- Student Profiles Section -->
 <div class="simple-section">
     <div class="simple-header">
-        <h3><i class="fas fa-user-graduate"></i> My Students</h3>
-        <div class="simple-actions">
-            <button class="simple-btn secondary">
-                <i class="fas fa-search"></i> Search
-            </button>
-            <button class="simple-btn secondary">
-                <i class="fas fa-filter"></i> Filter
-            </button>
-        </div>
+        <h3>My Students</h3>
     </div>
     
-    <div class="content-placeholder">
-        <div class="placeholder-icon">
-            <i class="fas fa-user-graduate"></i>
+    <div class="simple-search">
+        <input type="text" placeholder="Search student by name, ID, or class..." class="simple-input">
+        <button class="simple-btn">Search</button>
+    </div>
+
+    <div class="simple-filters">
+        <div class="filter-group">
+            <label>Filter by Class:</label>
+            <select class="filter-select">
+                <option value="">All Classes</option>
+                <option value="Grade 9-A">Grade 9-A</option>
+                <option value="Grade 9-B">Grade 9-B</option>
+                <option value="Grade 10-A">Grade 10-A</option>
+                <option value="Grade 10-B">Grade 10-B</option>
+                <option value="Grade 11-A">Grade 11-A</option>
+                <option value="Grade 11-B">Grade 11-B</option>
+                <option value="Grade 12-A">Grade 12-A</option>
+                <option value="Grade 12-B">Grade 12-B</option>
+            </select>
         </div>
-        <h4>Student Profiles</h4>
-        <p>View and manage student information, academic records, and progress tracking.</p>
-        <div class="placeholder-features">
-            <div class="feature-item">
-                <i class="fas fa-user"></i>
-                <span>Student Details</span>
-            </div>
-            <div class="feature-item">
-                <i class="fas fa-graduation-cap"></i>
-                <span>Academic Records</span>
-            </div>
-            <div class="feature-item">
-                <i class="fas fa-chart-bar"></i>
-                <span>Performance Analytics</span>
-            </div>
+        <div class="filter-group">
+            <label>Filter by Grade:</label>
+            <select class="filter-select">
+                <option value="">All Grades</option>
+                <option value="Grade 9">Grade 9</option>
+                <option value="Grade 10">Grade 10</option>
+                <option value="Grade 11">Grade 11</option>
+                <option value="Grade 12">Grade 12</option>
+            </select>
         </div>
+        <button class="simple-btn">Apply Filters</button>
+    </div>
+    
+    <div class="simple-table-container">
+        <table class="basic-table">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Full Name</th>
+                    <th>Class</th>
+                    <th>Age</th>
+                    <th>Parent Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Enrollment Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>S001</strong></td>
+                    <td>John Smith</td>
+                    <td>Grade 9-A</td>
+                    <td>15</td>
+                    <td>Robert Smith</td>
+                    <td>+1-555-1001</td>
+                    <td>rsmith@email.com</td>
+                    <td>2023-09-01</td>
+                    <td>Active</td>
+                    <td><a class="view-btn" href="/teacher/student-profile/S001">View Details</a></td>
+                </tr>
+                <tr>
+                    <td><strong>S002</strong></td>
+                    <td>Sarah Johnson</td>
+                    <td>Grade 9-A</td>
+                    <td>14</td>
+                    <td>Mary Johnson</td>
+                    <td>+1-555-1002</td>
+                    <td>mjohnson@email.com</td>
+                    <td>2023-09-01</td>
+                    <td>Active</td>
+                    <td><a class="view-btn" href="/teacher/student-profile/S002">View Details</a></td>
+                </tr>
+                <tr>
+                    <td><strong>S003</strong></td>
+                    <td>Mike Davis</td>
+                    <td>Grade 10-B</td>
+                    <td>16</td>
+                    <td>James Davis</td>
+                    <td>+1-555-1003</td>
+                    <td>jdavis@email.com</td>
+                    <td>2022-09-05</td>
+                    <td>Active</td>
+                    <td><a class="view-btn" href="/teacher/student-profile/S003">View Details</a></td>
+                </tr>
+                <tr>
+                    <td><strong>S004</strong></td>
+                    <td>Emma Wilson</td>
+                    <td>Grade 11-A</td>
+                    <td>17</td>
+                    <td>Lisa Wilson</td>
+                    <td>+1-555-1004</td>
+                    <td>lwilson@email.com</td>
+                    <td>2021-09-10</td>
+                    <td>Active</td>
+                    <td><a class="view-btn" href="/teacher/student-profile/S004">View Details</a></td>
+                </tr>
+                <tr>
+                    <td><strong>S005</strong></td>
+                    <td>Alex Brown</td>
+                    <td>Grade 12-A</td>
+                    <td>18</td>
+                    <td>Michael Brown</td>
+                    <td>+1-555-1005</td>
+                    <td>mbrown@email.com</td>
+                    <td>2020-09-15</td>
+                    <td>Active</td>
+                    <td><a class="view-btn" href="/teacher/student-profile/S005">View Details</a></td>
+                </tr>
+                <tr>
+                    <td><strong>S006</strong></td>
+                    <td>Jessica Lee</td>
+                    <td>Grade 9-B</td>
+                    <td>15</td>
+                    <td>Susan Lee</td>
+                    <td>+1-555-1006</td>
+                    <td>slee@email.com</td>
+                    <td>2023-09-01</td>
+                    <td>Active</td>
+                    <td><a class="view-btn" href="/teacher/student-profile/S006">View Details</a></td>
+                </tr>
+                <tr>
+                    <td><strong>S007</strong></td>
+                    <td>David Garcia</td>
+                    <td>Grade 10-A</td>
+                    <td>16</td>
+                    <td>Carlos Garcia</td>
+                    <td>+1-555-1007</td>
+                    <td>cgarcia@email.com</td>
+                    <td>2022-09-08</td>
+                    <td>Active</td>
+                    <td><a class="view-btn" href="/teacher/student-profile/S007">View Details</a></td>
+                </tr>
+                <tr>
+                    <td><strong>S008</strong></td>
+                    <td>Anna Taylor</td>
+                    <td>Grade 11-B</td>
+                    <td>17</td>
+                    <td>Jennifer Taylor</td>
+                    <td>+1-555-1008</td>
+                    <td>jtaylor@email.com</td>
+                    <td>2021-09-12</td>
+                    <td>Transfer</td>
+                    <td><a class="view-btn" href="/teacher/student-profile/S008">View Details</a></td>
+                </tr>
+                <tr>
+                    <td><strong>S009</strong></td>
+                    <td>Chris Martinez</td>
+                    <td>Grade 12-B</td>
+                    <td>18</td>
+                    <td>Rosa Martinez</td>
+                    <td>+1-555-1009</td>
+                    <td>rmartinez@email.com</td>
+                    <td>2020-09-20</td>
+                    <td>Active</td>
+                    <td><a class="view-btn" href="/teacher/student-profile/S009">View Details</a></td>
+                </tr>
+                <tr>
+                    <td><strong>S010</strong></td>
+                    <td>Mia Anderson</td>
+                    <td>Grade 9-A</td>
+                    <td>14</td>
+                    <td>Patricia Anderson</td>
+                    <td>+1-555-1010</td>
+                    <td>panderson@email.com</td>
+                    <td>2023-09-01</td>
+                    <td>Active</td>
+                    <td><a class="view-btn" href="/teacher/student-profile/S010">View Details</a></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
-<style>
-.content-placeholder {
-    text-align: center;
-    padding: 60px 20px;
-    color: #666;
-}
-
-.placeholder-icon {
-    font-size: 4rem;
-    color: #ddd;
-    margin-bottom: 20px;
-}
-
-.placeholder-icon i {
-    color: #1976d2;
-}
-
-.content-placeholder h4 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.content-placeholder p {
-    font-size: 1rem;
-    margin-bottom: 30px;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.placeholder-features {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    flex-wrap: wrap;
-}
-
-.feature-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    padding: 20px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    background: #f9f9f9;
-    min-width: 120px;
-}
-
-.feature-item i {
-    font-size: 1.5rem;
-    color: #1976d2;
-}
-
-.feature-item span {
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-@media (max-width: 768px) {
-    .placeholder-features {
-        flex-direction: column;
-        align-items: center;
-    }
-}
-</style>
 <?php
 $content = ob_get_clean();
 

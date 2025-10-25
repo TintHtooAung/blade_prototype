@@ -22,8 +22,13 @@ $activePage = $activePage ?? 'dashboard';
             </a>
         </li>
         <li>
-            <a href="/teacher/notispace-events" class="<?php echo $activePage === 'notispace-events' ? 'active' : ''; ?>">
-                <i class="fas fa-bell"></i> Notispace & Events <span class="badge bg-danger rounded-pill ms-auto">3</span>
+            <a href="/teacher/event-calendar" class="<?php echo $activePage === 'event-calendar' ? 'active' : ''; ?>">
+                <i class="fas fa-calendar-alt"></i> Event Calendar
+            </a>
+        </li>
+        <li>
+            <a href="/teacher/announcements" class="<?php echo $activePage === 'announcements' ? 'active' : ''; ?>">
+                <i class="fas fa-bullhorn"></i> Announcements <span class="badge bg-danger rounded-pill ms-auto">3</span>
             </a>
         </li>
         <li>

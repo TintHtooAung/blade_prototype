@@ -17,24 +17,172 @@ ob_start();
     <div class="page-title-compact">
         <h2><?php echo $pageHeading; ?></h2>
     </div>
-    <div class="page-actions">
-        <a href="/admin/create-announcement" class="create-announcement-btn">
-            <i class="fas fa-plus"></i>
-            Create Announcement
-        </a>
+</div>
+
+<!-- Create Announcement Section -->
+<div class="simple-section">
+    <div class="simple-header">
+        <h3>Create New Announcement</h3>
+        <button class="simple-btn" id="toggleAnnouncementForm"><i class="fas fa-plus"></i> Add Announcement</button>
+    </div>
+
+    <!-- Inline Announcement Form -->
+    <div id="announcementForm" class="simple-section" style="display:none; margin-top:12px;">
+        <div class="simple-header">
+            <h4><i class="fas fa-bullhorn"></i> Create Announcement</h4>
+        </div>
+        <div class="form-section">
+            <div class="form-row">
+                <div class="form-group" style="flex:2;">
+                    <label>Announcement Title</label>
+                    <input type="text" class="form-input" id="announcementTitle" placeholder="e.g., Annual Science Fair 2024">
+                </div>
+                <div class="form-group">
+                    <label>Priority</label>
+                    <select class="form-select" id="announcementPriority">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                        <option value="urgent">Urgent</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Type</label>
+                    <select class="form-select" id="announcementType">
+                        <option value="general">General</option>
+                        <option value="academic">Academic</option>
+                        <option value="event">Event</option>
+                        <option value="emergency">Emergency</option>
+                        <option value="maintenance">Maintenance</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Target Audience</label>
+                    <select class="form-select" id="announcementAudience">
+                        <option value="All Users">All Users</option>
+                        <option value="Students">Students</option>
+                        <option value="Teachers">Teachers</option>
+                        <option value="Staff">Staff</option>
+                        <option value="Parents">Parents</option>
+                        <option value="Parents & Teachers">Parents & Teachers</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group" style="flex:1;">
+                    <label>Message</label>
+                    <textarea class="form-input" id="announcementMessage" rows="4" placeholder="Enter announcement message..."></textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Campuses</label>
+                    <select class="form-select" id="announcementCampuses">
+                        <option value="All">All</option>
+                        <option value="Main">Main</option>
+                        <option value="North">North</option>
+                        <option value="Main, North">Main, North</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Publish Date</label>
+                    <input type="date" class="form-input" id="announcementDate">
+                </div>
+            </div>
+            <div class="form-actions">
+                <button id="cancelAnnouncement" class="simple-btn secondary"><i class="fas fa-times"></i> Cancel</button>
+                <button id="saveAnnouncement" class="simple-btn primary"><i class="fas fa-check"></i> Save Announcement</button>
+            </div>
+        </div>
     </div>
 </div>
 
 <!-- Announcements List -->
-<div class="simple-section">
+<div class="simple-section" style="margin-top:16px;">
     <div class="simple-header">
-        <h3>Announcements</h3>
+        <h3>All Announcements</h3>
     </div>
 
     <div id="annFeed" class="announcements-list"></div>
 </div>
 
 <script>
+// Toggle form functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleBtn = document.getElementById('toggleAnnouncementForm');
+    const form = document.getElementById('announcementForm');
+    const cancelBtn = document.getElementById('cancelAnnouncement');
+    const saveBtn = document.getElementById('saveAnnouncement');
+
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', function() {
+            const isHidden = form.style.display === 'none';
+            form.style.display = isHidden ? 'block' : 'none';
+            
+            if (isHidden) {
+                clearForm();
+            }
+        });
+    }
+
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', function() {
+            form.style.display = 'none';
+            clearForm();
+        });
+    }
+
+    if (saveBtn) {
+        saveBtn.addEventListener('click', function() {
+            const title = document.getElementById('announcementTitle').value.trim();
+            const message = document.getElementById('announcementMessage').value.trim();
+            const priority = document.getElementById('announcementPriority').value;
+            const type = document.getElementById('announcementType').value;
+            const audience = document.getElementById('announcementAudience').value;
+            const campuses = document.getElementById('announcementCampuses').value;
+            const date = document.getElementById('announcementDate').value || new Date().toISOString().split('T')[0];
+            
+            if (!title || !message) {
+                alert('Please fill in title and message');
+                return;
+            }
+            
+            const announcementData = {
+                id: 'ANN' + Date.now(),
+                title,
+                message,
+                priority,
+                type,
+                audience,
+                campuses,
+                date
+            };
+            
+            // Save to localStorage
+            let announcements = JSON.parse(localStorage.getItem('announcements') || '[]');
+            announcements.unshift(announcementData);
+            localStorage.setItem('announcements', JSON.stringify(announcements));
+            
+            alert(`Announcement "${title}" created successfully`);
+            form.style.display = 'none';
+            clearForm();
+            displayAnnouncements();
+        });
+    }
+});
+
+function clearForm() {
+    document.getElementById('announcementTitle').value = '';
+    document.getElementById('announcementMessage').value = '';
+    document.getElementById('announcementPriority').value = 'medium';
+    document.getElementById('announcementType').value = 'general';
+    document.getElementById('announcementAudience').value = 'All Users';
+    document.getElementById('announcementCampuses').value = 'All';
+    document.getElementById('announcementDate').value = '';
+}
+
 (function(){
     function parseDate(d){ return d ? new Date(d) : null; }
     function escapeHtml(str){
@@ -89,6 +237,9 @@ ob_start();
         feed.innerHTML = '';
         data.forEach(a => feed.appendChild(card(a)));
     }
+
+    // Make displayAnnouncements globally available
+    window.displayAnnouncements = displayAnnouncements;
 
     displayAnnouncements();
 })();

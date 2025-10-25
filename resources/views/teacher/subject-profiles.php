@@ -4,6 +4,9 @@ $pageIcon = 'fas fa-book';
 $pageHeading = 'Subject Profiles';
 $activePage = 'subject-profiles';
 
+// Include UI components
+include __DIR__ . '/../components/ui/card.php';
+
 ob_start();
 ?>
 <!-- Compact Page Header -->
@@ -16,110 +19,114 @@ ob_start();
     </div>
 </div>
 
-<!-- Content Section -->
-<div class="simple-section">
-    <div class="simple-header">
-        <h3><i class="fas fa-book"></i> My Subjects</h3>
-        <div class="simple-actions">
-            <button class="simple-btn secondary">
-                <i class="fas fa-search"></i> Search
-            </button>
-            <button class="simple-btn secondary">
-                <i class="fas fa-filter"></i> Filter
-            </button>
-        </div>
+<!-- Subject Statistics -->
+<div class="detail-stats-grid">
+    <?php echo renderStatCard([
+        'title' => 'Total Subjects',
+        'value' => '4',
+        'icon' => 'fas fa-book-open',
+        'iconColor' => 'red'
+    ]); ?>
+    
+    <?php echo renderStatCard([
+        'title' => 'Core Subjects',
+        'value' => '3',
+        'icon' => 'fas fa-star',
+        'iconColor' => 'yellow'
+    ]); ?>
+    
+    <?php echo renderStatCard([
+        'title' => 'Elective Subjects',
+        'value' => '1',
+        'icon' => 'fas fa-plus-circle',
+        'iconColor' => 'green'
+    ]); ?>
+    
+    <?php echo renderStatCard([
+        'title' => 'Total Teachers',
+        'value' => '6',
+        'icon' => 'fas fa-chalkboard-teacher',
+        'iconColor' => 'blue'
+    ]); ?>
+</div>
+
+<!-- Subject Management Table -->
+<div class="detail-management-section">
+    <div class="section-header">
+        <h3 class="section-title">My Subjects</h3>
     </div>
     
-    <div class="content-placeholder">
-        <div class="placeholder-icon">
-            <i class="fas fa-book"></i>
-        </div>
-        <h4>Subject Profiles</h4>
-        <p>View and manage the subjects you teach, including curriculum details and resources.</p>
-        <div class="placeholder-features">
-            <div class="feature-item">
-                <i class="fas fa-book-open"></i>
-                <span>Subject Details</span>
-            </div>
-            <div class="feature-item">
-                <i class="fas fa-graduation-cap"></i>
-                <span>Curriculum</span>
-            </div>
-            <div class="feature-item">
-                <i class="fas fa-folder"></i>
-                <span>Resources</span>
-            </div>
-        </div>
+    <div class="detail-table-container">
+        <table class="academic-table">
+            <thead>
+                <tr>
+                    <th>Subject Code</th>
+                    <th>Subject Name</th>
+                    <th>Category</th>
+                    <th>Grades</th>
+                    <th>Teachers</th>
+                    <th>Hours/Week</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="subject-code"><strong>MATH</strong></td>
+                    <td>Mathematics</td>
+                    <td><span class="category-badge core">Core</span></td>
+                    <td>1, 2, 9, 10</td>
+                    <td class="teacher-count">2</td>
+                    <td class="hours">5</td>
+                    <td class="actions-cell">
+                        <button class="action-icon view" title="View Details">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="subject-code"><strong>ENG</strong></td>
+                    <td>English Language</td>
+                    <td><span class="category-badge core">Core</span></td>
+                    <td>1, 2, 9, 10</td>
+                    <td class="teacher-count">2</td>
+                    <td class="hours">4</td>
+                    <td class="actions-cell">
+                        <button class="action-icon view" title="View Details">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="subject-code"><strong>SCI</strong></td>
+                    <td>Science</td>
+                    <td><span class="category-badge core">Core</span></td>
+                    <td>1, 2, 9, 10</td>
+                    <td class="teacher-count">1</td>
+                    <td class="hours">4</td>
+                    <td class="actions-cell">
+                        <button class="action-icon view" title="View Details">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="subject-code"><strong>ART</strong></td>
+                    <td>Visual Arts</td>
+                    <td><span class="category-badge elective">Elective</span></td>
+                    <td>1, 2, 9, 10</td>
+                    <td class="teacher-count">1</td>
+                    <td class="hours">2</td>
+                    <td class="actions-cell">
+                        <button class="action-icon view" title="View Details">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
-<style>
-.content-placeholder {
-    text-align: center;
-    padding: 60px 20px;
-    color: #666;
-}
-
-.placeholder-icon {
-    font-size: 4rem;
-    color: #ddd;
-    margin-bottom: 20px;
-}
-
-.placeholder-icon i {
-    color: #1976d2;
-}
-
-.content-placeholder h4 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.content-placeholder p {
-    font-size: 1rem;
-    margin-bottom: 30px;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.placeholder-features {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    flex-wrap: wrap;
-}
-
-.feature-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    padding: 20px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    background: #f9f9f9;
-    min-width: 120px;
-}
-
-.feature-item i {
-    font-size: 1.5rem;
-    color: #1976d2;
-}
-
-.feature-item span {
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-@media (max-width: 768px) {
-    .placeholder-features {
-        flex-direction: column;
-        align-items: center;
-    }
-}
-</style>
 <?php
 $content = ob_get_clean();
 

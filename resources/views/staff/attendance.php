@@ -1,11 +1,12 @@
 <?php
-$pageTitle = 'Smart Campus Nova Hub - Attendance';
+$pageTitle = 'Smart Campus Nova Hub - Attendance Management';
 $pageIcon = 'fas fa-user-check';
 $pageHeading = 'Attendance Management';
 $activePage = 'attendance';
 
 ob_start();
 ?>
+
 <!-- Compact Page Header -->
 <div class="page-header-compact">
     <div class="page-icon-compact">
@@ -16,110 +17,313 @@ ob_start();
     </div>
 </div>
 
-<!-- Content Section -->
+<!-- Today's Summary -->
 <div class="simple-section">
     <div class="simple-header">
-        <h3><i class="fas fa-user-check"></i> Staff Attendance</h3>
-        <div class="simple-actions">
-            <button class="simple-btn secondary">
-                <i class="fas fa-calendar"></i> Date Filter
-            </button>
-            <button class="simple-btn secondary">
-                <i class="fas fa-download"></i> Export
-            </button>
-        </div>
+        <h3>Today's Attendance Summary - <?php echo date('F d, Y'); ?></h3>
     </div>
     
-    <div class="content-placeholder">
-        <div class="placeholder-icon">
-            <i class="fas fa-user-check"></i>
+    <div class="stats-grid">
+        <!-- Students -->
+        <div class="stat-card">
+            <div class="stat-icon blue">
+                <i class="fas fa-user-graduate"></i>
+            </div>
+            <div class="stat-content">
+                <h3>1,723</h3>
+                <p>Students Present</p>
+                <div class="stat-badge">
+                    <i class="fas fa-users"></i> Total: 1,847 (93.3%)
+                </div>
+            </div>
         </div>
-        <h4>Attendance Management</h4>
-        <p>Track and manage staff attendance, view attendance reports, and monitor attendance patterns.</p>
-        <div class="placeholder-features">
-            <div class="feature-item">
-                <i class="fas fa-check-circle"></i>
-                <span>Mark Attendance</span>
+
+        <!-- Teachers -->
+        <div class="stat-card">
+            <div class="stat-icon yellow">
+                <i class="fas fa-chalkboard-teacher"></i>
             </div>
-            <div class="feature-item">
-                <i class="fas fa-chart-pie"></i>
-                <span>Attendance Reports</span>
+            <div class="stat-content">
+                <h3>84</h3>
+                <p>Teachers Present</p>
+                <div class="stat-badge">
+                    <i class="fas fa-users"></i> Total: 89 (94.4%)
+                </div>
             </div>
-            <div class="feature-item">
-                <i class="fas fa-history"></i>
-                <span>Attendance History</span>
+        </div>
+
+        <!-- Staff -->
+        <div class="stat-card">
+            <div class="stat-icon green">
+                <i class="fas fa-users-cog"></i>
+            </div>
+            <div class="stat-content">
+                <h3>42</h3>
+                <p>Staff Present</p>
+                <div class="stat-badge">
+                    <i class="fas fa-users"></i> Total: 45 (93.3%)
+                </div>
+            </div>
+        </div>
+
+        <!-- Absent -->
+        <div class="stat-card">
+            <div class="stat-icon red">
+                <i class="fas fa-user-times"></i>
+            </div>
+            <div class="stat-content">
+                <h3>129</h3>
+                <p>Total Absent</p>
+                <div class="stat-badge">
+                    <i class="fas fa-exclamation-triangle"></i> Students: 124, Teachers: 3, Staff: 2
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<style>
-.content-placeholder {
-    text-align: center;
-    padding: 60px 20px;
-    color: #666;
-}
-
-.placeholder-icon {
-    font-size: 4rem;
-    color: #ddd;
-    margin-bottom: 20px;
-}
-
-.placeholder-icon i {
-    color: #1976d2;
-}
-
-.content-placeholder h4 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.content-placeholder p {
-    font-size: 1rem;
-    margin-bottom: 30px;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.placeholder-features {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    flex-wrap: wrap;
-}
-
-.feature-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    padding: 20px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    background: #f9f9f9;
-    min-width: 120px;
-}
-
-.feature-item i {
-    font-size: 1.5rem;
-    color: #1976d2;
-}
-
-.feature-item span {
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-@media (max-width: 768px) {
-    .placeholder-features {
-        flex-direction: column;
-        align-items: center;
-    }
-}
-</style>
+<!-- Main Attendance Sections -->
+<div class="attendance-main-grid">
+    <!-- Student Attendance Section -->
+    <div class="simple-section">
+        <div class="simple-header">
+            <h3>Student Attendance by Class</h3>
+        </div>
+        
+        <div class="simple-table-container">
+            <table class="basic-table">
+                <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>Total Students</th>
+                        <th>Present</th>
+                        <th>Absent</th>
+                        <th>Late</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Grade 9-A</strong></td>
+                        <td>30</td>
+                        <td>29</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td><a class="view-btn" href="/staff/attendance/class/Grade%209-A">View Details</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Grade 9-B</strong></td>
+                        <td>28</td>
+                        <td>26</td>
+                        <td>2</td>
+                        <td>0</td>
+                        <td><a class="view-btn" href="/staff/attendance/class/Grade%209-B">View Details</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Grade 10-A</strong></td>
+                        <td>32</td>
+                        <td>32</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td><a class="view-btn" href="/staff/attendance/class/Grade%2010-A">View Details</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Grade 10-B</strong></td>
+                        <td>29</td>
+                        <td>25</td>
+                        <td>3</td>
+                        <td>1</td>
+                        <td><a class="view-btn" href="/staff/attendance/class/Grade%2010-B">View Details</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Grade 11-A</strong></td>
+                        <td>32</td>
+                        <td>32</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td><a class="view-btn" href="/staff/attendance/class/Grade%2011-A">View Details</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Grade 11-B</strong></td>
+                        <td>31</td>
+                        <td>30</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td><a class="view-btn" href="/staff/attendance/class/Grade%2011-B">View Details</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Grade 12-A</strong></td>
+                        <td>27</td>
+                        <td>27</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td><a class="view-btn" href="/staff/attendance/class/Grade%2012-A">View Details</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Grade 12-B</strong></td>
+                        <td>25</td>
+                        <td>24</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td><a class="view-btn" href="/staff/attendance/class/Grade%2012-B">View Details</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Teacher Attendance Section -->
+    <div class="simple-section">
+        <div class="simple-header">
+            <h3>Teacher Attendance</h3>
+        </div>
+        
+        <div class="simple-table-container">
+            <table class="basic-table">
+                <thead>
+                    <tr>
+                        <th>Teacher Name</th>
+                        <th>Department</th>
+                        <th>Status</th>
+                        <th>Time</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Dr. Emily Parker</strong></td>
+                        <td>Mathematics</td>
+                        <td>Present</td>
+                        <td>08:15 AM</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Prof. James Wilson</strong></td>
+                        <td>Science</td>
+                        <td>Absent</td>
+                        <td>-</td>
+                        <td>Sick Leave</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ms. Sarah Chen</strong></td>
+                        <td>English</td>
+                        <td>Late</td>
+                        <td>08:45 AM</td>
+                        <td>Traffic</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mr. David Lee</strong></td>
+                        <td>History</td>
+                        <td>Present</td>
+                        <td>08:10 AM</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ms. Lisa Wong</strong></td>
+                        <td>Art</td>
+                        <td>Present</td>
+                        <td>08:20 AM</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mr. Michael Brown</strong></td>
+                        <td>PE</td>
+                        <td>Present</td>
+                        <td>08:05 AM</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Dr. Helen Thompson</strong></td>
+                        <td>Chemistry</td>
+                        <td>Absent</td>
+                        <td>-</td>
+                        <td>Family Emergency</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mr. Robert Kim</strong></td>
+                        <td>Music</td>
+                        <td>Present</td>
+                        <td>08:25 AM</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Staff Attendance Section -->
+    <div class="simple-section">
+        <div class="simple-header">
+            <h3>Staff Attendance</h3>
+            <a class="simple-btn" href="/staff/attendance/staff/mark"><i class="fas fa-clipboard-check"></i> Mark Attendance</a>
+        </div>
+        
+        <div class="simple-table-container">
+            <table class="basic-table">
+                <thead>
+                    <tr>
+                        <th>Staff Name</th>
+                        <th>Department</th>
+                        <th>Position</th>
+                        <th>Status</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>John Miller</strong></td>
+                        <td>Administration</td>
+                        <td>Secretary</td>
+                        <td>Present</td>
+                        <td>08:00 AM</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Maria Santos</strong></td>
+                        <td>Administration</td>
+                        <td>Accountant</td>
+                        <td>Present</td>
+                        <td>08:10 AM</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Peter Johnson</strong></td>
+                        <td>Maintenance</td>
+                        <td>Technician</td>
+                        <td>Present</td>
+                        <td>07:45 AM</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Anna Williams</strong></td>
+                        <td>Food Service</td>
+                        <td>Cook</td>
+                        <td>Absent</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Carlos Rodriguez</strong></td>
+                        <td>Security</td>
+                        <td>Guard</td>
+                        <td>Present</td>
+                        <td>06:00 AM</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Susan Davis</strong></td>
+                        <td>Library</td>
+                        <td>Librarian</td>
+                        <td>Present</td>
+                        <td>08:15 AM</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ahmed Hassan</strong></td>
+                        <td>IT Support</td>
+                        <td>Technician</td>
+                        <td>Late</td>
+                        <td>08:30 AM</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 <?php
 $content = ob_get_clean();
 

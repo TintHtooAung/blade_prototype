@@ -1,8 +1,11 @@
 <?php
 $pageTitle = 'Smart Campus Nova Hub - Class Profiles';
-$pageIcon = 'fas fa-chalkboard';
+$pageIcon = 'fas fa-users';
 $pageHeading = 'Class Profiles';
 $activePage = 'class-profiles';
+
+// Include UI components
+include __DIR__ . '/../components/ui/card.php';
 
 ob_start();
 ?>
@@ -16,110 +19,114 @@ ob_start();
     </div>
 </div>
 
-<!-- Content Section -->
-<div class="simple-section">
-    <div class="simple-header">
-        <h3><i class="fas fa-chalkboard"></i> My Classes</h3>
-        <div class="simple-actions">
-            <button class="simple-btn secondary">
-                <i class="fas fa-search"></i> Search
-            </button>
-            <button class="simple-btn secondary">
-                <i class="fas fa-filter"></i> Filter
-            </button>
-        </div>
+<!-- Class Statistics -->
+<div class="detail-stats-grid">
+    <?php echo renderStatCard([
+        'title' => 'Total Classes',
+        'value' => '13',
+        'icon' => 'fas fa-chalkboard',
+        'iconColor' => 'purple'
+    ]); ?>
+    
+    <?php echo renderStatCard([
+        'title' => 'Average Class Size',
+        'value' => '35',
+        'icon' => 'fas fa-users',
+        'iconColor' => 'blue'
+    ]); ?>
+    
+    <?php echo renderStatCard([
+        'title' => 'Total Students',
+        'value' => '450',
+        'icon' => 'fas fa-user-graduate',
+        'iconColor' => 'green'
+    ]); ?>
+    
+    <?php echo renderStatCard([
+        'title' => 'Active Teachers',
+        'value' => '13',
+        'icon' => 'fas fa-chalkboard-teacher',
+        'iconColor' => 'yellow'
+    ]); ?>
+</div>
+
+<!-- Class Management Table -->
+<div class="detail-management-section">
+    <div class="section-header">
+        <h3 class="section-title">My Classes</h3>
     </div>
     
-    <div class="content-placeholder">
-        <div class="placeholder-icon">
-            <i class="fas fa-chalkboard"></i>
-        </div>
-        <h4>Class Profiles</h4>
-        <p>View detailed information about your assigned classes, including student rosters and class schedules.</p>
-        <div class="placeholder-features">
-            <div class="feature-item">
-                <i class="fas fa-users"></i>
-                <span>Student Rosters</span>
-            </div>
-            <div class="feature-item">
-                <i class="fas fa-calendar"></i>
-                <span>Class Schedule</span>
-            </div>
-            <div class="feature-item">
-                <i class="fas fa-chart-line"></i>
-                <span>Class Progress</span>
-            </div>
-        </div>
+    <div class="detail-table-container">
+        <table class="academic-table">
+            <thead>
+                <tr>
+                    <th>Class Name</th>
+                    <th>Grade</th>
+                    <th>Room</th>
+                    <th>Students</th>
+                    <th>Class Teacher</th>
+                    <th>Schedule</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="class-name"><strong>1A</strong></td>
+                    <td>Grade 1</td>
+                    <td>Room 101</td>
+                    <td class="student-count">30</td>
+                    <td>Ms. Sarah Johnson</td>
+                    <td class="schedule">8:00 AM - 2:00 PM</td>
+                    <td class="actions-cell">
+                        <button class="action-icon view" title="View Details">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="class-name"><strong>1B</strong></td>
+                    <td>Grade 1</td>
+                    <td>Room 102</td>
+                    <td class="student-count">30</td>
+                    <td>Mr. David Chen</td>
+                    <td class="schedule">8:00 AM - 2:00 PM</td>
+                    <td class="actions-cell">
+                        <button class="action-icon view" title="View Details">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="class-name"><strong>1C</strong></td>
+                    <td>Grade 1</td>
+                    <td>Room 103</td>
+                    <td class="student-count">30</td>
+                    <td>Ms. Emily Rodriguez</td>
+                    <td class="schedule">8:00 AM - 2:00 PM</td>
+                    <td class="actions-cell">
+                        <button class="action-icon view" title="View Details">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="class-name"><strong>9A</strong></td>
+                    <td>Grade 9</td>
+                    <td>Room 201</td>
+                    <td class="student-count">35</td>
+                    <td>Dr. James Wilson</td>
+                    <td class="schedule">8:00 AM - 3:30 PM</td>
+                    <td class="actions-cell">
+                        <button class="action-icon view" title="View Details">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
-<style>
-.content-placeholder {
-    text-align: center;
-    padding: 60px 20px;
-    color: #666;
-}
-
-.placeholder-icon {
-    font-size: 4rem;
-    color: #ddd;
-    margin-bottom: 20px;
-}
-
-.placeholder-icon i {
-    color: #1976d2;
-}
-
-.content-placeholder h4 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.content-placeholder p {
-    font-size: 1rem;
-    margin-bottom: 30px;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.placeholder-features {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    flex-wrap: wrap;
-}
-
-.feature-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    padding: 20px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    background: #f9f9f9;
-    min-width: 120px;
-}
-
-.feature-item i {
-    font-size: 1.5rem;
-    color: #1976d2;
-}
-
-.feature-item span {
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-@media (max-width: 768px) {
-    .placeholder-features {
-        flex-direction: column;
-        align-items: center;
-    }
-}
-</style>
 <?php
 $content = ob_get_clean();
 

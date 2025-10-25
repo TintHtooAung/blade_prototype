@@ -1,8 +1,11 @@
 <?php
-$pageTitle = 'Smart Campus Nova Hub - Announcements';
-$pageIcon = 'fas fa-bell';
-$pageHeading = 'Announcements';
+$pageTitle = 'Smart Campus Nova Hub - Announcement Management';
+$pageIcon = 'fas fa-bullhorn';
+$pageHeading = 'Announcement Management';
 $activePage = 'announcements';
+
+// Include UI components
+include __DIR__ . '/../components/ui/card.php';
 
 ob_start();
 ?>
@@ -14,112 +17,83 @@ ob_start();
     <div class="page-title-compact">
         <h2><?php echo $pageHeading; ?></h2>
     </div>
+    <div class="page-actions">
+        <a href="/staff/create-announcement" class="create-announcement-btn">
+            <i class="fas fa-plus"></i>
+            Create Announcement
+        </a>
+    </div>
 </div>
 
-<!-- Content Section -->
+<!-- Announcements List -->
 <div class="simple-section">
     <div class="simple-header">
-        <h3><i class="fas fa-bell"></i> School Announcements</h3>
-        <div class="simple-actions">
-            <button class="simple-btn secondary">
-                <i class="fas fa-plus"></i> Create Announcement
-            </button>
-            <button class="simple-btn secondary">
-                <i class="fas fa-filter"></i> Filter
-            </button>
-        </div>
+        <h3>Announcements</h3>
     </div>
-    
-    <div class="content-placeholder">
-        <div class="placeholder-icon">
-            <i class="fas fa-bell"></i>
-        </div>
-        <h4>Announcements</h4>
-        <p>Create and manage school announcements, notifications, and important updates.</p>
-        <div class="placeholder-features">
-            <div class="feature-item">
-                <i class="fas fa-bullhorn"></i>
-                <span>Create Announcements</span>
-            </div>
-            <div class="feature-item">
-                <i class="fas fa-users"></i>
-                <span>Target Audience</span>
-            </div>
-            <div class="feature-item">
-                <i class="fas fa-calendar"></i>
-                <span>Schedule Posts</span>
-            </div>
-        </div>
-    </div>
+
+    <div id="annFeed" class="announcements-list"></div>
 </div>
 
-<style>
-.content-placeholder {
-    text-align: center;
-    padding: 60px 20px;
-    color: #666;
-}
-
-.placeholder-icon {
-    font-size: 4rem;
-    color: #ddd;
-    margin-bottom: 20px;
-}
-
-.placeholder-icon i {
-    color: #1976d2;
-}
-
-.content-placeholder h4 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.content-placeholder p {
-    font-size: 1rem;
-    margin-bottom: 30px;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.placeholder-features {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    flex-wrap: wrap;
-}
-
-.feature-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    padding: 20px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    background: #f9f9f9;
-    min-width: 120px;
-}
-
-.feature-item i {
-    font-size: 1.5rem;
-    color: #1976d2;
-}
-
-.feature-item span {
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-@media (max-width: 768px) {
-    .placeholder-features {
-        flex-direction: column;
-        align-items: center;
+<script>
+(function(){
+    function parseDate(d){ return d ? new Date(d) : null; }
+    function escapeHtml(str){
+        return String(str).replace(/[&<>\"]/g, s=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[s]));
     }
-}
-</style>
+    function capitalize(s){ return s ? s.charAt(0).toUpperCase()+s.slice(1) : s; }
+
+    // Sample announcements (baseline)
+    const sample = [
+        { title: 'Annual Science Fair 2024 - Call for Participation', message: 'We are excited to announce our Annual Science Fair 2024! This year\'s theme is \"Innovation for Tomorrow\".', type: 'event', priority: 'medium', date: '2024-01-08', audience: 'All Users', campuses: 'Main, North' },
+        { title: 'Q1 Academic Performance Reports Available', message: 'Quarter 1 academic performance reports are now available. Parents can access them through the parent portal, and teachers should review class summaries.', type: 'academic', priority: 'medium', date: '2024-01-07', audience: 'Parents & Teachers', campuses: 'All' }
+    ];
+
+    // Merge with locally created announcements
+    let stored = [];
+    try { stored = JSON.parse(localStorage.getItem('announcements')||'[]'); } catch(e) { stored = []; }
+    const data = [...stored, ...sample];
+
+    const feed = document.getElementById('annFeed');
+
+    function card(a){
+        const div = document.createElement('div');
+        div.className = 'announcement-card';
+        div.innerHTML = `
+            <div class="announcement-header">
+                <div class="announcement-title">
+                    <h4>${escapeHtml(a.title||'')}</h4>
+                    <p>${escapeHtml(a.message||'')}</p>
+                </div>
+                <div class="announcement-actions">
+                    <button class="action-icon pin" title="Pin"><i class="fas fa-thumbtack"></i></button>
+                    <button class="action-icon edit" title="Edit"><i class="fas fa-edit"></i></button>
+                    <button class="action-icon delete" title="Delete"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+
+            <div class="announcement-tags">
+                <span class="tag ${escapeHtml((a.priority||'').toLowerCase())}">${escapeHtml(a.priority||'')}</span>
+                <span class="tag ${escapeHtml((a.type||'').toLowerCase())}">${escapeHtml(a.type||'')}</span>
+            </div>
+
+            <div class="announcement-footer">
+                <div class="footer-item"><i class="fas fa-users"></i><span>${escapeHtml(a.audience||'')}</span></div>
+                <div class="footer-item"><i class="fas fa-map-marker-alt"></i><span>${escapeHtml(a.campuses||'')}</span></div>
+                <div class="footer-item"><i class="fas fa-clock"></i><span>${escapeHtml(a.date||'')}</span></div>
+            </div>
+        `;
+        return div;
+    }
+
+    function displayAnnouncements(){
+        feed.innerHTML = '';
+        data.forEach(a => feed.appendChild(card(a)));
+    }
+
+    displayAnnouncements();
+})();
+</script>
+
 <?php
 $content = ob_get_clean();
 

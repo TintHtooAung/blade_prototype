@@ -52,13 +52,8 @@ $activePage = $activePage ?? 'dashboard';
             </a>
         </li>
         <li>
-            <a href="/staff/room-management" class="<?php echo $activePage === 'room-management' ? 'active' : ''; ?>">
-                <i class="fas fa-door-open"></i> Room Management
-            </a>
-        </li>
-        <li>
-            <a href="/staff/class-management" class="<?php echo $activePage === 'class-management' ? 'active' : ''; ?>">
-                <i class="fas fa-chalkboard"></i> Class Management
+            <a href="/staff/academic-management" class="<?php echo $activePage === 'academic-management' ? 'active' : ''; ?>">
+                <i class="fas fa-graduation-cap"></i> Academic Management
             </a>
         </li>
         <li>
