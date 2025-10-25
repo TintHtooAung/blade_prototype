@@ -254,7 +254,7 @@ ob_start();
                     <td>rsmith@email.com</td>
                     <td>2023-09-01</td>
                     <td>Active</td>
-                    <td><a class="view-btn" href="/staff/student-profile/S001">View Details</a></td>
+                    <td><a class="view-btn" href="/staff/student-profile?id=S001">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S002</strong></td>
@@ -266,7 +266,7 @@ ob_start();
                     <td>mjohnson@email.com</td>
                     <td>2023-09-01</td>
                     <td>Active</td>
-                    <td><a class="view-btn" href="/staff/student-profile/S002">View Details</a></td>
+                    <td><a class="view-btn" href="/staff/student-profile?id=S002">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S003</strong></td>
@@ -278,7 +278,7 @@ ob_start();
                     <td>jdavis@email.com</td>
                     <td>2022-09-05</td>
                     <td>Active</td>
-                    <td><a class="view-btn" href="/staff/student-profile/S003">View Details</a></td>
+                    <td><a class="view-btn" href="/staff/student-profile?id=S003">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S004</strong></td>
@@ -290,7 +290,7 @@ ob_start();
                     <td>lwilson@email.com</td>
                     <td>2021-09-10</td>
                     <td>Active</td>
-                    <td><a class="view-btn" href="/staff/student-profile/S004">View Details</a></td>
+                    <td><a class="view-btn" href="/staff/student-profile?id=S004">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S005</strong></td>
@@ -302,7 +302,7 @@ ob_start();
                     <td>mbrown@email.com</td>
                     <td>2020-09-15</td>
                     <td>Active</td>
-                    <td><a class="view-btn" href="/staff/student-profile/S005">View Details</a></td>
+                    <td><a class="view-btn" href="/staff/student-profile?id=S005">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S006</strong></td>
@@ -314,7 +314,7 @@ ob_start();
                     <td>slee@email.com</td>
                     <td>2023-09-01</td>
                     <td>Active</td>
-                    <td><a class="view-btn" href="/staff/student-profile/S006">View Details</a></td>
+                    <td><a class="view-btn" href="/staff/student-profile?id=S006">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S007</strong></td>
@@ -326,7 +326,7 @@ ob_start();
                     <td>cgarcia@email.com</td>
                     <td>2022-09-08</td>
                     <td>Active</td>
-                    <td><a class="view-btn" href="/staff/student-profile/S007">View Details</a></td>
+                    <td><a class="view-btn" href="/staff/student-profile?id=S007">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S008</strong></td>
@@ -338,7 +338,7 @@ ob_start();
                     <td>jtaylor@email.com</td>
                     <td>2021-09-12</td>
                     <td>Transfer</td>
-                    <td><a class="view-btn" href="/staff/student-profile/S008">View Details</a></td>
+                    <td><a class="view-btn" href="/staff/student-profile?id=S008">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S009</strong></td>
@@ -350,7 +350,7 @@ ob_start();
                     <td>rmartinez@email.com</td>
                     <td>2020-09-20</td>
                     <td>Active</td>
-                    <td><a class="view-btn" href="/staff/student-profile/S009">View Details</a></td>
+                    <td><a class="view-btn" href="/staff/student-profile?id=S009">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S010</strong></td>
@@ -362,7 +362,7 @@ ob_start();
                     <td>panderson@email.com</td>
                     <td>2023-09-01</td>
                     <td>Active</td>
-                    <td><a class="view-btn" href="/staff/student-profile/S010">View Details</a></td>
+                    <td><a class="view-btn" href="/staff/student-profile?id=S010">View Details</a></td>
                 </tr>
             </tbody>
         </table>

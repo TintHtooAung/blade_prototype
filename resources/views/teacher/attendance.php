@@ -21,18 +21,6 @@ ob_start();
     <div class="simple-header">
         <h3><i class="fas fa-clipboard-check"></i> Class Attendance</h3>
         <div class="simple-actions">
-            <div class="filter-group">
-                <label for="classFilter">Filter by Class:</label>
-                <select id="classFilter" class="form-select compact" onchange="filterAttendanceByClass()">
-                    <option value="all">All Classes</option>
-                    <option value="Grade-10A">G-10A</option>
-                    <option value="Grade-10B">G-10B</option>
-                    <option value="Grade-11A">G-11A</option>
-                    <option value="Grade-11B">G-11B</option>
-                    <option value="Grade-12A">G-12A</option>
-                    <option value="Grade-12B">G-12B</option>
-                </select>
-            </div>
             <div class="calendar-navigation">
                 <button class="nav-btn" onclick="navigateAttendanceDate(-1)" title="Previous Day">
                     <i class="fas fa-chevron-left"></i>
@@ -1105,7 +1093,6 @@ const attendanceData = [
     }
 ];
 
-let currentClassFilter = 'all';
 let attendanceCurrentDate = new Date('2024-12-18'); // Start with today (Wednesday)
 
 // Initialize attendance page
@@ -1153,11 +1140,6 @@ function renderAttendanceCards() {
     
     let filteredData = attendanceData;
     
-    // Apply class filter
-    if (currentClassFilter !== 'all') {
-        filteredData = filteredData.filter(item => item.class === currentClassFilter);
-    }
-    
     // Apply date filter based on current selected date
     const targetDate = attendanceCurrentDate.toISOString().split('T')[0];
     filteredData = filteredData.filter(item => item.date === targetDate);
@@ -1168,10 +1150,6 @@ function renderAttendanceCards() {
     });
 }
 
-function filterAttendanceByClass() {
-    currentClassFilter = document.getElementById('classFilter').value;
-    renderAttendanceCards();
-}
 
 function createAttendanceCard(attendance) {
     const card = document.createElement('div');
