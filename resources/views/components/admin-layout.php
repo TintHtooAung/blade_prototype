@@ -54,14 +54,14 @@ $activePage = $activePage ?? 'dashboard';
                     
                     <div class="profile-dropdown-section">
                         <div class="profile-dropdown-label">Preferences</div>
-                        <div class="profile-dropdown-item" onclick="toggleTheme()">
+                        <div class="profile-dropdown-item" onclick="toggleTheme(event)">
                             <i class="fas fa-palette"></i>
                             <span>Theme</span>
                             <div class="profile-dropdown-arrow">
                                 <i class="fas fa-chevron-right"></i>
                             </div>
                         </div>
-                        <div class="profile-dropdown-item" onclick="toggleLanguage()">
+                        <div class="profile-dropdown-item" onclick="toggleLanguage(event)">
                             <i class="fas fa-globe"></i>
                             <span>Language</span>
                             <div class="profile-dropdown-arrow">
@@ -76,10 +76,6 @@ $activePage = $activePage ?? 'dashboard';
                         <div class="profile-dropdown-item" onclick="viewProfile()">
                             <i class="fas fa-user"></i>
                             <span>View Profile</span>
-                        </div>
-                        <div class="profile-dropdown-item" onclick="editProfile()">
-                            <i class="fas fa-cog"></i>
-                            <span>Settings</span>
                         </div>
                     </div>
                     
@@ -114,8 +110,8 @@ $activePage = $activePage ?? 'dashboard';
     <div id="confirmDialog" class="confirm-dialog-overlay" style="display:none;">
         <div class="confirm-dialog-content">
             <div class="confirm-dialog-header">
-                <div class="confirm-icon-wrapper">
-                    <i class="fas fa-exclamation-triangle"></i>
+                <div class="confirm-icon-wrapper" id="confirmIconWrapper">
+                    <i id="confirmDialogIcon" class="fas fa-exclamation-triangle"></i>
                 </div>
             </div>
             <div class="confirm-dialog-body">
@@ -191,11 +187,46 @@ $activePage = $activePage ?? 'dashboard';
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: all 0.3s ease;
     }
 
     .confirm-icon-wrapper i {
         font-size: 28px;
         color: #ef6c00;
+        transition: all 0.3s ease;
+    }
+
+    /* Icon wrapper variants */
+    .confirm-icon-wrapper.danger {
+        background: #ffebee;
+    }
+
+    .confirm-icon-wrapper.danger i {
+        color: #d32f2f;
+    }
+
+    .confirm-icon-wrapper.warning {
+        background: #fff3e0;
+    }
+
+    .confirm-icon-wrapper.warning i {
+        color: #ef6c00;
+    }
+
+    .confirm-icon-wrapper.primary {
+        background: #e3f2fd;
+    }
+
+    .confirm-icon-wrapper.primary i {
+        color: #1976d2;
+    }
+
+    .confirm-icon-wrapper.success {
+        background: #e8f5e9;
+    }
+
+    .confirm-icon-wrapper.success i {
+        color: #2e7d32;
     }
 
     .confirm-dialog-body {
@@ -795,7 +826,7 @@ $activePage = $activePage ?? 'dashboard';
         border-radius: 16px;
         box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
         min-width: 280px;
-        overflow: hidden;
+        overflow: visible;
         animation: slideDown 0.3s ease-out;
     }
 
@@ -925,8 +956,9 @@ $activePage = $activePage ?? 'dashboard';
     .profile-sub-dropdown {
         position: absolute;
         top: 0;
-        left: 100%;
-        margin-left: 8px;
+        right: 100%;
+        left: auto;
+        margin-right: 8px;
         background: rgba(255, 255, 255, 0.98);
         backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.2);
@@ -1130,14 +1162,27 @@ $activePage = $activePage ?? 'dashboard';
             message = 'Are you sure you want to proceed?',
             confirmText = 'Delete',
             confirmIcon = 'fas fa-trash',
+            buttonStyle = 'danger',
+            dialogIcon = 'fas fa-exclamation-triangle',
+            iconWrapperStyle = 'warning',
             onConfirm = () => {}
         } = options;
 
         document.getElementById('confirmDialogTitle').textContent = title;
         document.getElementById('confirmDialogMessage').textContent = message;
         
+        // Update button
         const confirmBtn = document.getElementById('confirmDialogBtn');
         confirmBtn.innerHTML = `<i class="${confirmIcon}"></i> ${confirmText}`;
+        confirmBtn.className = `simple-btn ${buttonStyle}`;
+        
+        // Update dialog icon
+        const iconElement = document.getElementById('confirmDialogIcon');
+        iconElement.className = dialogIcon;
+        
+        // Update icon wrapper style
+        const iconWrapper = document.getElementById('confirmIconWrapper');
+        iconWrapper.className = `confirm-icon-wrapper ${iconWrapperStyle}`;
         
         confirmDialogCallback = onConfirm;
         document.getElementById('confirmDialog').style.display = 'flex';
@@ -1266,7 +1311,7 @@ $activePage = $activePage ?? 'dashboard';
         });
     }
 
-    function toggleTheme() {
+    function toggleTheme(evt) {
         const themeDropdown = document.getElementById('themeDropdown');
         if (!themeDropdown) {
             createThemeDropdown();
@@ -1274,10 +1319,18 @@ $activePage = $activePage ?? 'dashboard';
         
         closeAllSubDropdowns();
         const dropdown = document.getElementById('themeDropdown');
+        // Position next to clicked item
+        try {
+            const trigger = evt && evt.currentTarget ? evt.currentTarget : null;
+            const top = trigger ? trigger.offsetTop : 0;
+            dropdown.style.top = top + 'px';
+            dropdown.style.left = 'auto';
+            dropdown.style.right = '100%';
+        } catch(e) {}
         dropdown.classList.toggle('show');
     }
 
-    function toggleLanguage() {
+    function toggleLanguage(evt) {
         const languageDropdown = document.getElementById('languageDropdown');
         if (!languageDropdown) {
             createLanguageDropdown();
@@ -1285,6 +1338,13 @@ $activePage = $activePage ?? 'dashboard';
         
         closeAllSubDropdowns();
         const dropdown = document.getElementById('languageDropdown');
+        try {
+            const trigger = evt && evt.currentTarget ? evt.currentTarget : null;
+            const top = trigger ? trigger.offsetTop : 0;
+            dropdown.style.top = top + 'px';
+            dropdown.style.left = 'auto';
+            dropdown.style.right = '100%';
+        } catch(e) {}
         dropdown.classList.toggle('show');
     }
 
@@ -1390,11 +1450,7 @@ $activePage = $activePage ?? 'dashboard';
     }
 
     function viewProfile() {
-        showActionStatus('Opening profile...', 'info');
-        // Add profile view functionality here
-        setTimeout(() => {
-            showActionStatus('Profile view feature coming soon!', 'info');
-        }, 1000);
+        redirectWithStatus('/admin/staff-profile', 'Opening profile...', 'info', 300);
     }
 
     function editProfile() {

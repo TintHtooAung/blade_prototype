@@ -1398,7 +1398,6 @@ function showActionStatus(message, type) {
     }, 3000);
 }
 </script>
-
 <?php
 $content = ob_get_clean();
 

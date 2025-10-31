@@ -65,7 +65,6 @@ ob_start();
                     <th>Room</th>
                     <th>Students</th>
                     <th>Class Teacher</th>
-                    <th>Schedule</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -76,7 +75,6 @@ ob_start();
                     <td>Room 101</td>
                     <td class="student-count">30</td>
                     <td>Ms. Sarah Johnson</td>
-                    <td class="schedule">8:00 AM - 2:00 PM</td>
                     <td class="actions-cell">
                         <button class="action-icon view" title="View Details">
                             <i class="fas fa-eye"></i>
@@ -89,7 +87,6 @@ ob_start();
                     <td>Room 102</td>
                     <td class="student-count">30</td>
                     <td>Mr. David Chen</td>
-                    <td class="schedule">8:00 AM - 2:00 PM</td>
                     <td class="actions-cell">
                         <button class="action-icon view" title="View Details">
                             <i class="fas fa-eye"></i>
@@ -102,7 +99,6 @@ ob_start();
                     <td>Room 103</td>
                     <td class="student-count">30</td>
                     <td>Ms. Emily Rodriguez</td>
-                    <td class="schedule">8:00 AM - 2:00 PM</td>
                     <td class="actions-cell">
                         <button class="action-icon view" title="View Details">
                             <i class="fas fa-eye"></i>
@@ -115,7 +111,6 @@ ob_start();
                     <td>Room 201</td>
                     <td class="student-count">35</td>
                     <td>Dr. James Wilson</td>
-                    <td class="schedule">8:00 AM - 3:30 PM</td>
                     <td class="actions-cell">
                         <button class="action-icon view" title="View Details">
                             <i class="fas fa-eye"></i>
@@ -132,3 +127,17 @@ $content = ob_get_clean();
 
 include __DIR__ . '/../components/teacher-layout.php';
 ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    // Add click handlers to view buttons
+    const viewButtons = document.querySelectorAll('.action-icon.view');
+    viewButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const row = this.closest('tr');
+            const className = row.querySelector('.class-name strong').textContent.trim();
+            window.location.href = `/teacher/class-detail/${encodeURIComponent(className)}`;
+        });
+    });
+});
+</script>

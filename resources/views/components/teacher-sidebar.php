@@ -72,6 +72,17 @@ $activePage = $activePage ?? 'dashboard';
                 <i class="fas fa-edit"></i> Enter Marks
             </a>
         </li>
+        <li>
+            <a href="/teacher/homework" class="<?php echo $activePage === 'homework' ? 'active' : ''; ?>">
+                <i class="fas fa-tasks"></i> Homework
+            </a>
+        </li>
+        <li style="margin: 1rem 0; color: #a0aec0; font-size: 0.75rem; text-transform: uppercase; padding: 0 1.5rem;">REQUESTS</li>
+        <li>
+            <a href="/teacher/leave-request" class="<?php echo $activePage === 'leave-request' ? 'active' : ''; ?>">
+                <i class="fas fa-calendar-times"></i> Leave Request
+            </a>
+        </li>
     </ul>
 </div>
 

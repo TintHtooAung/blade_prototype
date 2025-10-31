@@ -35,31 +35,7 @@ ob_start();
                 <tr><th style="width:220px;">Student ID</th><td><?php echo htmlspecialchars($id); ?></td></tr>
                 <tr><th>Full Name</th><td>Placeholder Name</td></tr>
                 <tr><th>Class</th><td>Grade 10-A</td></tr>
-                <tr><th>Age</th><td>16</td></tr>
-                <tr><th>Parent/Guardian</th><td>Placeholder Parent</td></tr>
-                <tr><th>Guardian Email</th><td>parent@email.com</td></tr>
-                <tr><th>Phone</th><td>+1-555-1000</td></tr>
                 <tr><th>Status</th><td><span class="status-badge paid">Active</span></td></tr>
-                <tr><th>Join Date</th><td>2023-09-01</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Personal Information Section -->
-    <div class="simple-header" style="margin-top:24px;">
-        <h4><i class="fas fa-user"></i> Personal Information</h4>
-    </div>
-    <div class="simple-table-container">
-        <table class="basic-table">
-            <tbody>
-                <tr><th style="width:220px;">NRC Number</th><td>12/STU(N)345678</td></tr>
-                <tr><th>Date of Birth</th><td>2008-05-12</td></tr>
-                <tr><th>Gender</th><td>Male</td></tr>
-                <tr><th>Address</th><td>789 Student Lane, City, State 12345</td></tr>
-                <tr><th>Emergency Contact</th><td>Mary Johnson - +1-555-1001</td></tr>
-                <tr><th>Blood Type</th><td>B+</td></tr>
-                <tr><th>Medical Conditions</th><td>None</td></tr>
-                <tr><th>Allergies</th><td>None</td></tr>
             </tbody>
         </table>
     </div>

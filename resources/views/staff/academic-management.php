@@ -20,9 +20,8 @@ ob_start();
 <div class="academic-structure-section">
     
     <div class="academic-tabs">
-        <button class="academic-tab active" data-tab="departments">Departments</button>
         <button class="academic-tab" data-tab="rooms">Rooms</button>
-        <button class="academic-tab" data-tab="batches">Batches</button>
+        <button class="academic-tab active" data-tab="batches">Batches</button>
         <button class="academic-tab" data-tab="grades">Grades</button>
         <button class="academic-tab" data-tab="classes">Classes</button>
         <button class="academic-tab" data-tab="subjects">Subjects</button>
@@ -32,7 +31,7 @@ ob_start();
 <!-- Tab Content Container -->
 <div class="tab-content-container">
     <!-- Batches Tab Content -->
-    <div class="tab-content" id="batches-content">
+    <div class="tab-content active" id="batches-content">
         <div class="batch-management-section">
             <div class="section-header">
                 <h3 class="section-title">Batch Management</h3>
@@ -893,117 +892,6 @@ ob_start();
         </div>
     </div>
 
-    <!-- Departments Tab Content -->
-    <div class="tab-content active" id="departments-content">
-        <div class="detail-management-section">
-            <div class="section-header">
-                <h3 class="section-title">Department Management</h3>
-                <button class="simple-btn" id="toggleDepartmentForm"><i class="fas fa-plus"></i> Add Department</button>
-            </div>
-
-            <!-- Inline Create Department Form -->
-            <div id="departmentForm" class="simple-section" style="display:none; margin-top:12px;">
-                <div class="simple-header">
-                    <h4><i class="fas fa-building"></i> Create Department</h4>
-                </div>
-                <div class="form-section">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="deptCode">Department Code</label>
-                            <input type="text" id="deptCode" class="form-input" placeholder="e.g., MATH">
-                        </div>
-                        <div class="form-group" style="flex:2;">
-                            <label for="deptName">Department Name</label>
-                            <input type="text" id="deptName" class="form-input" placeholder="e.g., Mathematics Department">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        
-                    </div>
-                    <div class="form-actions">
-                        <button id="cancelDepartment" class="simple-btn secondary">Cancel</button>
-                        <button id="saveDepartment" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="detail-table-container">
-                <table class="academic-table">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th class="nowrap">Department Code</th>
-                            <th>Department Name</th>
-                            <th>Staff</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="expand-cell"></td>
-                            <td class="department-code">
-                                <a href="/staff/academic/department-detail/PRIMARY" class="department-link" onclick="event.stopPropagation()"><strong>PRIMARY</strong></a>
-                            </td>
-                            <td class="department-name">Primary Teachers</td>
-                            <td class="student-count">15</td>
-                            <td class="actions-cell" onclick="event.stopPropagation()">
-                                <button class="action-icon view" title="View" onclick="viewDepartment('PRIMARY')"><i class="fas fa-eye"></i></button>
-                                <button class="action-icon delete" title="Delete" onclick="deleteDepartment('PRIMARY')"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="expand-cell"></td>
-                            <td class="department-code">
-                                <a href="/staff/academic/department-detail/LANG" class="department-link" onclick="event.stopPropagation()"><strong>LANG</strong></a>
-                            </td>
-                            <td class="department-name">Language Teachers</td>
-                            <td class="student-count">8</td>
-                            <td class="actions-cell" onclick="event.stopPropagation()">
-                                <button class="action-icon view" title="View" onclick="viewDepartment('LANG')"><i class="fas fa-eye"></i></button>
-                                <button class="action-icon delete" title="Delete" onclick="deleteDepartment('LANG')"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="expand-cell"></td>
-                            <td class="department-code">
-                                <a href="/staff/academic/department-detail/ICT" class="department-link" onclick="event.stopPropagation()"><strong>ICT</strong></a>
-                            </td>
-                            <td class="department-name">ICT Staff</td>
-                            <td class="student-count">5</td>
-                            <td class="actions-cell" onclick="event.stopPropagation()">
-                                <button class="action-icon view" title="View" onclick="viewDepartment('ICT')"><i class="fas fa-eye"></i></button>
-                                <button class="action-icon delete" title="Delete" onclick="deleteDepartment('ICT')"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="expand-cell"></td>
-                            <td class="department-code">
-                                <a href="/staff/academic/department-detail/ADMIN" class="department-link" onclick="event.stopPropagation()"><strong>ADMIN</strong></a>
-                            </td>
-                            <td class="department-name">Administrative Staff</td>
-                            <td class="student-count">12</td>
-                            <td class="actions-cell" onclick="event.stopPropagation()">
-                                <button class="action-icon view" title="View" onclick="viewDepartment('ADMIN')"><i class="fas fa-eye"></i></button>
-                                <button class="action-icon delete" title="Delete" onclick="deleteDepartment('ADMIN')"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="expand-cell"></td>
-                            <td class="department-code">
-                                <a href="/staff/academic/department-detail/MAINT" class="department-link" onclick="event.stopPropagation()"><strong>MAINT</strong></a>
-                            </td>
-                            <td class="department-name">Maintenance & Security</td>
-                            <td class="student-count">10</td>
-                            <td class="actions-cell" onclick="event.stopPropagation()">
-                                <button class="action-icon view" title="View" onclick="viewDepartment('MAINT')"><i class="fas fa-eye"></i></button>
-                                <button class="action-icon delete" title="Delete" onclick="deleteDepartment('MAINT')"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
 </div>
 
 <script>

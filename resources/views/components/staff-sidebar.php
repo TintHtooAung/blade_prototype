@@ -62,6 +62,11 @@ $activePage = $activePage ?? 'dashboard';
             </a>
         </li>
         <li>
+            <a href="/staff/department-management" class="<?php echo $activePage === 'department-management' ? 'active' : ''; ?>">
+                <i class="fas fa-building"></i> Departments
+            </a>
+        </li>
+        <li>
             <a href="/staff/exam-database" class="<?php echo $activePage === 'exam-database' ? 'active' : ''; ?>">
                 <i class="fas fa-clipboard-list"></i> Exam Database
             </a>
@@ -69,6 +74,12 @@ $activePage = $activePage ?? 'dashboard';
         <li>
             <a href="/staff/report-centre" class="<?php echo $activePage === 'report-centre' ? 'active' : ''; ?>">
                 <i class="fas fa-chart-line"></i> Report Centre
+            </a>
+        </li>
+        <li style="margin: 1rem 0; color: #a0aec0; font-size: 0.75rem; text-transform: uppercase; padding: 0 1.5rem;">REQUESTS</li>
+        <li>
+            <a href="/staff/leave-request" class="<?php echo $activePage === 'leave-request' ? 'active' : ''; ?>">
+                <i class="fas fa-calendar-times"></i> Leave Request
             </a>
         </li>
     </ul>

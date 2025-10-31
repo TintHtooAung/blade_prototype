@@ -326,6 +326,10 @@ ob_start();
     </div>
 </div>
 
+<script>
+// Attendance page scripts (leave request functions removed - now in /admin/leave-requests)
+</script>
+
 
 <?php
 $content = ob_get_clean();

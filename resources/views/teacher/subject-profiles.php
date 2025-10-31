@@ -63,9 +63,8 @@ ob_start();
                     <th>Subject Code</th>
                     <th>Subject Name</th>
                     <th>Category</th>
-                    <th>Grades</th>
+                    <th>Class</th>
                     <th>Teachers</th>
-                    <th>Hours/Week</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -74,9 +73,8 @@ ob_start();
                     <td class="subject-code"><strong>MATH</strong></td>
                     <td>Mathematics</td>
                     <td><span class="category-badge core">Core</span></td>
-                    <td>1, 2, 9, 10</td>
+                    <td>G9-A</td>
                     <td class="teacher-count">2</td>
-                    <td class="hours">5</td>
                     <td class="actions-cell">
                         <button class="action-icon view" title="View Details">
                             <i class="fas fa-eye"></i>
@@ -87,9 +85,8 @@ ob_start();
                     <td class="subject-code"><strong>ENG</strong></td>
                     <td>English Language</td>
                     <td><span class="category-badge core">Core</span></td>
-                    <td>1, 2, 9, 10</td>
+                    <td>G9-A</td>
                     <td class="teacher-count">2</td>
-                    <td class="hours">4</td>
                     <td class="actions-cell">
                         <button class="action-icon view" title="View Details">
                             <i class="fas fa-eye"></i>
@@ -100,9 +97,8 @@ ob_start();
                     <td class="subject-code"><strong>SCI</strong></td>
                     <td>Science</td>
                     <td><span class="category-badge core">Core</span></td>
-                    <td>1, 2, 9, 10</td>
+                    <td>G9-A</td>
                     <td class="teacher-count">1</td>
-                    <td class="hours">4</td>
                     <td class="actions-cell">
                         <button class="action-icon view" title="View Details">
                             <i class="fas fa-eye"></i>
@@ -113,9 +109,8 @@ ob_start();
                     <td class="subject-code"><strong>ART</strong></td>
                     <td>Visual Arts</td>
                     <td><span class="category-badge elective">Elective</span></td>
-                    <td>1, 2, 9, 10</td>
+                    <td>G9-A</td>
                     <td class="teacher-count">1</td>
-                    <td class="hours">2</td>
                     <td class="actions-cell">
                         <button class="action-icon view" title="View Details">
                             <i class="fas fa-eye"></i>

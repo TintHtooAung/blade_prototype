@@ -54,14 +54,14 @@ $activePage = $activePage ?? 'dashboard';
                     
                     <div class="profile-dropdown-section">
                         <div class="profile-dropdown-label">Preferences</div>
-                        <div class="profile-dropdown-item" onclick="toggleTheme()">
+                        <div class="profile-dropdown-item" onclick="toggleTheme(event)">
                             <i class="fas fa-palette"></i>
                             <span>Theme</span>
                             <div class="profile-dropdown-arrow">
                                 <i class="fas fa-chevron-right"></i>
                             </div>
                         </div>
-                        <div class="profile-dropdown-item" onclick="toggleLanguage()">
+                        <div class="profile-dropdown-item" onclick="toggleLanguage(event)">
                             <i class="fas fa-globe"></i>
                             <span>Language</span>
                             <div class="profile-dropdown-arrow">
@@ -76,10 +76,6 @@ $activePage = $activePage ?? 'dashboard';
                         <div class="profile-dropdown-item" onclick="viewProfile()">
                             <i class="fas fa-user"></i>
                             <span>View Profile</span>
-                        </div>
-                        <div class="profile-dropdown-item" onclick="editProfile()">
-                            <i class="fas fa-cog"></i>
-                            <span>Settings</span>
                         </div>
                     </div>
                     
@@ -617,7 +613,7 @@ $activePage = $activePage ?? 'dashboard';
         });
     }
 
-    function toggleTheme() {
+    function toggleTheme(evt) {
         const themeDropdown = document.getElementById('themeDropdown');
         if (!themeDropdown) {
             createThemeDropdown();
@@ -625,10 +621,17 @@ $activePage = $activePage ?? 'dashboard';
         
         closeAllSubDropdowns();
         const dropdown = document.getElementById('themeDropdown');
+        try {
+            const trigger = evt && evt.currentTarget ? evt.currentTarget : null;
+            const top = trigger ? trigger.offsetTop : 0;
+            dropdown.style.top = top + 'px';
+            dropdown.style.left = 'auto';
+            dropdown.style.right = '100%';
+        } catch(e) {}
         dropdown.classList.toggle('show');
     }
 
-    function toggleLanguage() {
+    function toggleLanguage(evt) {
         const languageDropdown = document.getElementById('languageDropdown');
         if (!languageDropdown) {
             createLanguageDropdown();
@@ -636,6 +639,13 @@ $activePage = $activePage ?? 'dashboard';
         
         closeAllSubDropdowns();
         const dropdown = document.getElementById('languageDropdown');
+        try {
+            const trigger = evt && evt.currentTarget ? evt.currentTarget : null;
+            const top = trigger ? trigger.offsetTop : 0;
+            dropdown.style.top = top + 'px';
+            dropdown.style.left = 'auto';
+            dropdown.style.right = '100%';
+        } catch(e) {}
         dropdown.classList.toggle('show');
     }
 
@@ -884,7 +894,7 @@ $activePage = $activePage ?? 'dashboard';
         border-radius: 12px;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         min-width: 240px;
-        overflow: hidden;
+        overflow: visible;
         z-index: 1001;
     }
 
@@ -1059,6 +1069,38 @@ $activePage = $activePage ?? 'dashboard';
     .dark-theme .profile-dropdown-item:hover {
         background: rgba(31, 41, 55, 0.5);
     }
+
+    /* Preferences sub-dropdown (Theme/Language) */
+    .profile-sub-dropdown {
+        position: absolute;
+        top: 0;
+        right: 100%;
+        left: auto;
+        margin-right: 8px;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        min-width: 200px;
+        overflow: hidden;
+        display: none;
+        z-index: 1002;
+    }
+    .profile-sub-dropdown.show { display: block; }
+    .profile-sub-dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 16px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+    .profile-sub-dropdown-item:hover { background: #f9fafb; }
+    .profile-sub-dropdown-item i { width: 16px; font-size: 14px; color: #6b7280; }
+    .profile-sub-dropdown-item span { flex: 1; font-size: 13px; color: #374151; font-weight: 500; }
+    .profile-sub-dropdown-item.active { background: #eff6ff; color: #2563eb; }
+    .profile-sub-dropdown-item.active i, .profile-sub-dropdown-item.active span { color: #2563eb; }
     </style>
 </body>
 </html>

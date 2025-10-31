@@ -32,6 +32,9 @@ switch ($path) {
     case '/admin/academic-management':
         include __DIR__ . '/../resources/views/admin/academic-management.php';
         break;
+    case '/admin/department-management':
+        include __DIR__ . '/../resources/views/admin/department-management.php';
+        break;
     case '/admin/announcements':
         include __DIR__ . '/../resources/views/admin/announcements.php';
         break;
@@ -58,6 +61,9 @@ switch ($path) {
         break;
     case '/admin/attendance':
         include __DIR__ . '/../resources/views/admin/attendance.php';
+        break;
+    case '/admin/leave-requests':
+        include __DIR__ . '/../resources/views/admin/leave-requests.php';
         break;
     case '/admin/teacher-profiles':
         include __DIR__ . '/../resources/views/admin/teacher-profiles.php';
@@ -130,6 +136,10 @@ switch ($path) {
     case '/admin/attendance/staff/mark':
         include __DIR__ . '/../resources/views/admin/attendance-staff-mark.php';
         break;
+    case (preg_match('/^\/admin\/attendance\/leave-detail\/([^\/?#]+)$/', $uri, $matches) ? true : false):
+        $leaveId = urldecode($matches[1]);
+        include __DIR__ . '/../resources/views/admin/leave-request-detail.php';
+        break;
     
     // Academic detail pages
     case '/admin/academic/batches':
@@ -187,6 +197,9 @@ switch ($path) {
         $_GET['id'] = $matches[1];
         include __DIR__ . '/../resources/views/admin/staff-profile.php';
         break;
+    case '/admin/staff-profile':
+        include __DIR__ . '/../resources/views/admin/staff-profile.php';
+        break;
     
     // Profile edit pages
     case '/admin/teacher-profile-edit':
@@ -232,14 +245,27 @@ switch ($path) {
     case '/staff/student-profiles':
         include __DIR__ . '/../resources/views/staff/student-profiles.php';
         break;
+    case '/staff/student-profile':
+        include __DIR__ . '/../resources/views/staff/student-profile.php';
+        break;
+    case (preg_match('/^\/staff\/student-profile\/([^\/?#]+)$/', $uri, $matches) ? true : false):
+        $_GET['id'] = $matches[1];
+        include __DIR__ . '/../resources/views/staff/student-profile.php';
+        break;
     case '/staff/academic-management':
         include __DIR__ . '/../resources/views/staff/academic-management.php';
+        break;
+    case '/staff/department-management':
+        include __DIR__ . '/../resources/views/staff/department-management.php';
         break;
     case '/staff/exam-database':
         include __DIR__ . '/../resources/views/staff/exam-database.php';
         break;
     case '/staff/report-centre':
         include __DIR__ . '/../resources/views/staff/report-centre.php';
+        break;
+    case '/staff/leave-request':
+        include __DIR__ . '/../resources/views/staff/leave-request.php';
         break;
     
     // Teacher Pages
@@ -258,11 +284,22 @@ switch ($path) {
     case '/teacher/student-profiles':
         include __DIR__ . '/../resources/views/teacher/student-profiles.php';
         break;
+    case '/teacher/student-profile':
+        include __DIR__ . '/../resources/views/teacher/student-profile.php';
+        break;
+    case (preg_match('/^\/teacher\/student-profile\/([^\/?#]+)$/', $uri, $matches) ? true : false):
+        $_GET['id'] = $matches[1];
+        include __DIR__ . '/../resources/views/teacher/student-profile.php';
+        break;
     case '/teacher/subject-profiles':
         include __DIR__ . '/../resources/views/teacher/subject-profiles.php';
         break;
     case '/teacher/class-profiles':
         include __DIR__ . '/../resources/views/teacher/class-profiles.php';
+        break;
+    case (preg_match('/^\/teacher\/class-detail\/(.+)$/', $uri, $matches) ? true : false):
+        $_GET['class'] = urldecode($matches[1]);
+        include __DIR__ . '/../resources/views/teacher/class-detail.php';
         break;
     case '/teacher/exam-results':
         include __DIR__ . '/../resources/views/teacher/exam-results.php';
@@ -290,6 +327,12 @@ switch ($path) {
         break;
     case '/teacher/enter-marks':
         include __DIR__ . '/../resources/views/teacher/enter-marks.php';
+        break;
+    case '/teacher/leave-request':
+        include __DIR__ . '/../resources/views/teacher/leave-request.php';
+        break;
+    case '/teacher/homework':
+        include __DIR__ . '/../resources/views/teacher/homework.php';
         break;
         
     default:

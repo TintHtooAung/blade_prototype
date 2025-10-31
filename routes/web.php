@@ -29,6 +29,9 @@ Route::prefix('teacher')->group(function () {
 // Staff routes
 Route::prefix('staff')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'staffDashboard'])->name('staff.dashboard');
+    Route::get('/department-management', function() {
+        include resource_path('views/staff/department-management.php');
+    })->name('staff.department-management');
     // Additional staff routes can be added here later
     // Route::get('/students', [StaffController::class, 'students'])->name('staff.students');
     // Route::get('/enrollment', [StaffController::class, 'enrollment'])->name('staff.enrollment');
@@ -48,6 +51,10 @@ Route::prefix('admin')->group(function () {
         include resource_path('views/admin/academic-management.php'); 
     })->name('admin.academic-management');
     
+    Route::get('/department-management', function() {
+        include resource_path('views/admin/department-management.php');
+    })->name('admin.department-management');
+    
     Route::get('/announcements', function() { 
         include resource_path('views/admin/announcements.php'); 
     })->name('admin.announcements');
@@ -63,6 +70,11 @@ Route::prefix('admin')->group(function () {
     Route::get('/attendance', function() { 
         include resource_path('views/admin/attendance.php'); 
     })->name('admin.attendance');
+    Route::get('/attendance/leave-detail/{id}', function($id) {
+        // Make $id available in included page
+        $leaveId = $id;
+        include resource_path('views/admin/leave-request-detail.php');
+    })->name('admin.attendance.leave-detail');
     
     Route::get('/teacher-profiles', function() { 
         include resource_path('views/admin/teacher-profiles.php'); 
@@ -106,4 +118,23 @@ Route::prefix('api')->group(function () {
     Route::get('/academic/data', function() {
         include public_path('api/academic.php');
     })->name('api.academic.data');
+});
+
+// Guardian (Parent) portal routes
+Route::prefix('guardian')->group(function () {
+    Route::get('/dashboard', function () {
+        include resource_path('views/guardian/dashboard.php');
+    })->name('guardian.dashboard');
+    Route::get('/attendance', function () {
+        include resource_path('views/guardian/attendance.php');
+    })->name('guardian.attendance');
+    Route::get('/reports', function () {
+        include resource_path('views/guardian/reports.php');
+    })->name('guardian.reports');
+    Route::get('/announcements', function () {
+        include resource_path('views/guardian/announcements.php');
+    })->name('guardian.announcements');
+    Route::get('/profile', function () {
+        include resource_path('views/guardian/profile.php');
+    })->name('guardian.profile');
 });
