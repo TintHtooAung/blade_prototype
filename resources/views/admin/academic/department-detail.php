@@ -141,18 +141,35 @@ $staff = $staffLists[$deptCode] ?? [];
             </button>
         </div>
     </div>
-    <div class="grades-grid" id="staffGrid">
-        <?php foreach ($staff as $index => $member): ?>
-        <div class="grade-detail-card staff-card" data-staff-id="<?php echo $index; ?>" onclick="window.location.href='<?php echo htmlspecialchars($member['url']); ?>'" style="cursor:pointer; position:relative; padding-right: 40px;">
-            <div class="grade-card-header">
-                <a href="<?php echo htmlspecialchars($member['url']); ?>" class="grade-link" onclick="event.stopPropagation()"><?php echo htmlspecialchars($member['name']); ?></a>
-                <span class="type-badge"><?php echo htmlspecialchars($member['role']); ?></span>
-            </div>
-            <button class="remove-staff-btn" onclick="event.stopPropagation(); removeStaff(<?php echo $index; ?>)" title="Remove from Department" style="display:none;">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <?php endforeach; ?>
+    <div class="simple-table-container">
+        <table class="basic-table" id="staffTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th style="width: 100px; text-align: center;">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="staffGrid">
+                <?php foreach ($staff as $index => $member): ?>
+                <tr data-staff-id="<?php echo $index; ?>" style="cursor:pointer;" onclick="window.location.href='<?php echo htmlspecialchars($member['url']); ?>'">
+                    <td>
+                        <a href="<?php echo htmlspecialchars($member['url']); ?>" class="grade-link" onclick="event.stopPropagation()" style="font-weight: 600; color: #007AFF;">
+                            <?php echo htmlspecialchars($member['name']); ?>
+                        </a>
+                    </td>
+                    <td>
+                        <span class="type-badge"><?php echo htmlspecialchars($member['role']); ?></span>
+                    </td>
+                    <td style="text-align: center;">
+                        <button class="remove-staff-btn" onclick="event.stopPropagation(); removeStaff(<?php echo $index; ?>)" title="Remove from Department" style="display:none;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
     
     <!-- Add Staff Modal -->
@@ -227,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const teachersBody = document.getElementById('teachersBody');
     const staffBody = document.getElementById('staffBody');
     const addSelectedBtn = document.getElementById('addSelectedBtn');
-    const cardsContainer = document.querySelector('.detail-section .grades-grid');
+    const staffTableBody = document.getElementById('staffGrid');
     const staffCountBadge = document.getElementById('staffCountDisplay');
     
     let isEditMode = false;
@@ -333,15 +350,33 @@ document.addEventListener('DOMContentLoaded', function(){
         checked.forEach(cb => {
             const name = cb.getAttribute('data-name');
             const url = cb.getAttribute('data-url');
-            const card = document.createElement('div');
-            card.className = 'grade-detail-card';
-            card.setAttribute('onclick', `window.location.href='${url}'`);
-            card.style.cursor = 'pointer';
-            card.innerHTML = `
-                <div class=\"grade-card-header\"> 
-                    <a href=\"${url}\" class=\"grade-link\" onclick=\"event.stopPropagation()\">${name}</a>
-                </div>`;
-            cardsContainer.prepend(card);
+            const id = cb.getAttribute('data-id');
+            
+            // Get next staff ID
+            const existingRows = staffTableBody.querySelectorAll('tr');
+            const newId = existingRows.length;
+            
+            // Create table row
+            const row = document.createElement('tr');
+            row.setAttribute('data-staff-id', newId);
+            row.style.cursor = 'pointer';
+            row.setAttribute('onclick', `window.location.href='${url}'`);
+            row.innerHTML = `
+                <td>
+                    <a href="${url}" class="grade-link" onclick="event.stopPropagation()" style="font-weight: 600; color: #007AFF;">
+                        ${name}
+                    </a>
+                </td>
+                <td>
+                    <span class="type-badge">Staff Member</span>
+                </td>
+                <td style="text-align: center;">
+                    <button class="remove-staff-btn" onclick="event.stopPropagation(); removeStaff(${newId})" title="Remove from Department" style="${isEditMode ? 'display:flex;' : 'display:none;'}">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </td>
+            `;
+            staffTableBody.appendChild(row);
         });
         try {
             const current = parseInt((staffCountBadge && staffCountBadge.textContent || '0').replace(/[^0-9]/g,'')) || 0;
@@ -373,8 +408,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
 // Remove staff function
 function removeStaff(staffId) {
-    const staffCard = document.querySelector(`[data-staff-id="${staffId}"]`);
-    const staffName = staffCard.querySelector('.grade-link').textContent;
+    const staffRow = document.querySelector(`tr[data-staff-id="${staffId}"]`);
+    const staffName = staffRow.querySelector('.grade-link').textContent;
     
     showConfirmDialog({
         title: 'Remove Staff Member',
@@ -382,7 +417,7 @@ function removeStaff(staffId) {
         confirmText: 'Remove',
         confirmIcon: 'fas fa-user-times',
         onConfirm: function() {
-            staffCard.remove();
+            staffRow.remove();
             
             // Update staff count
             const staffCountBadge = document.getElementById('staffCountDisplay');
@@ -404,49 +439,41 @@ function removeStaff(staffId) {
     gap: 8px;
 }
 
-/* Staff Card Styles */
-.staff-card {
-    padding-right: 40px !important;
+/* Staff Table Styles */
+#staffTable tbody tr {
+    transition: background-color 0.2s ease;
 }
 
-.staff-card .grade-card-header {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: flex-start;
+#staffTable tbody tr:hover {
+    background-color: #f8fafc;
 }
 
-.staff-card .type-badge {
+.type-badge {
     font-size: 0.8rem;
-    padding: 4px 8px;
+    padding: 4px 12px;
     background: #f3f4f6;
     color: #6b7280;
-    border-radius: 4px;
-    max-width: calc(100% - 10px);
-    word-wrap: break-word;
-    line-height: 1.2;
+    border-radius: 6px;
+    font-weight: 500;
+    display: inline-block;
 }
 
 /* Remove Staff Button Styles */
 .remove-staff-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
     background: #ff4757;
     color: white;
     border: none;
     border-radius: 6px;
-    width: 28px;
-    height: 28px;
-    display: flex;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     transition: all 0.2s ease;
-    z-index: 10;
 }
 
 .remove-staff-btn:hover {

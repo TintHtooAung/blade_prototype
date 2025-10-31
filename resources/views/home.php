@@ -99,6 +99,17 @@
                                 <div class="demo-email">admin@novahub.edu</div>
                             </div>
                         </div>
+
+                        <!-- Parent Demo -->
+                        <div class="demo-card" onclick="fillDemoCredentials('parent')">
+                            <div class="demo-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
+                            <div class="demo-info">
+                                <div class="demo-role">Parent</div>
+                                <div class="demo-email">parent@novahub.edu</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -135,6 +146,12 @@
             password: 'admin123',
             role: 'admin',
             redirect: '/admin/dashboard'
+        },
+        parent: {
+            email: 'parent@novahub.edu',
+            password: 'parent123',
+            role: 'parent',
+            redirect: '/parent/dashboard'
         }
     };
 
@@ -221,7 +238,8 @@
             const redirects = {
                 'teacher': '/teacher/dashboard',
                 'staff': '/staff/dashboard',
-                'admin': '/admin/dashboard'
+                'admin': '/admin/dashboard',
+                'parent': '/parent/dashboard'
             };
             
             if (redirects[userRole]) {

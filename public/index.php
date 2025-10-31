@@ -304,6 +304,9 @@ switch ($path) {
     case '/teacher/exam-results':
         include __DIR__ . '/../resources/views/teacher/exam-results.php';
         break;
+    case '/teacher/exam-details':
+        include __DIR__ . '/../resources/views/teacher/exam-details.php';
+        break;
     case '/teacher/class-schedules':
         include __DIR__ . '/../resources/views/teacher/class-schedules.php';
         break;
@@ -333,6 +336,41 @@ switch ($path) {
         break;
     case '/teacher/homework':
         include __DIR__ . '/../resources/views/teacher/homework.php';
+        break;
+    
+    // Parent/Guardian Pages
+    case '/parent/dashboard':
+        include __DIR__ . '/../resources/views/parent/dashboard.php';
+        break;
+    case '/parent/my-children':
+        include __DIR__ . '/../resources/views/parent/my-children.php';
+        break;
+    case '/parent/attendance':
+        include __DIR__ . '/../resources/views/parent/attendance.php';
+        break;
+    case '/parent/academic-reports':
+        include __DIR__ . '/../resources/views/parent/academic-reports.php';
+        break;
+    case '/parent/exam-results':
+        include __DIR__ . '/../resources/views/parent/exam-results.php';
+        break;
+    case '/parent/announcements':
+        include __DIR__ . '/../resources/views/parent/announcements.php';
+        break;
+    case '/parent/event-calendar':
+        include __DIR__ . '/../resources/views/parent/event-calendar.php';
+        break;
+    case '/parent/homework':
+        include __DIR__ . '/../resources/views/parent/homework.php';
+        break;
+    case '/parent/leave-request':
+        include __DIR__ . '/../resources/views/parent/leave-request.php';
+        break;
+    case '/parent/fee-payment':
+        include __DIR__ . '/../resources/views/parent/fee-payment.php';
+        break;
+    case '/parent/payment-history':
+        include __DIR__ . '/../resources/views/parent/payment-history.php';
         break;
         
     default:
