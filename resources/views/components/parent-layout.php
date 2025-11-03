@@ -14,7 +14,7 @@ $activePage = $activePage ?? 'dashboard';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -25,16 +25,9 @@ $activePage = $activePage ?? 'dashboard';
         <div class="main-content">
             <!-- Profile Badge (Floating) -->
             <div class="profile-badge-container">
-                <div class="profile-badge" onclick="toggleProfileDropdown()">
+                <div class="profile-badge-icon-only" onclick="toggleProfileDropdown()" title="Profile">
                     <div class="profile-avatar">
                         <i class="fas fa-user-circle"></i>
-                    </div>
-                    <div class="profile-info">
-                        <div class="profile-name">Parent User</div>
-                        <div class="profile-role">Guardian</div>
-                    </div>
-                    <div class="profile-arrow">
-                        <i class="fas fa-chevron-down"></i>
                     </div>
                 </div>
                 
@@ -105,6 +98,29 @@ $activePage = $activePage ?? 'dashboard';
         transform: translateY(-1px);
     }
 
+    /* Icon-only profile badge */
+    .profile-badge-icon-only {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 0;
+    }
+
+    .profile-badge-icon-only:hover {
+        background: rgba(255, 255, 255, 1);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        transform: translateY(-1px) scale(1.05);
+    }
+
     .profile-avatar {
         width: 36px;
         height: 36px;
@@ -117,6 +133,14 @@ $activePage = $activePage ?? 'dashboard';
         font-size: 18px;
         margin-right: 12px;
         flex-shrink: 0;
+    }
+
+    /* Avatar inside icon-only badge */
+    .profile-badge-icon-only .profile-avatar {
+        margin-right: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
     }
 
     .profile-info {

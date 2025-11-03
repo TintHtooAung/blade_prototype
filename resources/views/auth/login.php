@@ -10,7 +10,9 @@ ob_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $pageTitle; ?></title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -19,7 +21,7 @@ ob_start();
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Nunito Sans', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
@@ -334,8 +336,7 @@ ob_start();
         <div class="auth-left">
             <div class="auth-left-content">
                 <div class="auth-logo">
-                    <i class="fas fa-graduation-cap"></i>
-                    <span>Smart Campus Nova Hub</span>
+                    <img src="/images/smart-campus-logo.svg" alt="Smart Campus Logo" class="auth-logo-img" style="max-width: 180px; height: auto;">
                 </div>
                 <h2>Welcome Back!</h2>
                 <p>Sign in to access your educational management dashboard and continue transforming your institution.</p>

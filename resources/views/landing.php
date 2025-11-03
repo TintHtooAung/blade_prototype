@@ -10,7 +10,9 @@ ob_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $pageTitle; ?></title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -19,7 +21,7 @@ ob_start();
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Nunito Sans', sans-serif;
             line-height: 1.6;
             color: #333;
             overflow-x: hidden;
@@ -367,8 +369,7 @@ ob_start();
     <header class="header">
         <div class="nav-container">
             <div class="logo">
-                <i class="fas fa-graduation-cap"></i>
-                <span>Smart Campus Nova Hub</span>
+                <img src="/images/smart-campus-logo.svg" alt="Smart Campus Logo" class="landing-logo-img" style="max-height: 50px; width: auto;">
             </div>
             <nav>
                 <ul class="nav-links">

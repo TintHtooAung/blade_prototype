@@ -20,7 +20,8 @@ $menuItems = [
     ['id' => 'payroll', 'icon' => 'fas fa-money-check-alt', 'label' => 'Salary & Payroll', 'url' => '/admin/salary-payroll'],
     ['id' => 'school', 'icon' => 'fas fa-school', 'label' => 'School Info', 'url' => '/admin/school-info'],
     ['id' => 'logs', 'icon' => 'fas fa-chart-line', 'label' => 'User Activity Logs', 'url' => '/admin/activity-logs'],
-    ['id' => 'reports', 'icon' => 'fas fa-file-alt', 'label' => 'Report Centre', 'url' => '/admin/report-centre']
+    ['id' => 'reports', 'icon' => 'fas fa-file-alt', 'label' => 'Report Centre', 'url' => '/admin/report-centre'],
+    ['id' => 'chatbot', 'icon' => 'fas fa-robot', 'label' => 'Admin Assistant', 'url' => '/admin/chatbot']
 ];
 ?>
 <!-- Admin Sidebar -->
@@ -32,13 +33,7 @@ $menuItems = [
     
     <!-- Logo Section -->
     <div class="sidebar-logo">
-        <div class="logo-icon">
-            <i class="fas fa-graduation-cap"></i>
-        </div>
-        <div class="logo-text">
-            <div class="logo-title">SMART CAMPUS</div>
-            <div class="logo-subtitle">NOVA HUB</div>
-        </div>
+        <img src="/images/smart-campus-logo.svg" alt="Smart Campus Logo" class="sidebar-logo-img">
     </div>
     
     <ul class="sidebar-nav">

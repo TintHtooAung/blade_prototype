@@ -99,9 +99,14 @@ ob_start();
                     <td>Flu and rest</td>
                     <td>Oct 28, 2025</td>
                     <td>
-                        <button class="simple-btn" onclick="approveLeaveRequest(this, 'LR-2025-0142')">
-                            <i class="fas fa-check"></i> Approve
-                        </button>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <button class="icon-btn" onclick="approveLeaveRequest(this, 'LR-2025-0142')" title="Approve">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="icon-btn" onclick="rejectLeaveRequest(this, 'LR-2025-0142')" title="Reject" style="color: #dc2626;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
                     </td>
                 </tr>
                 <tr data-role="staff" data-requester="Anna Williams" data-id="LR-2025-0143">
@@ -115,9 +120,14 @@ ob_start();
                     <td>Family event</td>
                     <td>Oct 29, 2025</td>
                     <td>
-                        <button class="simple-btn" onclick="approveLeaveRequest(this, 'LR-2025-0143')">
-                            <i class="fas fa-check"></i> Approve
-                        </button>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <button class="icon-btn" onclick="approveLeaveRequest(this, 'LR-2025-0143')" title="Approve">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="icon-btn" onclick="rejectLeaveRequest(this, 'LR-2025-0143')" title="Reject" style="color: #dc2626;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
                     </td>
                 </tr>
                 <tr data-role="teacher" data-requester="Lucas Adams" data-id="LR-2025-0144">
@@ -131,9 +141,14 @@ ob_start();
                     <td>Personal errand</td>
                     <td>Oct 30, 2025</td>
                     <td>
-                        <button class="simple-btn" onclick="approveLeaveRequest(this, 'LR-2025-0144')">
-                            <i class="fas fa-check"></i> Approve
-                        </button>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <button class="icon-btn" onclick="approveLeaveRequest(this, 'LR-2025-0144')" title="Approve">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="icon-btn" onclick="rejectLeaveRequest(this, 'LR-2025-0144')" title="Reject" style="color: #dc2626;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
                     </td>
                 </tr>
             </tbody>
@@ -288,6 +303,78 @@ function processApproval(row, requestId) {
     
     // Show success message
     showActionStatus(`Leave request ${requestId} approved successfully!`, 'success');
+    
+    // Update stats
+    updateStats();
+    
+    // Re-apply filters
+    filterHistory();
+}
+
+function rejectLeaveRequest(btn, requestId) {
+    // Get the row and its data first
+    const row = btn.closest('tr');
+    const requesterName = row.querySelector('td:nth-child(2) strong').textContent;
+    
+    // Show custom confirmation dialog
+    showConfirmDialog({
+        title: 'Reject Leave Request',
+        message: `Are you sure you want to reject the leave request from ${requesterName}?`,
+        confirmText: 'Reject',
+        confirmIcon: 'fas fa-times-circle',
+        confirmClass: 'danger',
+        iconType: 'danger',
+        onConfirm: () => {
+            processRejection(row, requestId);
+        }
+    });
+}
+
+function processRejection(row, requestId) {
+    const cells = row.querySelectorAll('td');
+    
+    // Extract all data from the row
+    const requestIdLink = cells[0].innerHTML;
+    const requester = cells[1].innerHTML;
+    const role = cells[2].textContent;
+    const type = cells[3].textContent;
+    const fromDate = cells[4].textContent;
+    const toDate = cells[5].textContent;
+    const days = cells[6].textContent;
+    const reason = cells[7].textContent;
+    const submitted = cells[8].textContent;
+    const dataRole = row.getAttribute('data-role');
+    
+    // Get current date for processed date
+    const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    
+    // Create new row for history table
+    const historyRow = document.createElement('tr');
+    historyRow.setAttribute('data-status', 'rejected');
+    historyRow.setAttribute('data-role', dataRole);
+    historyRow.innerHTML = `
+        <td>${requestIdLink}</td>
+        <td>${requester}</td>
+        <td>${role}</td>
+        <td>${type}</td>
+        <td>${fromDate}</td>
+        <td>${toDate}</td>
+        <td>${days}</td>
+        <td>${reason}</td>
+        <td>${submitted}</td>
+        <td><span class="status-badge cancelled">Rejected</span></td>
+        <td>${today}</td>
+    `;
+    
+    // Add to history table (at the beginning)
+    const historyBody = document.getElementById('historyBody');
+    historyBody.insertBefore(historyRow, historyBody.firstChild);
+    
+    // Remove from pending table
+    row.remove();
+    
+    // Show success message
+    showActionStatus(`Leave request ${requestId} rejected.`, 'warning');
     
     // Update stats
     updateStats();

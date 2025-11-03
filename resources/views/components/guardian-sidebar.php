@@ -1,7 +1,6 @@
 <div class="admin-sidebar">
     <div class="sidebar-logo">
-        <i class="fas fa-shield-alt"></i>
-        <span>Guardian</span>
+        <img src="/images/smart-campus-logo.svg" alt="Smart Campus Logo" class="sidebar-logo-img">
     </div>
     <ul class="sidebar-menu">
         <li class="<?php echo ($activePage ?? '') === 'guardian-dashboard' ? 'active' : ''; ?>">

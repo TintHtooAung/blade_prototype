@@ -127,6 +127,9 @@ switch ($path) {
     case '/admin/report-edit':
         include __DIR__ . '/../resources/views/admin/report-edit.php';
         break;
+    case '/admin/chatbot':
+        include __DIR__ . '/../resources/views/admin/chatbot.php';
+        break;
     
     // Attendance details
     case (preg_match('/^\/admin\/attendance\/class\/(.+)$/', $uri, $matches) ? true : false):
@@ -267,6 +270,9 @@ switch ($path) {
     case '/staff/leave-request':
         include __DIR__ . '/../resources/views/staff/leave-request.php';
         break;
+    case '/staff/chatbot':
+        include __DIR__ . '/../resources/views/staff/chatbot.php';
+        break;
     
     // Teacher Pages
     case '/teacher/event-calendar':
@@ -337,6 +343,9 @@ switch ($path) {
     case '/teacher/homework':
         include __DIR__ . '/../resources/views/teacher/homework.php';
         break;
+    case '/teacher/chatbot':
+        include __DIR__ . '/../resources/views/teacher/chatbot.php';
+        break;
     
     // Parent/Guardian Pages
     case '/parent/dashboard':
@@ -362,6 +371,9 @@ switch ($path) {
         break;
     case '/parent/homework':
         include __DIR__ . '/../resources/views/parent/homework.php';
+        break;
+    case '/parent/chatbot':
+        include __DIR__ . '/../resources/views/parent/chatbot.php';
         break;
     case '/parent/leave-request':
         include __DIR__ . '/../resources/views/parent/leave-request.php';

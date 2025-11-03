@@ -11,13 +11,7 @@ $activePage = $activePage ?? 'dashboard';
     
     <!-- Logo Section -->
     <div class="sidebar-logo">
-        <div class="logo-icon">
-            <i class="fas fa-graduation-cap"></i>
-        </div>
-        <div class="logo-text">
-            <div class="logo-title">SMART CAMPUS</div>
-            <div class="logo-subtitle">NOVA HUB</div>
-        </div>
+        <img src="/images/smart-campus-logo.svg" alt="Smart Campus Logo" class="sidebar-logo-img">
     </div>
     
     <ul class="sidebar-nav">
@@ -80,6 +74,11 @@ $activePage = $activePage ?? 'dashboard';
         <li>
             <a href="/staff/leave-request" class="<?php echo $activePage === 'leave-request' ? 'active' : ''; ?>">
                 <i class="fas fa-calendar-times"></i> Leave Request
+            </a>
+        </li>
+        <li>
+            <a href="/staff/chatbot" class="<?php echo $activePage === 'chatbot' ? 'active' : ''; ?>">
+                <i class="fas fa-robot"></i> Staff Assistant
             </a>
         </li>
     </ul>
