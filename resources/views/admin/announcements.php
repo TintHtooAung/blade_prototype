@@ -192,8 +192,8 @@ function clearForm() {
 
     // Sample announcements (baseline)
     const sample = [
-        { title: 'Annual Science Fair 2024 - Call for Participation', message: 'We are excited to announce our Annual Science Fair 2024! This year\'s theme is \"Innovation for Tomorrow\".', type: 'event', priority: 'medium', date: '2024-01-08', audience: 'All Users', campuses: 'Main, North' },
-        { title: 'Q1 Academic Performance Reports Available', message: 'Quarter 1 academic performance reports are now available. Parents can access them through the parent portal, and teachers should review class summaries.', type: 'academic', priority: 'medium', date: '2024-01-07', audience: 'Parents & Teachers', campuses: 'All' }
+        { id: 'ANN001', title: 'Annual Science Fair 2024 - Call for Participation', message: 'We are excited to announce our Annual Science Fair 2024! This year\'s theme is \"Innovation for Tomorrow\".', type: 'event', priority: 'medium', date: '2024-01-08', audience: 'All Users', campuses: 'Main, North' },
+        { id: 'ANN002', title: 'Q1 Academic Performance Reports Available', message: 'Quarter 1 academic performance reports are now available. Parents can access them through the parent portal, and teachers should review class summaries.', type: 'academic', priority: 'medium', date: '2024-01-07', audience: 'Parents & Teachers', campuses: 'All' }
     ];
 
     // Merge with locally created announcements
@@ -206,6 +206,14 @@ function clearForm() {
     function card(a){
         const div = document.createElement('div');
         div.className = 'announcement-card';
+        div.style.cursor = 'pointer';
+        div.onclick = function(e) {
+            // Don't navigate if clicking on action buttons
+            if (e.target.closest('.announcement-actions')) {
+                return;
+            }
+            window.location.href = `/admin/announcement-details?id=${encodeURIComponent(a.id||'')}`;
+        };
         div.innerHTML = `
             <div class="announcement-header">
                 <div class="announcement-title">
@@ -214,7 +222,7 @@ function clearForm() {
                 </div>
                 <div class="announcement-actions">
                     <button class="action-icon pin" title="Pin"><i class="fas fa-thumbtack"></i></button>
-                    <button class="action-icon edit" title="Edit"><i class="fas fa-edit"></i></button>
+                    <button class="action-icon edit" title="Edit" onclick="event.stopPropagation(); window.location.href='/admin/create-announcement?id=${encodeURIComponent(a.id||'')}'"><i class="fas fa-edit"></i></button>
                     <button class="action-icon delete" title="Delete"><i class="fas fa-trash"></i></button>
                 </div>
             </div>

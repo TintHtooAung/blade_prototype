@@ -82,7 +82,6 @@ ob_start();
                     <th>From</th>
                     <th>To</th>
                     <th>Days</th>
-                    <th>Reason</th>
                     <th>Submitted</th>
                     <th>Actions</th>
                 </tr>
@@ -96,7 +95,6 @@ ob_start();
                     <td>Oct 29, 2025</td>
                     <td>Oct 31, 2025</td>
                     <td>3</td>
-                    <td>Flu and rest</td>
                     <td>Oct 28, 2025</td>
                     <td>
                         <div style="display: flex; gap: 8px; align-items: center;">
@@ -117,7 +115,6 @@ ob_start();
                     <td>Nov 03, 2025</td>
                     <td>Nov 05, 2025</td>
                     <td>3</td>
-                    <td>Family event</td>
                     <td>Oct 29, 2025</td>
                     <td>
                         <div style="display: flex; gap: 8px; align-items: center;">
@@ -138,7 +135,6 @@ ob_start();
                     <td>Nov 01, 2025</td>
                     <td>Nov 01, 2025</td>
                     <td>1</td>
-                    <td>Personal errand</td>
                     <td>Oct 30, 2025</td>
                     <td>
                         <div style="display: flex; gap: 8px; align-items: center;">
@@ -160,7 +156,14 @@ ob_start();
 <div class="simple-section" style="margin-top: 24px;">
     <div class="simple-header">
         <h3>Leave History</h3>
-        <div style="display: flex; gap: 12px; align-items: center;">
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            <div class="filter-group" style="display: flex; align-items: center; gap: 8px; flex-direction: row;">
+                <label for="leaveHistoryDateFilter" style="margin: 0; white-space: nowrap;">Select Date:</label>
+                <input type="date" id="leaveHistoryDateFilter" class="filter-select" value="<?php echo date('Y-m-d'); ?>" onchange="filterHistoryByDate(this.value)" style="height: 36px; padding: 8px 12px; margin: 0;">
+            </div>
+            <button class="simple-btn secondary" onclick="setTodayLeaveHistory()" title="Today" style="height: 36px; padding: 8px 16px; margin: 0;">
+                <i class="fas fa-calendar-day"></i> Today
+            </button>
             <select id="statusFilterHistory" class="filter-select" onchange="filterHistory()">
                 <option value="all">All Status</option>
                 <option value="approved">Approved</option>
@@ -186,14 +189,13 @@ ob_start();
                     <th>From</th>
                     <th>To</th>
                     <th>Days</th>
-                    <th>Reason</th>
                     <th>Submitted</th>
                     <th>Status</th>
                     <th>Processed Date</th>
                 </tr>
             </thead>
             <tbody id="historyBody">
-                <tr data-status="approved" data-role="teacher">
+                <tr data-status="approved" data-role="teacher" data-processed-date="2025-09-11">
                     <td><a href="/admin/attendance/leave-detail/LR-2025-0128">#LR-2025-0128</a></td>
                     <td><strong>Sarah Johnson</strong></td>
                     <td>Teacher</td>
@@ -201,12 +203,11 @@ ob_start();
                     <td>Sep 15, 2025</td>
                     <td>Sep 20, 2025</td>
                     <td>5</td>
-                    <td>Family vacation</td>
                     <td>Sep 10, 2025</td>
                     <td><span class="status-badge active">Approved</span></td>
                     <td>Sep 11, 2025</td>
                 </tr>
-                <tr data-status="approved" data-role="staff">
+                <tr data-status="approved" data-role="staff" data-processed-date="2025-09-19">
                     <td><a href="/admin/attendance/leave-detail/LR-2025-0130">#LR-2025-0130</a></td>
                     <td><strong>John Smith</strong></td>
                     <td>Staff</td>
@@ -214,12 +215,11 @@ ob_start();
                     <td>Sep 20, 2025</td>
                     <td>Sep 22, 2025</td>
                     <td>3</td>
-                    <td>Medical appointment</td>
                     <td>Sep 19, 2025</td>
                     <td><span class="status-badge active">Approved</span></td>
                     <td>Sep 19, 2025</td>
                 </tr>
-                <tr data-status="rejected" data-role="teacher">
+                <tr data-status="rejected" data-role="teacher" data-processed-date="2025-08-02">
                     <td><a href="/admin/attendance/leave-detail/LR-2025-0105">#LR-2025-0105</a></td>
                     <td><strong>Michael Brown</strong></td>
                     <td>Teacher</td>
@@ -227,7 +227,6 @@ ob_start();
                     <td>Aug 05, 2025</td>
                     <td>Aug 06, 2025</td>
                     <td>2</td>
-                    <td>Personal reasons</td>
                     <td>Aug 01, 2025</td>
                     <td><span class="status-badge cancelled">Rejected</span></td>
                     <td>Aug 02, 2025</td>
@@ -269,17 +268,19 @@ function processApproval(row, requestId) {
     const fromDate = cells[4].textContent;
     const toDate = cells[5].textContent;
     const days = cells[6].textContent;
-    const reason = cells[7].textContent;
-    const submitted = cells[8].textContent;
+    const submitted = cells[7].textContent;
     const dataRole = row.getAttribute('data-role');
     
     // Get current date for processed date
     const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
     
     // Create new row for history table
+    const todayDate = new Date();
+    const todayDateString = todayDate.toISOString().split('T')[0];
     const historyRow = document.createElement('tr');
     historyRow.setAttribute('data-status', 'approved');
     historyRow.setAttribute('data-role', dataRole);
+    historyRow.setAttribute('data-processed-date', todayDateString);
     historyRow.innerHTML = `
         <td>${requestIdLink}</td>
         <td>${requester}</td>
@@ -288,7 +289,6 @@ function processApproval(row, requestId) {
         <td>${fromDate}</td>
         <td>${toDate}</td>
         <td>${days}</td>
-        <td>${reason}</td>
         <td>${submitted}</td>
         <td><span class="status-badge active">Approved</span></td>
         <td>${today}</td>
@@ -341,17 +341,19 @@ function processRejection(row, requestId) {
     const fromDate = cells[4].textContent;
     const toDate = cells[5].textContent;
     const days = cells[6].textContent;
-    const reason = cells[7].textContent;
-    const submitted = cells[8].textContent;
+    const submitted = cells[7].textContent;
     const dataRole = row.getAttribute('data-role');
     
     // Get current date for processed date
     const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
     
     // Create new row for history table
+    const todayDate = new Date();
+    const todayDateString = todayDate.toISOString().split('T')[0];
     const historyRow = document.createElement('tr');
     historyRow.setAttribute('data-status', 'rejected');
     historyRow.setAttribute('data-role', dataRole);
+    historyRow.setAttribute('data-processed-date', todayDateString);
     historyRow.innerHTML = `
         <td>${requestIdLink}</td>
         <td>${requester}</td>
@@ -360,7 +362,6 @@ function processRejection(row, requestId) {
         <td>${fromDate}</td>
         <td>${toDate}</td>
         <td>${days}</td>
-        <td>${reason}</td>
         <td>${submitted}</td>
         <td><span class="status-badge cancelled">Rejected</span></td>
         <td>${today}</td>
@@ -407,23 +408,39 @@ function filterHistory() {
     const statusFilter = document.getElementById('statusFilterHistory').value.toLowerCase();
     const roleFilter = document.getElementById('roleFilterHistory').value.toLowerCase();
     const searchInput = document.getElementById('searchHistory').value.toLowerCase();
+    const dateFilter = document.getElementById('leaveHistoryDateFilter').value;
     const rows = document.querySelectorAll('#historyBody tr');
     
     rows.forEach(row => {
         const status = row.getAttribute('data-status');
         const role = row.getAttribute('data-role');
         const text = row.textContent.toLowerCase();
+        const processedDate = row.getAttribute('data-processed-date');
         
         const statusMatch = statusFilter === 'all' || status === statusFilter;
         const roleMatch = roleFilter === 'all' || role === roleFilter;
         const searchMatch = searchInput === '' || text.includes(searchInput);
+        const dateMatch = !dateFilter || processedDate === dateFilter || (processedDate && processedDate.startsWith(dateFilter));
         
-        if (statusMatch && roleMatch && searchMatch) {
+        if (statusMatch && roleMatch && searchMatch && dateMatch) {
             row.style.display = '';
         } else {
             row.style.display = 'none';
         }
     });
+}
+
+function filterHistoryByDate(dateString) {
+    filterHistory();
+}
+
+function setTodayLeaveHistory() {
+    const today = new Date().toISOString().split('T')[0];
+    const dateFilter = document.getElementById('leaveHistoryDateFilter');
+    if (dateFilter) {
+        dateFilter.value = today;
+        filterHistoryByDate(today);
+    }
 }
 
 function updateStats() {

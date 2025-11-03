@@ -192,12 +192,6 @@ ob_start();
 <div class="detail-section">
     <div class="section-header">
         <h3 class="section-title">Students in Class <?php echo htmlspecialchars($className); ?></h3>
-        <div class="section-actions">
-            <a href="/teacher/student-profiles" class="add-btn">
-                <i class="fas fa-list"></i>
-                View All Students
-            </a>
-        </div>
     </div>
     
     <div class="detail-table-container">

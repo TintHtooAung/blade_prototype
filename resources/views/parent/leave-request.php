@@ -80,6 +80,15 @@ ob_start();
 <div class="simple-section" style="margin-top: 24px;">
     <div class="simple-header">
         <h3>Leave Request History</h3>
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            <div class="filter-group" style="display: flex; align-items: center; gap: 8px; flex-direction: row;">
+                <label for="leaveHistoryDateFilter" style="margin: 0; white-space: nowrap;">Select Date:</label>
+                <input type="date" id="leaveHistoryDateFilter" class="filter-select" value="<?php echo date('Y-m-d'); ?>" onchange="filterLeaveHistoryByDate(this.value)" style="height: 36px; padding: 8px 12px; margin: 0;">
+            </div>
+            <button class="simple-btn secondary" onclick="setTodayLeaveHistory()" title="Today" style="height: 36px; padding: 8px 16px; margin: 0;">
+                <i class="fas fa-calendar-day"></i> Today
+            </button>
+        </div>
     </div>
     
     <div class="simple-table-container">
@@ -97,7 +106,7 @@ ob_start();
                 </tr>
             </thead>
             <tbody id="leaveHistoryTable">
-                <tr>
+                <tr data-from-date="2025-10-29">
                     <td><strong>Sarah Johnson</strong><br><small>Grade 9-A</small></td>
                     <td><span class="type-badge">Sick Leave</span></td>
                     <td>Oct 29, 2025</td>
@@ -107,7 +116,7 @@ ob_start();
                     <td><span class="status-badge active">Approved</span></td>
                     <td>Approved by Principal</td>
                 </tr>
-                <tr>
+                <tr data-from-date="2025-10-28">
                     <td><strong>Michael Johnson</strong><br><small>Grade 7-B</small></td>
                     <td><span class="type-badge">Family Emergency</span></td>
                     <td>Oct 28, 2025</td>
@@ -117,7 +126,7 @@ ob_start();
                     <td><span class="status-badge active">Approved</span></td>
                     <td>Approved by Admin</td>
                 </tr>
-                <tr>
+                <tr data-from-date="2025-10-15">
                     <td><strong>Sarah Johnson</strong><br><small>Grade 9-A</small></td>
                     <td><span class="type-badge">Sick Leave</span></td>
                     <td>Oct 15, 2025</td>

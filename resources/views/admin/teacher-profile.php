@@ -4,12 +4,13 @@ $pageIcon = 'fas fa-chalkboard-teacher';
 $pageHeading = 'Teacher Profile';
 $activePage = 'teachers';
 $id = $_GET['id'] ?? 'T000';
+$portal = $_GET['portal'] ?? 'admin'; // Detect if accessed from staff portal
 
 ob_start();
 ?>
 <!-- Back Navigation -->
 <div class="navigation-breadcrumb">
-    <a href="/admin/teacher-profiles" class="breadcrumb-link">
+    <a href="/<?php echo $portal === 'staff' ? 'staff' : 'admin'; ?>/teacher-profiles" class="breadcrumb-link">
         <i class="fas fa-arrow-left"></i> Back to Teacher Profiles
     </a>
 </div>
@@ -27,9 +28,11 @@ ob_start();
 <div class="simple-section">
     <div class="simple-header">
         <h3>Profile: <?php echo htmlspecialchars($id); ?></h3>
+        <?php if ($portal === 'admin'): ?>
         <button class="simple-btn" onclick="window.location.href='/admin/teacher-profile-edit?id=<?php echo htmlspecialchars($id); ?>'">
             <i class="fas fa-edit"></i> Edit Profile
         </button>
+        <?php endif; ?>
     </div>
 
     <div class="simple-table-container">
@@ -189,5 +192,10 @@ function handlePortalAction() {
 
 <?php
 $content = ob_get_clean();
-include __DIR__ . '/../components/admin-layout.php';
+// Use appropriate layout based on portal
+if ($portal === 'staff') {
+    include __DIR__ . '/../components/staff-layout.php';
+} else {
+    include __DIR__ . '/../components/admin-layout.php';
+}
 ?>

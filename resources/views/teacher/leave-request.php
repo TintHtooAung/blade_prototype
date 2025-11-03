@@ -65,16 +65,6 @@ ob_start();
                 </div>
             </div>
             
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="contactNumber">Contact Number During Leave</label>
-                    <input type="tel" id="contactNumber" name="contactNumber" class="form-input" placeholder="e.g., +1-555-0123">
-                </div>
-                <div class="form-group">
-                    <label for="coveringTeacher">Covering Teacher/Staff</label>
-                    <input type="text" id="coveringTeacher" name="coveringTeacher" class="form-input" placeholder="Name of person covering your duties">
-                </div>
-            </div>
         </div>
         
         <div class="form-actions">
@@ -92,6 +82,15 @@ ob_start();
 <div class="simple-section" style="margin-top: 24px;">
     <div class="simple-header">
         <h3>My Leave Request History</h3>
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            <div class="filter-group" style="display: flex; align-items: center; gap: 8px; flex-direction: row;">
+                <label for="leaveHistoryDateFilter" style="margin: 0; white-space: nowrap;">Select Date:</label>
+                <input type="date" id="leaveHistoryDateFilter" class="filter-select" value="<?php echo date('Y-m-d'); ?>" onchange="filterLeaveHistoryByDate(this.value)" style="height: 36px; padding: 8px 12px; margin: 0;">
+            </div>
+            <button class="simple-btn secondary" onclick="setTodayLeaveHistory()" title="Today" style="height: 36px; padding: 8px 16px; margin: 0;">
+                <i class="fas fa-calendar-day"></i> Today
+            </button>
+        </div>
     </div>
     
     <div class="detail-table-container">
@@ -109,7 +108,7 @@ ob_start();
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr data-submitted-date="2025-10-28">
                     <td>#LR-2025-0142</td>
                     <td>Sick Leave</td>
                     <td>Oct 29, 2025</td>
@@ -123,7 +122,7 @@ ob_start();
                         </button>
                     </td>
                 </tr>
-                <tr>
+                <tr data-submitted-date="2025-09-10">
                     <td>#LR-2025-0128</td>
                     <td>Annual Leave</td>
                     <td>Sep 15, 2025</td>
@@ -137,7 +136,7 @@ ob_start();
                         </button>
                     </td>
                 </tr>
-                <tr>
+                <tr data-submitted-date="2025-08-01">
                     <td>#LR-2025-0105</td>
                     <td>Personal Leave</td>
                     <td>Aug 05, 2025</td>
@@ -180,9 +179,7 @@ function submitLeaveRequest(event) {
         leaveType: document.getElementById('leaveType').value,
         fromDate: document.getElementById('fromDate').value,
         toDate: document.getElementById('toDate').value,
-        reason: document.getElementById('reason').value,
-        contactNumber: document.getElementById('contactNumber').value,
-        coveringTeacher: document.getElementById('coveringTeacher').value
+        reason: document.getElementById('reason').value
     };
     
     // Validate dates
@@ -232,6 +229,31 @@ function resetForm() {
 function viewLeaveRequest(requestId) {
     // In a real application, this would navigate to a detail page
     alert('View leave request details for ' + requestId + '\n\nThis would navigate to a detail page showing full request information.');
+}
+
+function filterLeaveHistoryByDate(dateString) {
+    const dateFilter = dateString;
+    const rows = document.querySelectorAll('tbody tr');
+    
+    rows.forEach(row => {
+        const submittedDate = row.getAttribute('data-submitted-date');
+        const dateMatch = !dateFilter || submittedDate === dateFilter || (submittedDate && submittedDate.startsWith(dateFilter));
+        
+        if (dateMatch) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+function setTodayLeaveHistory() {
+    const today = new Date().toISOString().split('T')[0];
+    const dateFilter = document.getElementById('leaveHistoryDateFilter');
+    if (dateFilter) {
+        dateFilter.value = today;
+        filterLeaveHistoryByDate(today);
+    }
 }
 
 function showActionStatus(message, type) {

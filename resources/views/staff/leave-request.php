@@ -65,16 +65,6 @@ ob_start();
                 </div>
             </div>
             
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="contactNumber">Contact Number During Leave</label>
-                    <input type="tel" id="contactNumber" name="contactNumber" class="form-input" placeholder="e.g., +1-555-0123">
-                </div>
-                <div class="form-group">
-                    <label for="coveringStaff">Covering Staff</label>
-                    <input type="text" id="coveringStaff" name="coveringStaff" class="form-input" placeholder="Name of person covering your duties">
-                </div>
-            </div>
         </div>
         
         <div class="form-actions">
@@ -92,6 +82,15 @@ ob_start();
 <div class="simple-section" style="margin-top: 24px;">
     <div class="simple-header">
         <h3>My Leave Request History</h3>
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            <div class="filter-group" style="display: flex; align-items: center; gap: 8px; flex-direction: row;">
+                <label for="leaveHistoryDateFilter" style="margin: 0; white-space: nowrap;">Select Date:</label>
+                <input type="date" id="leaveHistoryDateFilter" class="filter-select" value="<?php echo date('Y-m-d'); ?>" onchange="filterLeaveHistoryByDate(this.value)" style="height: 36px; padding: 8px 12px; margin: 0;">
+            </div>
+            <button class="simple-btn secondary" onclick="setTodayLeaveHistory()" title="Today" style="height: 36px; padding: 8px 16px; margin: 0;">
+                <i class="fas fa-calendar-day"></i> Today
+            </button>
+        </div>
     </div>
     
     <div class="detail-table-container">
@@ -109,7 +108,7 @@ ob_start();
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr data-submitted-date="2025-11-05">
                     <td>#LR-2025-0145</td>
                     <td>Annual Leave</td>
                     <td>Nov 10, 2025</td>
@@ -123,7 +122,7 @@ ob_start();
                         </button>
                     </td>
                 </tr>
-                <tr>
+                <tr data-submitted-date="2025-09-19">
                     <td>#LR-2025-0130</td>
                     <td>Sick Leave</td>
                     <td>Sep 20, 2025</td>
@@ -137,7 +136,7 @@ ob_start();
                         </button>
                     </td>
                 </tr>
-                <tr>
+                <tr data-submitted-date="2025-08-10">
                     <td>#LR-2025-0110</td>
                     <td>Personal Leave</td>
                     <td>Aug 15, 2025</td>
@@ -180,9 +179,7 @@ function submitLeaveRequest(event) {
         leaveType: document.getElementById('leaveType').value,
         fromDate: document.getElementById('fromDate').value,
         toDate: document.getElementById('toDate').value,
-        reason: document.getElementById('reason').value,
-        contactNumber: document.getElementById('contactNumber').value,
-        coveringStaff: document.getElementById('coveringStaff').value
+        reason: document.getElementById('reason').value
     };
     
     // Validate dates

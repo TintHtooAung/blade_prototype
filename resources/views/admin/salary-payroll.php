@@ -2,7 +2,12 @@
 $pageTitle = 'Smart Campus Nova Hub - Salary & Payroll';
 $pageIcon = 'fas fa-money-check-alt';
 $pageHeading = 'Salary & Payroll Management';
-$activePage = 'payroll';
+
+// Detect portal from URL to set appropriate activePage
+$currentUri = $_SERVER['REQUEST_URI'] ?? '';
+$activePage = strpos($currentUri, '/staff/') !== false 
+    ? 'salary-payroll' 
+    : 'payroll';
 
 ob_start();
 ?>
@@ -628,5 +633,12 @@ function loadPayrollHistory() {
 
 <?php
 $content = ob_get_clean();
-include __DIR__ . '/../components/admin-layout.php';
+
+// Detect portal from URL to use appropriate layout
+$currentUri = $_SERVER['REQUEST_URI'] ?? '';
+$layout = strpos($currentUri, '/staff/') !== false 
+    ? 'staff-layout.php' 
+    : 'admin-layout.php';
+
+include __DIR__ . '/../components/' . $layout;
 ?>

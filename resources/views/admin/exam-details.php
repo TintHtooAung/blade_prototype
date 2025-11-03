@@ -4,12 +4,16 @@ $pageIcon = 'fas fa-clipboard-list';
 $pageHeading = 'Exam Details';
 $activePage = 'exam-database';
 
+// Detect portal from URL to set appropriate routes
+$currentUri = $_SERVER['REQUEST_URI'] ?? '';
+$portalPrefix = strpos($currentUri, '/staff/') !== false ? '/staff' : '/admin';
+
 ob_start();
 ?>
 
 <!-- Back Navigation -->
 <div class="navigation-breadcrumb">
-    <a href="/admin/exam-database" class="breadcrumb-link">
+    <a href="<?php echo $portalPrefix; ?>/exam-database" class="breadcrumb-link">
         <i class="fas fa-arrow-left"></i> Back to Exam Database
     </a>
 </div>
@@ -140,6 +144,9 @@ ob_start();
 </div>
 
 <script>
+// Portal prefix for navigation
+const portalPrefix = '<?php echo $portalPrefix; ?>';
+
 // Get exam ID from URL
 const urlParams = new URLSearchParams(window.location.search);
 const examId = urlParams.get('id');
@@ -187,7 +194,7 @@ const sampleExams = {
 function loadExamDetails() {
     if (!examId) {
         alert('Exam ID not found');
-        window.location.href = '/admin/exam-database';
+        window.location.href = `${portalPrefix}/exam-database`;
         return;
     }
 
@@ -226,7 +233,7 @@ function loadExamDetails() {
 }
 
 function editExam() {
-    window.location.href = `/admin/exam-edit?id=${examId}`;
+    window.location.href = `${portalPrefix}/exam-edit?id=${examId}`;
 }
 
 // Mock exam results data
@@ -299,5 +306,11 @@ document.addEventListener('DOMContentLoaded', loadExamDetails);
 <?php
 $content = ob_get_clean();
 
-include __DIR__ . '/../components/admin-layout.php';
+// Detect portal from URL to use appropriate layout
+$currentUri = $_SERVER['REQUEST_URI'] ?? '';
+$layout = strpos($currentUri, '/staff/') !== false 
+    ? 'staff-layout.php' 
+    : 'admin-layout.php';
+
+include __DIR__ . '/../components/' . $layout;
 ?>

@@ -54,51 +54,6 @@ ob_start();
     </div>
 </div>
 
-<!-- Departments -->
-<div class="simple-section">
-    <div class="simple-header">
-        <h3>Departments</h3>
-    </div>
-    <div class="simple-table-container">
-        <table class="basic-table">
-            <thead>
-                <tr>
-                    <th>Department</th>
-                    <th>Head</th>
-                    <th>Staff</th>
-                    <th>Contact</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Mathematics</td>
-                    <td>Emma Wilson</td>
-                    <td>12</td>
-                    <td>math@smartcampus.edu</td>
-                </tr>
-                <tr>
-                    <td>Science</td>
-                    <td>Liam Johnson</td>
-                    <td>10</td>
-                    <td>science@smartcampus.edu</td>
-                </tr>
-                <tr>
-                    <td>Humanities</td>
-                    <td>Noah Davis</td>
-                    <td>9</td>
-                    <td>hum@smartcampus.edu</td>
-                </tr>
-                <tr>
-                    <td>Administration</td>
-                    <td>Ava Martinez</td>
-                    <td>8</td>
-                    <td>admin@smartcampus.edu</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
 <!-- Key Contacts -->
 <div class="simple-section">
     <div class="simple-header">

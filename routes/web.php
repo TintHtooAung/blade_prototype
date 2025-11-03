@@ -29,9 +29,6 @@ Route::prefix('teacher')->group(function () {
 // Staff routes
 Route::prefix('staff')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'staffDashboard'])->name('staff.dashboard');
-    Route::get('/department-management', function() {
-        include resource_path('views/staff/department-management.php');
-    })->name('staff.department-management');
     // Additional staff routes can be added here later
     // Route::get('/students', [StaffController::class, 'students'])->name('staff.students');
     // Route::get('/enrollment', [StaffController::class, 'enrollment'])->name('staff.enrollment');

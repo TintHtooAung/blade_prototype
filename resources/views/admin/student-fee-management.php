@@ -2,7 +2,12 @@
 $pageTitle = 'Smart Campus Nova Hub - Student Fee Management';
 $pageIcon = 'fas fa-file-invoice-dollar';
 $pageHeading = 'Student Fee Management';
-$activePage = 'finance';
+
+// Detect portal from URL to set appropriate activePage
+$currentUri = $_SERVER['REQUEST_URI'] ?? '';
+$activePage = strpos($currentUri, '/staff/') !== false 
+    ? 'student-fee-management' 
+    : 'finance';
 
 ob_start();
 ?>
@@ -311,5 +316,12 @@ ob_start();
 
 <?php
 $content = ob_get_clean();
-include __DIR__ . '/../components/admin-layout.php';
+
+// Detect portal from URL to use appropriate layout
+$currentUri = $_SERVER['REQUEST_URI'] ?? '';
+$layout = strpos($currentUri, '/staff/') !== false 
+    ? 'staff-layout.php' 
+    : 'admin-layout.php';
+
+include __DIR__ . '/../components/' . $layout;
 ?>

@@ -19,7 +19,7 @@ ob_start();
 <!-- Statistics Grid - Top Row -->
 <div class="stats-grid">
     <!-- Total Students -->
-    <div class="stat-card clickable-card" onclick="window.location.href='/admin/student-profiles'">
+    <div class="stat-card">
         <div class="stat-icon blue">
             <i class="fas fa-user-graduate"></i>
         </div>
@@ -76,7 +76,7 @@ ob_start();
 <!-- Statistics Grid - Bottom Row -->
 <div class="stats-grid-secondary">
     <!-- Active Batch -->
-    <div class="stat-card-secondary clickable-card" onclick="window.location.href='/admin/academic/batches'">
+    <div class="stat-card-secondary">
         <div class="stat-icon yellow">
             <i class="fas fa-calendar-alt"></i>
         </div>
@@ -127,7 +127,7 @@ ob_start();
                 <a href="/admin/event-planner" class="simple-btn-sm">View All</a>
             </div>
             <div class="dashboard-card-body">
-                <div class="activity-item clickable-item" onclick="window.location.href='/admin/event-details?id=EVT004'">
+                <div class="activity-item">
                     <div class="activity-icon blue">
                         <i class="fas fa-calendar"></i>
                     </div>
@@ -135,7 +135,6 @@ ob_start();
                         <h6>Parent-Teacher Conference</h6>
                         <p>Dec 22, 2024 • Meeting</p>
                     </div>
-                    <i class="fas fa-chevron-right"></i>
                 </div>
                 <div class="activity-item clickable-item" onclick="window.location.href='/admin/event-details?id=EVT003'">
                     <div class="activity-icon blue">
@@ -145,7 +144,6 @@ ob_start();
                         <h6>Cultural Festival</h6>
                         <p>Dec 20, 2024 • Cultural</p>
                     </div>
-                    <i class="fas fa-chevron-right"></i>
                 </div>
                 <div class="activity-item clickable-item" onclick="window.location.href='/admin/event-details?id=EVT002'">
                     <div class="activity-icon blue">
@@ -155,7 +153,6 @@ ob_start();
                         <h6>Football Championship</h6>
                         <p>Dec 18, 2024 • Sports</p>
                     </div>
-                    <i class="fas fa-chevron-right"></i>
                 </div>
             </div>
         </div>
@@ -170,7 +167,7 @@ ob_start();
                 <a href="/admin/exam-database" class="simple-btn-sm">View All</a>
             </div>
             <div class="dashboard-card-body">
-                <div class="activity-item clickable-item" onclick="window.location.href='/admin/exam-details?id=EX002'">
+                <div class="activity-item">
                     <div class="activity-icon red">
                         <i class="fas fa-file-alt"></i>
                     </div>
@@ -178,7 +175,6 @@ ob_start();
                         <h6>Mid-term Exam</h6>
                         <p>Feb 5, 2025 • Grade 10-B</p>
                     </div>
-                    <i class="fas fa-chevron-right"></i>
                 </div>
                 <div class="activity-item clickable-item" onclick="window.location.href='/admin/exam-details?id=EX003'">
                     <div class="activity-icon red">
@@ -188,7 +184,6 @@ ob_start();
                         <h6>Science Tutorial</h6>
                         <p>Jan 25, 2025 • Grade 9-B</p>
                     </div>
-                    <i class="fas fa-chevron-right"></i>
                 </div>
                 <div class="activity-item clickable-item" onclick="window.location.href='/admin/exam-details?id=EX001'">
                     <div class="activity-icon red">
@@ -198,7 +193,6 @@ ob_start();
                         <h6>Mathematics Tutorial 1</h6>
                         <p>Jan 20, 2025 • Grade 9-A</p>
                     </div>
-                    <i class="fas fa-chevron-right"></i>
                 </div>
             </div>
         </div>
@@ -206,36 +200,7 @@ ob_start();
 </div>
 
 <style>
-/* Clickable Cards */
-.clickable-card {
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.clickable-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-}
-
-/* Clickable Items */
-.clickable-item {
-    cursor: pointer;
-    transition: background 0.2s ease;
-    position: relative;
-}
-
-.clickable-item:hover {
-    background: #f0f7ff;
-}
-
-.clickable-item .fa-chevron-right {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #999;
-    font-size: 0.85rem;
-}
+/* Static Cards - No interactions */
 
 /* Small Button */
 .simple-btn-sm {

@@ -31,13 +31,24 @@ $activePage = $activePage ?? 'dashboard';
             </a>
         </li>
         <li>
+            <a href="/staff/event-calendar" class="<?php echo $activePage === 'event-calendar' ? 'active' : ''; ?>">
+                <i class="fas fa-calendar-alt"></i> Event Calendar
+            </a>
+        </li>
+        <li>
             <a href="/staff/schedule-planner" class="<?php echo $activePage === 'schedule-planner' ? 'active' : ''; ?>">
                 <i class="fas fa-clock"></i> Schedule Planner
             </a>
         </li>
+        <li style="margin: 1rem 0; color: #a0aec0; font-size: 0.75rem; text-transform: uppercase; padding: 0 1.5rem;">ACADEMIC</li>
         <li>
             <a href="/staff/attendance" class="<?php echo $activePage === 'attendance' ? 'active' : ''; ?>">
                 <i class="fas fa-user-check"></i> Attendance
+            </a>
+        </li>
+        <li>
+            <a href="/staff/collect-attendance" class="<?php echo $activePage === 'collect-attendance' ? 'active' : ''; ?>">
+                <i class="fas fa-clipboard-check"></i> Collect Attendance
             </a>
         </li>
         <li>
@@ -56,13 +67,19 @@ $activePage = $activePage ?? 'dashboard';
             </a>
         </li>
         <li>
-            <a href="/staff/department-management" class="<?php echo $activePage === 'department-management' ? 'active' : ''; ?>">
-                <i class="fas fa-building"></i> Departments
+            <a href="/staff/exam-database" class="<?php echo $activePage === 'exam-database' ? 'active' : ''; ?>">
+                <i class="fas fa-clipboard-list"></i> Exam Database
+            </a>
+        </li>
+        <li style="margin: 1rem 0; color: #a0aec0; font-size: 0.75rem; text-transform: uppercase; padding: 0 1.5rem;">FINANCE</li>
+        <li>
+            <a href="/staff/student-fee-management" class="<?php echo $activePage === 'student-fee-management' ? 'active' : ''; ?>">
+                <i class="fas fa-file-invoice-dollar"></i> Student Fee
             </a>
         </li>
         <li>
-            <a href="/staff/exam-database" class="<?php echo $activePage === 'exam-database' ? 'active' : ''; ?>">
-                <i class="fas fa-clipboard-list"></i> Exam Database
+            <a href="/staff/salary-payroll" class="<?php echo $activePage === 'salary-payroll' ? 'active' : ''; ?>">
+                <i class="fas fa-money-check-alt"></i> Salary & Payroll
             </a>
         </li>
         <li>
@@ -74,11 +91,6 @@ $activePage = $activePage ?? 'dashboard';
         <li>
             <a href="/staff/leave-request" class="<?php echo $activePage === 'leave-request' ? 'active' : ''; ?>">
                 <i class="fas fa-calendar-times"></i> Leave Request
-            </a>
-        </li>
-        <li>
-            <a href="/staff/chatbot" class="<?php echo $activePage === 'chatbot' ? 'active' : ''; ?>">
-                <i class="fas fa-robot"></i> Staff Assistant
             </a>
         </li>
     </ul>

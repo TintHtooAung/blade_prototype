@@ -102,35 +102,15 @@ ob_start();
     </div>
 
 
-    <!-- Participants List (If applicable) -->
+    <!-- Participants List -->
     <div class="exam-detail-card">
         <div class="exam-detail-header">
-            <h4><i class="fas fa-users"></i> Participant Groups</h4>
+            <h4><i class="fas fa-users"></i> Event Participants</h4>
         </div>
         <div class="exam-detail-content">
-            <div class="simple-table-container">
-                <table class="basic-table">
-                    <thead>
-                        <tr>
-                            <th>Group</th>
-                            <th>Count</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Grade 10-A</strong></td>
-                            <td>35 students</td>
-                            <td><span class="status-badge paid">Confirmed</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Teachers</strong></td>
-                            <td>3 supervisors</td>
-                            <td><span class="status-badge paid">Confirmed</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <p id="eventParticipantsList" style="color: #666; line-height: 1.6; margin: 0;">
+                <!-- Participants will be displayed here -->
+            </p>
         </div>
     </div>
 
@@ -340,6 +320,31 @@ const sampleEvents = {
     }
 };
 
+function formatAudience(audience) {
+    // Convert audience value to readable format
+    const audienceMap = {
+        'all': 'All School',
+        'students': 'Students',
+        'teachers': 'Teachers',
+        'staff': 'Staff',
+        'parents': 'Parents'
+    };
+    
+    // If it's a mapped value, return the formatted version
+    if (audienceMap[audience]) {
+        return audienceMap[audience];
+    }
+    
+    // Otherwise, capitalize first letter of each word
+    if (typeof audience === 'string') {
+        return audience.split(' ').map(word => 
+            word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        ).join(' ');
+    }
+    
+    return audience || 'Not specified';
+}
+
 function loadEventDetails() {
     // Try to get from localStorage first
     const savedEvents = JSON.parse(localStorage.getItem('adminEvents') || '[]');
@@ -361,8 +366,12 @@ function loadEventDetails() {
         document.getElementById('detailDate').textContent = new Date(event.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
         document.getElementById('detailTime').textContent = `${event.start} - ${event.end || 'N/A'}`;
         document.getElementById('detailLocation').textContent = event.location;
-        document.getElementById('detailParticipants').textContent = event.audience;
+        document.getElementById('detailParticipants').textContent = formatAudience(event.audience);
         document.getElementById('eventDescription').textContent = event.desc || 'No description available.';
+        
+        // Display participants as simple text
+        const participantsText = formatAudience(event.audience);
+        document.getElementById('eventParticipantsList').textContent = participantsText;
         
         // Load attachments if they exist
         if (event.attachments && event.attachments.length > 0) {

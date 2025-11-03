@@ -341,7 +341,6 @@ ob_start();
                         <th>From</th>
                         <th>To</th>
                         <th>Days</th>
-                        <th>Reason</th>
                         <th>Submitted</th>
                         <th>Status</th>
                         <th>Actions</th>
@@ -356,7 +355,6 @@ ob_start();
                         <td>Oct 29, 2025</td>
                         <td>Oct 31, 2025</td>
                         <td>3</td>
-                        <td>Flu and rest</td>
                         <td>Oct 28, 2025</td>
                         <td class="status-cell"><span>Pending</span></td>
                         <td>
@@ -371,7 +369,6 @@ ob_start();
                         <td>Nov 03, 2025</td>
                         <td>Nov 05, 2025</td>
                         <td>3</td>
-                        <td>Family event</td>
                         <td>Oct 29, 2025</td>
                         <td class="status-cell"><span>Pending</span></td>
                         <td>
@@ -386,7 +383,6 @@ ob_start();
                         <td>Nov 01, 2025</td>
                         <td>Nov 01, 2025</td>
                         <td>1</td>
-                        <td>Personal errand</td>
                         <td>Oct 30, 2025</td>
                         <td class="status-cell"><span>Pending</span></td>
                         <td>
@@ -483,7 +479,7 @@ function openLeaveRequestDetails(requestId, linkEl) {
     const type = cells[3].innerText.trim();
     const from = cells[4].innerText.trim();
     const to = cells[5].innerText.trim();
-    const reason = cells[7].innerText.trim();
+    // Reason is no longer in table - will be shown in detail page
 
     document.getElementById('lrHiddenId').value = requestId;
     document.getElementById('lrHiddenRowIndex').value = Array.from(row.parentNode.children).indexOf(row);
@@ -493,10 +489,10 @@ function openLeaveRequestDetails(requestId, linkEl) {
     document.getElementById('lrRole').textContent = `Role: ${role}`;
     document.getElementById('lrType').textContent = `Type: ${type}`;
     document.getElementById('lrDates').textContent = `Dates: ${from} → ${to}`;
-    document.getElementById('lrReason').textContent = `Reason: ${reason}`;
+    document.getElementById('lrReason').textContent = `Reason: (View details for full reason)`;
 
     document.getElementById('lrInputType').value = type;
-    document.getElementById('lrInputReason').value = reason;
+    document.getElementById('lrInputReason').value = '';
 
     const fromParsed = Date.parse(from);
     const toParsed = Date.parse(to);

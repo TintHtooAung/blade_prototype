@@ -38,6 +38,9 @@ switch ($path) {
     case '/admin/announcements':
         include __DIR__ . '/../resources/views/admin/announcements.php';
         break;
+    case '/admin/announcement-details':
+        include __DIR__ . '/../resources/views/admin/announcement-details.php';
+        break;
     case '/admin/create-announcement':
         include __DIR__ . '/../resources/views/admin/create-announcement.php';
         break;
@@ -126,9 +129,6 @@ switch ($path) {
         break;
     case '/admin/report-edit':
         include __DIR__ . '/../resources/views/admin/report-edit.php';
-        break;
-    case '/admin/chatbot':
-        include __DIR__ . '/../resources/views/admin/chatbot.php';
         break;
     
     // Attendance details
@@ -233,17 +233,31 @@ switch ($path) {
     case '/staff/event-planner':
         include __DIR__ . '/../resources/views/staff/event-planner.php';
         break;
+    case '/staff/event-calendar':
+        include __DIR__ . '/../resources/views/staff/event-calendar.php';
+        break;
     case '/staff/teacher-profiles':
         include __DIR__ . '/../resources/views/staff/teacher-profiles.php';
         break;
+    case (preg_match('/^\/staff\/teacher-profile\/(.+)$/', $uri, $matches) ? true : false):
+        $_GET['id'] = $matches[1];
+        $_GET['portal'] = 'staff'; // Flag to indicate staff portal
+        include __DIR__ . '/../resources/views/admin/teacher-profile.php';
+        break;
     case '/staff/announcements':
         include __DIR__ . '/../resources/views/staff/announcements.php';
+        break;
+    case '/staff/announcement-details':
+        include __DIR__ . '/../resources/views/staff/announcement-details.php';
         break;
     case '/staff/schedule-planner':
         include __DIR__ . '/../resources/views/staff/schedule-planner.php';
         break;
     case '/staff/attendance':
-        include __DIR__ . '/../resources/views/staff/attendance.php';
+        include __DIR__ . '/../resources/views/admin/attendance.php';
+        break;
+    case '/staff/collect-attendance':
+        include __DIR__ . '/../resources/views/staff/collect-attendance.php';
         break;
     case '/staff/student-profiles':
         include __DIR__ . '/../resources/views/staff/student-profiles.php';
@@ -258,20 +272,32 @@ switch ($path) {
     case '/staff/academic-management':
         include __DIR__ . '/../resources/views/staff/academic-management.php';
         break;
-    case '/staff/department-management':
-        include __DIR__ . '/../resources/views/staff/department-management.php';
-        break;
     case '/staff/exam-database':
-        include __DIR__ . '/../resources/views/staff/exam-database.php';
+        include __DIR__ . '/../resources/views/admin/exam-database.php';
+        break;
+    case '/staff/create-exam':
+        include __DIR__ . '/../resources/views/admin/create-exam.php';
+        break;
+    case '/staff/exam-details':
+        include __DIR__ . '/../resources/views/admin/exam-details.php';
+        break;
+    case '/staff/exam-edit':
+        include __DIR__ . '/../resources/views/admin/exam-edit.php';
+        break;
+    case '/staff/exam-results':
+        include __DIR__ . '/../resources/views/admin/exam-results.php';
+        break;
+    case '/staff/student-fee-management':
+        include __DIR__ . '/../resources/views/admin/student-fee-management.php';
+        break;
+    case '/staff/salary-payroll':
+        include __DIR__ . '/../resources/views/admin/salary-payroll.php';
         break;
     case '/staff/report-centre':
         include __DIR__ . '/../resources/views/staff/report-centre.php';
         break;
     case '/staff/leave-request':
         include __DIR__ . '/../resources/views/staff/leave-request.php';
-        break;
-    case '/staff/chatbot':
-        include __DIR__ . '/../resources/views/staff/chatbot.php';
         break;
     
     // Teacher Pages
@@ -280,6 +306,9 @@ switch ($path) {
         break;
     case '/teacher/announcements':
         include __DIR__ . '/../resources/views/teacher/announcements.php';
+        break;
+    case '/teacher/announcement-details':
+        include __DIR__ . '/../resources/views/teacher/announcement-details.php';
         break;
     case '/teacher/schedule-view':
         include __DIR__ . '/../resources/views/teacher/schedule-view.php';
@@ -299,6 +328,10 @@ switch ($path) {
         break;
     case '/teacher/subject-profiles':
         include __DIR__ . '/../resources/views/teacher/subject-profiles.php';
+        break;
+    case (preg_match('/^\/teacher\/subject-detail\/(.+)$/', $uri, $matches) ? true : false):
+        $_GET['subject'] = urldecode($matches[1]);
+        include __DIR__ . '/../resources/views/teacher/subject-detail.php';
         break;
     case '/teacher/class-profiles':
         include __DIR__ . '/../resources/views/teacher/class-profiles.php';
@@ -343,9 +376,6 @@ switch ($path) {
     case '/teacher/homework':
         include __DIR__ . '/../resources/views/teacher/homework.php';
         break;
-    case '/teacher/chatbot':
-        include __DIR__ . '/../resources/views/teacher/chatbot.php';
-        break;
     
     // Parent/Guardian Pages
     case '/parent/dashboard':
@@ -366,14 +396,14 @@ switch ($path) {
     case '/parent/announcements':
         include __DIR__ . '/../resources/views/parent/announcements.php';
         break;
+    case '/parent/announcement-details':
+        include __DIR__ . '/../resources/views/parent/announcement-details.php';
+        break;
     case '/parent/event-calendar':
         include __DIR__ . '/../resources/views/parent/event-calendar.php';
         break;
     case '/parent/homework':
         include __DIR__ . '/../resources/views/parent/homework.php';
-        break;
-    case '/parent/chatbot':
-        include __DIR__ . '/../resources/views/parent/chatbot.php';
         break;
     case '/parent/leave-request':
         include __DIR__ . '/../resources/views/parent/leave-request.php';

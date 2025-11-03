@@ -19,7 +19,7 @@ ob_start();
 <!-- Statistics Grid - Top Row -->
             <div class="stats-grid">
                 <!-- Active Classes -->
-    <div class="stat-card clickable-card" onclick="window.location.href='/teacher/class-profiles'">
+    <div class="stat-card">
                     <div class="stat-icon blue">
                         <i class="fas fa-chalkboard"></i>
                     </div>
@@ -33,7 +33,7 @@ ob_start();
                 </div>
 
                 <!-- Total Students -->
-    <div class="stat-card clickable-card" onclick="window.location.href='/teacher/student-profiles'">
+    <div class="stat-card">
                     <div class="stat-icon green">
                         <i class="fas fa-users"></i>
                     </div>
@@ -47,7 +47,7 @@ ob_start();
                 </div>
 
                 <!-- Pending Assignments -->
-    <div class="stat-card clickable-card" onclick="window.location.href='/teacher/enter-marks'">
+    <div class="stat-card">
                     <div class="stat-icon purple">
                         <i class="fas fa-clipboard-list"></i>
                     </div>
@@ -59,7 +59,7 @@ ob_start();
                 </div>
 
                 <!-- Upcoming Events -->
-    <div class="stat-card clickable-card" onclick="window.location.href='/teacher/notispace-events'">
+    <div class="stat-card">
                     <div class="stat-icon yellow">
                         <i class="fas fa-calendar"></i>
                     </div>
@@ -82,7 +82,7 @@ ob_start();
                 <a href="/teacher/activity-logs" class="simple-btn-sm">View All</a>
                 </div>
                 <div class="dashboard-card-body">
-                <div class="activity-item clickable-item" onclick="window.location.href='/teacher/attendance'">
+                <div class="activity-item">
                         <div class="activity-icon blue">
                             <i class="fas fa-clipboard-check"></i>
                         </div>
@@ -90,9 +90,8 @@ ob_start();
                             <h6>Attendance submitted for Math 101</h6>
                         <p>2 hours ago • Attendance</p>
                     </div>
-                    <i class="fas fa-chevron-right"></i>
                 </div>
-                <div class="activity-item clickable-item" onclick="window.location.href='/teacher/exam-results'">
+                <div class="activity-item">
                         <div class="activity-icon green">
                             <i class="fas fa-check-circle"></i>
                         </div>
@@ -100,9 +99,8 @@ ob_start();
                             <h6>Exam results published for Science 201</h6>
                         <p>5 hours ago • Results</p>
                     </div>
-                    <i class="fas fa-chevron-right"></i>
                 </div>
-                <div class="activity-item clickable-item" onclick="window.location.href='/teacher/enter-marks'">
+                <div class="activity-item">
                         <div class="activity-icon purple">
                             <i class="fas fa-plus-circle"></i>
                         </div>
@@ -110,7 +108,6 @@ ob_start();
                             <h6>New homework assignment created</h6>
                         <p>1 day ago • Assignment</p>
                     </div>
-                    <i class="fas fa-chevron-right"></i>
                 </div>
             </div>
         </div>
@@ -125,7 +122,7 @@ ob_start();
                 <a href="/teacher/notispace-events" class="simple-btn-sm">View All</a>
             </div>
             <div class="dashboard-card-body">
-                <div class="activity-item clickable-item" onclick="window.location.href='/teacher/event-details?id=EVT001'">
+                <div class="activity-item">
                     <div class="activity-icon blue">
                         <i class="fas fa-calendar"></i>
                     </div>
@@ -133,9 +130,8 @@ ob_start();
                         <h6>Parent-Teacher Conference</h6>
                         <p>Dec 22, 2024 • Meeting</p>
                     </div>
-                    <i class="fas fa-chevron-right"></i>
                 </div>
-                <div class="activity-item clickable-item" onclick="window.location.href='/teacher/event-details?id=EVT002'">
+                <div class="activity-item">
                     <div class="activity-icon blue">
                         <i class="fas fa-calendar"></i>
                     </div>
@@ -143,9 +139,8 @@ ob_start();
                         <h6>Teacher Training Workshop</h6>
                         <p>Dec 20, 2024 • Training</p>
                     </div>
-                    <i class="fas fa-chevron-right"></i>
                 </div>
-                <div class="activity-item clickable-item" onclick="window.location.href='/teacher/event-details?id=EVT003'">
+                <div class="activity-item">
                     <div class="activity-icon blue">
                         <i class="fas fa-calendar"></i>
                     </div>
@@ -153,7 +148,6 @@ ob_start();
                         <h6>Grade Review Meeting</h6>
                         <p>Dec 18, 2024 • Meeting</p>
                     </div>
-                    <i class="fas fa-chevron-right"></i>
                 </div>
             </div>
         </div>
@@ -161,36 +155,7 @@ ob_start();
 </div>
 
 <style>
-/* Clickable Cards */
-.clickable-card {
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.clickable-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-}
-
-/* Clickable Items */
-.clickable-item {
-    cursor: pointer;
-    transition: background 0.2s ease;
-    position: relative;
-}
-
-.clickable-item:hover {
-    background: #f0f7ff;
-}
-
-.clickable-item .fa-chevron-right {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #999;
-    font-size: 0.85rem;
-}
+/* Static Cards - No interactions */
 
 /* Small Button */
 .simple-btn-sm {

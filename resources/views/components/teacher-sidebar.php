@@ -77,12 +77,6 @@ $activePage = $activePage ?? 'dashboard';
                 <i class="fas fa-calendar-times"></i> Leave Request
             </a>
         </li>
-        <li style="margin: 1rem 0; color: #a0aec0; font-size: 0.75rem; text-transform: uppercase; padding: 0 1.5rem;">ASSISTANT</li>
-        <li>
-            <a href="/teacher/chatbot" class="<?php echo $activePage === 'chatbot' ? 'active' : ''; ?>">
-                <i class="fas fa-robot"></i> Teaching Assistant
-            </a>
-        </li>
     </ul>
 </div>
 

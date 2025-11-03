@@ -19,34 +19,40 @@ ob_start();
     </div>
 </div>
 
+<?php
+// Example: Teacher's assigned subjects (in real app, this would come from database)
+$currentTeacherId = 'T001'; // This would be from session/auth in real app
+$teacherSubjects = [
+    ['code' => 'MATH', 'name' => 'Mathematics', 'category' => 'Core', 'class' => 'G9-A', 'teacherCount' => 2],
+    ['code' => 'ENG', 'name' => 'English Language', 'category' => 'Core', 'class' => 'G9-A', 'teacherCount' => 2],
+];
+
+$totalSubjects = count($teacherSubjects);
+$coreSubjects = count(array_filter($teacherSubjects, function($s) { return $s['category'] === 'Core'; }));
+$electiveSubjects = count(array_filter($teacherSubjects, function($s) { return $s['category'] === 'Elective'; }));
+?>
+
 <!-- Subject Statistics -->
 <div class="detail-stats-grid">
     <?php echo renderStatCard([
         'title' => 'Total Subjects',
-        'value' => '4',
+        'value' => $totalSubjects,
         'icon' => 'fas fa-book-open',
         'iconColor' => 'red'
     ]); ?>
     
     <?php echo renderStatCard([
         'title' => 'Core Subjects',
-        'value' => '3',
+        'value' => $coreSubjects,
         'icon' => 'fas fa-star',
         'iconColor' => 'yellow'
     ]); ?>
     
     <?php echo renderStatCard([
         'title' => 'Elective Subjects',
-        'value' => '1',
+        'value' => $electiveSubjects,
         'icon' => 'fas fa-plus-circle',
         'iconColor' => 'green'
-    ]); ?>
-    
-    <?php echo renderStatCard([
-        'title' => 'Total Teachers',
-        'value' => '6',
-        'icon' => 'fas fa-chalkboard-teacher',
-        'iconColor' => 'blue'
     ]); ?>
 </div>
 
@@ -63,60 +69,30 @@ ob_start();
                     <th>Subject Code</th>
                     <th>Subject Name</th>
                     <th>Category</th>
-                    <th>Class</th>
-                    <th>Teachers</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
+                <?php if (empty($teacherSubjects)): ?>
                 <tr>
-                    <td class="subject-code"><strong>MATH</strong></td>
-                    <td>Mathematics</td>
-                    <td><span class="category-badge core">Core</span></td>
-                    <td>G9-A</td>
-                    <td class="teacher-count">2</td>
+                    <td colspan="4" style="text-align: center; padding: 24px; color: #666;">
+                        No subjects assigned yet.
+                    </td>
+                </tr>
+                <?php else: ?>
+                <?php foreach ($teacherSubjects as $subject): ?>
+                <tr>
+                    <td class="subject-code"><strong><?php echo htmlspecialchars($subject['code']); ?></strong></td>
+                    <td><?php echo htmlspecialchars($subject['name']); ?></td>
+                    <td><span class="category-badge <?php echo strtolower($subject['category']); ?>"><?php echo htmlspecialchars($subject['category']); ?></span></td>
                     <td class="actions-cell">
-                        <button class="action-icon view" title="View Details">
+                        <button class="action-icon view" title="View Details" onclick="window.location.href='/teacher/subject-detail/<?php echo urlencode($subject['code']); ?>'">
                             <i class="fas fa-eye"></i>
                         </button>
                     </td>
                 </tr>
-                <tr>
-                    <td class="subject-code"><strong>ENG</strong></td>
-                    <td>English Language</td>
-                    <td><span class="category-badge core">Core</span></td>
-                    <td>G9-A</td>
-                    <td class="teacher-count">2</td>
-                    <td class="actions-cell">
-                        <button class="action-icon view" title="View Details">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="subject-code"><strong>SCI</strong></td>
-                    <td>Science</td>
-                    <td><span class="category-badge core">Core</span></td>
-                    <td>G9-A</td>
-                    <td class="teacher-count">1</td>
-                    <td class="actions-cell">
-                        <button class="action-icon view" title="View Details">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="subject-code"><strong>ART</strong></td>
-                    <td>Visual Arts</td>
-                    <td><span class="category-badge elective">Elective</span></td>
-                    <td>G9-A</td>
-                    <td class="teacher-count">1</td>
-                    <td class="actions-cell">
-                        <button class="action-icon view" title="View Details">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </td>
-                </tr>
+                <?php endforeach; ?>
+                <?php endif; ?>
             </tbody>
         </table>
     </div>

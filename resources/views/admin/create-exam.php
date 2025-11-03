@@ -7,9 +7,14 @@ $activePage = 'exams';
 ob_start();
 ?>
 
+<?php
+// Detect portal from URL to set appropriate routes
+$currentUri = $_SERVER['REQUEST_URI'] ?? '';
+$portalPrefix = strpos($currentUri, '/staff/') !== false ? '/staff' : '/admin';
+?>
 <!-- Back Navigation -->
 <div class="navigation-breadcrumb">
-    <a href="/admin/exam-database" class="breadcrumb-link">
+    <a href="<?php echo $portalPrefix; ?>/exam-database" class="breadcrumb-link">
         <i class="fas fa-arrow-left"></i> Back to Exam Database
     </a>
 </div>
@@ -367,5 +372,12 @@ document.getElementById('activateAllBtn').addEventListener('click', function() {
 
 <?php
 $content = ob_get_clean();
-include __DIR__ . '/../components/admin-layout.php';
+
+// Detect portal from URL to use appropriate layout
+$currentUri = $_SERVER['REQUEST_URI'] ?? '';
+$layout = strpos($currentUri, '/staff/') !== false 
+    ? 'staff-layout.php' 
+    : 'admin-layout.php';
+
+include __DIR__ . '/../components/' . $layout;
 ?>

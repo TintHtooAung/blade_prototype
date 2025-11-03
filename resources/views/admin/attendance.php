@@ -20,7 +20,16 @@ ob_start();
 <!-- Today's Summary -->
 <div class="simple-section">
     <div class="simple-header">
-        <h3>Today's Attendance Summary - <?php echo date('F d, Y'); ?></h3>
+        <h3 id="attendanceDateTitle">Today's Attendance Summary - <?php echo date('F d, Y'); ?></h3>
+        <div class="simple-actions">
+            <div class="filter-group" style="display: flex; align-items: center; gap: 8px; flex-direction: row;">
+                <label for="attendanceDateFilter" style="margin: 0; white-space: nowrap;">Select Date:</label>
+                <input type="date" id="attendanceDateFilter" class="filter-select" value="<?php echo date('Y-m-d'); ?>" onchange="filterAttendanceByDate(this.value)" style="height: 36px; padding: 8px 12px; margin: 0;">
+            </div>
+            <button class="simple-btn secondary" onclick="setTodayDate()" title="Today" style="height: 36px; padding: 8px 16px; margin: 0;">
+                <i class="fas fa-calendar-day"></i> Today
+            </button>
+        </div>
     </div>
     
     <div class="stats-grid">
@@ -328,11 +337,121 @@ ob_start();
 
 <script>
 // Attendance page scripts (leave request functions removed - now in /admin/leave-requests)
+
+// Current selected date
+let currentAttendanceDate = new Date();
+
+// Format date for display
+function formatAttendanceDate(date) {
+    const d = new Date(date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    d.setHours(0, 0, 0, 0);
+    
+    const options = { 
+        weekday: 'long', 
+        month: 'long', 
+        day: 'numeric', 
+        year: 'numeric' 
+    };
+    
+    const dateString = d.toLocaleDateString('en-US', options);
+    
+    if (d.getTime() === today.getTime()) {
+        return `Today's Attendance Summary - ${dateString}`;
+    } else if (d < today) {
+        return `Attendance Summary - ${dateString}`;
+    } else {
+        return `Future Attendance - ${dateString}`;
+    }
+}
+
+// Filter attendance by date
+function filterAttendanceByDate(dateString) {
+    if (!dateString) return;
+    
+    currentAttendanceDate = new Date(dateString);
+    
+    // Update title
+    const titleElement = document.getElementById('attendanceDateTitle');
+    if (titleElement) {
+        titleElement.textContent = formatAttendanceDate(dateString);
+    }
+    
+    // In a real implementation, this would:
+    // 1. Fetch attendance data for the selected date
+    // 2. Update all statistics cards
+    // 3. Update all attendance tables (students, teachers, staff)
+    // 4. Update any attendance details
+    
+    // For now, we'll just show a message that data is being loaded
+    console.log('Loading attendance for date:', dateString);
+    
+    // TODO: Replace with actual API call to fetch attendance data
+    // Example:
+    // fetch(`/api/attendance?date=${dateString}`)
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         updateAttendanceData(data);
+    //     });
+    
+    // For demonstration, we'll update the date in the UI
+    updateAttendanceDisplay();
+}
+
+// Set today's date
+function setTodayDate() {
+    const today = new Date();
+    const dateString = today.toISOString().split('T')[0];
+    
+    const dateFilter = document.getElementById('attendanceDateFilter');
+    if (dateFilter) {
+        dateFilter.value = dateString;
+        filterAttendanceByDate(dateString);
+    }
+}
+
+// Update attendance display based on selected date
+function updateAttendanceDisplay() {
+    // Update the date filter value
+    const dateFilter = document.getElementById('attendanceDateFilter');
+    if (dateFilter && currentAttendanceDate) {
+        const dateString = currentAttendanceDate.toISOString().split('T')[0];
+        dateFilter.value = dateString;
+    }
+    
+    // In a real implementation, you would:
+    // - Fetch attendance data for the selected date
+    // - Update all statistics
+    // - Update all tables
+    // - Refresh attendance details
+    
+    // For now, we'll add a visual indicator
+    const titleElement = document.getElementById('attendanceDateTitle');
+    if (titleElement) {
+        titleElement.textContent = formatAttendanceDate(currentAttendanceDate);
+    }
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Set initial date to today
+    const today = new Date();
+    const dateString = today.toISOString().split('T')[0];
+    currentAttendanceDate = new Date(dateString);
+    updateAttendanceDisplay();
+});
 </script>
 
 
 <?php
 $content = ob_get_clean();
 
-include __DIR__ . '/../components/admin-layout.php';
+// Detect portal from URL to use appropriate layout
+$currentUri = $_SERVER['REQUEST_URI'] ?? '';
+$layout = strpos($currentUri, '/staff/') !== false 
+    ? 'staff-layout.php' 
+    : 'admin-layout.php';
+
+include __DIR__ . '/../components/' . $layout;
 ?>

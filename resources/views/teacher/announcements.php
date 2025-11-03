@@ -208,6 +208,7 @@ ob_start();
     // Sample announcements (baseline)
     const sample = [
         { 
+            id: 'ANN001',
             title: 'Annual Science Fair 2024 - Call for Participation', 
             message: 'We are excited to announce our Annual Science Fair 2024! This year\'s theme is "Innovation for Tomorrow". Students are encouraged to participate with innovative projects.', 
             type: 'event', 
@@ -217,6 +218,7 @@ ob_start();
             campuses: 'Main Campus' 
         },
         { 
+            id: 'ANN002',
             title: 'Q1 Academic Performance Reports Available', 
             message: 'Quarter 1 academic performance reports are now available. Teachers should review class summaries and prepare for parent meetings.', 
             type: 'academic', 
@@ -226,6 +228,7 @@ ob_start();
             campuses: 'All Campuses' 
         },
         { 
+            id: 'ANN003',
             title: 'Staff Meeting - December 20th', 
             message: 'Monthly staff meeting scheduled for December 20th at 3:00 PM in the conference room. All teachers are required to attend.', 
             type: 'meeting', 
@@ -235,6 +238,7 @@ ob_start();
             campuses: 'Main Campus' 
         },
         { 
+            id: 'ANN004',
             title: 'Christmas Holiday Schedule', 
             message: 'School will be closed from December 23rd to January 2nd for Christmas holidays. Classes resume on January 3rd, 2025.', 
             type: 'holiday', 
@@ -244,6 +248,7 @@ ob_start();
             campuses: 'All Campuses' 
         },
         { 
+            id: 'ANN005',
             title: 'Library Hours Update', 
             message: 'Library will be open extended hours during exam period: 7:00 AM to 8:00 PM, Monday to Friday.', 
             type: 'academic', 
@@ -264,6 +269,14 @@ ob_start();
     function card(a){
         const div = document.createElement('div');
         div.className = 'announcement-card';
+        div.style.cursor = 'pointer';
+        div.onclick = function(e) {
+            // Don't navigate if clicking on action buttons
+            if (e.target.closest('.announcement-actions')) {
+                return;
+            }
+            window.location.href = `/teacher/announcement-details?id=${encodeURIComponent(a.id||'')}`;
+        };
         div.innerHTML = `
             <div class="announcement-header">
                 <div class="announcement-title">

@@ -4,12 +4,16 @@ $pageIcon = 'fas fa-edit';
 $pageHeading = 'Edit Exam';
 $activePage = 'exams';
 
+// Detect portal from URL to set appropriate routes
+$currentUri = $_SERVER['REQUEST_URI'] ?? '';
+$portalPrefix = strpos($currentUri, '/staff/') !== false ? '/staff' : '/admin';
+
 ob_start();
 ?>
 
 <!-- Back Navigation -->
 <div class="navigation-breadcrumb">
-    <a href="/admin/exam-database" class="breadcrumb-link">
+    <a href="<?php echo $portalPrefix; ?>/exam-database" class="breadcrumb-link">
         <i class="fas fa-arrow-left"></i> Back to Exam Database
     </a>
 </div>
@@ -158,7 +162,7 @@ ob_start();
     <!-- Action Buttons -->
     <div class="exam-detail-card">
         <div class="form-actions" style="justify-content: space-between;">
-            <button class="simple-btn secondary" onclick="window.location.href='/admin/exam-database'">
+            <button class="simple-btn secondary" onclick="window.location.href='<?php echo $portalPrefix; ?>/exam-database'">
                 <i class="fas fa-times"></i> Cancel
             </button>
             <div style="display: flex; gap: 12px;">
@@ -174,6 +178,9 @@ ob_start();
 </div>
 
 <script>
+// Portal prefix for navigation
+const portalPrefix = '<?php echo $portalPrefix; ?>';
+
 function addSubjectRow() {
     const tbody = document.getElementById('scheduleBody');
     const row = document.createElement('tr');
@@ -234,7 +241,7 @@ function saveDraft() {
     
     const examName = document.getElementById('examName').value.trim();
     const examId = document.getElementById('examId').value.trim();
-    redirectWithStatus('/admin/exam-database', `Exam "${examName}" (${examId}) saved as draft successfully`, 'success');
+    redirectWithStatus(`${portalPrefix}/exam-database`, `Exam "${examName}" (${examId}) saved as draft successfully`, 'success');
 }
 
 function saveAndActivate() {
@@ -286,7 +293,7 @@ function saveAndActivate() {
     
     const examNameActivate = document.getElementById('examName').value.trim();
     const examIdActivate = document.getElementById('examId').value.trim();
-    redirectWithStatus('/admin/exam-database', `Exam "${examNameActivate}" (${examIdActivate}) saved and activated successfully`, 'success');
+    redirectWithStatus(`${portalPrefix}/exam-database`, `Exam "${examNameActivate}" (${examIdActivate}) saved and activated successfully`, 'success');
 }
 
 // Auto-update marks when exam type changes
@@ -300,6 +307,13 @@ document.getElementById('examType').addEventListener('change', function() {
 
 <?php
 $content = ob_get_clean();
-include __DIR__ . '/../components/admin-layout.php';
+
+// Detect portal from URL to use appropriate layout
+$currentUri = $_SERVER['REQUEST_URI'] ?? '';
+$layout = strpos($currentUri, '/staff/') !== false 
+    ? 'staff-layout.php' 
+    : 'admin-layout.php';
+
+include __DIR__ . '/../components/' . $layout;
 ?>
 

@@ -29,24 +29,10 @@ ob_start();
     ]); ?>
     
     <?php echo renderStatCard([
-        'title' => 'Average Class Size',
-        'value' => '35',
-        'icon' => 'fas fa-users',
-        'iconColor' => 'blue'
-    ]); ?>
-    
-    <?php echo renderStatCard([
         'title' => 'Total Students',
         'value' => '450',
         'icon' => 'fas fa-user-graduate',
         'iconColor' => 'green'
-    ]); ?>
-    
-    <?php echo renderStatCard([
-        'title' => 'Active Teachers',
-        'value' => '13',
-        'icon' => 'fas fa-chalkboard-teacher',
-        'iconColor' => 'yellow'
     ]); ?>
 </div>
 

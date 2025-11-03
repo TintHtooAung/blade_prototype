@@ -244,13 +244,22 @@ $activePage = $activePage ?? 'dashboard';
         background: white;
         border-left: 4px solid #10b981;
         border-radius: 8px;
-        padding: 16px 20px;
+        padding: 12px 16px;
         margin-bottom: 20px;
+        margin-right: 80px; /* Prevent overlap with profile badge */
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         display: flex;
         align-items: center;
         justify-content: space-between;
         animation: slideDown 0.3s ease-out;
+        max-width: calc(100% - 80px);
+    }
+    
+    @media (max-width: 992px) {
+        .action-status-bar {
+            margin-right: 0;
+            max-width: 100%;
+        }
     }
 
     .action-status-bar.success {
@@ -302,10 +311,16 @@ $activePage = $activePage ?? 'dashboard';
     }
 
     .action-status-text {
-        font-size: 15px;
+        font-size: 14px;
         font-weight: 500;
         color: #1f2937;
         line-height: 1.5;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        flex: 1;
+        min-width: 0;
+        max-width: calc(100% - 120px); /* Reserve space for icon and close button */
     }
 
     .action-status-close {
@@ -320,6 +335,7 @@ $activePage = $activePage ?? 'dashboard';
         justify-content: center;
         transition: color 0.2s;
         margin-left: 12px;
+        flex-shrink: 0;
     }
 
     .action-status-close:hover {
@@ -529,8 +545,12 @@ $activePage = $activePage ?? 'dashboard';
             info: 'fa-info-circle'
         };
         
+        // Truncate message if too long (max 60 characters for concise messages)
+        const maxLength = 60;
+        const truncatedMessage = message.length > maxLength ? message.substring(0, maxLength) + '...' : message;
+        
         // Update content
-        statusText.textContent = message;
+        statusText.textContent = truncatedMessage;
         statusIcon.className = `fas ${icons[type] || icons.success} action-status-icon`;
         
         // Update styling

@@ -800,6 +800,19 @@ ob_start();
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+.student-item.leave-requested {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    cursor: default;
+}
+
+.student-item.leave-requested:hover {
+    border-color: #e0e0e0;
+    background: #f8f9fa;
+    transform: none;
+    box-shadow: none;
+}
+
 .student-avatar {
     width: 48px;
     height: 48px;
@@ -915,7 +928,7 @@ const attendanceData = [
         room: 'Room 201',
         students: [
             { id: 1, name: 'John Smith', studentId: 'ST001', present: true },
-            { id: 2, name: 'Sarah Johnson', studentId: 'ST002', present: true },
+            { id: 2, name: 'Sarah Johnson', studentId: 'ST002', present: true, leaveRequested: true, leaveType: 'Sick Leave', leaveFrom: '2024-12-16', leaveTo: '2024-12-16' },
             { id: 3, name: 'Mike Wilson', studentId: 'ST003', present: false },
             { id: 4, name: 'Emma Davis', studentId: 'ST004', present: true },
             { id: 5, name: 'David Brown', studentId: 'ST005', present: true }
@@ -991,10 +1004,10 @@ const attendanceData = [
         room: 'Room 205',
         students: [
             { id: 16, name: 'Alex Turner', studentId: 'ST016', present: true },
-            { id: 17, name: 'Grace Hall', studentId: 'ST017', present: true },
+            { id: 17, name: 'Grace Hall', studentId: 'ST017', present: true, leaveRequested: true, leaveType: 'Sick Leave', leaveFrom: '2024-12-18', leaveTo: '2024-12-18' },
             { id: 18, name: 'Noah King', studentId: 'ST018', present: false },
             { id: 19, name: 'Zoe Scott', studentId: 'ST019', present: true },
-            { id: 20, name: 'Ethan Young', studentId: 'ST020', present: true }
+            { id: 20, name: 'Ethan Young', studentId: 'ST020', present: true, leaveRequested: true, leaveType: 'Family Emergency', leaveFrom: '2024-12-18', leaveTo: '2024-12-19' }
         ]
     },
     {
@@ -1257,7 +1270,8 @@ function renderStudentList(attendance) {
     
     attendance.students.forEach(student => {
         const studentItem = document.createElement('div');
-        studentItem.className = 'student-item';
+        const isLeaveRequested = student.leaveRequested === true;
+        studentItem.className = isLeaveRequested ? 'student-item leave-requested' : 'student-item';
         
         const initials = student.name.split(' ').map(n => n[0]).join('');
         
@@ -1267,18 +1281,22 @@ function renderStudentList(attendance) {
                 <div class="student-name">${student.name}</div>
                 <div class="student-id">${student.studentId}</div>
             </div>
-            <div class="attendance-toggle">
-                <button class="toggle-btn ${student.present ? 'present' : ''}" 
-                        onclick="toggleStudentAttendance(${attendance.id}, ${student.id}, true)"
-                        title="Mark Present">
-                    <i class="fas fa-check"></i>
-                </button>
-                <button class="toggle-btn ${!student.present ? 'absent' : ''}" 
-                        onclick="toggleStudentAttendance(${attendance.id}, ${student.id}, false)"
-                        title="Mark Absent">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
+            ${isLeaveRequested ? `
+                <div style="color: #666; font-size: 0.875rem;">Leave-Requested</div>
+            ` : `
+                <div class="attendance-toggle">
+                    <button class="toggle-btn ${student.present ? 'present' : ''}" 
+                            onclick="toggleStudentAttendance(${attendance.id}, ${student.id}, true)"
+                            title="Mark Present">
+                        <i class="fas fa-check"></i>
+                    </button>
+                    <button class="toggle-btn ${!student.present ? 'absent' : ''}" 
+                            onclick="toggleStudentAttendance(${attendance.id}, ${student.id}, false)"
+                            title="Mark Absent">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `}
         `;
         
         container.appendChild(studentItem);
@@ -1289,7 +1307,7 @@ function toggleStudentAttendance(attendanceId, studentId, isPresent) {
     const attendance = attendanceData.find(a => a.id === attendanceId);
     const student = attendance.students.find(s => s.id === studentId);
     
-    if (student) {
+    if (student && !student.leaveRequested) {
         student.present = isPresent;
         updateAttendanceCounts(attendance);
         renderStudentList(attendance);
@@ -1297,14 +1315,17 @@ function toggleStudentAttendance(attendanceId, studentId, isPresent) {
 }
 
 function updateAttendanceCounts(attendance) {
-    const presentCount = attendance.students.filter(s => s.present).length;
-    const absentCount = attendance.students.length - presentCount;
+    // Count only non-leave-requested students for attendance
+    const studentsToCount = attendance.students.filter(s => !s.leaveRequested);
+    const presentCount = studentsToCount.filter(s => s.present).length;
+    const absentCount = studentsToCount.length - presentCount;
+    const leaveRequestedCount = attendance.students.filter(s => s.leaveRequested).length;
     
     document.getElementById('presentCount').textContent = presentCount;
     document.getElementById('absentCount').textContent = absentCount;
     document.getElementById('totalCount').textContent = attendance.students.length;
     
-    // Update attendance object
+    // Update attendance object (only count non-leave-requested students)
     attendance.present = presentCount;
 }
 
@@ -1313,7 +1334,10 @@ function markAllPresent() {
     if (!attendance) return;
     
     attendance.students.forEach(student => {
-        student.present = true;
+        // Only mark present if not on leave
+        if (!student.leaveRequested) {
+            student.present = true;
+        }
     });
     
     updateAttendanceCounts(attendance);
@@ -1325,7 +1349,10 @@ function markAllAbsent() {
     if (!attendance) return;
     
     attendance.students.forEach(student => {
-        student.present = false;
+        // Only mark absent if not on leave
+        if (!student.leaveRequested) {
+            student.present = false;
+        }
     });
     
     updateAttendanceCounts(attendance);

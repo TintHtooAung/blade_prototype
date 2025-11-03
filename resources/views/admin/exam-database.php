@@ -4,6 +4,10 @@ $pageIcon = 'fas fa-database';
 $pageHeading = 'Exam Database';
 $activePage = 'exams';
 
+// Detect portal from URL to set appropriate routes
+$currentUri = $_SERVER['REQUEST_URI'] ?? '';
+$portalPrefix = strpos($currentUri, '/staff/') !== false ? '/staff' : '/admin';
+
 ob_start();
 ?>
 
@@ -21,7 +25,7 @@ ob_start();
 <div class="simple-section">
     <div class="simple-header">
         <h3>All Exams</h3>
-        <a href="/admin/create-exam" class="simple-btn"><i class="fas fa-plus"></i> Create New Exam</a>
+        <a href="<?php echo $portalPrefix; ?>/create-exam" class="simple-btn"><i class="fas fa-plus"></i> Create New Exam</a>
     </div>
 
     <div class="simple-table-container">
@@ -156,6 +160,9 @@ ob_start();
 </style>
 
 <script>
+// Portal prefix for navigation
+const portalPrefix = '<?php echo $portalPrefix; ?>';
+
 // Exam Database Functions - Ready for Backend Integration
 
 /**
@@ -164,7 +171,7 @@ ob_start();
  */
 function viewExam(examId) {
     // Navigate to exam details page
-    window.location.href = `/admin/exam-details?id=${examId}`;
+    window.location.href = `${portalPrefix}/exam-details?id=${examId}`;
 }
 
 /**
@@ -173,7 +180,7 @@ function viewExam(examId) {
  */
 function editExam(examId) {
     // Navigate to edit exam page
-    window.location.href = `/admin/exam-edit?id=${examId}`;
+    window.location.href = `${portalPrefix}/exam-edit?id=${examId}`;
 }
 
 /**
@@ -352,5 +359,12 @@ document.addEventListener('DOMContentLoaded', loadExams);
 
 <?php
 $content = ob_get_clean();
-include __DIR__ . '/../components/admin-layout.php';
+
+// Detect portal from URL to use appropriate layout
+$currentUri = $_SERVER['REQUEST_URI'] ?? '';
+$layout = strpos($currentUri, '/staff/') !== false 
+    ? 'staff-layout.php' 
+    : 'admin-layout.php';
+
+include __DIR__ . '/../components/' . $layout;
 ?>

@@ -56,12 +56,6 @@ $activePage = $activePage ?? 'dashboard';
         <li style="margin: 1rem 0; color: #a0aec0; font-size: 0.75rem; text-transform: uppercase; padding: 0 1.5rem;">COMMUNICATIONS</li>
         
         <li>
-            <a href="/parent/chatbot" class="<?php echo $activePage === 'chatbot' ? 'active' : ''; ?>">
-                <i class="fas fa-robot"></i> School Assistant
-            </a>
-        </li>
-        
-        <li>
             <a href="/parent/announcements" class="<?php echo $activePage === 'announcements' ? 'active' : ''; ?>">
                 <i class="fas fa-bullhorn"></i> Announcements
             </a>

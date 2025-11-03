@@ -302,10 +302,16 @@ $activePage = $activePage ?? 'dashboard';
     }
 
     .action-status-text {
-        font-size: 15px;
+        font-size: 14px;
         font-weight: 500;
         color: #1f2937;
         line-height: 1.5;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        flex: 1;
+        min-width: 0;
+        max-width: calc(100% - 120px); /* Reserve space for icon and close button */
     }
 
     .action-status-close {
@@ -320,6 +326,7 @@ $activePage = $activePage ?? 'dashboard';
         justify-content: center;
         transition: color 0.2s;
         margin-left: 12px;
+        flex-shrink: 0;
     }
 
     .action-status-close:hover {
