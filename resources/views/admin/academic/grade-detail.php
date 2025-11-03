@@ -9,11 +9,16 @@ $activePage = 'academic';
 // Include UI components
 include __DIR__ . '/../../components/ui/card.php';
 
+// Determine portal (admin or staff) from URL
+$uri = $_SERVER['REQUEST_URI'] ?? '';
+$isStaffPortal = strpos($uri, '/staff/') === 0;
+$portalPrefix = $isStaffPortal ? '/staff' : '/admin';
+
 ob_start();
 ?>
 <!-- Back Navigation -->
 <div class="navigation-breadcrumb">
-    <a href="/admin/academic-management" class="breadcrumb-link">
+    <a href="<?php echo $portalPrefix; ?>/academic-management" class="breadcrumb-link">
         <i class="fas fa-arrow-left"></i> Back to Academic Management
     </a>
 </div>
@@ -167,9 +172,9 @@ ob_start();
     </div>
 
     <div class="grades-grid" id="classesGrid">
-        <div class="grade-detail-card" onclick="window.location.href='/admin/academic/class-detail/<?php echo $gradeId; ?>A'" style="cursor:pointer;">
+        <div class="grade-detail-card" onclick="window.location.href='<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>A'" style="cursor:pointer;">
             <div class="grade-card-header">
-                <a href="/admin/academic/class-detail/<?php echo $gradeId; ?>A" class="grade-link" onclick="event.stopPropagation()">Class <?php echo $gradeId; ?>A</a>
+                <a href="<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>A" class="grade-link" onclick="event.stopPropagation()">Class <?php echo $gradeId; ?>A</a>
                 <span class="room-info">Room 101</span>
             </div>
             <div class="grade-card-body">
@@ -184,9 +189,9 @@ ob_start();
             </div>
         </div>
         
-        <div class="grade-detail-card" onclick="window.location.href='/admin/academic/class-detail/<?php echo $gradeId; ?>B'" style="cursor:pointer;">
+        <div class="grade-detail-card" onclick="window.location.href='<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>B'" style="cursor:pointer;">
             <div class="grade-card-header">
-                <a href="/admin/academic/class-detail/<?php echo $gradeId; ?>B" class="grade-link" onclick="event.stopPropagation()">Class <?php echo $gradeId; ?>B</a>
+                <a href="<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>B" class="grade-link" onclick="event.stopPropagation()">Class <?php echo $gradeId; ?>B</a>
                 <span class="room-info">Room 102</span>
             </div>
             <div class="grade-card-body">
@@ -201,9 +206,9 @@ ob_start();
             </div>
         </div>
         
-        <div class="grade-detail-card" onclick="window.location.href='/admin/academic/class-detail/<?php echo $gradeId; ?>C'" style="cursor:pointer;">
+        <div class="grade-detail-card" onclick="window.location.href='<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>C'" style="cursor:pointer;">
             <div class="grade-card-header">
-                <a href="/admin/academic/class-detail/<?php echo $gradeId; ?>C" class="grade-link" onclick="event.stopPropagation()">Class <?php echo $gradeId; ?>C</a>
+                <a href="<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>C" class="grade-link" onclick="event.stopPropagation()">Class <?php echo $gradeId; ?>C</a>
                 <span class="room-info">Room 103</span>
             </div>
             <div class="grade-card-body">
@@ -218,9 +223,9 @@ ob_start();
             </div>
         </div>
         
-        <div class="grade-detail-card" onclick="window.location.href='/admin/academic/class-detail/<?php echo $gradeId; ?>D'" style="cursor:pointer;">
+        <div class="grade-detail-card" onclick="window.location.href='<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>D'" style="cursor:pointer;">
             <div class="grade-card-header">
-                <a href="/admin/academic/class-detail/<?php echo $gradeId; ?>D" class="grade-link" onclick="event.stopPropagation()">Class <?php echo $gradeId; ?>D</a>
+                <a href="<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>D" class="grade-link" onclick="event.stopPropagation()">Class <?php echo $gradeId; ?>D</a>
                 <span class="room-info">Room 104</span>
             </div>
             <div class="grade-card-body">
@@ -240,7 +245,9 @@ ob_start();
 <?php
 $content = ob_get_clean();
 
-include __DIR__ . '/../../components/admin-layout.php';
+// Include appropriate layout based on portal
+$layoutPath = __DIR__ . '/../../components/' . ($isStaffPortal ? 'staff-layout.php' : 'admin-layout.php');
+include $layoutPath;
 ?>
 
 <script>
@@ -333,7 +340,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 showActionStatus('Grade deleted successfully!', 'success');
                 // In a real application, this would redirect or update the UI
                 setTimeout(() => {
-                    window.location.href = '/admin/academic-management';
+                    window.location.href = '<?php echo $portalPrefix; ?>/academic-management';
                 }, 1500);
             }
         });

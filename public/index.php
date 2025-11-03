@@ -272,6 +272,44 @@ switch ($path) {
     case '/staff/academic-management':
         include __DIR__ . '/../resources/views/staff/academic-management.php';
         break;
+    // Staff academic listings (reuse admin pages or staff versions if exist)
+    case '/staff/academic/batches':
+        include __DIR__ . '/../resources/views/admin/academic/batches.php';
+        break;
+    case '/staff/academic/grades':
+        include __DIR__ . '/../resources/views/admin/academic/grades.php';
+        break;
+    case '/staff/academic/classes':
+        include __DIR__ . '/../resources/views/admin/academic/classes.php';
+        break;
+    case '/staff/academic/rooms':
+        include __DIR__ . '/../resources/views/admin/academic/rooms.php';
+        break;
+    case '/staff/academic/subjects':
+        include __DIR__ . '/../resources/views/admin/academic/subjects.php';
+        break;
+
+    // Staff academic detail pages (route to admin detail views)
+    case (preg_match('/^\/staff\/academic\/batch-detail\/(.+)$/', $uri, $matches) ? true : false):
+        $_GET['batch'] = $matches[1];
+        include __DIR__ . '/../resources/views/admin/academic/batch-detail.php';
+        break;
+    case (preg_match('/^\/staff\/academic\/grade-detail\/(.+)$/', $uri, $matches) ? true : false):
+        $_GET['grade'] = $matches[1];
+        include __DIR__ . '/../resources/views/admin/academic/grade-detail.php';
+        break;
+    case (preg_match('/^\/staff\/academic\/class-detail\/(.+)$/', $uri, $matches) ? true : false):
+        $_GET['class'] = $matches[1];
+        include __DIR__ . '/../resources/views/admin/academic/class-detail.php';
+        break;
+    case (preg_match('/^\/staff\/academic\/room-detail\/(.+)$/', $uri, $matches) ? true : false):
+        $_GET['room'] = $matches[1];
+        include __DIR__ . '/../resources/views/admin/academic/room-detail.php';
+        break;
+    case (preg_match('/^\/staff\/academic\/subject-detail\/(.+)$/', $uri, $matches) ? true : false):
+        $_GET['subject'] = $matches[1];
+        include __DIR__ . '/../resources/views/admin/academic/subject-detail.php';
+        break;
     case '/staff/exam-database':
         include __DIR__ . '/../resources/views/admin/exam-database.php';
         break;

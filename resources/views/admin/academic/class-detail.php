@@ -8,11 +8,16 @@ $activePage = 'academic';
 // Include UI components
 include __DIR__ . '/../../components/ui/card.php';
 
+// Determine portal and prefix
+$uri = $_SERVER['REQUEST_URI'] ?? '';
+$isStaffPortal = strpos($uri, '/staff/') === 0;
+$portalPrefix = $isStaffPortal ? '/staff' : '/admin';
+
 ob_start();
 ?>
 <!-- Back Navigation -->
 <div class="navigation-breadcrumb">
-    <a href="/admin/academic-management" class="breadcrumb-link">
+    <a href="<?php echo $portalPrefix; ?>/academic-management" class="breadcrumb-link">
         <i class="fas fa-arrow-left"></i> Back to Academic Management
     </a>
 </div>
@@ -214,7 +219,7 @@ ob_start();
     <div class="grades-grid" id="subjectsGrid">
         <div class="grade-detail-card">
             <div class="grade-card-header">
-                <a href="/admin/academic/subject-detail/MATH" class="grade-link">Mathematics</a>
+                <a href="<?php echo $portalPrefix; ?>/academic/subject-detail/MATH" class="grade-link">Mathematics</a>
                 <span class="category-badge core">Core</span>
             </div>
             <div class="grade-card-body">
@@ -232,7 +237,7 @@ ob_start();
         
         <div class="grade-detail-card">
             <div class="grade-card-header">
-                <a href="/admin/academic/subject-detail/ENG" class="grade-link">English Language</a>
+                <a href="<?php echo $portalPrefix; ?>/academic/subject-detail/ENG" class="grade-link">English Language</a>
                 <span class="category-badge core">Core</span>
             </div>
             <div class="grade-card-body">
@@ -250,7 +255,7 @@ ob_start();
         
         <div class="grade-detail-card">
             <div class="grade-card-header">
-                <a href="/admin/academic/subject-detail/SCI" class="grade-link">Science</a>
+                <a href="<?php echo $portalPrefix; ?>/academic/subject-detail/SCI" class="grade-link">Science</a>
                 <span class="category-badge core">Core</span>
             </div>
             <div class="grade-card-body">
@@ -268,7 +273,7 @@ ob_start();
         
         <div class="grade-detail-card">
             <div class="grade-card-header">
-                <a href="/admin/academic/subject-detail/ART" class="grade-link">Art & Craft</a>
+                <a href="<?php echo $portalPrefix; ?>/academic/subject-detail/ART" class="grade-link">Art & Craft</a>
                 <span class="category-badge elective">Elective</span>
             </div>
             <div class="grade-card-body">
@@ -289,7 +294,9 @@ ob_start();
 <?php
 $content = ob_get_clean();
 
-include __DIR__ . '/../../components/admin-layout.php';
+// Include appropriate layout based on portal
+$layoutPath = __DIR__ . '/../../components/' . ($isStaffPortal ? 'staff-layout.php' : 'admin-layout.php');
+include $layoutPath;
 ?>
 
 <script>
@@ -595,7 +602,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 showActionStatus('Class deleted successfully!', 'success');
                 // In a real application, this would redirect or update the UI
                 setTimeout(() => {
-                    window.location.href = '/admin/academic-management';
+                    window.location.href = '<?php echo $portalPrefix; ?>/academic-management';
                 }, 1500);
             }
         });
