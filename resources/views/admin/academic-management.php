@@ -17,6 +17,56 @@ ob_start();
     </div>
 </div>
 
+<!-- Academic Stats Cards -->
+<div class="stats-grid-horizontal" style="margin-bottom: 24px;">
+    <!-- Active Batch -->
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal yellow">
+            <i class="fas fa-calendar-alt"></i>
+        </div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">2024-2025</div>
+            <div class="stat-label">Active Batch</div>
+            <div class="stat-today">Current Year</div>
+        </div>
+    </div>
+
+    <!-- Total Grades -->
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal teal">
+            <i class="fas fa-layer-group"></i>
+        </div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">12</div>
+            <div class="stat-label">Total Grades</div>
+            <div class="stat-today">Grade 1-12</div>
+        </div>
+    </div>
+
+    <!-- Total Classes -->
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal blue">
+            <i class="fas fa-chalkboard"></i>
+        </div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">48</div>
+            <div class="stat-label">Total Classes</div>
+            <div class="stat-today">Active</div>
+        </div>
+    </div>
+
+    <!-- Total Subjects -->
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal purple">
+            <i class="fas fa-book"></i>
+        </div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">24</div>
+            <div class="stat-label">Total Subjects</div>
+            <div class="stat-today">All Grades</div>
+        </div>
+    </div>
+</div>
 
 <!-- Academic Structure Management Tabs -->
 <div class="academic-structure-section">

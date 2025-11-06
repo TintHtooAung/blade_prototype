@@ -103,7 +103,7 @@ ob_start();
                             </button>
                             <button class="icon-btn" onclick="rejectLeaveRequest(this, 'LR-2025-0142')" title="Reject" style="color: #dc2626;">
                                 <i class="fas fa-times"></i>
-                            </button>
+                        </button>
                         </div>
                     </td>
                 </tr>
@@ -123,7 +123,7 @@ ob_start();
                             </button>
                             <button class="icon-btn" onclick="rejectLeaveRequest(this, 'LR-2025-0143')" title="Reject" style="color: #dc2626;">
                                 <i class="fas fa-times"></i>
-                            </button>
+                        </button>
                         </div>
                     </td>
                 </tr>
@@ -143,7 +143,7 @@ ob_start();
                             </button>
                             <button class="icon-btn" onclick="rejectLeaveRequest(this, 'LR-2025-0144')" title="Reject" style="color: #dc2626;">
                                 <i class="fas fa-times"></i>
-                            </button>
+                        </button>
                         </div>
                     </td>
                 </tr>

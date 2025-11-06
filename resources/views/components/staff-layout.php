@@ -18,71 +18,20 @@ $activePage = $activePage ?? 'dashboard';
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+    <?php
+    // Include reusable unified header component
+    $dashboardUrl = '/staff/dashboard';
+    $userName = 'Staff User';
+    $userEmail = 'staff@novahub.edu';
+    $userRole = 'Staff';
+    include 'unified-header.php';
+    ?>
+    
     <div class="d-flex">
         <?php include 'staff-sidebar.php'; ?>
         
         <!-- Main Content -->
         <div class="main-content">
-            <!-- Profile Badge (Floating) -->
-            <div class="profile-badge-container">
-                <div class="profile-badge-icon-only" onclick="toggleProfileDropdown()" title="Profile">
-                    <div class="profile-avatar">
-                        <i class="fas fa-user-circle"></i>
-                    </div>
-                </div>
-                
-                <!-- Profile Dropdown -->
-                <div id="profileDropdown" class="profile-dropdown" style="display: none;">
-                    <div class="profile-dropdown-header">
-                        <div class="profile-dropdown-avatar">
-                            <i class="fas fa-user-circle"></i>
-                        </div>
-                        <div class="profile-dropdown-info">
-                            <div class="profile-dropdown-name">Staff User</div>
-                            <div class="profile-dropdown-email">staff@novahub.edu</div>
-                        </div>
-                    </div>
-                    
-                    <div class="profile-dropdown-divider"></div>
-                    
-                    <div class="profile-dropdown-section">
-                        <div class="profile-dropdown-label">Preferences</div>
-                        <div class="profile-dropdown-item" onclick="toggleTheme(event)">
-                            <i class="fas fa-palette"></i>
-                            <span>Theme</span>
-                            <div class="profile-dropdown-arrow">
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        </div>
-                        <div class="profile-dropdown-item" onclick="toggleLanguage(event)">
-                            <i class="fas fa-globe"></i>
-                            <span>Language</span>
-                            <div class="profile-dropdown-arrow">
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="profile-dropdown-divider"></div>
-                    
-                    <div class="profile-dropdown-section">
-                        <div class="profile-dropdown-item" onclick="viewProfile()">
-                            <i class="fas fa-user"></i>
-                            <span>View Profile</span>
-                        </div>
-                    </div>
-                    
-                    <div class="profile-dropdown-divider"></div>
-                    
-                    <div class="profile-dropdown-section">
-                        <div class="profile-dropdown-item logout-item" onclick="logout()">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
             <!-- Action Status Message (appears after actions) -->
             <div id="actionStatusBar" class="action-status-bar" style="display:none;">
                 <div class="action-status-content">
@@ -799,10 +748,10 @@ $activePage = $activePage ?? 'dashboard';
 
     // Close dropdown when clicking outside
     document.addEventListener('click', function(event) {
-        const profileContainer = document.querySelector('.profile-badge-container');
+        const profileContainer = document.querySelector('.header-profile-section');
         const dropdown = document.getElementById('profileDropdown');
         
-        if (!profileContainer.contains(event.target) && dropdown.style.display !== 'none') {
+        if (profileContainer && dropdown && !profileContainer.contains(event.target) && dropdown.style.display !== 'none') {
             dropdown.style.display = 'none';
             closeAllSubDropdowns();
         }
@@ -819,302 +768,19 @@ $activePage = $activePage ?? 'dashboard';
     <script src="/js/dropdown.js"></script>
 
     <style>
-    /* Profile Badge Styles */
-    .profile-badge-container {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 1000;
+    /* Profile section is now in unified header - no floating badge needed */
+    
+    /* Adjust sidebar and main content for fixed header */
+    .sidebar {
+        top: 64px !important;
+        height: calc(100vh - 64px) !important;
     }
 
-    .profile-badge {
-        display: flex;
-        align-items: center;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 12px;
-        padding: 8px 12px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        min-width: 180px;
+    .main-content {
+        margin-top: 64px !important;
     }
 
-    .profile-badge:hover {
-        background: rgba(255, 255, 255, 1);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        transform: translateY(-1px);
-    }
-
-    /* Icon-only profile badge */
-    .profile-badge-icon-only {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 50%;
-        width: 44px;
-        height: 44px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        padding: 0;
-    }
-
-    .profile-badge-icon-only:hover {
-        background: rgba(255, 255, 255, 1);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        transform: translateY(-1px) scale(1.05);
-    }
-
-    .profile-avatar {
-        width: 36px;
-        height: 36px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 18px;
-        margin-right: 12px;
-        flex-shrink: 0;
-    }
-
-    /* Avatar inside icon-only badge */
-    .profile-badge-icon-only .profile-avatar {
-        margin-right: 0;
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-    }
-
-    .profile-info {
-        flex: 1;
-        min-width: 0;
-    }
-
-    .profile-name {
-        font-weight: 600;
-        font-size: 14px;
-        color: #1f2937;
-        line-height: 1.2;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .profile-role {
-        font-size: 12px;
-        color: #6b7280;
-        line-height: 1.2;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .profile-arrow {
-        color: #9ca3af;
-        font-size: 12px;
-        transition: transform 0.3s ease;
-        margin-left: 8px;
-    }
-
-    .profile-badge:hover .profile-arrow {
-        transform: rotate(180deg);
-    }
-
-    .profile-dropdown {
-        position: absolute;
-        top: 100%;
-        right: 0;
-        margin-top: 8px;
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 12px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        min-width: 240px;
-        overflow: visible;
-        z-index: 1001;
-    }
-
-    .profile-dropdown-header {
-        padding: 16px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .profile-dropdown-avatar {
-        width: 40px;
-        height: 40px;
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-    }
-
-    .profile-dropdown-info {
-        flex: 1;
-        min-width: 0;
-    }
-
-    .profile-dropdown-name {
-        font-weight: 600;
-        font-size: 14px;
-        line-height: 1.2;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .profile-dropdown-email {
-        font-size: 12px;
-        opacity: 0.8;
-        line-height: 1.2;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .profile-dropdown-divider {
-        height: 1px;
-        background: #e5e7eb;
-        margin: 8px 0;
-    }
-
-    .profile-dropdown-section {
-        padding: 8px 0;
-    }
-
-    .profile-dropdown-label {
-        padding: 8px 16px 4px;
-        font-size: 11px;
-        font-weight: 600;
-        color: #6b7280;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    .profile-dropdown-item {
-        display: flex;
-        align-items: center;
-        padding: 8px 16px;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-        color: #374151;
-        font-size: 14px;
-    }
-
-    .profile-dropdown-item:hover {
-        background: #f3f4f6;
-    }
-
-    .profile-dropdown-item i {
-        width: 20px;
-        margin-right: 12px;
-        color: #6b7280;
-        font-size: 14px;
-    }
-
-    .profile-dropdown-item span {
-        flex: 1;
-    }
-
-    .profile-dropdown-arrow {
-        color: #9ca3af;
-        font-size: 12px;
-        transition: transform 0.2s ease;
-    }
-
-    .profile-dropdown-item:hover .profile-dropdown-arrow {
-        transform: translateX(2px);
-    }
-
-    .logout-item {
-        color: #dc2626;
-    }
-
-    .logout-item:hover {
-        background: #fef2f2;
-    }
-
-    .logout-item i {
-        color: #dc2626;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        .profile-badge-container {
-            top: 15px;
-            right: 15px;
-        }
-
-        .profile-badge {
-            min-width: 160px;
-            padding: 6px 10px;
-        }
-
-        .profile-avatar {
-            width: 32px;
-            height: 32px;
-            font-size: 16px;
-            margin-right: 10px;
-        }
-
-        .profile-name {
-            font-size: 13px;
-        }
-
-        .profile-role {
-            font-size: 11px;
-        }
-
-        .profile-dropdown {
-            min-width: 200px;
-        }
-    }
-
-    /* Dark Theme Support */
-    .dark-theme .profile-badge {
-        background: rgba(17, 24, 39, 0.95);
-        border-color: rgba(55, 65, 81, 0.3);
-    }
-
-    .dark-theme .profile-badge:hover {
-        background: rgba(31, 41, 55, 0.98);
-    }
-
-    .dark-theme .profile-name {
-        color: #f9fafb;
-    }
-
-    .dark-theme .profile-role {
-        color: #9ca3af;
-    }
-
-    .dark-theme .profile-dropdown {
-        background: rgba(17, 24, 39, 0.98);
-        border-color: rgba(55, 65, 81, 0.3);
-    }
-
-    .dark-theme .profile-dropdown-item {
-        color: #f9fafb;
-    }
-
-    .dark-theme .profile-dropdown-item:hover {
-        background: rgba(31, 41, 55, 0.5);
-    }
-
-    /* Preferences sub-dropdown (Theme/Language) */
+    /* Mobile Page Content Optimization */
     .profile-sub-dropdown {
         position: absolute;
         top: 0;

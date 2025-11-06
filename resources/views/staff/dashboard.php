@@ -13,106 +13,118 @@ ob_start();
         </div>
     <div class="page-title-compact">
         <h2><?php echo $pageHeading; ?></h2>
+        <p class="dashboard-subtitle">Tools and insights for daily school operations</p>
                 </div>
             </div>
 
-<!-- Statistics Grid - Top Row -->
-            <div class="stats-grid">
+<!-- School Info Header Section (aligned with Admin design) -->
+<div class="school-info-header">
+    <div class="school-info-content">
+        <div class="school-name">FUTURES ACADEMY</div>
+        <div class="school-contact-info">
+            <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Location</span>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <span>futureacademy@gmail.com</span>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-phone"></i>
+                <span>+959 954047000</span>
+            </div>
+        </div>
+    </div>
+    <div class="school-logo-section">
+        <img src="/images/futures-academy-logo.svg" alt="Futures Academy Logo" class="school-logo">
+    </div>
+</div>
+
+<!-- Statistics Grid - 2x4 Horizontal Cards -->
+<div class="stats-grid-horizontal">
     <!-- Total Students -->
-    <div class="stat-card">
-        <div class="stat-icon blue">
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal blue">
             <i class="fas fa-user-graduate"></i>
         </div>
-        <div class="stat-content">
-            <h3>986</h3>
-            <p>Total Students</p>
-            <div class="stat-badge">
-                <i class="fas fa-arrow-up"></i> Today: 929 (94.2%)
-            </div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">986</div>
+            <div class="stat-label">Total Students</div>
+            <div class="stat-today">Today: 94.2%</div>
         </div>
     </div>
 
     <!-- Total Staff -->
-    <div class="stat-card clickable-card" onclick="window.location.href='/staff/employee-profiles'">
-        <div class="stat-icon green">
+    <div class="stat-card-horizontal clickable-card" onclick="window.location.href='/staff/employee-profiles'">
+        <div class="stat-icon-horizontal green">
             <i class="fas fa-users-cog"></i>
                     </div>
-                    <div class="stat-content">
-            <h3>45</h3>
-            <p>Total Staff</p>
-            <div class="stat-badge">
-                <i class="fas fa-arrow-up"></i> Today: 43 (95.2%)
-            </div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">45</div>
+            <div class="stat-label">Total Staff</div>
+            <div class="stat-today">Today: 95.2%</div>
                     </div>
                 </div>
 
     <!-- Total Teachers -->
-    <div class="stat-card clickable-card" onclick="window.location.href='/staff/teacher-profiles'">
-        <div class="stat-icon yellow">
+    <div class="stat-card-horizontal clickable-card" onclick="window.location.href='/staff/teacher-profiles'">
+        <div class="stat-icon-horizontal yellow">
                         <i class="fas fa-chalkboard-teacher"></i>
                     </div>
-                    <div class="stat-content">
-            <h3>111</h3>
-            <p>Total Teachers</p>
-            <div class="stat-badge">
-                <i class="fas fa-arrow-up"></i> Today: 108 (97.5%)
-            </div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">111</div>
+            <div class="stat-label">Total Teachers</div>
+            <div class="stat-today">Today: 97.5%</div>
                     </div>
                 </div>
 
-    <!-- Fee Collection -->
-    <div class="stat-card clickable-card" onclick="window.location.href='/staff/finance'">
-        <div class="stat-icon purple">
-            <i class="fas fa-dollar-sign"></i>
-                    </div>
-                    <div class="stat-content">
-            <h3>87.5%</h3>
-            <p>Fee Collection</p>
-            <div class="stat-badge">This Month</div>
-                    </div>
-                </div>
-            </div>
-
-<!-- Statistics Grid - Bottom Row -->
-<div class="stats-grid-secondary">
     <!-- Active Batch -->
-    <div class="stat-card-secondary">
-        <div class="stat-icon yellow">
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal yellow">
             <i class="fas fa-calendar-alt"></i>
                         </div>
-        <h3>2024-2025</h3>
-        <p>Active Batch</p>
-        <div class="stat-badge">Current Academic Year</div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">2024-2025</div>
+            <div class="stat-label">Active Batch</div>
+            <div class="stat-today">Current Year</div>
+        </div>
                                 </div>
 
     <!-- Total Grades -->
-    <div class="stat-card-secondary clickable-card" onclick="window.location.href='/staff/academic/grades'">
-        <div class="stat-icon teal">
+    <div class="stat-card-horizontal clickable-card" onclick="window.location.href='/staff/academic/grades'">
+        <div class="stat-icon-horizontal teal">
             <i class="fas fa-layer-group"></i>
                                 </div>
-        <h3>12</h3>
-        <p>Total Grades</p>
-        <div class="stat-badge">Grade 1-12</div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">12</div>
+            <div class="stat-label">Total Grades</div>
+            <div class="stat-today">Grade 1-12</div>
+        </div>
                             </div>
 
     <!-- Total Classes -->
-    <div class="stat-card-secondary clickable-card" onclick="window.location.href='/staff/academic/classes'">
-        <div class="stat-icon blue">
+    <div class="stat-card-horizontal clickable-card" onclick="window.location.href='/staff/academic/classes'">
+        <div class="stat-icon-horizontal blue">
             <i class="fas fa-chalkboard"></i>
                                 </div>
-        <h3>48</h3>
-        <p>Total Classes</p>
-        <div class="stat-badge">Active Classes</div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">48</div>
+            <div class="stat-label">Total Classes</div>
+            <div class="stat-today">Active</div>
+        </div>
                                 </div>
 
     <!-- Total Subjects -->
-    <div class="stat-card-secondary clickable-card" onclick="window.location.href='/staff/academic/subjects'">
-        <div class="stat-icon purple">
+    <div class="stat-card-horizontal clickable-card" onclick="window.location.href='/staff/academic/subjects'">
+        <div class="stat-icon-horizontal purple">
             <i class="fas fa-book"></i>
                             </div>
-        <h3>24</h3>
-        <p>Total Subjects</p>
-        <div class="stat-badge">All Grades</div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">24</div>
+            <div class="stat-label">Total Subjects</div>
+            <div class="stat-today">All Grades</div>
+        </div>
                     </div>
                 </div>
 
@@ -202,7 +214,257 @@ ob_start();
 </div>
 
 <style>
-/* Static Cards - No interactions */
+/* Dashboard Enhancements */
+.dashboard-subtitle {
+    font-size: 0.875rem;
+    color: #86868b;
+    margin-top: 4px;
+    font-weight: 400;
+}
+
+/* Stats Grid - 2x4 Horizontal Cards */
+.stats-grid-horizontal {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card-horizontal {
+    background: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e5e5e7;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: box-shadow 0.2s;
+}
+
+.stat-card-horizontal:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stat-icon-horizontal {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.stat-icon-horizontal.blue {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.stat-icon-horizontal.green {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.stat-icon-horizontal.yellow {
+    background: #fff9c4;
+    color: #f57c00;
+}
+
+.stat-icon-horizontal.purple {
+    background: #f3e5f5;
+    color: #7b1fa2;
+}
+
+.stat-icon-horizontal.teal {
+    background: #e0f2f1;
+    color: #00695c;
+}
+
+.stat-content-horizontal {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1d1d1f;
+    line-height: 1.2;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: #86868b;
+    font-weight: 500;
+}
+
+.stat-today {
+    font-size: 0.75rem;
+    color: #86868b;
+    margin-top: 2px;
+}
+
+.clickable-card {
+    cursor: pointer;
+}
+
+.clickable-card:hover {
+    background: #f9fafb;
+}
+
+@media (max-width: 992px) {
+    .stats-grid-horizontal {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    
+    .stat-card-horizontal {
+        padding: 12px;
+    }
+    
+    .stat-icon-horizontal {
+        width: 40px;
+        height: 40px;
+        font-size: 1.25rem;
+    }
+    
+    .stat-value {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .stats-grid-horizontal {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+}
+
+/* School Info Header Section */
+.school-info-header {
+    display: flex;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    min-height: 160px;
+}
+
+.school-info-content {
+    flex: 2;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    padding: 32px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #ffffff;
+}
+
+.school-name {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    margin-bottom: 24px;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.school-contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1rem;
+    opacity: 0.95;
+}
+
+.contact-item i {
+    font-size: 1.125rem;
+    width: 20px;
+    text-align: center;
+}
+
+.school-logo-section {
+    flex: 1;
+    background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.school-logo {
+    max-width: 100%;
+    max-height: 140px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+/* Responsive Design for School Info Header */
+@media (max-width: 992px) {
+    .school-info-header {
+        flex-direction: column;
+        min-height: auto;
+    }
+    
+    .school-info-content {
+        padding: 24px;
+    }
+    
+    .school-name {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+    
+    .school-logo-section {
+        padding: 20px;
+        min-height: 120px;
+    }
+    
+    .school-logo {
+        max-height: 100px;
+    }
+}
+
+@media (max-width: 768px) {
+    .school-info-content {
+        padding: 20px;
+    }
+    
+    .school-name {
+        font-size: 1.75rem;
+        margin-bottom: 16px;
+    }
+    
+    .contact-item {
+        font-size: 0.9375rem;
+        gap: 10px;
+    }
+    
+    .contact-item i {
+        font-size: 1rem;
+    }
+    
+    .school-logo-section {
+        padding: 16px;
+        min-height: 100px;
+    }
+    
+    .school-logo {
+        max-height: 80px;
+    }
+}
 
 /* Small Button */
 .simple-btn-sm {

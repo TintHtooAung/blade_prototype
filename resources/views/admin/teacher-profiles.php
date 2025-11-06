@@ -17,6 +17,57 @@ ob_start();
     </div>
 </div>
 
+<!-- Teacher Stats Cards -->
+<div class="stats-grid-horizontal" style="margin-bottom: 24px;">
+    <!-- Total Teachers -->
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal yellow">
+            <i class="fas fa-chalkboard-teacher"></i>
+        </div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">111</div>
+            <div class="stat-label">Total Teachers</div>
+            <div class="stat-today">All faculty</div>
+        </div>
+    </div>
+
+    <!-- Active Teachers -->
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal green">
+            <i class="fas fa-user-check"></i>
+        </div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">108</div>
+            <div class="stat-label">Active Teachers</div>
+            <div class="stat-today">97.3% present</div>
+        </div>
+    </div>
+
+    <!-- On Leave -->
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal blue">
+            <i class="fas fa-calendar-times"></i>
+        </div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">3</div>
+            <div class="stat-label">On Leave</div>
+            <div class="stat-today">Currently</div>
+        </div>
+    </div>
+
+    <!-- Teacher-Student Ratio -->
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal purple">
+            <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">1:9</div>
+            <div class="stat-label">Student Ratio</div>
+            <div class="stat-today">Per teacher</div>
+        </div>
+    </div>
+</div>
+
 <!-- Teacher Profiles Section -->
 <div class="simple-section">
     <div class="simple-header">

@@ -49,18 +49,6 @@ ob_start();
             </div>
         </div>
     </div>
-
-    <!-- Fee Collection -->
-    <div class="stat-card">
-        <div class="stat-icon purple">
-            <i class="fas fa-dollar-sign"></i>
-        </div>
-        <div class="stat-content">
-            <h3>87.5%</h3>
-            <p>Fee Collection</p>
-            <div class="stat-badge">This Month</div>
-        </div>
-    </div>
 </div>
 
 <!-- Statistics Grid - Bottom Row -->

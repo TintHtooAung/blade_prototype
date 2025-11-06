@@ -31,64 +31,6 @@ ob_start();
             </button>
         </div>
     </div>
-    
-    <div class="stats-grid">
-        <!-- Students -->
-        <div class="stat-card">
-            <div class="stat-icon blue">
-                <i class="fas fa-user-graduate"></i>
-            </div>
-            <div class="stat-content">
-                <h3>1,723</h3>
-                <p>Students Present</p>
-                <div class="stat-badge">
-                    <i class="fas fa-users"></i> Total: 1,847 (93.3%)
-                </div>
-            </div>
-        </div>
-
-        <!-- Teachers -->
-        <div class="stat-card">
-            <div class="stat-icon yellow">
-                <i class="fas fa-chalkboard-teacher"></i>
-            </div>
-            <div class="stat-content">
-                <h3>84</h3>
-                <p>Teachers Present</p>
-                <div class="stat-badge">
-                    <i class="fas fa-users"></i> Total: 89 (94.4%)
-                </div>
-            </div>
-        </div>
-
-        <!-- Staff -->
-        <div class="stat-card">
-            <div class="stat-icon green">
-                <i class="fas fa-users-cog"></i>
-            </div>
-            <div class="stat-content">
-                <h3>42</h3>
-                <p>Staff Present</p>
-                <div class="stat-badge">
-                    <i class="fas fa-users"></i> Total: 45 (93.3%)
-                </div>
-            </div>
-        </div>
-
-        <!-- Absent -->
-        <div class="stat-card">
-            <div class="stat-icon red">
-                <i class="fas fa-user-times"></i>
-            </div>
-            <div class="stat-content">
-                <h3>129</h3>
-                <p>Total Absent</p>
-                <div class="stat-badge">
-                    <i class="fas fa-exclamation-triangle"></i> Students: 124, Teachers: 3, Staff: 2
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <!-- Main Attendance Sections -->

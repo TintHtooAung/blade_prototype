@@ -17,6 +17,57 @@ ob_start();
     </div>
 </div>
 
+<!-- Department Stats Cards -->
+<div class="stats-grid-horizontal" style="margin-bottom: 24px;">
+    <!-- Primary Teachers -->
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal blue">
+            <i class="fas fa-chalkboard-teacher"></i>
+        </div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">15</div>
+            <div class="stat-label">Primary Teachers</div>
+            <div class="stat-today">PRIMARY</div>
+        </div>
+    </div>
+
+    <!-- Language Teachers -->
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal purple">
+            <i class="fas fa-language"></i>
+        </div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">8</div>
+            <div class="stat-label">Language Teachers</div>
+            <div class="stat-today">LANG</div>
+        </div>
+    </div>
+
+    <!-- ICT Staff -->
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal teal">
+            <i class="fas fa-laptop-code"></i>
+        </div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">5</div>
+            <div class="stat-label">ICT Staff</div>
+            <div class="stat-today">ICT</div>
+        </div>
+    </div>
+
+    <!-- Total Departments -->
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal green">
+            <i class="fas fa-building"></i>
+        </div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">3</div>
+            <div class="stat-label">Total Departments</div>
+            <div class="stat-today">Active</div>
+        </div>
+    </div>
+</div>
+
 <div class="detail-management-section" style="margin-top: 12px;">
     <div class="section-header">
         <h3 class="section-title">Departments</h3>
@@ -50,6 +101,7 @@ ob_start();
         <table class="academic-table">
             <thead>
                 <tr>
+                    <th></th>
                     <th class="nowrap">Department Code</th>
                     <th>Department Name</th>
                     <th>Staff</th>
@@ -58,6 +110,7 @@ ob_start();
             </thead>
             <tbody id="deptTableBody">
                 <tr>
+                    <td class="expand-cell"></td>
                     <td class="department-code"><a href="/admin/academic/department-detail/PRIMARY" class="department-link"><strong>PRIMARY</strong></a></td>
                     <td class="department-name">Primary Teachers</td>
                     <td class="student-count">15</td>
@@ -67,6 +120,7 @@ ob_start();
                     </td>
                 </tr>
                 <tr>
+                    <td class="expand-cell"></td>
                     <td class="department-code"><a href="/admin/academic/department-detail/LANG" class="department-link"><strong>LANG</strong></a></td>
                     <td class="department-name">Language Teachers</td>
                     <td class="student-count">8</td>
@@ -76,6 +130,7 @@ ob_start();
                     </td>
                 </tr>
                 <tr>
+                    <td class="expand-cell"></td>
                     <td class="department-code"><a href="/admin/academic/department-detail/ICT" class="department-link"><strong>ICT</strong></a></td>
                     <td class="department-name">ICT Staff</td>
                     <td class="student-count">5</td>
@@ -90,6 +145,47 @@ ob_start();
 </div>
 
 <script>
+// Department data for cards
+const departmentData = {
+    'PRIMARY': { name: 'Primary Teachers', count: 15, icon: 'fa-chalkboard-teacher', color: 'blue' },
+    'LANG': { name: 'Language Teachers', count: 8, icon: 'fa-language', color: 'purple' },
+    'ICT': { name: 'ICT Staff', count: 5, icon: 'fa-laptop-code', color: 'teal' }
+};
+
+// Update department cards
+function updateDepartmentCards() {
+    const cardsContainer = document.querySelector('.stats-grid-horizontal');
+    if (!cardsContainer) return;
+    
+    const departments = Object.keys(departmentData);
+    const totalDepts = departments.length;
+    let totalStaff = 0;
+    
+    // Calculate total staff
+    departments.forEach(code => {
+        totalStaff += departmentData[code].count;
+    });
+    
+    // Update individual department cards
+    departments.forEach((code, index) => {
+        const dept = departmentData[code];
+        const card = cardsContainer.children[index];
+        if (card) {
+            const valueEl = card.querySelector('.stat-value');
+            const labelEl = card.querySelector('.stat-label');
+            if (valueEl) valueEl.textContent = dept.count;
+            if (labelEl) labelEl.textContent = dept.name;
+        }
+    });
+    
+    // Update total departments card
+    const totalCard = cardsContainer.children[cardsContainer.children.length - 1];
+    if (totalCard) {
+        const valueEl = totalCard.querySelector('.stat-value');
+        if (valueEl) valueEl.textContent = totalDepts;
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function(){
     const toggle=document.getElementById('toggleDepartmentForm');
     const form=document.getElementById('departmentForm');
@@ -99,11 +195,23 @@ document.addEventListener('DOMContentLoaded', function(){
     if(toggle) toggle.addEventListener('click', toggleForm);
     if(cancel) cancel.addEventListener('click', function(e){ e.preventDefault(); form.style.display='none'; });
     if(save) save.addEventListener('click', function(e){ e.preventDefault();
-        const code=(document.getElementById('deptCode').value||'').trim(); if(!code){ alert('Enter department code'); return; }
-        const name=(document.getElementById('deptName').value||'').trim(); if(!name){ alert('Enter department name'); return; }
+        const code=(document.getElementById('deptCode').value||'').trim().toUpperCase(); 
+        if(!code){ alert('Enter department code'); return; }
+        const name=(document.getElementById('deptName').value||'').trim(); 
+        if(!name){ alert('Enter department name'); return; }
+        
+        // Add to department data
+        departmentData[code] = { 
+            name: name, 
+            count: 0, 
+            icon: 'fa-building', 
+            color: 'green' 
+        };
+        
         const tbody=document.getElementById('deptTableBody');
         const tr=document.createElement('tr');
         tr.innerHTML=`
+            <td class="expand-cell"></td>
             <td class="department-code"><a href="/admin/academic/department-detail/${code}" class="department-link"><strong>${code}</strong></a></td>
             <td class="department-name">${name}</td>
             <td class="student-count">0</td>
@@ -112,14 +220,39 @@ document.addEventListener('DOMContentLoaded', function(){
                 <button class="action-icon delete" title="Delete" onclick="deleteDepartment('${code}')"><i class="fas fa-trash"></i></button>
             </td>`;
         tbody.prepend(tr);
+        
+        // Update cards
+        updateDepartmentCards();
+        
         form.style.display='none';
-        alert('Saved (draft).');
+        alert('Department added successfully.');
     });
+    
+    // Initialize cards
+    updateDepartmentCards();
 });
 
 function deleteDepartment(deptId) {
     if (!confirm(`Delete department ${deptId}?`)) return;
-    alert(`Department ${deptId} deleted (mock).`);
+    
+    // Remove from data
+    if (departmentData[deptId]) {
+        delete departmentData[deptId];
+    }
+    
+    // Remove from table
+    const rows = document.querySelectorAll('#deptTableBody tr');
+    rows.forEach(row => {
+        const codeCell = row.querySelector('.department-code strong');
+        if (codeCell && codeCell.textContent === deptId) {
+            row.remove();
+        }
+    });
+    
+    // Update cards
+    updateDepartmentCards();
+    
+    alert(`Department ${deptId} deleted successfully.`);
 }
 </script>
 

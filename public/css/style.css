@@ -486,22 +486,23 @@ body {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-/* iOS Sidebar Logo */
+/* iOS Sidebar Logo - Hidden, using header logo */
 .sidebar-logo {
-    display: flex;
-    align-items: center;
-    padding: 1.5rem 1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    margin-bottom: 1rem;
-    min-height: 60px;
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    border-bottom: none !important;
 }
 
 .sidebar-logo-img {
-    max-width: 200px;
-    max-height: 48px;
-    width: auto;
-    height: auto;
-    object-fit: contain;
+    display: none !important;
+    visibility: hidden !important;
+    max-width: 0 !important;
+    max-height: 0 !important;
 }
 
 .sidebar-logo .logo-icon {
@@ -586,6 +587,11 @@ body {
     transform: translateX(2px);
 }
 
+/* Prevent expansion on hover when sidebar is minimized */
+.sidebar.minimized .sidebar-nav a:hover {
+    transform: none;
+}
+
 .sidebar-nav a.active {
     background: rgba(0, 122, 255, 0.1);
     color: #007AFF;
@@ -613,6 +619,19 @@ body {
     border-radius: 0;
     width: calc(100vw - 240px);
     max-width: none;
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: fadeInContent 0.3s ease-in-out;
+}
+
+@keyframes fadeInContent {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Home Page Logo */
@@ -1041,25 +1060,34 @@ body {
 }
 
 .page-icon-compact {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
-    border-radius: 6px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 0.875rem;
-    margin-right: 0.75rem;
+    font-size: 1rem;
+    margin-right: 0.875rem;
     box-shadow: 0 2px 8px rgba(0, 122, 255, 0.2);
+    flex-shrink: 0;
 }
 
 .page-title-compact h2 {
     color: #1d1d1f;
-    font-size: 1.25rem;
-    font-weight: 600;
+    font-size: 1.5rem;
+    font-weight: 700;
     margin: 0;
-    line-height: 1.2;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+}
+
+.page-title-compact .dashboard-subtitle {
+    color: #86868b;
+    font-size: 0.875rem;
+    margin: 0.25rem 0 0 0;
+    font-weight: 400;
 }
 
 .page-actions {
@@ -6711,14 +6739,14 @@ body {
     }
     
     .page-icon-compact {
-        width: 24px;
-        height: 24px;
-        font-size: 0.75rem;
+        width: 28px;
+        height: 28px;
+        font-size: 0.875rem;
         margin-right: 0.5rem;
     }
     
     .page-title-compact h2 {
-        font-size: 1.1rem;
+        font-size: 1.25rem;
     }
     
     .content-card-body {
@@ -6776,5 +6804,176 @@ body {
     
     .main-content {
         padding: 0.5rem;
+    }
+}
+
+/* ==== Clean Stat Cards - Page-Specific Stats ==== */
+.stats-grid-horizontal {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card-horizontal {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card-horizontal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, currentColor, transparent);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.stat-card-horizontal:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+    border-color: #d1d5db;
+}
+
+.stat-card-horizontal:hover::before {
+    opacity: 0.15;
+}
+
+.stat-icon-horizontal {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.stat-card-horizontal:hover .stat-icon-horizontal {
+    transform: scale(1.05);
+}
+
+/* Icon Color Variants */
+.stat-icon-horizontal.blue {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    color: #1e40af;
+}
+
+.stat-icon-horizontal.green {
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    color: #065f46;
+}
+
+.stat-icon-horizontal.yellow {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    color: #92400e;
+}
+
+.stat-icon-horizontal.purple {
+    background: linear-gradient(135deg, #e9d5ff 0%, #d8b4fe 100%);
+    color: #6b21a8;
+}
+
+.stat-icon-horizontal.teal {
+    background: linear-gradient(135deg, #ccfbf1 0%, #99f6e4 100%);
+    color: #115e59;
+}
+
+.stat-icon-horizontal.red {
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+    color: #991b1b;
+}
+
+.stat-content-horizontal {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: #6b7280;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.stat-today {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    line-height: 1.2;
+    margin-top: 2px;
+}
+
+/* Responsive Design for Stat Cards */
+@media (max-width: 1200px) {
+    .stats-grid-horizontal {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .stats-grid-horizontal {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .stat-card-horizontal {
+        padding: 16px;
+    }
+    
+    .stat-icon-horizontal {
+        width: 48px;
+        height: 48px;
+        font-size: 1.25rem;
+    }
+    
+    .stat-value {
+        font-size: 1.5rem;
+    }
+    
+    .stat-label {
+        font-size: 0.8125rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .stat-card-horizontal {
+        padding: 14px;
+        gap: 12px;
+    }
+    
+    .stat-icon-horizontal {
+        width: 44px;
+        height: 44px;
+        font-size: 1.125rem;
+    }
+    
+    .stat-value {
+        font-size: 1.375rem;
     }
 }

@@ -170,13 +170,6 @@
                         </div>
                         <div class="list-group-item d-flex justify-content-between align-items-center">
                             <div>
-                                <h6 class="mb-1">Fee Collection</h6>
-                                <small class="text-muted">Process pending payments</small>
-                            </div>
-                            <span class="badge bg-info rounded-pill">12</span>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
                                 <h6 class="mb-1">Grade Updates</h6>
                                 <small class="text-muted">Process grade changes</small>
                             </div>

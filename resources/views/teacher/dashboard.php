@@ -16,57 +16,53 @@ ob_start();
                 </div>
             </div>
 
-<!-- Statistics Grid - Top Row -->
-            <div class="stats-grid">
+<!-- Statistics Grid - 2x4 Horizontal Cards -->
+<div class="stats-grid-horizontal">
                 <!-- Active Classes -->
-    <div class="stat-card">
-                    <div class="stat-icon blue">
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal blue">
                         <i class="fas fa-chalkboard"></i>
                     </div>
-                    <div class="stat-content">
-                        <h3>5</h3>
-                        <p>Active Classes</p>
-            <div class="stat-badge">
-                <i class="fas fa-arrow-up"></i> Today: 4 classes
-            </div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">5</div>
+            <div class="stat-label">Active Classes</div>
+            <div class="stat-today">Today: 4 classes</div>
                     </div>
                 </div>
 
                 <!-- Total Students -->
-    <div class="stat-card">
-                    <div class="stat-icon green">
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal green">
                         <i class="fas fa-users"></i>
                     </div>
-                    <div class="stat-content">
-                        <h3>142</h3>
-                        <p>Total Students</p>
-            <div class="stat-badge">
-                <i class="fas fa-arrow-up"></i> Today: 138 (97.2%)
-            </div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">142</div>
+            <div class="stat-label">Total Students</div>
+            <div class="stat-today">Today: 97.2%</div>
                     </div>
                 </div>
 
                 <!-- Pending Assignments -->
-    <div class="stat-card">
-                    <div class="stat-icon purple">
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal purple">
                         <i class="fas fa-clipboard-list"></i>
                     </div>
-                    <div class="stat-content">
-                        <h3>8</h3>
-                        <p>Pending Assignments</p>
-            <div class="stat-badge">This Week</div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">8</div>
+            <div class="stat-label">Pending Assignments</div>
+            <div class="stat-today">This Week</div>
                     </div>
                 </div>
 
                 <!-- Upcoming Events -->
-    <div class="stat-card">
-                    <div class="stat-icon yellow">
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal yellow">
                         <i class="fas fa-calendar"></i>
                     </div>
-                    <div class="stat-content">
-                        <h3>3</h3>
-                        <p>Upcoming Events</p>
-            <div class="stat-badge">This Month</div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">3</div>
+            <div class="stat-label">Upcoming Events</div>
+            <div class="stat-today">This Month</div>
                     </div>
                 </div>
             </div>
@@ -155,7 +151,119 @@ ob_start();
 </div>
 
 <style>
-/* Static Cards - No interactions */
+/* Stats Grid - 2x4 Horizontal Cards */
+.stats-grid-horizontal {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card-horizontal {
+    background: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e5e5e7;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: box-shadow 0.2s;
+}
+
+.stat-card-horizontal:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stat-icon-horizontal {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.stat-icon-horizontal.blue {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.stat-icon-horizontal.green {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.stat-icon-horizontal.yellow {
+    background: #fff9c4;
+    color: #f57c00;
+}
+
+.stat-icon-horizontal.purple {
+    background: #f3e5f5;
+    color: #7b1fa2;
+}
+
+.stat-icon-horizontal.teal {
+    background: #e0f2f1;
+    color: #00695c;
+}
+
+.stat-content-horizontal {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1d1d1f;
+    line-height: 1.2;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: #86868b;
+    font-weight: 500;
+}
+
+.stat-today {
+    font-size: 0.75rem;
+    color: #86868b;
+    margin-top: 2px;
+}
+
+@media (max-width: 992px) {
+    .stats-grid-horizontal {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    
+    .stat-card-horizontal {
+        padding: 12px;
+    }
+    
+    .stat-icon-horizontal {
+        width: 40px;
+        height: 40px;
+        font-size: 1.25rem;
+    }
+    
+    .stat-value {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .stats-grid-horizontal {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+}
 
 /* Small Button */
 .simple-btn-sm {

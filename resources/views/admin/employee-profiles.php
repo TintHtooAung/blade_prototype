@@ -17,6 +17,57 @@ ob_start();
     </div>
 </div>
 
+<!-- Staff Stats Cards -->
+<div class="stats-grid-horizontal" style="margin-bottom: 24px;">
+    <!-- Total Staff -->
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal green">
+            <i class="fas fa-users-cog"></i>
+        </div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">45</div>
+            <div class="stat-label">Total Staff</div>
+            <div class="stat-today">All employees</div>
+        </div>
+    </div>
+
+    <!-- Active Staff -->
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal blue">
+            <i class="fas fa-user-check"></i>
+        </div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">43</div>
+            <div class="stat-label">Active Staff</div>
+            <div class="stat-today">95.6% present</div>
+        </div>
+    </div>
+
+    <!-- On Leave -->
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal yellow">
+            <i class="fas fa-calendar-times"></i>
+        </div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">2</div>
+            <div class="stat-label">On Leave</div>
+            <div class="stat-today">Currently</div>
+        </div>
+    </div>
+
+    <!-- Departments -->
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal purple">
+            <i class="fas fa-building"></i>
+        </div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">9</div>
+            <div class="stat-label">Departments</div>
+            <div class="stat-today">Active</div>
+        </div>
+    </div>
+</div>
+
 <!-- Employee Profiles Section -->
 <div class="simple-section">
     <div class="simple-header">

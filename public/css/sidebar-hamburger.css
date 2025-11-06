@@ -1,0 +1,223 @@
+/* Hamburger Menu Button (Desktop) */
+.sidebar-hamburger {
+    position: absolute;
+    top: 16px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    color: #1d1d1f;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    opacity: 1;
+    visibility: visible;
+}
+
+.sidebar-hamburger:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #007AFF;
+}
+
+.sidebar-hamburger i {
+    font-size: 16px;
+}
+
+/* Minimized Sidebar State - LOCKED */
+.sidebar.minimized {
+    width: 64px !important;
+    max-width: 64px !important;
+    min-width: 64px !important;
+}
+
+/* Prevent any expansion on hover when minimized */
+.sidebar.minimized:hover {
+    width: 64px !important;
+    max-width: 64px !important;
+    min-width: 64px !important;
+}
+
+/* Always hide sidebar logo - use header logo instead */
+.sidebar-logo {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.sidebar-logo-img {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+.sidebar-logo-text {
+    display: none !important;
+}
+
+.sidebar.minimized .sidebar-nav-label {
+    display: none;
+}
+
+.sidebar.minimized .sidebar-nav {
+    margin-top: 0; /* Start nav at top padding */
+    padding-top: 0.5rem; /* Add padding from top */
+}
+
+.sidebar .sidebar-nav {
+    margin-top: 0; /* No logo section, start nav immediately */
+}
+
+.sidebar.minimized .sidebar-nav a {
+    justify-content: center;
+    padding: 0.75rem 0.5rem;
+    margin: 0 0.5rem 0.5rem 0.5rem; /* Add bottom margin for spacing between icons */
+    cursor: pointer;
+    position: relative;
+    min-width: 44px; /* Ensure adequate click target */
+    min-height: 44px; /* Ensure adequate click target */
+}
+
+.sidebar.minimized .sidebar-nav a:hover {
+    background: rgba(0, 122, 255, 0.1);
+    color: #007AFF;
+    transform: scale(1.1);
+}
+
+.sidebar.minimized .sidebar-nav a.active {
+    background: rgba(0, 122, 255, 0.15);
+    color: #007AFF;
+}
+
+.sidebar.minimized .sidebar-nav li {
+    margin-bottom: 0.25rem; /* Add spacing between menu items */
+}
+
+.sidebar.minimized .sidebar-nav i {
+    margin-right: 0;
+    font-size: 1.1rem; /* Slightly larger icons for better visibility */
+}
+
+/* Hide original hamburger button when minimized - using nav item instead */
+.sidebar.minimized .sidebar-hamburger {
+    display: none !important;
+}
+
+/* Show hamburger nav item when minimized, hide when expanded */
+.sidebar-hamburger-nav-item {
+    display: none;
+}
+
+.sidebar.minimized .sidebar-hamburger-nav-item {
+    display: block;
+    margin-bottom: 0.25rem; /* Same spacing as other menu items */
+}
+
+/* Style hamburger menu as nav item - match other nav items exactly */
+.sidebar-nav-hamburger {
+    width: calc(100% - 1rem); /* Same as nav items: 100% minus left/right margin (0.5rem each) */
+    background: transparent;
+    border: none;
+    color: #1d1d1f;
+    padding: 0.75rem 0.5rem;
+    margin: 0 0.5rem 0.5rem 0.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    min-width: 44px;
+    min-height: 44px;
+    font-size: inherit;
+    font-family: inherit;
+    position: relative;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.sidebar-nav-hamburger:hover {
+    background: rgba(0, 122, 255, 0.1);
+    color: #007AFF;
+    transform: scale(1.1);
+}
+
+.sidebar-nav-hamburger i {
+    font-size: 1.1rem;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    text-align: center;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.sidebar.minimized .sidebar-nav-hamburger .sidebar-nav-label {
+    display: none;
+}
+
+/* When expanded, hide the nav hamburger item */
+.sidebar:not(.minimized) .sidebar-hamburger-nav-item {
+    display: none;
+}
+
+/* Hide section headers in minimized state */
+.sidebar.minimized .sidebar-nav li[style*="margin"],
+.sidebar.minimized .sidebar-section-header {
+    display: none;
+}
+
+/* Sidebar Logo Text */
+.sidebar-logo-text {
+    margin-left: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1d1d1f;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+}
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+/* Sidebar Nav Label */
+.sidebar-nav-label {
+    transition: opacity 0.2s ease;
+    white-space: nowrap;
+}
+
+/* Smooth Transitions - BUT NOT WHEN MINIMIZED */
+.sidebar {
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar.minimized {
+    transition: none !important;
+}
+
+.sidebar-nav a {
+    transition: all 0.2s ease;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .sidebar-hamburger {
+        display: none;
+    }
+}
+

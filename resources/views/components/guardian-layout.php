@@ -15,8 +15,31 @@
         .guardian-topbar { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; background:#174B8F; color:#fff; }
         .guardian-topbar .brand { display:flex; align-items:center; gap:10px; font-weight:600; }
         .lang-toggle { background:#ffffff22; border:1px solid #ffffff33; color:#fff; padding:6px 10px; border-radius:8px; cursor:pointer; }
-        .guardian-container { display:flex; }
-        .guardian-main { flex:1; padding:16px; background:#F6F7FB; min-height:100vh; }
+        .guardian-container { 
+            display:flex; 
+            margin-left: 240px;
+            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .guardian-main { 
+            flex:1; 
+            padding:16px; 
+            background:#F6F7FB; 
+            min-height:100vh; 
+            width: calc(100vw - 240px);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInContent 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeInContent {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
         .kid-switch { display:flex; gap:8px; }
         .kid-chip { background:#fff; border:1px solid #e0e0e0; padding:6px 10px; border-radius:16px; cursor:pointer; }
         .kid-chip.active { background:#e3f2fd; border-color:#1976d2; color:#1976d2; }
@@ -63,56 +86,226 @@
             color: white;
             font-size: 18px;
         }
+        
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .guardian-topbar {
+                padding: 10px 12px !important;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .guardian-topbar .brand {
+                font-size: 0.9rem;
+            }
+            
+            .kid-switch {
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+            
+            .kid-chip {
+                padding: 4px 8px;
+                font-size: 0.8rem;
+            }
+            
+            .lang-toggle {
+                padding: 4px 8px;
+                font-size: 0.8rem;
+            }
+            
+            .profile-badge-container {
+                top: 60px;
+                right: 12px;
+            }
+            
+            .guardian-container {
+                margin-left: 0 !important;
+            }
+            
+            .guardian-main {
+                padding: 12px !important;
+                width: 100% !important;
+            }
+            
+            /* Mobile Page Content Optimization */
+            .page-header-compact {
+                padding: 12px 0 !important;
+                margin-bottom: 16px !important;
+            }
+            
+            .page-header-compact h2 {
+                font-size: 1.25rem !important;
+            }
+            
+            .simple-section {
+                padding: 12px !important;
+                margin-bottom: 16px !important;
+            }
+            
+            .simple-header {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 12px !important;
+            }
+            
+            .simple-header h3 {
+                font-size: 1.1rem !important;
+            }
+            
+            .simple-actions {
+                width: 100% !important;
+                flex-wrap: wrap !important;
+                gap: 8px !important;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 12px !important;
+            }
+            
+            .stats-grid-secondary {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 12px !important;
+            }
+            
+            .stat-card {
+                padding: 12px !important;
+            }
+            
+            .stat-card h3 {
+                font-size: 1.5rem !important;
+            }
+            
+            .stat-card p {
+                font-size: 0.85rem !important;
+            }
+            
+            .simple-table-container {
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+            }
+            
+            .basic-table {
+                font-size: 0.85rem !important;
+                min-width: 600px !important;
+            }
+            
+            .basic-table th,
+            .basic-table td {
+                padding: 8px 6px !important;
+            }
+            
+            .simple-btn {
+                padding: 8px 12px !important;
+                font-size: 0.85rem !important;
+            }
+            
+            .form-group {
+                margin-bottom: 12px !important;
+            }
+            
+            .form-input,
+            .form-select {
+                padding: 8px 12px !important;
+                font-size: 0.9rem !important;
+            }
+            
+            .navigation-breadcrumb {
+                margin-bottom: 12px !important;
+            }
+            
+            .breadcrumb-link {
+                font-size: 0.85rem !important;
+                padding: 6px 8px !important;
+            }
+            
+            .action-status-bar {
+                padding: 10px 12px !important;
+                margin-right: 0 !important;
+                max-width: 100% !important;
+            }
+            
+            .action-status-text {
+                font-size: 0.85rem !important;
+            }
+            
+            /* Compact dashboard cards for mobile */
+            .dashboard-card {
+                margin-bottom: 12px !important;
+            }
+            
+            .dashboard-card-header {
+                padding: 10px !important;
+            }
+            
+            .dashboard-card-body {
+                padding: 10px !important;
+            }
+            
+            .activity-item {
+                padding: 8px 0 !important;
+            }
+            
+            .activity-content h6 {
+                font-size: 0.8rem !important;
+            }
+            
+            .activity-content p {
+                font-size: 0.75rem !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .guardian-topbar {
+                padding: 8px 10px !important;
+            }
+            
+            .guardian-topbar .brand {
+                font-size: 0.85rem;
+            }
+            
+            .kid-chip {
+                font-size: 0.75rem;
+                padding: 3px 6px;
+            }
+            
+            .lang-toggle {
+                font-size: 0.75rem;
+                padding: 3px 6px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr !important;
+            }
+            
+            .stats-grid-secondary {
+                grid-template-columns: 1fr !important;
+            }
+            
+            .simple-header h3 {
+                font-size: 1rem !important;
+            }
+            
+            .page-header-compact h2 {
+                font-size: 1.1rem !important;
+            }
+            
+            .stat-card h3 {
+                font-size: 1.25rem !important;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="guardian-topbar">
-        <div class="brand"><i class="fas fa-shield-alt"></i> SmartCampus Guardian</div>
-        <div class="kid-switch" id="kidSwitch">
-            <div class="kid-chip active" data-kid="1">Aung Min</div>
-            <div class="kid-chip" data-kid="2">Mya Thazin</div>
-        </div>
-        <button class="lang-toggle" id="langToggle">English</button>
-    </div>
-    <!-- Profile Badge (Floating) -->
-    <div class="profile-badge-container">
-        <div class="profile-badge-icon-only" onclick="toggleProfileDropdown()" title="Profile">
-            <div class="profile-avatar">
-                <i class="fas fa-user-circle"></i>
-            </div>
-        </div>
-        
-        <!-- Profile Dropdown -->
-        <div id="profileDropdown" class="profile-dropdown" style="display: none;">
-            <div class="profile-dropdown-header">
-                <div class="profile-dropdown-avatar">
-                    <i class="fas fa-user-circle"></i>
-                </div>
-                <div class="profile-dropdown-info">
-                    <div class="profile-dropdown-name">Guardian User</div>
-                    <div class="profile-dropdown-email">guardian@school.edu</div>
-                </div>
-            </div>
-            
-            <div class="profile-dropdown-divider"></div>
-            
-            <div class="profile-dropdown-section">
-                <div class="profile-dropdown-item" onclick="viewProfile()">
-                    <i class="fas fa-user"></i>
-                    <span>View Profile</span>
-                </div>
-            </div>
-            
-            <div class="profile-dropdown-divider"></div>
-            
-            <div class="profile-dropdown-section">
-                <div class="profile-dropdown-item logout-item" onclick="logout()">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php
+    // Include reusable unified header component
+    $dashboardUrl = '/guardian/dashboard';
+    $userName = 'Guardian User';
+    $userEmail = 'guardian@school.edu';
+    $userRole = 'Guardian';
+    include 'unified-header.php';
+    ?>
     
     <!-- Action Status Message (appears after actions) -->
     <div id="actionStatusBar" class="action-status-bar" style="display:none;">

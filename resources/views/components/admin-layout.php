@@ -16,73 +16,60 @@ $activePage = $activePage ?? 'dashboard';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
+    <script>
+    // Prevent flash - hide title immediately (logo always shows)
+    (function() {
+        try {
+            // Always hide header title on all pages and ensure logo is visible
+            const style = document.createElement('style');
+            style.textContent = `
+                .header-title {
+                    display: none !important;
+                    opacity: 0 !important;
+                    visibility: hidden !important;
+                    width: 0 !important;
+                    height: 0 !important;
+                    overflow: hidden !important;
+                }
+                .header-logo {
+                    display: flex !important;
+                    opacity: 1 !important;
+                    visibility: visible !important;
+                }
+                .header-logo-img {
+                    display: block !important;
+                    opacity: 1 !important;
+                    visibility: visible !important;
+                    height: 32px !important;
+                    width: auto !important;
+                    max-width: 160px !important;
+                }
+                .header-logo-link {
+                    display: flex !important;
+                    opacity: 1 !important;
+                    visibility: visible !important;
+                }
+            `;
+            document.head.appendChild(style);
+        } catch(e) {}
+    })();
+    </script>
 </head>
 <body>
+    <?php
+    // Include reusable unified header component
+    $dashboardUrl = '/admin/dashboard';
+    $userName = 'Tint Htoo Aung';
+    $userEmail = 'admin@school.edu';
+    $userRole = 'Admin';
+    include 'unified-header.php';
+    ?>
+    
     <div class="d-flex">
         <?php include 'admin-sidebar.php'; ?>
         
         <!-- Main Content -->
         <div class="main-content">
-            <!-- Profile Badge (Floating) -->
-            <div class="profile-badge-container">
-                <div class="profile-badge-icon-only" onclick="toggleProfileDropdown()" title="Profile">
-                    <div class="profile-avatar">
-                        <i class="fas fa-user-circle"></i>
-                    </div>
-                </div>
-                
-                <!-- Profile Dropdown -->
-                <div id="profileDropdown" class="profile-dropdown" style="display: none;">
-                    <div class="profile-dropdown-header">
-                        <div class="profile-dropdown-avatar">
-                            <i class="fas fa-user-circle"></i>
-                        </div>
-                        <div class="profile-dropdown-info">
-                            <div class="profile-dropdown-name">Admin User</div>
-                            <div class="profile-dropdown-email">admin@school.edu</div>
-                        </div>
-                    </div>
-                    
-                    <div class="profile-dropdown-divider"></div>
-                    
-                    <div class="profile-dropdown-section">
-                        <div class="profile-dropdown-label">Preferences</div>
-                        <div class="profile-dropdown-item" onclick="toggleTheme(event)">
-                            <i class="fas fa-palette"></i>
-                            <span>Theme</span>
-                            <div class="profile-dropdown-arrow">
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        </div>
-                        <div class="profile-dropdown-item" onclick="toggleLanguage(event)">
-                            <i class="fas fa-globe"></i>
-                            <span>Language</span>
-                            <div class="profile-dropdown-arrow">
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="profile-dropdown-divider"></div>
-                    
-                    <div class="profile-dropdown-section">
-                        <div class="profile-dropdown-item" onclick="viewProfile()">
-                            <i class="fas fa-user"></i>
-                            <span>View Profile</span>
-                        </div>
-                    </div>
-                    
-                    <div class="profile-dropdown-divider"></div>
-                    
-                    <div class="profile-dropdown-section">
-                        <div class="profile-dropdown-item logout-item" onclick="logout()">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
             <!-- Action Status Message (appears after actions) -->
             <div id="actionStatusBar" class="action-status-bar" style="display:none;">
                 <div class="action-status-content">
@@ -404,20 +391,12 @@ $activePage = $activePage ?? 'dashboard';
         border-radius: 8px;
         padding: 12px 16px;
         margin-bottom: 20px;
-        margin-right: 80px; /* Prevent overlap with profile badge */
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         display: flex;
         align-items: center;
         justify-content: space-between;
         animation: slideDown 0.3s ease-out;
-        max-width: calc(100% - 80px);
-    }
-    
-    @media (max-width: 992px) {
-        .action-status-bar {
-            margin-right: 0;
-            max-width: 100%;
-        }
+        max-width: 100%;
     }
 
     .action-status-bar.success {
@@ -747,12 +726,590 @@ $activePage = $activePage ?? 'dashboard';
         }
     }
 
+    /* Unified Header Styles */
+    .unified-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 64px;
+        background: #fff;
+        border-bottom: 1px solid #e5e5e7;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    }
+    
+    /* Smooth page transitions */
+    body {
+        transition: opacity 0.15s ease-in-out;
+    }
+    
+    /* Prevent flash during navigation */
+    body.loading {
+        opacity: 0.95;
+    }
+    
+    /* Header sections aligned with sidebar grid */
+    .unified-header .header-left {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    
+    .unified-header .header-center {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    
+    .unified-header .header-right {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    
+    .header-left {
+        width: 240px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding-left: 20px;
+        /* Fixed width - not affected by sidebar transitions */
+        transition: none;
+    }
+    
+    .header-logo {
+        display: flex !important;
+        align-items: center;
+        flex-shrink: 0;
+        height: 32px;
+        overflow: hidden;
+        max-width: 160px;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transition: none;
+    }
+    
+    .header-logo-img {
+        height: 32px !important;
+        width: auto !important;
+        max-width: 160px !important;
+        max-height: 32px !important;
+        object-fit: contain;
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    
+    .header-logo a,
+    .header-logo-link {
+        display: flex !important;
+        align-items: center;
+        text-decoration: none;
+        height: 32px;
+        max-width: 160px;
+        cursor: pointer;
+        pointer-events: auto;
+        border: none;
+        outline: none;
+        background: none;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    
+    .header-logo-link:active,
+    .header-logo-link:focus,
+    .header-logo-link:hover {
+        outline: none;
+        background: none;
+        transform: none;
+    }
+    
+    .header-logo-link img {
+        pointer-events: none;
+    }
+    
+    /* Header logo position fixed - not affected by sidebar state */
+    .header-left {
+        width: 240px !important;
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+    
+    /* Logo always shows at full size - position never changes */
+    .header-logo {
+        display: flex !important;
+        max-width: 160px !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transition: none;
+    }
+    
+    .header-logo-img {
+        max-width: 160px !important;
+        height: 32px !important;
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    
+    .header-center {
+        flex: 0;
+        display: none;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 0;
+        width: 0;
+        overflow: hidden;
+    }
+    
+    .header-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #1d1d1f;
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+    }
+    
+    .header-title i {
+        color: #1976d2;
+        font-size: 1.25rem;
+    }
+    
+    .header-right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 16px;
+        flex: 1;
+        max-width: 600px;
+    }
+    
+    /* Search Bar */
+    .header-search {
+        position: relative;
+        display: flex;
+        align-items: center;
+        flex: 1;
+        max-width: 300px;
+        min-width: 200px;
+    }
+    
+    .header-search i {
+        position: absolute;
+        left: 12px;
+        color: #86868b;
+        font-size: 0.875rem;
+        pointer-events: none;
+    }
+    
+    .header-search-input {
+        width: 100%;
+        padding: 8px 12px 8px 36px;
+        border: 1px solid #e5e5e7;
+        border-radius: 8px;
+        font-size: 0.875rem;
+        color: #1d1d1f;
+        background: #f9fafb;
+        transition: all 0.2s;
+    }
+    
+    .header-search-input:focus {
+        outline: none;
+        border-color: #1976d2;
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+    }
+    
+    .header-search-input::placeholder {
+        color: #86868b;
+    }
+    
+    /* Notification Icon */
+    .header-notification {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: transparent;
+        color: #1d1d1f;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 1.125rem;
+        flex-shrink: 0;
+    }
+    
+    .header-notification:hover {
+        background: #f5f5f5;
+        color: #1976d2;
+    }
+    
+    .notification-badge {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        background: #ef4444;
+        color: #fff;
+        font-size: 0.7rem;
+        font-weight: 600;
+        padding: 2px 6px;
+        border-radius: 10px;
+        min-width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+    }
+    
+    /* Profile Section */
+    .header-profile-section {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 8px;
+        transition: background 0.2s;
+        flex-shrink: 0;
+    }
+    
+    .header-profile-section:hover {
+        background: #f5f5f5;
+    }
+    
+    .header-profile-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 2px;
+    }
+    
+    .user-name {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #1d1d1f;
+        line-height: 1.2;
+        white-space: nowrap;
+    }
+    
+    .user-access-level {
+        font-size: 0.75rem;
+        color: #86868b;
+        font-weight: 500;
+        line-height: 1.2;
+        white-space: nowrap;
+    }
+    
+    @media (max-width: 1200px) {
+        .header-search {
+            max-width: 200px;
+            min-width: 150px;
+        }
+    }
+    
+    @media (max-width: 992px) {
+        .header-search {
+            display: none;
+        }
+        
+        .header-right {
+            gap: 12px;
+            max-width: none;
+        }
+        
+        .header-profile-info {
+            display: none;
+        }
+        
+        .header-profile-section {
+            gap: 0;
+            padding: 0;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .header-notification {
+            width: 36px;
+            height: 36px;
+            font-size: 1rem;
+        }
+    }
+    
+    /* Adjust sidebar position to account for header - aligned with header grid */
+    .sidebar {
+        top: 64px !important;
+        height: calc(100vh - 64px) !important;
+    }
+    
+    /* Ensure sidebar hamburger is visible and positioned correctly */
+    .sidebar .sidebar-hamburger {
+        display: flex !important;
+        position: absolute;
+        top: 16px;
+        right: 12px;
+    }
+    
+    /* Adjust main content position - aligned with header grid */
+    .main-content {
+        margin-top: 64px !important;
+        margin-left: 240px;
+        padding: 1rem;
+        padding-left: 20px;
+        padding-right: 20px;
+        min-height: calc(100vh - 64px) !important;
+        width: calc(100vw - 240px);
+        transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* When sidebar minimized, align content */
+    body:has(.sidebar.minimized) .main-content {
+        margin-left: 64px;
+        width: calc(100vw - 64px);
+    }
+    
+    /* Ensure consistent padding alignment */
+    .main-content > * {
+        max-width: 100%;
+    }
+    
+    /* When sidebar is minimized, adjust header left width */
+    body:has(.sidebar.minimized) .header-left {
+        width: 64px;
+    }
+    
+    /* Hamburger menu in header */
+    .header-hamburger {
+        background: none;
+        border: none;
+        color: #1d1d1f;
+        font-size: 1.25rem;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 8px;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .header-hamburger:hover {
+        background: #f5f5f5;
+        color: #1976d2;
+    }
+    
+    /* Hide sidebar hamburger when header hamburger exists */
+    .sidebar .sidebar-hamburger {
+        display: none;
+    }
+    
+    /* Notification Dropdown Styles */
+    .notification-dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        margin-top: 8px;
+        background: #fff;
+        border: 1px solid #e5e5e7;
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        min-width: 320px;
+        max-width: 400px;
+        max-height: 500px;
+        overflow: hidden;
+        display: none;
+        z-index: 1002;
+        animation: slideDown 0.3s ease-out;
+    }
+    
+    .notification-dropdown-header {
+        padding: 16px 20px;
+        border-bottom: 1px solid #e5e5e7;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #f9fafb;
+    }
+    
+    .notification-dropdown-header h5 {
+        margin: 0;
+        font-size: 0.9375rem;
+        font-weight: 600;
+        color: #1d1d1f;
+    }
+    
+    .notification-mark-all {
+        background: none;
+        border: none;
+        color: #1976d2;
+        font-size: 0.75rem;
+        font-weight: 500;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: background 0.2s;
+    }
+    
+    .notification-mark-all:hover {
+        background: #e3f2fd;
+    }
+    
+    .notification-dropdown-body {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    .notification-item {
+        display: flex;
+        gap: 12px;
+        padding: 12px 20px;
+        border-bottom: 1px solid #f0f0f0;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    
+    .notification-item:hover {
+        background: #f9fafb;
+    }
+    
+    .notification-item.unread {
+        background: #f0f7ff;
+    }
+    
+    .notification-item.unread:hover {
+        background: #e8f4fd;
+    }
+    
+    .notification-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 1rem;
+    }
+    
+    .notification-icon.info {
+        background: #dbeafe;
+        color: #3b82f6;
+    }
+    
+    .notification-icon.warning {
+        background: #fef3c7;
+        color: #f59e0b;
+    }
+    
+    .notification-icon.success {
+        background: #d1fae5;
+        color: #10b981;
+    }
+    
+    .notification-content {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .notification-title {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #1d1d1f;
+        margin-bottom: 4px;
+    }
+    
+    .notification-message {
+        font-size: 0.8125rem;
+        color: #86868b;
+        line-height: 1.4;
+        margin-bottom: 4px;
+    }
+    
+    .notification-time {
+        font-size: 0.75rem;
+        color: #86868b;
+    }
+    
+    .notification-dropdown-footer {
+        padding: 12px 20px;
+        border-top: 1px solid #e5e5e7;
+        text-align: center;
+        background: #f9fafb;
+    }
+    
+    .notification-dropdown-footer a {
+        color: #1976d2;
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+    
+    .notification-dropdown-footer a:hover {
+        text-decoration: underline;
+    }
+    
+    .no-notifications {
+        padding: 40px 20px;
+        text-align: center;
+        color: #86868b;
+        font-size: 0.875rem;
+    }
+    
+    .notification-item {
+        cursor: pointer;
+    }
+    
+    @media (max-width: 768px) {
+        .header-hamburger {
+            display: none;
+        }
+        
+        .sidebar .sidebar-hamburger {
+            display: block;
+        }
+        
+        .unified-header {
+            padding-left: 16px;
+        }
+        
+        .header-left {
+            width: auto;
+            min-width: auto;
+        }
+        
+        .notification-dropdown {
+            right: -20px;
+            min-width: 280px;
+            max-width: 90vw;
+        }
+    }
+    
     /* Profile Badge and Dropdown Styles */
     .profile-badge-container {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 1000;
+        position: relative;
+        top: auto;
+        right: auto;
+        z-index: 1001;
+    }
+    
+    .header-profile-section .profile-badge-container {
+        position: relative;
+    }
+    
+    .header-profile-section .profile-badge-container {
+        position: relative;
+    }
+    
+    .header-profile-section .profile-dropdown {
+        position: absolute;
+        right: 0;
+        top: calc(100% + 8px);
     }
 
     .profile-badge {
@@ -1525,21 +2082,285 @@ $activePage = $activePage ?? 'dashboard';
         });
     }
 
+    // Notification Dropdown Functionality with System Alerts
+    function toggleNotificationDropdown() {
+        // Create notification dropdown if it doesn't exist
+        let notificationDropdown = document.getElementById('notificationDropdown');
+        if (!notificationDropdown) {
+            notificationDropdown = document.createElement('div');
+            notificationDropdown.id = 'notificationDropdown';
+            notificationDropdown.className = 'notification-dropdown';
+            
+            // Get system alerts from window or use default
+            const systemAlerts = window.systemAlerts || [
+                {type: 'warning', icon: 'fas fa-exclamation-triangle', title: 'Low Attendance Alert', message: 'Grade 8-B attendance dropped below 85%', time: '2 hours ago'},
+                {type: 'info', icon: 'fas fa-info-circle', title: 'Fee Reminder', message: '23 students have pending fees for January', time: '5 hours ago'},
+                {type: 'success', icon: 'fas fa-check-circle', title: 'System Update', message: 'All systems operational. 100% uptime this week', time: '1 day ago'},
+                {type: 'warning', icon: 'fas fa-clock', title: 'Pending Approvals', message: '5 leave requests awaiting approval', time: '2 days ago'}
+            ];
+            
+            // Build notification items from system alerts
+            let notificationsHTML = '';
+            systemAlerts.forEach((alert, index) => {
+                const iconClassMap = {
+                    'warning': 'warning',
+                    'info': 'info',
+                    'success': 'success',
+                    'error': 'error',
+                    'danger': 'error'
+                };
+                const iconClass = iconClassMap[alert.type] || 'info';
+                const isUnread = index < 2 ? 'unread' : ''; // Mark first 2 as unread
+                
+                notificationsHTML += `
+                    <div class="notification-item ${isUnread}" onclick="handleNotificationClick(${index})">
+                        <div class="notification-icon ${iconClass}">
+                            <i class="${alert.icon}"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">${alert.title}</div>
+                            <div class="notification-message">${alert.message}</div>
+                            <div class="notification-time">${alert.time}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            notificationDropdown.innerHTML = `
+                <div class="notification-dropdown-header">
+                    <h5>System Alerts</h5>
+                    <button class="notification-mark-all" onclick="markAllNotificationsRead()">Mark all as read</button>
+                </div>
+                <div class="notification-dropdown-body">
+                    ${notificationsHTML || '<div class="no-notifications">No alerts</div>'}
+                </div>
+                <div class="notification-dropdown-footer">
+                    <a href="/admin/announcements">View All Alerts</a>
+                </div>
+            `;
+            document.querySelector('.header-notification').appendChild(notificationDropdown);
+        } else {
+            // Refresh alerts if dropdown already exists
+            updateNotificationDropdown();
+        }
+        
+        const isVisible = notificationDropdown.style.display !== 'none';
+        if (isVisible) {
+            notificationDropdown.style.display = 'none';
+        } else {
+            notificationDropdown.style.display = 'block';
+            // Close profile dropdown if open
+            document.getElementById('profileDropdown').style.display = 'none';
+        }
+    }
+    
+    function updateNotificationDropdown() {
+        const systemAlerts = window.systemAlerts || [];
+        const dropdown = document.getElementById('notificationDropdown');
+        if (!dropdown) return;
+        
+        const body = dropdown.querySelector('.notification-dropdown-body');
+        if (!body) return;
+        
+        let notificationsHTML = '';
+        systemAlerts.forEach((alert, index) => {
+            const iconClassMap = {
+                'warning': 'warning',
+                'info': 'info',
+                'success': 'success',
+                'error': 'error',
+                'danger': 'error'
+            };
+            const iconClass = iconClassMap[alert.type] || 'info';
+            const isUnread = !alert.read && index < 3 ? 'unread' : '';
+            
+            notificationsHTML += `
+                <div class="notification-item ${isUnread}" onclick="handleNotificationClick(${index})">
+                    <div class="notification-icon ${iconClass}">
+                        <i class="${alert.icon}"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">${alert.title}</div>
+                        <div class="notification-message">${alert.message}</div>
+                        <div class="notification-time">${alert.time}</div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        body.innerHTML = notificationsHTML || '<div class="no-notifications">No alerts</div>';
+        updateNotificationBadge();
+    }
+    
+    function handleNotificationClick(index) {
+        const systemAlerts = window.systemAlerts || [];
+        if (systemAlerts[index]) {
+            systemAlerts[index].read = true;
+            updateNotificationBadge();
+            const item = event.currentTarget;
+            item.classList.remove('unread');
+        }
+    }
+    
+    function updateNotificationBadge() {
+        const systemAlerts = window.systemAlerts || [];
+        const unreadCount = systemAlerts.filter(alert => !alert.read).length;
+        const badge = document.querySelector('.notification-badge');
+        
+        if (badge) {
+            if (unreadCount > 0) {
+                badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+    }
+    
+    function markAllNotificationsRead() {
+        const systemAlerts = window.systemAlerts || [];
+        systemAlerts.forEach(alert => {
+            alert.read = true;
+        });
+        
+        document.querySelectorAll('.notification-item.unread').forEach(item => {
+            item.classList.remove('unread');
+        });
+        
+        updateNotificationBadge();
+        document.getElementById('notificationDropdown').style.display = 'none';
+    }
+    
+    // Initialize notification badge on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.systemAlerts) {
+            updateNotificationBadge();
+        }
+    });
+
     // Close dropdown when clicking outside
     document.addEventListener('click', function(event) {
         const profileContainer = document.querySelector('.profile-badge-container');
         const dropdown = document.getElementById('profileDropdown');
+        const notificationContainer = document.querySelector('.header-notification');
+        const notificationDropdown = document.getElementById('notificationDropdown');
         
         if (!profileContainer.contains(event.target) && dropdown.style.display !== 'none') {
             dropdown.style.display = 'none';
             closeAllSubDropdowns();
         }
+        
+        if (notificationContainer && notificationDropdown && !notificationContainer.contains(event.target)) {
+            notificationDropdown.style.display = 'none';
+        }
     });
 
-    // Initialize theme on page load
+    // Initialize theme and prevent logo flash on page load
     document.addEventListener('DOMContentLoaded', function() {
         const savedTheme = localStorage.getItem('theme') || 'light';
         applyTheme(savedTheme);
+        
+        // Mark body as loaded to prevent logo flash
+        document.body.classList.add('loaded');
+        
+        // Ensure sidebar logo stays hidden - no onclick effects
+        function hideSidebarLogos() {
+            const sidebarLogos = document.querySelectorAll('.sidebar-logo, .sidebar-logo-img');
+            sidebarLogos.forEach(logo => {
+                if (logo) {
+                    logo.style.display = 'none';
+                    logo.style.visibility = 'hidden';
+                    logo.style.opacity = '0';
+                    logo.style.height = '0';
+                    logo.style.overflow = 'hidden';
+                    logo.style.padding = '0';
+                    logo.style.margin = '0';
+                }
+            });
+        }
+        
+        // Hide sidebar logos immediately
+        hideSidebarLogos();
+        
+        // Hide header title on all pages (always hidden)
+        function hideHeaderTitle() {
+            const headerTitle = document.querySelector('.header-title');
+            if (headerTitle) {
+                headerTitle.style.display = 'none';
+                headerTitle.style.opacity = '0';
+                headerTitle.style.visibility = 'hidden';
+                headerTitle.style.width = '0';
+                headerTitle.style.height = '0';
+                headerTitle.style.overflow = 'hidden';
+            }
+        }
+        
+        // Ensure header logo stays visible on all pages
+        function ensureLogoVisible() {
+            const headerLogo = document.querySelector('.header-logo');
+            const headerLogoImg = document.querySelector('.header-logo-img');
+            const headerLogoLink = document.querySelector('.header-logo-link');
+            
+            if (headerLogo) {
+                headerLogo.style.display = 'flex';
+                headerLogo.style.opacity = '1';
+                headerLogo.style.visibility = 'visible';
+            }
+            if (headerLogoImg) {
+                headerLogoImg.style.display = 'block';
+                headerLogoImg.style.opacity = '1';
+                headerLogoImg.style.visibility = 'visible';
+                headerLogoImg.style.height = '32px';
+            }
+            if (headerLogoLink) {
+                headerLogoLink.style.display = 'flex';
+                headerLogoLink.style.opacity = '1';
+                headerLogoLink.style.visibility = 'visible';
+            }
+        }
+        
+        // Run immediately and on navigation
+        hideHeaderTitle();
+        ensureLogoVisible();
+        
+        // Smooth navigation transition - prevent flash
+        const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Ensure logo stays visible during navigation
+                ensureLogoVisible();
+                // Add fade-out effect before navigation
+                document.body.style.opacity = '0.95';
+                
+                // Hide title immediately to prevent flash
+                setTimeout(() => {
+                    hideHeaderTitle();
+                    ensureLogoVisible();
+                }, 50);
+            });
+        });
+        
+        // Ensure header logo link doesn't trigger sidebar handlers
+        const headerLogoLink = document.querySelector('.header-logo-link');
+        if (headerLogoLink) {
+            headerLogoLink.addEventListener('click', function(e) {
+                e.stopPropagation();
+                // Ensure sidebar logo stays hidden during navigation
+                hideSidebarLogos();
+            });
+        }
+        
+        // Monitor clicks to ensure sidebar logo never appears and header logo stays visible
+        document.addEventListener('click', function(e) {
+            hideSidebarLogos();
+            hideHeaderTitle();
+            ensureLogoVisible();
+        });
+        
+        // Restore opacity after page load
+        setTimeout(() => {
+            document.body.style.opacity = '1';
+        }, 100);
     });
 
     // Initialize demo data for prototype presentation (auto-populate once)
