@@ -44,8 +44,8 @@ $activePage = $activePage ?? 'dashboard';
 })();
 </script>
     <!-- Hamburger Menu Toggle (Desktop) -->
-    <button class="sidebar-hamburger" id="sidebarHamburger" title="Toggle Sidebar">
-        <i class="fas fa-bars"></i>
+    <button class="sidebar-hamburger" id="sidebarHamburger" title="Close Sidebar">
+        <i class="fas fa-times"></i>
     </button>
     
     <!-- Mobile Toggle Button -->
@@ -59,12 +59,12 @@ $activePage = $activePage ?? 'dashboard';
         <span class="sidebar-logo-text" style="display: none !important;">Smart Campus</span>
     </div>
     
-    <ul class="sidebar-nav" style="margin-top: 0;">
+    <ul class="sidebar-nav" style="margin-top: 0; padding-top: 52px;">
         <!-- Hamburger menu as first nav item when minimized -->
         <li class="sidebar-hamburger-nav-item">
             <button class="sidebar-nav-hamburger" id="sidebarNavHamburger" title="Expand Sidebar">
-                <i class="fas fa-arrow-right"></i>
-                <span class="sidebar-nav-label">Expand</span>
+                <i class="fas fa-bars"></i>
+                <span class="sidebar-nav-label">Menu</span>
             </button>
         </li>
         <li>
@@ -160,30 +160,34 @@ $activePage = $activePage ?? 'dashboard';
     display: none;
 }
 
-/* Mobile Responsive Only */
+/* Mobile Responsive - Mini Sidebar with Hamburger */
 @media (max-width: 768px) {
     .sidebar {
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
+        position: absolute !important;
+        width: 64px !important;
+        max-width: 64px !important;
+        min-width: 64px !important;
+        z-index: 100;
+        transition: width 0.3s ease, max-width 0.3s ease;
     }
     
-    .sidebar.open {
-        transform: translateX(0);
+    .sidebar.mobile-expanded {
+        width: 240px !important;
+        max-width: 240px !important;
+        min-width: 240px !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .sidebar-nav-label {
+        display: none !important;
+    }
+    
+    .sidebar.mobile-expanded .sidebar-nav-label {
+        display: inline !important;
     }
     
     .sidebar-toggle {
-        display: block;
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        background: rgba(0, 0, 0, 0.7);
-        border: none;
-        color: white;
-        padding: 12px;
-        border-radius: 8px;
-        cursor: pointer;
-        z-index: 1002;
-        font-size: 16px;
+        display: none !important;
     }
     
     .sidebar-overlay {
@@ -194,7 +198,7 @@ $activePage = $activePage ?? 'dashboard';
         width: 100%;
         height: 100%;
         background: rgba(0, 0, 0, 0.5);
-        z-index: 999;
+        z-index: 99;
     }
     
     .sidebar-overlay.show {
@@ -202,7 +206,49 @@ $activePage = $activePage ?? 'dashboard';
     }
     
     .main-content {
-        margin-left: 0 !important;
+        margin-left: 64px !important;
+        width: calc(100vw - 64px) !important;
+        transition: none;
+    }
+    
+    .sidebar-hamburger {
+        display: flex !important;
+        position: absolute;
+        top: 16px;
+        right: 12px;
+        background: transparent;
+        border: none;
+        color: #1d1d1f;
+        padding: 8px;
+        cursor: pointer;
+        border-radius: 6px;
+        z-index: 10;
+        width: 32px;
+        height: 32px;
+    }
+    
+    .sidebar-hamburger:hover {
+        background: rgba(0, 122, 255, 0.1);
+        color: #007AFF;
+    }
+    
+    .sidebar-nav a {
+        justify-content: center;
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .sidebar.mobile-expanded .sidebar-nav a {
+        justify-content: flex-start;
+        padding: 0.75rem 1rem;
+    }
+    
+    .sidebar-nav i {
+        margin-right: 0;
+        font-size: 1.1rem;
+    }
+    
+    .sidebar.mobile-expanded .sidebar-nav i {
+        margin-right: 0.75rem;
     }
 }
 
@@ -258,6 +304,14 @@ document.addEventListener('DOMContentLoaded', function() {
             mainContent.style.width = 'calc(100vw - 64px)';
             mainContent.style.transition = 'none';
         }
+        // Set hamburger icon to bars (will be hidden, nav shows bars)
+        if (sidebarHamburger) {
+            const icon = sidebarHamburger.querySelector('i');
+            if (icon) {
+                icon.className = 'fas fa-bars';
+            }
+            sidebarHamburger.title = 'Expand Sidebar';
+        }
     } else {
         // Default: EXPANDED state (no saved state or 'false')
         if (window.innerWidth > 768) {
@@ -273,6 +327,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 mainContent.style.width = 'calc(100vw - 240px)';
                 mainContent.style.transition = 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
             }
+            // Set hamburger icon to X (close)
+            if (sidebarHamburger) {
+                const icon = sidebarHamburger.querySelector('i');
+                if (icon) {
+                    icon.className = 'fas fa-times';
+                }
+                sidebarHamburger.title = 'Close Sidebar';
+            }
         }
     }
     
@@ -285,6 +347,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const isMinimized = sidebar.classList.contains('minimized');
                 localStorage.setItem('sidebarMinimized', isMinimized);
                 
+                // Toggle icon between X and bars
+                const icon = sidebarHamburger.querySelector('i');
                 if (isMinimized) {
                     // Minimizing: Lock width with inline styles
                     sidebar.style.width = '64px';
@@ -296,6 +360,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         mainContent.style.width = 'calc(100vw - 64px)';
                         mainContent.style.transition = 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
                     }
+                    // Change to bars icon (hidden, nav item shows bars)
+                    if (icon) {
+                        icon.className = 'fas fa-bars';
+                    }
+                    sidebarHamburger.title = 'Expand Sidebar';
                 } else {
                     // Expanding: Remove inline style locks and restore expanded state
                     sidebar.style.width = '240px';
@@ -307,6 +376,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         mainContent.style.width = 'calc(100vw - 240px)';
                         mainContent.style.transition = 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
                     }
+                    // Change to X icon (close)
+                    if (icon) {
+                        icon.className = 'fas fa-times';
+                    }
+                    sidebarHamburger.title = 'Close Sidebar';
                 }
             }
         });
@@ -331,27 +405,51 @@ document.addEventListener('DOMContentLoaded', function() {
                     mainContent.style.width = 'calc(100vw - 240px)';
                     mainContent.style.transition = 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
                 }
+                
+                // Update main hamburger icon to X (close)
+                if (sidebarHamburger) {
+                    const icon = sidebarHamburger.querySelector('i');
+                    if (icon) {
+                        icon.className = 'fas fa-times';
+                    }
+                    sidebarHamburger.title = 'Close Sidebar';
+                }
             }
         });
     }
     
-    // Mobile sidebar toggle
-    if (sidebarToggle) {
-    sidebarToggle.addEventListener('click', function() {
-        if (window.innerWidth <= 768) {
-            sidebar.classList.toggle('open');
-                if (sidebarOverlay) {
-            sidebarOverlay.classList.toggle('show');
+    // Mobile sidebar toggle functionality
+    if (window.innerWidth <= 768) {
+        const hamburger = document.getElementById('sidebarHamburger');
+        const overlay = document.getElementById('sidebarOverlay');
+        
+        if (hamburger) {
+            hamburger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                sidebar.classList.toggle('mobile-expanded');
+                if (overlay) {
+                    overlay.classList.toggle('show');
                 }
+            });
         }
-    });
-    }
-    
-    // Close mobile sidebar when clicking overlay
-    if (sidebarOverlay) {
-    sidebarOverlay.addEventListener('click', function() {
-        sidebar.classList.remove('open');
-        sidebarOverlay.classList.remove('show');
+        
+        if (overlay) {
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('mobile-expanded');
+                overlay.classList.remove('show');
+            });
+        }
+        
+        const navLinks = sidebar.querySelectorAll('.sidebar-nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('mobile-expanded');
+                    if (overlay) {
+                        overlay.classList.remove('show');
+                    }
+                }
+            });
         });
     }
     
@@ -359,12 +457,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const sidebarLinks = sidebar.querySelectorAll('a');
     sidebarLinks.forEach(link => {
         link.addEventListener('click', function(e) {
-            if (window.innerWidth <= 768) {
-                sidebar.classList.remove('open');
-                if (sidebarOverlay) {
-                    sidebarOverlay.classList.remove('show');
-                }
-            } else {
+            if (window.innerWidth > 768) {
                 const isMinimized = sidebar.classList.contains('minimized');
                 if (isMinimized) {
                     sidebar.style.width = '64px';
@@ -392,12 +485,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle window resize
     window.addEventListener('resize', function() {
         if (window.innerWidth > 768) {
-            sidebar.classList.remove('open');
-            if (sidebarOverlay) {
-            sidebarOverlay.classList.remove('show');
-            }
-            
-            // Restore minimized state on desktop
+            // Desktop: Restore minimized state
             const isMinimized = sidebar.classList.contains('minimized');
             if (mainContent) {
                 if (isMinimized) {
@@ -410,11 +498,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 mainContent.style.transition = 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
             }
         } else {
-            // On mobile, ensure sidebar is closed and reset main content
-            sidebar.classList.remove('minimized');
+            // Mobile: Keep sidebar mini (64px)
+            sidebar.style.width = '64px';
+            sidebar.style.maxWidth = '64px';
+            sidebar.style.minWidth = '64px';
             if (mainContent) {
-                mainContent.style.marginLeft = '0';
-                mainContent.style.width = '100vw';
+                mainContent.style.marginLeft = '64px';
+                mainContent.style.width = 'calc(100vw - 64px)';
             }
         }
     });

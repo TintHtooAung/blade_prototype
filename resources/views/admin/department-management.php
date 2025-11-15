@@ -18,52 +18,52 @@ ob_start();
 </div>
 
 <!-- Department Stats Cards -->
-<div class="stats-grid-horizontal" style="margin-bottom: 24px;">
+<div class="stats-grid-secondary vertical-stats">
     <!-- Primary Teachers -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal blue">
+    <div class="stat-card">
+        <div class="stat-icon">
             <i class="fas fa-chalkboard-teacher"></i>
         </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">15</div>
-            <div class="stat-label">Primary Teachers</div>
-            <div class="stat-today">PRIMARY</div>
+        <div class="stat-content">
+            <h3>Primary Teachers</h3>
+            <div class="stat-number">15</div>
+            <div class="stat-change">PRIMARY</div>
         </div>
     </div>
 
     <!-- Language Teachers -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal purple">
+    <div class="stat-card">
+        <div class="stat-icon">
             <i class="fas fa-language"></i>
         </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">8</div>
-            <div class="stat-label">Language Teachers</div>
-            <div class="stat-today">LANG</div>
+        <div class="stat-content">
+            <h3>Language Teachers</h3>
+            <div class="stat-number">8</div>
+            <div class="stat-change">LANG</div>
         </div>
     </div>
 
     <!-- ICT Staff -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal teal">
+    <div class="stat-card">
+        <div class="stat-icon">
             <i class="fas fa-laptop-code"></i>
         </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">5</div>
-            <div class="stat-label">ICT Staff</div>
-            <div class="stat-today">ICT</div>
+        <div class="stat-content">
+            <h3>ICT Staff</h3>
+            <div class="stat-number">5</div>
+            <div class="stat-change">ICT</div>
         </div>
     </div>
 
     <!-- Total Departments -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal green">
+    <div class="stat-card">
+        <div class="stat-icon">
             <i class="fas fa-building"></i>
         </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">3</div>
-            <div class="stat-label">Total Departments</div>
-            <div class="stat-today">Active</div>
+        <div class="stat-content">
+            <h3>Total Departments</h3>
+            <div class="stat-number">3</div>
+            <div class="stat-change">Active</div>
         </div>
     </div>
 </div>

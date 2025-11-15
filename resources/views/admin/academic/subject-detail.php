@@ -118,15 +118,19 @@ ob_start();
         <h3 class="section-title">Subject Information</h3>
     </div>
     
-    <div class="academic-year-info">
-        <div class="year-detail">
-            <label>Subject Name</label>
-            <span><?php echo htmlspecialchars($subjectName); ?></span>
-        </div>
-        <div class="year-detail">
-            <label>Category</label>
-            <span>Core Subject</span>
-        </div>
+    <div class="simple-table-container">
+        <table class="basic-table">
+            <tbody>
+                <tr>
+                    <td style="width: 200px; font-weight: 600; color: #86868b;">Subject Name</td>
+                    <td><?php echo htmlspecialchars($subjectName); ?></td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: #86868b;">Category</td>
+                    <td>Core Subject</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -134,80 +138,33 @@ ob_start();
 <div class="detail-section">
     <div class="section-header">
         <h3 class="section-title">Classes Teaching <?php echo htmlspecialchars($subjectName); ?></h3>
-        <button class="add-btn" id="assignClassBtn">
-            <i class="fas fa-plus"></i>
-            Assign Class
-        </button>
     </div>
     
-    <!-- Assign Class Modal -->
-    <div id="assignClassModal" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.5); z-index:9999; align-items:center; justify-content:center;">
-        <div style="background:#fff; width:600px; max-width:94vw; border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,0.2); overflow:hidden;">
-            <div style="display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid #e2e8f0;">
-                <h3 style="margin:0; font-size:16px;">Assign Class to Subject</h3>
-                <button id="closeAssignClassModal" class="simple-btn" style="padding:6px 10px;">Close</button>
-            </div>
-            <div style="padding:16px;">
-                <div class="form-section">
-                    <div class="form-row">
-                        <div class="form-group" style="flex:1;">
-                            <label for="assignClassSelect">Select Class</label>
-                            <select id="assignClassSelect" class="form-select">
-                                <option value="">Choose a class...</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group" style="flex:1;">
-                            <label for="assignTeacherSelect">Select Teacher</label>
-                            <select id="assignTeacherSelect" class="form-select">
-                                <option value="">Choose a teacher...</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-actions" style="margin-top:16px;">
-                        <button id="cancelAssignClass" class="simple-btn secondary">Cancel</button>
-                        <button id="assignSelectedClassBtn" class="simple-btn primary"><i class="fas fa-link"></i> Assign Class</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="grades-grid" id="classesGrid">
-        <div class="grade-detail-card">
-            <div class="grade-card-header">
-                <a href="/admin/academic/class-detail/1A" class="grade-link">Class 1A</a>
-                <span class="grade-info">Grade 1</span>
-            </div>
-            <div class="grade-card-body">
-                <div class="grade-stat">
-                    <span class="stat-label">Teacher</span>
-                    <span class="stat-value"><?php echo $subjectCode == 'MATH' ? 'Mr. John Smith' : 'Ms. Sarah Johnson'; ?></span>
-                </div>
-                <div class="grade-stat">
-                    <span class="stat-label">Room</span>
-                    <span class="stat-value">Room 101</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="grade-detail-card">
-            <div class="grade-card-header">
-                <a href="/admin/academic/class-detail/1B" class="grade-link">Class 1B</a>
-                <span class="grade-info">Grade 1</span>
-            </div>
-            <div class="grade-card-body">
-                <div class="grade-stat">
-                    <span class="stat-label">Teacher</span>
-                    <span class="stat-value"><?php echo $subjectCode == 'MATH' ? 'Mr. David Chen' : 'Ms. Jennifer Lee'; ?></span>
-                </div>
-                <div class="grade-stat">
-                    <span class="stat-label">Room</span>
-                    <span class="stat-value">Room 102</span>
-                </div>
-            </div>
-        </div>
+    <div class="simple-table-container">
+        <table class="basic-table">
+            <thead>
+                <tr>
+                    <th>Class Name</th>
+                    <th>Grade</th>
+                    <th>Teacher</th>
+                    <th>Room</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="/admin/academic/class-detail/1A" class="grade-link" style="font-weight: 600; color: #007AFF;">Class 1A</a></td>
+                    <td><span class="grade-info">Grade 1</span></td>
+                    <td><?php echo $subjectCode == 'MATH' ? 'Mr. John Smith' : 'Ms. Sarah Johnson'; ?></td>
+                    <td>Room 101</td>
+                </tr>
+                <tr>
+                    <td><a href="/admin/academic/class-detail/1B" class="grade-link" style="font-weight: 600; color: #007AFF;">Class 1B</a></td>
+                    <td><span class="grade-info">Grade 1</span></td>
+                    <td><?php echo $subjectCode == 'MATH' ? 'Mr. David Chen' : 'Ms. Jennifer Lee'; ?></td>
+                    <td>Room 102</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -221,125 +178,6 @@ include $layoutPath;
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){
-    // Get subject grade from the page (Grade 1 in this case)
-    const subjectGrade = 'Grade 1';
-    
-    // Demo data for available classes (filtered by grade)
-    const allClasses = [
-        { name: 'Class 1A', grade: 'Grade 1', room: 'Room 101', teacher: 'Mr. John Smith' },
-        { name: 'Class 1B', grade: 'Grade 1', room: 'Room 102', teacher: 'Ms. Sarah Johnson' },
-        { name: 'Class 1C', grade: 'Grade 1', room: 'Room 103', teacher: 'Mr. David Chen' },
-        { name: 'Class 2A', grade: 'Grade 2', room: 'Room 201', teacher: 'Dr. James Wilson' },
-        { name: 'Class 2B', grade: 'Grade 2', room: 'Room 202', teacher: 'Ms. Emily Rodriguez' },
-        { name: 'Class 3A', grade: 'Grade 3', room: 'Room 301', teacher: 'Mr. Michael Brown' }
-    ];
-    
-    // Demo data for subject teachers (teachers assigned to this subject)
-    const subjectTeachers = [
-        { id: 'T001', name: 'Mr. John Smith' },
-        { id: 'T002', name: 'Ms. Sarah Johnson' },
-        { id: 'T003', name: 'Dr. Wilson' },
-        { id: 'T004', name: 'Ms. Anna Rodriguez' }
-    ];
-    
-    // Filter classes by subject grade
-    const availableClasses = allClasses.filter(cls => cls.grade === subjectGrade);
-    
-    // Elements
-    const assignClassBtn = document.getElementById('assignClassBtn');
-    const assignModal = document.getElementById('assignClassModal');
-    const closeModalBtn = document.getElementById('closeAssignClassModal');
-    const cancelAssignBtn = document.getElementById('cancelAssignClass');
-    const assignSelectedBtn = document.getElementById('assignSelectedClassBtn');
-    const classSelect = document.getElementById('assignClassSelect');
-    const teacherSelect = document.getElementById('assignTeacherSelect');
-    const classesGrid = document.getElementById('classesGrid');
-
-    // Assign Class functionality
-    assignClassBtn && assignClassBtn.addEventListener('click', function(e){
-        e.preventDefault();
-        assignModal.style.display = 'flex';
-        populateClassSelect(availableClasses);
-        populateTeacherSelect(subjectTeachers);
-    });
-
-    closeModalBtn && closeModalBtn.addEventListener('click', function(e){
-        e.preventDefault();
-        assignModal.style.display = 'none';
-    });
-
-    cancelAssignBtn && cancelAssignBtn.addEventListener('click', function(e){
-        e.preventDefault();
-        assignModal.style.display = 'none';
-    });
-
-
-    // Assign selected class
-    assignSelectedBtn && assignSelectedBtn.addEventListener('click', function(e){
-        e.preventDefault();
-        const selectedClass = classSelect.value;
-        const selectedTeacher = teacherSelect.value;
-        
-        if (!selectedClass || !selectedTeacher) {
-            alert('Please select both a class and a teacher');
-            return;
-        }
-        
-        // Find the selected class and teacher data
-        const classData = availableClasses.find(cls => cls.name === selectedClass);
-        const teacherData = subjectTeachers.find(teacher => teacher.name === selectedTeacher);
-        
-        if (!classData || !teacherData) {
-            alert('Invalid selection');
-            return;
-        }
-        
-        // Check if class is already assigned
-        const existingCards = classesGrid.querySelectorAll('.grade-detail-card');
-        const isAlreadyAssigned = Array.from(existingCards).some(card => 
-            card.querySelector('.grade-link').textContent === classData.name
-        );
-        
-        if (isAlreadyAssigned) {
-            alert('This class is already assigned to this subject');
-            return;
-        }
-        
-        const card = document.createElement('div');
-        card.className = 'grade-detail-card';
-        card.innerHTML = `
-            <div class="grade-card-header">
-                <a href="/admin/academic/class-detail/${classData.name.replace('Class ', '')}" class="grade-link">${classData.name}</a>
-                <span class="grade-info">${classData.grade}</span>
-            </div>
-            <div class="grade-card-body">
-                <div class="grade-stat">
-                    <span class="stat-label">Teacher</span>
-                    <span class="stat-value">${teacherData.name}</span>
-                </div>
-                <div class="grade-stat">
-                    <span class="stat-label">Room</span>
-                    <span class="stat-value">${classData.room}</span>
-                </div>
-            </div>`;
-        classesGrid && classesGrid.appendChild(card);
-        assignModal.style.display = 'none';
-        alert('Class assigned successfully');
-    });
-
-    // Helper functions
-    function populateClassSelect(classes) {
-        if (!classSelect) return;
-        classSelect.innerHTML = '<option value="">Choose a class...</option>' + 
-            classes.map(cls => `<option value="${cls.name}">${cls.name} - ${cls.room}</option>`).join('');
-    }
-
-    function populateTeacherSelect(teachers) {
-        if (!teacherSelect) return;
-        teacherSelect.innerHTML = '<option value="">Choose a teacher...</option>' + 
-            teachers.map(teacher => `<option value="${teacher.name}">${teacher.name}</option>`).join('');
-    }
-    
     // Edit Subject functionality
     const editSubjectBtn = document.getElementById('editSubjectBtn');
     const editSubjectForm = document.getElementById('editSubjectForm');

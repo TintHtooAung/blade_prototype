@@ -90,7 +90,6 @@ ob_start();
                 <label for="editBatchStatus">Status</label>
                 <select id="editBatchStatus" class="form-select">
                     <option value="Active" selected>Active</option>
-                    <option value="Upcoming">Upcoming</option>
                     <option value="Completed">Completed</option>
                 </select>
             </div>
@@ -108,19 +107,23 @@ ob_start();
         <h3 class="section-title">Academic Year</h3>
     </div>
     
-    <div class="academic-year-info">
-        <div class="year-detail">
-            <label>Start Date</label>
-            <span>2024-04-01</span>
-        </div>
-        <div class="year-detail">
-            <label>End Date</label>
-            <span>2025-03-31</span>
-        </div>
-        <div class="year-detail">
-            <label>Duration</label>
-            <span>12 months</span>
-        </div>
+    <div class="simple-table-container">
+        <table class="basic-table">
+            <tbody>
+                <tr>
+                    <td style="width: 200px; font-weight: 600; color: #86868b;">Start Date</td>
+                    <td>2024-04-01</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: #86868b;">End Date</td>
+                    <td>2025-03-31</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: #86868b;">Duration</td>
+                    <td>12 months</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -130,19 +133,23 @@ ob_start();
         <h3 class="section-title">Statistics</h3>
     </div>
     
-    <div class="stats-info">
-        <div class="stat-detail">
-            <label>Total Grades</label>
-            <span>4</span>
-        </div>
-        <div class="stat-detail">
-            <label>Total Classes</label>
-            <span>13</span>
-        </div>
-        <div class="stat-detail">
-            <label>Total Subjects</label>
-            <span>43</span>
-        </div>
+    <div class="simple-table-container">
+        <table class="basic-table">
+            <tbody>
+                <tr>
+                    <td style="width: 200px; font-weight: 600; color: #86868b;">Total Grades</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: #86868b;">Total Classes</td>
+                    <td>13</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: #86868b;">Total Subjects</td>
+                    <td>43</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -150,115 +157,45 @@ ob_start();
 <div class="detail-section">
     <div class="section-header">
         <h3 class="section-title">Grades in <?php echo htmlspecialchars($batchName); ?></h3>
-        <button class="add-btn">
-            <i class="fas fa-plus"></i>
-            Add Grade
-        </button>
     </div>
     
-    <!-- Inline Add Grade Form (placed directly under header) -->
-    <div id="addGradeForm" class="simple-section" style="display:none; margin-top:12px;">
-        <div class="simple-header">
-            <h4><i class="fas fa-graduation-cap"></i> Create Grade</h4>
-        </div>
-        <div class="form-section">
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="gradeLevel">Grade Level</label>
-                    <input type="number" id="gradeLevel" class="form-input" placeholder="e.g., 10">
-                </div>
-                <div class="form-group" style="flex:2;">
-                    <label for="gradeName">Grade Name</label>
-                    <input type="text" id="gradeName" class="form-input" placeholder="e.g., Grade 10">
-                </div>
-                <div class="form-group">
-                    <label for="gradeCategory">Category</label>
-                    <select id="gradeCategory" class="form-select">
-                        <option value="Primary">Primary</option>
-                        <option value="Middle">Middle</option>
-                        <option value="High">High</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-actions">
-                <button id="cancelAddGrade" class="simple-btn secondary">Cancel</button>
-                <button id="saveAddGrade" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="grades-grid" id="gradesGrid">
-        <div class="grade-detail-card">
-            <div class="grade-card-header">
-                <a href="/admin/academic/grade-detail/1" class="grade-link">Grade 1</a>
-                <span class="category-badge primary">Primary</span>
-            </div>
-            <div class="grade-card-body">
-                
-                <div class="grade-stat">
-                    <span class="stat-label">Classes</span>
-                    <span class="stat-value">4 classes</span>
-                </div>
-                <div class="grade-stat">
-                    <span class="stat-label">Students</span>
-                    <span class="stat-value">120 students</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="grade-detail-card">
-            <div class="grade-card-header">
-                <a href="/admin/academic/grade-detail/2" class="grade-link">Grade 2</a>
-                <span class="category-badge primary">Primary</span>
-            </div>
-            <div class="grade-card-body">
-                
-                <div class="grade-stat">
-                    <span class="stat-label">Classes</span>
-                    <span class="stat-value">4 classes</span>
-                </div>
-                <div class="grade-stat">
-                    <span class="stat-label">Students</span>
-                    <span class="stat-value">115 students</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="grade-detail-card">
-            <div class="grade-card-header">
-                <a href="/admin/academic/grade-detail/6" class="grade-link">Grade 6</a>
-                <span class="category-badge secondary">Middle</span>
-            </div>
-            <div class="grade-card-body">
-                
-                <div class="grade-stat">
-                    <span class="stat-label">Classes</span>
-                    <span class="stat-value">3 classes</span>
-                </div>
-                <div class="grade-stat">
-                    <span class="stat-label">Students</span>
-                    <span class="stat-value">90 students</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="grade-detail-card">
-            <div class="grade-card-header">
-                <a href="/admin/academic/grade-detail/10" class="grade-link">Grade 10</a>
-                <span class="category-badge upcoming">High</span>
-            </div>
-            <div class="grade-card-body">
-                
-                <div class="grade-stat">
-                    <span class="stat-label">Classes</span>
-                    <span class="stat-value">2 classes</span>
-                </div>
-                <div class="grade-stat">
-                    <span class="stat-label">Students</span>
-                    <span class="stat-value">125 students</span>
-                </div>
-            </div>
-        </div>
+    <div class="simple-table-container">
+        <table class="basic-table">
+            <thead>
+                <tr>
+                    <th>Grade Name</th>
+                    <th>Category</th>
+                    <th>Classes</th>
+                    <th>Students</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="/admin/academic/grade-detail/1" class="grade-link" style="font-weight: 600; color: #007AFF;">Grade 1</a></td>
+                    <td><span class="category-badge primary">Primary</span></td>
+                    <td>4 classes</td>
+                    <td>120 students</td>
+                </tr>
+                <tr>
+                    <td><a href="/admin/academic/grade-detail/2" class="grade-link" style="font-weight: 600; color: #007AFF;">Grade 2</a></td>
+                    <td><span class="category-badge primary">Primary</span></td>
+                    <td>4 classes</td>
+                    <td>115 students</td>
+                </tr>
+                <tr>
+                    <td><a href="/admin/academic/grade-detail/6" class="grade-link" style="font-weight: 600; color: #007AFF;">Grade 6</a></td>
+                    <td><span class="category-badge secondary">Middle</span></td>
+                    <td>3 classes</td>
+                    <td>90 students</td>
+                </tr>
+                <tr>
+                    <td><a href="/admin/academic/grade-detail/10" class="grade-link" style="font-weight: 600; color: #007AFF;">Grade 10</a></td>
+                    <td><span class="category-badge upcoming">High</span></td>
+                    <td>2 classes</td>
+                    <td>125 students</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -270,36 +207,6 @@ include __DIR__ . '/../../components/admin-layout.php';
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){
-    const addBtn = document.querySelector('.detail-section .add-btn');
-    const form = document.getElementById('addGradeForm');
-    const cancelBtn = document.getElementById('cancelAddGrade');
-    const saveBtn = document.getElementById('saveAddGrade');
-    const grid = document.getElementById('gradesGrid');
-
-    function toggle(){ if(form) form.style.display = (form.style.display==='none' || !form.style.display) ? 'block' : 'none'; }
-    addBtn && addBtn.addEventListener('click', function(e){ e.preventDefault(); toggle(); });
-    cancelBtn && cancelBtn.addEventListener('click', function(e){ e.preventDefault(); toggle(); });
-    saveBtn && saveBtn.addEventListener('click', function(e){
-        e.preventDefault();
-        const level = (document.getElementById('newGradeLevel').value||'').trim();
-        if (!level) { alert('Enter grade level'); return; }
-        const category = document.getElementById('newGradeCategory').value || 'Primary';
-        const card = document.createElement('div');
-        card.className = 'grade-detail-card';
-        card.innerHTML = `
-            <div class="grade-card-header">
-                <a href="#" class="grade-link">${level}</a>
-                <span class="category-badge ${category.toLowerCase()}">${category}</span>
-            </div>
-            <div class="grade-card-body">
-                <div class="grade-stat"><span class="stat-label">Classes</span><span class="stat-value">0 classes</span></div>
-                <div class="grade-stat"><span class="stat-label">Students</span><span class="stat-value">0 students</span></div>
-            </div>`;
-        grid && grid.prepend(card);
-        toggle();
-        alert('Saved (draft).');
-    });
-    
     // Edit Batch functionality
     const editBatchBtn = document.getElementById('editBatchBtn');
     const editBatchForm = document.getElementById('editBatchForm');

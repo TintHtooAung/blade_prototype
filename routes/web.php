@@ -49,8 +49,13 @@ Route::prefix('admin')->group(function () {
     })->name('admin.academic-management');
     
     Route::get('/department-management', function() {
-        include resource_path('views/admin/department-management.php');
+        include resource_path('views/admin/department-management-v2.php');
     })->name('admin.department-management');
+
+    // Alias route for v2 (direct access)
+    Route::get('/department-management-v2', function() {
+        include resource_path('views/admin/department-management-v2.php');
+    })->name('admin.department-management.v2');
     
     Route::get('/announcements', function() { 
         include resource_path('views/admin/announcements.php'); 
@@ -134,4 +139,55 @@ Route::prefix('guardian')->group(function () {
     Route::get('/profile', function () {
         include resource_path('views/guardian/profile.php');
     })->name('guardian.profile');
+});
+
+// Parent portal routes
+Route::prefix('parent')->group(function () {
+    Route::get('/dashboard', function () {
+        include resource_path('views/parent/dashboard.php');
+    })->name('parent.dashboard');
+    
+    Route::get('/my-children', function () {
+        include resource_path('views/parent/my-children.php');
+    })->name('parent.my-children');
+    
+    Route::get('/attendance', function () {
+        include resource_path('views/parent/attendance.php');
+    })->name('parent.attendance');
+    
+    Route::get('/exam-results', function () {
+        include resource_path('views/parent/exam-results.php');
+    })->name('parent.exam-results');
+    
+    Route::get('/homework', function () {
+        include resource_path('views/parent/homework.php');
+    })->name('parent.homework');
+    
+    Route::get('/fee-payment', function () {
+        include resource_path('views/parent/fee-payment.php');
+    })->name('parent.fee-payment');
+    
+    Route::get('/payment-history', function () {
+        include resource_path('views/parent/payment-history.php');
+    })->name('parent.payment-history');
+    
+    Route::get('/announcements', function () {
+        include resource_path('views/parent/announcements.php');
+    })->name('parent.announcements');
+    
+    Route::get('/announcement-details', function () {
+        include resource_path('views/parent/announcement-details.php');
+    })->name('parent.announcement-details');
+    
+    Route::get('/event-calendar', function () {
+        include resource_path('views/parent/event-calendar.php');
+    })->name('parent.event-calendar');
+    
+    Route::get('/leave-request', function () {
+        include resource_path('views/parent/leave-request.php');
+    })->name('parent.leave-request');
+    
+    Route::get('/academic-reports', function () {
+        include resource_path('views/parent/academic-reports.php');
+    })->name('parent.academic-reports');
 });

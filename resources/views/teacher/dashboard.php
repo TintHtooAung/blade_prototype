@@ -6,66 +6,68 @@ $activePage = 'dashboard';
 
 ob_start();
 ?>
-<!-- Compact Page Header -->
-<div class="page-header-compact">
-    <div class="page-icon-compact">
-        <i class="<?php echo $pageIcon; ?>"></i>
-                        </div>
-    <div class="page-title-compact">
-        <h2><?php echo $pageHeading; ?></h2>
-                </div>
-            </div>
+<!-- Welcome Header -->
+<div class="welcome-header">
+    <div class="welcome-content">
+        <h1 class="welcome-title">Welcome back, Teacher! 👋</h1>
+        <p class="welcome-subtitle">Let's inspire young minds today</p>
+    </div>
+    <div class="welcome-time">
+        <div class="current-date" id="currentDate"></div>
+        <div class="current-time" id="currentTime"></div>
+    </div>
+</div>
 
-<!-- Statistics Grid - 2x4 Horizontal Cards -->
-<div class="stats-grid-horizontal">
-                <!-- Active Classes -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal blue">
-                        <i class="fas fa-chalkboard"></i>
-                    </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">5</div>
-            <div class="stat-label">Active Classes</div>
-            <div class="stat-today">Today: 4 classes</div>
-                    </div>
-                </div>
+<!-- Statistics Grid - Clean Blue Card Design -->
+<div class="stats-grid-secondary vertical-stats">
+    <!-- Active Classes -->
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-chalkboard"></i>
+        </div>
+        <div class="stat-content">
+            <h3>Active Classes</h3>
+            <div class="stat-number">5</div>
+            <div class="stat-change">Today: 4 classes</div>
+        </div>
+    </div>
 
-                <!-- Total Students -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal green">
-                        <i class="fas fa-users"></i>
-                    </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">142</div>
-            <div class="stat-label">Total Students</div>
-            <div class="stat-today">Today: 97.2%</div>
-                    </div>
-                </div>
+    <!-- Total Students -->
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-content">
+            <h3>Total Students</h3>
+            <div class="stat-number">142</div>
+            <div class="stat-change positive">Today: 97.2%</div>
+        </div>
+    </div>
 
-                <!-- Pending Assignments -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal purple">
-                        <i class="fas fa-clipboard-list"></i>
-                    </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">8</div>
-            <div class="stat-label">Pending Assignments</div>
-            <div class="stat-today">This Week</div>
-                    </div>
-                </div>
+    <!-- Pending Assignments -->
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-clipboard-list"></i>
+        </div>
+        <div class="stat-content">
+            <h3>Pending Assignments</h3>
+            <div class="stat-number">8</div>
+            <div class="stat-change">This Week</div>
+        </div>
+    </div>
 
-                <!-- Upcoming Events -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal yellow">
-                        <i class="fas fa-calendar"></i>
-                    </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">3</div>
-            <div class="stat-label">Upcoming Events</div>
-            <div class="stat-today">This Month</div>
-                    </div>
-                </div>
-            </div>
+    <!-- Upcoming Events -->
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-calendar"></i>
+        </div>
+        <div class="stat-content">
+            <h3>Upcoming Events</h3>
+            <div class="stat-number">3</div>
+            <div class="stat-change">This Month</div>
+        </div>
+    </div>
+</div>
 
             <!-- Dashboard Cards Row -->
 <div class="row">
@@ -151,6 +153,88 @@ ob_start();
 </div>
 
 <style>
+/* Welcome Header Styles */
+.welcome-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding: 24px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+    color: #fff;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.welcome-content {
+    flex: 1;
+    min-width: 250px;
+}
+
+.welcome-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: #fff;
+    line-height: 1.2;
+}
+
+.welcome-subtitle {
+    font-size: 1rem;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 400;
+}
+
+.welcome-time {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.current-date {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.current-time {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .welcome-header {
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .welcome-title {
+        font-size: 1.5rem;
+    }
+    
+    .welcome-subtitle {
+        font-size: 0.9375rem;
+    }
+    
+    .welcome-time {
+        width: 100%;
+        text-align: left;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .current-time {
+        font-size: 1.25rem;
+    }
+}
+
 /* Stats Grid - 2x4 Horizontal Cards */
 .stats-grid-horizontal {
     display: grid;
@@ -290,6 +374,30 @@ ob_start();
     align-items: center;
 }
 </style>
+
+<script>
+// Update time and date
+function updateDateTime() {
+    const now = new Date();
+    
+    // Update date
+    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const dateStr = now.toLocaleDateString('en-US', dateOptions);
+    document.getElementById('currentDate').textContent = dateStr;
+    
+    // Update time
+    const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    document.getElementById('currentTime').textContent = timeStr;
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateDateTime();
+    // Update time every minute
+    setInterval(updateDateTime, 60000);
+});
+</script>
+
 <?php
 $content = ob_get_clean();
 

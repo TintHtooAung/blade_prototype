@@ -16,6 +16,7 @@ $activePage = $activePage ?? 'dashboard';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/ios-floating-layout.css">
     <script>
     // Prevent flash - hide title immediately (logo always shows)
     (function() {
@@ -726,7 +727,7 @@ $activePage = $activePage ?? 'dashboard';
         }
     }
 
-    /* Unified Header Styles */
+    /* Unified Header - seamless edge blending */
     .unified-header {
         position: fixed;
         top: 0;
@@ -1042,9 +1043,10 @@ $activePage = $activePage ?? 'dashboard';
         }
     }
     
-    /* Adjust sidebar position to account for header - aligned with header grid */
+    /* Adjust sidebar position to account for header - seamless edge blending */
     .sidebar {
         top: 64px !important;
+        left: 0px !important;
         height: calc(100vh - 64px) !important;
     }
     
@@ -1056,22 +1058,25 @@ $activePage = $activePage ?? 'dashboard';
         right: 12px;
     }
     
-    /* Adjust main content position - aligned with header grid */
+    /* Adjust main content position - seamless edge blending, no gap */
     .main-content {
         margin-top: 64px !important;
-        margin-left: 240px;
+        margin-left: 240px;  /* Aligns with expanded sidebar right edge */
         padding: 1rem;
         padding-left: 20px;
         padding-right: 20px;
         min-height: calc(100vh - 64px) !important;
-        width: calc(100vw - 240px);
+        width: calc(100vw - 240px);  /* Full width minus expanded sidebar */
         transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-sizing: border-box;
     }
     
-    /* When sidebar minimized, align content */
-    body:has(.sidebar.minimized) .main-content {
-        margin-left: 64px;
-        width: calc(100vw - 64px);
+    /* When sidebar minimized, align content seamlessly - no gap */
+    body:has(.sidebar.minimized) .main-content,
+    .sidebar.minimized ~ .main-content {
+        margin-left: 64px;  /* Aligns with minimized sidebar right edge - no gap */
+        width: calc(100vw - 64px);  /* Full width minus minimized sidebar */
+        transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     /* Ensure consistent padding alignment */
@@ -2508,6 +2513,7 @@ $activePage = $activePage ?? 'dashboard';
     </script>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="/js/ios-floating-layout.js"></script>
         <script src="/js/dropdown.js"></script>
     </body>
 </html>

@@ -18,52 +18,52 @@ ob_start();
 </div>
 
 <!-- Teacher Stats Cards -->
-<div class="stats-grid-horizontal" style="margin-bottom: 24px;">
+<div class="stats-grid-secondary vertical-stats">
     <!-- Total Teachers -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal yellow">
+    <div class="stat-card">
+        <div class="stat-icon">
             <i class="fas fa-chalkboard-teacher"></i>
         </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">111</div>
-            <div class="stat-label">Total Teachers</div>
-            <div class="stat-today">All faculty</div>
+        <div class="stat-content">
+            <h3>Total Teachers</h3>
+            <div class="stat-number">111</div>
+            <div class="stat-change">All faculty</div>
         </div>
     </div>
 
     <!-- Active Teachers -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal green">
+    <div class="stat-card">
+        <div class="stat-icon">
             <i class="fas fa-user-check"></i>
         </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">108</div>
-            <div class="stat-label">Active Teachers</div>
-            <div class="stat-today">97.3% present</div>
+        <div class="stat-content">
+            <h3>Active Teachers</h3>
+            <div class="stat-number">108</div>
+            <div class="stat-change positive">97.3% present</div>
         </div>
     </div>
 
     <!-- On Leave -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal blue">
+    <div class="stat-card">
+        <div class="stat-icon">
             <i class="fas fa-calendar-times"></i>
         </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">3</div>
-            <div class="stat-label">On Leave</div>
-            <div class="stat-today">Currently</div>
+        <div class="stat-content">
+            <h3>On Leave</h3>
+            <div class="stat-number">3</div>
+            <div class="stat-change">Currently</div>
         </div>
     </div>
 
     <!-- Teacher-Student Ratio -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal purple">
+    <div class="stat-card">
+        <div class="stat-icon">
             <i class="fas fa-users"></i>
         </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">1:9</div>
-            <div class="stat-label">Student Ratio</div>
-            <div class="stat-today">Per teacher</div>
+        <div class="stat-content">
+            <h3>Student Ratio</h3>
+            <div class="stat-number">1:9</div>
+            <div class="stat-change">Per teacher</div>
         </div>
     </div>
 </div>

@@ -18,52 +18,52 @@ ob_start();
 </div>
 
 <!-- Student Stats Cards -->
-<div class="stats-grid-horizontal" style="margin-bottom: 24px;">
+<div class="stats-grid-secondary vertical-stats">
     <!-- Total Students -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal blue">
+    <div class="stat-card">
+        <div class="stat-icon">
             <i class="fas fa-user-graduate"></i>
         </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">986</div>
-            <div class="stat-label">Total Students</div>
-            <div class="stat-today">All enrolled</div>
+        <div class="stat-content">
+            <h3>Total Students</h3>
+            <div class="stat-number">986</div>
+            <div class="stat-change">All enrolled</div>
         </div>
     </div>
 
     <!-- Active Students -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal green">
+    <div class="stat-card">
+        <div class="stat-icon">
             <i class="fas fa-check-circle"></i>
         </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">978</div>
-            <div class="stat-label">Active Students</div>
-            <div class="stat-today">99.2% active</div>
+        <div class="stat-content">
+            <h3>Active Students</h3>
+            <div class="stat-number">978</div>
+            <div class="stat-change positive">99.2% active</div>
         </div>
     </div>
 
     <!-- Average Attendance -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal yellow">
+    <div class="stat-card">
+        <div class="stat-icon">
             <i class="fas fa-calendar-check"></i>
         </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">94.2%</div>
-            <div class="stat-label">Avg Attendance</div>
-            <div class="stat-today">This month</div>
+        <div class="stat-content">
+            <h3>Avg Attendance</h3>
+            <div class="stat-number">94.2%</div>
+            <div class="stat-change">This month</div>
         </div>
     </div>
 
     <!-- New Enrollments -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal purple">
+    <div class="stat-card">
+        <div class="stat-icon">
             <i class="fas fa-user-plus"></i>
         </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">23</div>
-            <div class="stat-label">New Enrollments</div>
-            <div class="stat-today">This month</div>
+        <div class="stat-content">
+            <h3>New Enrollments</h3>
+            <div class="stat-number">23</div>
+            <div class="stat-change">This month</div>
         </div>
     </div>
 </div>

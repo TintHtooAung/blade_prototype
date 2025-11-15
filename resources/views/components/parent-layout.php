@@ -16,6 +16,7 @@ $activePage = $activePage ?? 'dashboard';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/ios-floating-layout.css">
 </head>
 <body>
     <?php
@@ -118,6 +119,7 @@ $activePage = $activePage ?? 'dashboard';
     </style>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/ios-floating-layout.js"></script>
     
     <script>
     // Profile dropdown toggle - using unified header profile section

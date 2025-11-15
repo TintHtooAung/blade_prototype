@@ -18,52 +18,52 @@ ob_start();
 </div>
 
 <!-- Academic Stats Cards -->
-<div class="stats-grid-horizontal" style="margin-bottom: 24px;">
+<div class="stats-grid-secondary vertical-stats">
     <!-- Active Batch -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal yellow">
+    <div class="stat-card">
+        <div class="stat-icon">
             <i class="fas fa-calendar-alt"></i>
         </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">2024-2025</div>
-            <div class="stat-label">Active Batch</div>
-            <div class="stat-today">Current Year</div>
+        <div class="stat-content">
+            <h3>Active Batch</h3>
+            <div class="stat-number">2024-2025</div>
+            <div class="stat-change">Current Year</div>
         </div>
     </div>
 
     <!-- Total Grades -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal teal">
+    <div class="stat-card">
+        <div class="stat-icon">
             <i class="fas fa-layer-group"></i>
         </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">12</div>
-            <div class="stat-label">Total Grades</div>
-            <div class="stat-today">Grade 1-12</div>
+        <div class="stat-content">
+            <h3>Total Grades</h3>
+            <div class="stat-number">12</div>
+            <div class="stat-change">Grade 1-12</div>
         </div>
     </div>
 
     <!-- Total Classes -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal blue">
+    <div class="stat-card">
+        <div class="stat-icon">
             <i class="fas fa-chalkboard"></i>
         </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">48</div>
-            <div class="stat-label">Total Classes</div>
-            <div class="stat-today">Active</div>
+        <div class="stat-content">
+            <h3>Total Classes</h3>
+            <div class="stat-number">48</div>
+            <div class="stat-change">Active</div>
         </div>
     </div>
 
     <!-- Total Subjects -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal purple">
+    <div class="stat-card">
+        <div class="stat-icon">
             <i class="fas fa-book"></i>
         </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">24</div>
-            <div class="stat-label">Total Subjects</div>
-            <div class="stat-today">All Grades</div>
+        <div class="stat-content">
+            <h3>Total Subjects</h3>
+            <div class="stat-number">24</div>
+            <div class="stat-change">All Grades</div>
         </div>
     </div>
 </div>
@@ -72,10 +72,10 @@ ob_start();
 <div class="academic-structure-section">
     
     <div class="academic-tabs">
-        <button class="academic-tab" data-tab="rooms">Rooms</button>
         <button class="academic-tab active" data-tab="batches">Batches</button>
         <button class="academic-tab" data-tab="grades">Grades</button>
         <button class="academic-tab" data-tab="classes">Classes</button>
+        <button class="academic-tab" data-tab="rooms">Rooms</button>
         <button class="academic-tab" data-tab="subjects">Subjects</button>
     </div>
 </div>
@@ -87,17 +87,20 @@ ob_start();
         <div class="batch-management-section">
             <div class="section-header">
                 <h3 class="section-title">Batch Management</h3>
-                <button class="simple-btn" id="toggleBatchForm"><i class="fas fa-plus"></i> Add Batch</button>
+                <button class="simple-btn" id="toggleBatchForm" onclick="openModal('batchModal')"><i class="fas fa-plus"></i> Add Batch</button>
             </div>
 
-            <!-- Inline Create Batch Form (hidden by default) -->
-            <div id="batchForm" class="simple-section" style="display:none; margin-top:12px;">
-                <div class="simple-header">
-                    <h4><i class="fas fa-folder-plus"></i> Create Batch</h4>
-                </div>
-                <div class="form-section">
-                    <div class="form-row">
-                        <div class="form-group" style="flex:2;">
+            <!-- Add Batch Modal -->
+            <div id="batchModal" class="simple-modal-overlay" style="display:none;">
+                <div class="simple-modal-content">
+                    <div class="simple-modal-header">
+                        <h3><i class="fas fa-folder-plus"></i> Create Batch</h3>
+                        <button class="simple-modal-close" onclick="closeModal('batchModal')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="simple-modal-body">
+                        <div class="form-group">
                             <label for="batchName">Batch Name</label>
                             <input type="text" id="batchName" class="form-input" placeholder="e.g., 2025-2026">
                         </div>
@@ -109,19 +112,16 @@ ob_start();
                             <label for="batchEnd">End Date</label>
                             <input type="date" id="batchEnd" class="form-input">
                         </div>
-                    </div>
-                    <div class="form-row">
                         <div class="form-group">
                             <label for="batchStatus">Status</label>
                             <select id="batchStatus" class="form-select">
                                 <option value="Active">Active</option>
-                                <option value="Upcoming">Upcoming</option>
                                 <option value="Completed">Completed</option>
                             </select>
                         </div>
                     </div>
-                    <div class="form-actions">
-                        <button id="cancelBatch" class="simple-btn secondary">Cancel</button>
+                    <div class="simple-modal-actions">
+                        <button id="cancelBatch" class="simple-btn secondary" onclick="closeModal('batchModal')">Cancel</button>
                         <button id="saveBatch" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
                     </div>
                 </div>
@@ -239,29 +239,6 @@ ob_start();
                                 </button>
                             </td>
                         </tr>
-                        
-                        <tr class="expandable-row">
-                            <td class="expand-cell">
-                                <i class="fas fa-chevron-right expand-icon"></i>
-                            </td>
-                            <td class="batch-name">
-                                <a href="/admin/academic/batches/2025-2026" class="batch-link">2025-2026</a>
-                            </td>
-                            <td>
-                                <span class="status-badge upcoming">Upcoming</span>
-                            </td>
-                            <td class="student-count">0</td>
-                            <td class="date-cell">2025-04-01</td>
-                            <td class="date-cell">2026-03-31</td>
-                            <td class="actions-cell">
-                                <button class="action-icon view" title="View" onclick="viewBatch('2025-2026')">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="action-icon delete" title="Delete" onclick="deleteBatch('2025-2026')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -273,21 +250,24 @@ ob_start();
         <div class="detail-management-section">
             <div class="section-header">
                 <h3 class="section-title">Grade Management</h3>
-                <button class="simple-btn" id="toggleGradeForm"><i class="fas fa-plus"></i> Add Grade</button>
+                <button class="simple-btn" id="toggleGradeForm" onclick="openModal('gradeModal')"><i class="fas fa-plus"></i> Add Grade</button>
             </div>
 
-            <!-- Inline Create Grade Form -->
-            <div id="gradeForm" class="simple-section" style="display:none; margin-top:12px;">
-                <div class="simple-header">
-                    <h4><i class="fas fa-layer-group"></i> Create Grade</h4>
-                </div>
-                <div class="form-section">
-                    <div class="form-row">
+            <!-- Add Grade Modal -->
+            <div id="gradeModal" class="simple-modal-overlay" style="display:none;">
+                <div class="simple-modal-content">
+                    <div class="simple-modal-header">
+                        <h3><i class="fas fa-layer-group"></i> Create Grade</h3>
+                        <button class="simple-modal-close" onclick="closeModal('gradeModal')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="simple-modal-body">
                         <div class="form-group">
                             <label for="gradeLevel">Grade Level</label>
                             <input type="number" id="gradeLevel" class="form-input" placeholder="e.g., 10">
                         </div>
-                        <div class="form-group" style="flex:2;">
+                        <div class="form-group">
                             <label for="gradeName">Grade Name</label>
                             <input type="text" id="gradeName" class="form-input" placeholder="e.g., Grade 10">
                         </div>
@@ -300,8 +280,8 @@ ob_start();
                             </select>
                         </div>
                     </div>
-                    <div class="form-actions">
-                        <button id="cancelGrade" class="simple-btn secondary">Cancel</button>
+                    <div class="simple-modal-actions">
+                        <button id="cancelGrade" class="simple-btn secondary" onclick="closeModal('gradeModal')">Cancel</button>
                         <button id="saveGrade" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
                     </div>
                 </div>
@@ -437,16 +417,19 @@ ob_start();
         <div class="detail-management-section">
             <div class="section-header">
                 <h3 class="section-title">Class Management</h3>
-                <button class="simple-btn" id="toggleClassForm"><i class="fas fa-plus"></i> Add Class</button>
+                <button class="simple-btn" id="toggleClassForm" onclick="openModal('classModal')"><i class="fas fa-plus"></i> Add Class</button>
             </div>
 
-            <!-- Inline Create Class Form -->
-            <div id="classForm" class="simple-section" style="display:none; margin-top:12px;">
-                <div class="simple-header">
-                    <h4><i class="fas fa-door-open"></i> Create Class</h4>
-                </div>
-                <div class="form-section">
-                    <div class="form-row">
+            <!-- Add Class Modal -->
+            <div id="classModal" class="simple-modal-overlay" style="display:none;">
+                <div class="simple-modal-content">
+                    <div class="simple-modal-header">
+                        <h3><i class="fas fa-door-open"></i> Create Class</h3>
+                        <button class="simple-modal-close" onclick="closeModal('classModal')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="simple-modal-body">
                         <div class="form-group">
                             <label for="className">Class Name</label>
                             <input type="text" id="className" class="form-input" placeholder="e.g., 10-A">
@@ -459,15 +442,13 @@ ob_start();
                             <label for="classRoom">Room</label>
                             <input type="text" id="classRoom" class="form-input" placeholder="e.g., Room 201">
                         </div>
-                    </div>
-                    <div class="form-row">
                         <div class="form-group">
                             <label for="classTeacher">Class Teacher</label>
                             <input type="text" id="classTeacher" class="form-input" placeholder="e.g., Ms. Smith">
                         </div>
                     </div>
-                    <div class="form-actions">
-                        <button id="cancelClass" class="simple-btn secondary">Cancel</button>
+                    <div class="simple-modal-actions">
+                        <button id="cancelClass" class="simple-btn secondary" onclick="closeModal('classModal')">Cancel</button>
                         <button id="saveClass" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
                     </div>
                 </div>
@@ -603,21 +584,24 @@ ob_start();
         <div class="detail-management-section">
             <div class="section-header">
                 <h3 class="section-title">Room Management</h3>
-                <button class="simple-btn" id="toggleRoomForm"><i class="fas fa-plus"></i> Add Room</button>
+                <button class="simple-btn" id="toggleRoomForm" onclick="openModal('roomModal')"><i class="fas fa-plus"></i> Add Room</button>
             </div>
 
-            <!-- Inline Create Room Form -->
-            <div id="roomForm" class="simple-section" style="display:none; margin-top:12px;">
-                <div class="simple-header">
-                    <h4><i class="fas fa-door-closed"></i> Create Room</h4>
-                </div>
-                <div class="form-section">
-                    <div class="form-row">
+            <!-- Add Room Modal -->
+            <div id="roomModal" class="simple-modal-overlay" style="display:none;">
+                <div class="simple-modal-content">
+                    <div class="simple-modal-header">
+                        <h3><i class="fas fa-door-closed"></i> Create Room</h3>
+                        <button class="simple-modal-close" onclick="closeModal('roomModal')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="simple-modal-body">
                         <div class="form-group">
                             <label for="roomNumber">Room Number</label>
                             <input type="text" id="roomNumber" class="form-input" placeholder="e.g., 101">
                         </div>
-                        <div class="form-group" style="flex:2;">
+                        <div class="form-group">
                             <label for="roomName">Room Name</label>
                             <input type="text" id="roomName" class="form-input" placeholder="e.g., Classroom A">
                         </div>
@@ -625,8 +609,6 @@ ob_start();
                             <label for="roomFloor">Floor</label>
                             <input type="text" id="roomFloor" class="form-input" placeholder="e.g., 1st Floor">
                         </div>
-                    </div>
-                    <div class="form-row">
                         <div class="form-group">
                             <label for="roomEquip">Equipment</label>
                             <input type="text" id="roomEquip" class="form-input" placeholder="e.g., Projector, Whiteboard">
@@ -638,14 +620,10 @@ ob_start();
                                 <option value="Not Available">Not Available</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="form-row">
                         <div class="form-group">
                             <label for="roomCap">Seating Capacity</label>
                             <input type="number" id="roomCap" class="form-input" placeholder="e.g., 35">
                         </div>
-                    </div>
-                    <div class="form-row">
                         <div class="form-group">
                             <label for="roomStatus">Status</label>
                             <select id="roomStatus" class="form-select">
@@ -655,8 +633,8 @@ ob_start();
                             </select>
                         </div>
                     </div>
-                    <div class="form-actions">
-                        <button id="cancelRoom" class="simple-btn secondary">Cancel</button>
+                    <div class="simple-modal-actions">
+                        <button id="cancelRoom" class="simple-btn secondary" onclick="closeModal('roomModal')">Cancel</button>
                         <button id="saveRoom" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
                     </div>
                 </div>
@@ -767,21 +745,24 @@ ob_start();
         <div class="detail-management-section">
             <div class="section-header">
                 <h3 class="section-title">Subject Management</h3>
-                <button class="simple-btn" id="toggleSubjectForm"><i class="fas fa-plus"></i> Add Subject</button>
+                <button class="simple-btn" id="toggleSubjectForm" onclick="openModal('subjectModal')"><i class="fas fa-plus"></i> Add Subject</button>
             </div>
 
-            <!-- Inline Create Subject Form -->
-            <div id="subjectForm" class="simple-section" style="display:none; margin-top:12px;">
-                <div class="simple-header">
-                    <h4><i class="fas fa-book"></i> Create Subject</h4>
-                </div>
-                <div class="form-section">
-                    <div class="form-row">
+            <!-- Add Subject Modal -->
+            <div id="subjectModal" class="simple-modal-overlay" style="display:none;">
+                <div class="simple-modal-content">
+                    <div class="simple-modal-header">
+                        <h3><i class="fas fa-book"></i> Create Subject</h3>
+                        <button class="simple-modal-close" onclick="closeModal('subjectModal')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="simple-modal-body">
                         <div class="form-group">
                             <label for="subCode">Subject Code</label>
                             <input type="text" id="subCode" class="form-input" placeholder="e.g., MATH">
                         </div>
-                        <div class="form-group" style="flex:2;">
+                        <div class="form-group">
                             <label for="subName">Subject Name</label>
                             <input type="text" id="subName" class="form-input" placeholder="e.g., Mathematics">
                         </div>
@@ -792,21 +773,15 @@ ob_start();
                                 <option value="Elective">Elective</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="form-row">
                         <div class="form-group">
                             <label for="subjectGrade">Grade</label>
                             <input type="text" id="subjectGrade" class="form-input" placeholder="e.g., Grade 1">
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group" style="flex:1;">
+                        <div class="form-group">
                             <label for="subjectTeachersSearch">Assign Teachers</label>
                             <input type="text" id="subjectTeachersSearch" class="form-input" placeholder="Search by name or ID">
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group" style="flex:1;">
+                        <div class="form-group">
                             <div id="subjectTeachersList" style="max-height:220px; overflow:auto; border:1px solid #e2e8f0; border-radius:6px;">
                                 <table class="basic-table" style="margin:0;">
                                     <thead><tr><th style="width:40px;"></th><th>Name</th><th>ID</th></tr></thead>
@@ -815,8 +790,8 @@ ob_start();
                             </div>
                         </div>
                     </div>
-                    <div class="form-actions">
-                        <button id="cancelSubject" class="simple-btn secondary">Cancel</button>
+                    <div class="simple-modal-actions">
+                        <button id="cancelSubject" class="simple-btn secondary" onclick="closeModal('subjectModal')">Cancel</button>
                         <button id="saveSubject" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
                     </div>
                 </div>
@@ -996,7 +971,35 @@ document.addEventListener('DOMContentLoaded', function(){
         if(s&&onSave) s.addEventListener('click', function(e){ e.preventDefault(); onSave(); f.style.display='none'; alert('Saved (draft). Final fields after onboarding.'); });
     }
 
-    bindToggle('toggleBatchForm','batchForm','cancelBatch','saveBatch', function(){
+    // Modal functions
+    window.openModal = function(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+    };
+    
+    window.closeModal = function(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    };
+    
+    // Close modal when clicking overlay
+    document.querySelectorAll('.simple-modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) {
+                overlay.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    
+    // Save batch handler
+    document.getElementById('saveBatch') && document.getElementById('saveBatch').addEventListener('click', function(){
         const name=(document.getElementById('batchName').value||'').trim(); if(!name){ alert('Enter batch name'); return; }
         const tbody=document.querySelector('#batches-content .academic-table tbody');
         const tr=document.createElement('tr');
@@ -1013,9 +1016,12 @@ document.addEventListener('DOMContentLoaded', function(){
                 <button class="action-icon delete" title="Delete"><i class="fas fa-trash"></i></button>
             </td>`;
         tbody.prepend(tr);
+        closeModal('batchModal');
+        alert('Saved (draft). Final fields after onboarding.');
     });
 
-    bindToggle('toggleGradeForm','gradeForm','cancelGrade','saveGrade', function(){
+    // Save grade handler
+    document.getElementById('saveGrade') && document.getElementById('saveGrade').addEventListener('click', function(){
         const name=(document.getElementById('gradeName').value||'').trim(); if(!name){ alert('Enter grade name'); return; }
         const tbody=document.querySelector('#grades-content .academic-table tbody');
         const tr=document.createElement('tr');
@@ -1032,9 +1038,12 @@ document.addEventListener('DOMContentLoaded', function(){
                 <button class="action-icon delete" title="Delete Grade"><i class="fas fa-trash"></i></button>
             </td>`;
         tbody.prepend(tr);
+        closeModal('gradeModal');
+        alert('Saved (draft). Final fields after onboarding.');
     });
 
-    bindToggle('toggleClassForm','classForm','cancelClass','saveClass', function(){
+    // Save class handler
+    document.getElementById('saveClass') && document.getElementById('saveClass').addEventListener('click', function(){
         const name=(document.getElementById('className').value||'').trim(); if(!name){ alert('Enter class name'); return; }
         const tbody=document.querySelector('#classes-content .academic-table tbody');
         const tr=document.createElement('tr');
@@ -1052,9 +1061,12 @@ document.addEventListener('DOMContentLoaded', function(){
                 <button class="action-icon delete" title="Delete Class"><i class="fas fa-trash"></i></button>
             </td>`;
         tbody.prepend(tr);
+        closeModal('classModal');
+        alert('Saved (draft). Final fields after onboarding.');
     });
 
-    bindToggle('toggleRoomForm','roomForm','cancelRoom','saveRoom', function(){
+    // Save room handler
+    document.getElementById('saveRoom') && document.getElementById('saveRoom').addEventListener('click', function(){
         const num=(document.getElementById('roomNumber').value||'').trim(); if(!num){ alert('Enter room number'); return; }
         const tbody=document.querySelector('#rooms-content .academic-table tbody');
         const tr=document.createElement('tr');
@@ -1071,9 +1083,12 @@ document.addEventListener('DOMContentLoaded', function(){
                 <button class="action-icon delete" title="Delete Room"><i class="fas fa-trash"></i></button>
             </td>`;
         tbody.prepend(tr);
+        closeModal('roomModal');
+        alert('Saved (draft). Final fields after onboarding.');
     });
 
-    bindToggle('toggleSubjectForm','subjectForm','cancelSubject','saveSubject', function(){
+    // Save subject handler
+    document.getElementById('saveSubject') && document.getElementById('saveSubject').addEventListener('click', function(){
         const code=(document.getElementById('subCode').value||'').trim(); if(!code){ alert('Enter subject code'); return; }
         const teacherIds = Array.from(document.querySelectorAll('#subjectTeachersBody input[type="checkbox"]:checked')).map(cb => cb.getAttribute('data-id'));
         const tbody=document.querySelector('#subjects-content .academic-table tbody');
@@ -1091,6 +1106,8 @@ document.addEventListener('DOMContentLoaded', function(){
                 <button class="action-icon delete" title="Delete Subject"><i class="fas fa-trash"></i></button>
             </td>`;
         tbody.prepend(tr);
+        closeModal('subjectModal');
+        alert('Saved (draft). Final fields after onboarding.');
     });
 
     bindToggle('toggleDepartmentForm','departmentForm','cancelDepartment','saveDepartment', function(){
@@ -1232,6 +1249,143 @@ function deleteDepartment(deptId) {
     });
 }
 </script>
+
+<style>
+/* Simple Modal Styles */
+.simple-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: fadeIn 0.2s ease;
+}
+
+.simple-modal-content {
+    background: #ffffff;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.3s ease;
+    overflow: hidden;
+}
+
+.simple-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #e0e7ff;
+}
+
+.simple-modal-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1d1d1f;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.simple-modal-header h3 i {
+    color: #4A90E2;
+}
+
+.simple-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: #86868b;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.simple-modal-close:hover {
+    background: #f8fafc;
+    color: #1d1d1f;
+}
+
+.simple-modal-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.simple-modal-body .form-group {
+    margin-bottom: 1.25rem;
+}
+
+.simple-modal-body .form-group:last-child {
+    margin-bottom: 0;
+}
+
+.simple-modal-body .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #1d1d1f;
+    font-size: 0.9rem;
+}
+
+.simple-modal-body .form-group .form-input,
+.simple-modal-body .form-group .form-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e0e7ff;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #1d1d1f;
+    transition: all 0.2s ease;
+}
+
+.simple-modal-body .form-group .form-input:focus,
+.simple-modal-body .form-group .form-select:focus {
+    outline: none;
+    border-color: #4A90E2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.simple-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    border-top: 1px solid #e0e7ff;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+</style>
 
 <?php
 $content = ob_get_clean();

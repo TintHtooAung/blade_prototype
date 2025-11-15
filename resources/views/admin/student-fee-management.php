@@ -147,51 +147,6 @@ ob_start();
                 </table>
         </div>
     </div>
-    
-<!-- Additional Fees Invoices Section -->
-        <div class="simple-section">
-            <div class="simple-header">
-        <div>
-            <h3><i class="fas fa-file-invoice-dollar"></i> Additional Fees Invoices</h3>
-            <p style="margin: 4px 0 0 0; font-size: 14px; color: #666;">
-                Individual invoices for one-time fees and special events created in Fee Structure
-            </p>
-        </div>
-        <div style="display: flex; gap: 12px;">
-            <button class="simple-btn primary" onclick="generateAdditionalFeesInvoices()">
-                <i class="fas fa-plus"></i> Generate Additional Fees Invoices
-            </button>
-        </div>
-                </div>
-
-    <div class="simple-table-container" style="margin-top:16px;">
-        <table class="basic-table" id="additionalFeesInvoiceTable">
-                    <thead>
-                        <tr>
-                    <th>Invoice #</th>
-                    <th>Student ID</th>
-                    <th>Student Name</th>
-                    <th>Grade/Class</th>
-                    <th>Fee Name</th>
-                    <th>Fee Type</th>
-                    <th>Amount</th>
-                    <th>Payment Type</th>
-                    <th>Status</th>
-                    <th>Paid By/Time</th>
-                    <th>Actions</th>
-                        </tr>
-                    </thead>
-            <tbody id="additionalFeesInvoiceTableBody">
-                <tr class="no-data-row">
-                    <td colspan="11" style="text-align:center; padding:40px; color:#999;">
-                        <i class="fas fa-inbox" style="font-size:48px; margin-bottom:12px; display:block;"></i>
-                        No additional fees invoices generated yet. Click "Generate Additional Fees Invoices" to create individual invoices for each participant.
-                    </td>
-                        </tr>
-                    </tbody>
-                </table>
-    </div>
-</div>
 
 <!-- Payment Processing Modal -->
 <div id="paymentModal" class="receipt-dialog-overlay" style="display:none;">

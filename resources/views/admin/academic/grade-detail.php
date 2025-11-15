@@ -110,19 +110,23 @@ ob_start();
         <h3 class="section-title">Academic Statistics</h3>
     </div>
     
-    <div class="stats-info">
-        <div class="stat-detail">
-            <label>Total Subjects</label>
-            <span>8</span>
-        </div>
-        <div class="stat-detail">
-            <label>Core Subjects</label>
-            <span>6</span>
-        </div>
-        <div class="stat-detail">
-            <label>Elective Subjects</label>
-            <span>2</span>
-        </div>
+    <div class="simple-table-container">
+        <table class="basic-table">
+            <tbody>
+                <tr>
+                    <td style="width: 200px; font-weight: 600; color: #86868b;">Total Subjects</td>
+                    <td>8</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: #86868b;">Core Subjects</td>
+                    <td>6</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: #86868b;">Elective Subjects</td>
+                    <td>2</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -130,115 +134,45 @@ ob_start();
 <div class="detail-section">
     <div class="section-header">
         <h3 class="section-title">Classes in <?php echo htmlspecialchars($gradeName); ?></h3>
-        <div class="section-actions">
-            <button class="add-btn">
-                <i class="fas fa-plus"></i>
-                Add Class
-            </button>
-        </div>
     </div>
     
-    <!-- Inline Add Class Form (placed directly under header) -->
-    <div id="addClassForm" class="simple-section" style="display:none; margin-top:12px;">
-        <div class="simple-header">
-            <h4><i class="fas fa-door-open"></i> Create Class</h4>
-        </div>
-        <div class="form-section">
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="className">Class Name</label>
-                    <input type="text" id="className" class="form-input" placeholder="e.g., 10-A">
-                </div>
-                <div class="form-group">
-                    <label for="classGrade">Grade</label>
-                    <input type="text" id="classGrade" class="form-input" placeholder="e.g., Grade 10">
-                </div>
-                <div class="form-group">
-                    <label for="classRoom">Room</label>
-                    <input type="text" id="classRoom" class="form-input" placeholder="e.g., Room 201">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group" style="flex:2;">
-                    <label for="classTeacher">Class Teacher</label>
-                    <input type="text" id="classTeacher" class="form-input" placeholder="e.g., Ms. Smith">
-                </div>
-            </div>
-            <div class="form-actions">
-                <button id="cancelAddClass" class="simple-btn secondary">Cancel</button>
-                <button id="saveAddClass" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="grades-grid" id="classesGrid">
-        <div class="grade-detail-card" onclick="window.location.href='<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>A'" style="cursor:pointer;">
-            <div class="grade-card-header">
-                <a href="<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>A" class="grade-link" onclick="event.stopPropagation()">Class <?php echo $gradeId; ?>A</a>
-                <span class="room-info">Room 101</span>
-            </div>
-            <div class="grade-card-body">
-                <div class="grade-stat">
-                    <span class="stat-label">Students</span>
-                    <span class="stat-value">30 students</span>
-                </div>
-                <div class="grade-stat">
-                    <span class="stat-label">Teacher</span>
-                    <span class="stat-value">Ms. Sarah Johnson</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="grade-detail-card" onclick="window.location.href='<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>B'" style="cursor:pointer;">
-            <div class="grade-card-header">
-                <a href="<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>B" class="grade-link" onclick="event.stopPropagation()">Class <?php echo $gradeId; ?>B</a>
-                <span class="room-info">Room 102</span>
-            </div>
-            <div class="grade-card-body">
-                <div class="grade-stat">
-                    <span class="stat-label">Students</span>
-                    <span class="stat-value">30 students</span>
-                </div>
-                <div class="grade-stat">
-                    <span class="stat-label">Teacher</span>
-                    <span class="stat-value">Mr. David Chen</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="grade-detail-card" onclick="window.location.href='<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>C'" style="cursor:pointer;">
-            <div class="grade-card-header">
-                <a href="<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>C" class="grade-link" onclick="event.stopPropagation()">Class <?php echo $gradeId; ?>C</a>
-                <span class="room-info">Room 103</span>
-            </div>
-            <div class="grade-card-body">
-                <div class="grade-stat">
-                    <span class="stat-label">Students</span>
-                    <span class="stat-value">30 students</span>
-                </div>
-                <div class="grade-stat">
-                    <span class="stat-label">Teacher</span>
-                    <span class="stat-value">Ms. Emily Rodriguez</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="grade-detail-card" onclick="window.location.href='<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>D'" style="cursor:pointer;">
-            <div class="grade-card-header">
-                <a href="<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>D" class="grade-link" onclick="event.stopPropagation()">Class <?php echo $gradeId; ?>D</a>
-                <span class="room-info">Room 104</span>
-            </div>
-            <div class="grade-card-body">
-                <div class="grade-stat">
-                    <span class="stat-label">Students</span>
-                    <span class="stat-value">30 students</span>
-                </div>
-                <div class="grade-stat">
-                    <span class="stat-label">Teacher</span>
-                    <span class="stat-value">Dr. James Wilson</span>
-                </div>
-            </div>
-        </div>
+    <div class="simple-table-container">
+        <table class="basic-table">
+            <thead>
+                <tr>
+                    <th>Class Name</th>
+                    <th>Room</th>
+                    <th>Students</th>
+                    <th>Teacher</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="cursor:pointer;" onclick="window.location.href='<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>A'">
+                    <td><a href="<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>A" class="grade-link" onclick="event.stopPropagation()" style="font-weight: 600; color: #007AFF;">Class <?php echo $gradeId; ?>A</a></td>
+                    <td>Room 101</td>
+                    <td>30 students</td>
+                    <td>Ms. Sarah Johnson</td>
+                </tr>
+                <tr style="cursor:pointer;" onclick="window.location.href='<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>B'">
+                    <td><a href="<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>B" class="grade-link" onclick="event.stopPropagation()" style="font-weight: 600; color: #007AFF;">Class <?php echo $gradeId; ?>B</a></td>
+                    <td>Room 102</td>
+                    <td>30 students</td>
+                    <td>Mr. David Chen</td>
+                </tr>
+                <tr style="cursor:pointer;" onclick="window.location.href='<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>C'">
+                    <td><a href="<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>C" class="grade-link" onclick="event.stopPropagation()" style="font-weight: 600; color: #007AFF;">Class <?php echo $gradeId; ?>C</a></td>
+                    <td>Room 103</td>
+                    <td>30 students</td>
+                    <td>Ms. Emily Rodriguez</td>
+                </tr>
+                <tr style="cursor:pointer;" onclick="window.location.href='<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>D'">
+                    <td><a href="<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>D" class="grade-link" onclick="event.stopPropagation()" style="font-weight: 600; color: #007AFF;">Class <?php echo $gradeId; ?>D</a></td>
+                    <td>Room 104</td>
+                    <td>30 students</td>
+                    <td>Dr. James Wilson</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -292,39 +226,6 @@ document.addEventListener('DOMContentLoaded', function(){
         editGradeForm.style.display = 'none';
         
         showActionStatus('Grade updated successfully!', 'success');
-    });
-    
-    // Add Class functionality
-    const addBtn = document.querySelector('.detail-section .add-btn');
-    const form = document.getElementById('addClassForm');
-    const cancelBtn = document.getElementById('cancelAddClass');
-    const saveBtn = document.getElementById('saveAddClass');
-    const grid = document.getElementById('classesGrid');
-
-    function toggle(){ if(form) form.style.display = (form.style.display==='none' || !form.style.display) ? 'block' : 'none'; }
-    addBtn && addBtn.addEventListener('click', function(e){ e.preventDefault(); toggle(); });
-    cancelBtn && cancelBtn.addEventListener('click', function(e){ e.preventDefault(); toggle(); });
-    saveBtn && saveBtn.addEventListener('click', function(e){
-        e.preventDefault();
-        const name = (document.getElementById('className').value||'').trim();
-        if (!name) { alert('Enter class name'); return; }
-        const room = document.getElementById('classRoom').value || '';
-        const teacher = document.getElementById('classTeacher').value || '';
-        const card = document.createElement('div');
-        card.className = 'grade-detail-card';
-        card.style.cursor = 'pointer';
-        card.innerHTML = `
-            <div class="grade-card-header">
-                <a href="#" class="grade-link" onclick="event.stopPropagation()">Class ${name}</a>
-                ${room ? `<span class="room-info">${room}</span>` : ''}
-            </div>
-            <div class="grade-card-body">
-                <div class="grade-stat"><span class="stat-label">Students</span><span class="stat-value">0 students</span></div>
-                <div class="grade-stat"><span class="stat-label">Teacher</span><span class="stat-value">${teacher || '-'}</span></div>
-            </div>`;
-        grid && grid.prepend(card);
-        toggle();
-        showActionStatus('Class added successfully!', 'success');
     });
     
     // Delete Grade functionality

@@ -30,8 +30,8 @@
 })();
 </script>
     <!-- Hamburger Menu Toggle (Desktop) -->
-    <button class="sidebar-hamburger" id="sidebarHamburger" title="Toggle Sidebar">
-        <i class="fas fa-bars"></i>
+    <button class="sidebar-hamburger" id="sidebarHamburger" title="Close Sidebar">
+        <i class="fas fa-times"></i>
     </button>
     
     <!-- Mobile Toggle Button -->
@@ -44,12 +44,12 @@
         <img src="/images/smart-campus-logo.svg" alt="Smart Campus Logo" class="sidebar-logo-img" style="display: none !important; visibility: hidden !important;">
     </div>
     
-    <ul class="sidebar-nav" style="margin-top: 0;">
+    <ul class="sidebar-nav" style="margin-top: 0; padding-top: 52px;">
         <!-- Hamburger menu as first nav item when minimized -->
         <li class="sidebar-hamburger-nav-item">
             <button class="sidebar-nav-hamburger" id="sidebarNavHamburger" title="Expand Sidebar">
-                <i class="fas fa-arrow-right"></i>
-                <span class="sidebar-nav-label">Expand</span>
+                <i class="fas fa-bars"></i>
+                <span class="sidebar-nav-label">Menu</span>
             </button>
         </li>
         <li>
@@ -88,39 +88,37 @@
 @import url('/css/sidebar-hamburger.css');
 
 /* Mobile Responsive Only */
+/* Mobile Responsive - Mini Sidebar with Hamburger */
 @media (max-width: 768px) {
     .sidebar {
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-        position: fixed;
+        position: absolute !important;
+        width: 64px !important;
+        max-width: 64px !important;
+        min-width: 64px !important;
         top: 0;
         left: 0;
         height: 100vh;
-        z-index: 1000;
+        z-index: 100;
+        transition: width 0.3s ease, max-width 0.3s ease;
     }
     
-    .sidebar.open {
-        transform: translateX(0);
+    .sidebar.mobile-expanded {
+        width: 240px !important;
+        max-width: 240px !important;
+        min-width: 240px !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .sidebar-nav-label {
+        display: none !important;
+    }
+    
+    .sidebar.mobile-expanded .sidebar-nav-label {
+        display: inline !important;
     }
     
     .sidebar-toggle {
-        display: block;
-        position: fixed;
-        top: 15px;
-        left: 15px;
-        background: rgba(0, 0, 0, 0.7);
-        border: none;
-        color: white;
-        padding: 10px 12px;
-        border-radius: 8px;
-        cursor: pointer;
-        z-index: 1002;
-        font-size: 18px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    }
-    
-    .sidebar-toggle:hover {
-        background: rgba(0, 0, 0, 0.8);
+        display: none !important;
     }
     
     .sidebar-overlay {
@@ -131,7 +129,7 @@
         width: 100%;
         height: 100%;
         background: rgba(0, 0, 0, 0.5);
-        z-index: 999;
+        z-index: 99;
     }
     
     .sidebar-overlay.show {
@@ -139,11 +137,52 @@
     }
     
     .guardian-container {
-        margin-left: 0 !important;
+        margin-left: 64px !important;
+        width: calc(100vw - 64px) !important;
     }
     
     .guardian-main {
         padding: 12px;
+    }
+    
+    .sidebar-hamburger {
+        display: flex !important;
+        position: absolute;
+        top: 16px;
+        right: 12px;
+        background: transparent;
+        border: none;
+        color: #1d1d1f;
+        padding: 8px;
+        cursor: pointer;
+        border-radius: 6px;
+        z-index: 10;
+        width: 32px;
+        height: 32px;
+    }
+    
+    .sidebar-hamburger:hover {
+        background: rgba(0, 122, 255, 0.1);
+        color: #007AFF;
+    }
+    
+    .sidebar-nav a {
+        justify-content: center;
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .sidebar.mobile-expanded .sidebar-nav a {
+        justify-content: flex-start;
+        padding: 0.75rem 1rem;
+    }
+    
+    .sidebar-nav i {
+        margin-right: 0;
+        font-size: 1.1rem;
+    }
+    
+    .sidebar.mobile-expanded .sidebar-nav i {
+        margin-right: 0.75rem;
     }
 }
 
@@ -301,30 +340,47 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Mobile sidebar toggle
+    // Mobile sidebar toggle functionality
+    if (window.innerWidth <= 768) {
+        const hamburger = document.getElementById('sidebarHamburger');
+        const overlay = document.getElementById('sidebarOverlay');
+        
+        if (hamburger) {
+            hamburger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                sidebar.classList.toggle('mobile-expanded');
+                if (overlay) {
+                    overlay.classList.toggle('show');
+                }
+            });
+        }
+        
+        if (overlay) {
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('mobile-expanded');
+                overlay.classList.remove('show');
+            });
+        }
+        
+        const navLinks = sidebar.querySelectorAll('.sidebar-nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('mobile-expanded');
+                    if (overlay) {
+                        overlay.classList.remove('show');
+                    }
+                }
+            });
+        });
+    }
+    
     if (sidebarToggle && sidebarOverlay) {
-        sidebarToggle.addEventListener('click', function(e) {
-            e.stopPropagation();
-            if (window.innerWidth <= 768) {
-                sidebar.classList.toggle('open');
-                sidebarOverlay.classList.toggle('show');
-            }
-        });
-        
-        // Close mobile sidebar when clicking overlay
-        sidebarOverlay.addEventListener('click', function() {
-            sidebar.classList.remove('open');
-            sidebarOverlay.classList.remove('show');
-        });
-        
         // Ensure navigation links don't expand sidebar on desktop - LOCK IT
         const sidebarLinks = sidebar.querySelectorAll('a');
         sidebarLinks.forEach(link => {
             link.addEventListener('click', function(e) {
-                if (window.innerWidth <= 768) {
-                    sidebar.classList.remove('open');
-                    sidebarOverlay.classList.remove('show');
-                } else {
+                if (window.innerWidth > 768) {
                     const isMinimized = sidebar.classList.contains('minimized');
                     if (isMinimized) {
                         sidebar.style.width = '64px';
@@ -355,10 +411,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Handle window resize
         window.addEventListener('resize', function() {
             if (window.innerWidth > 768) {
-                sidebar.classList.remove('open');
-                sidebarOverlay.classList.remove('show');
-                
-                // Restore minimized state on desktop
+                // Desktop: Restore minimized state
                 const isMinimized = sidebar.classList.contains('minimized');
                 if (guardianContainer) {
                     if (isMinimized) {
@@ -377,13 +430,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     guardianMain.style.transition = 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
                 }
             } else {
-                // On mobile, ensure sidebar is closed and reset
-                sidebar.classList.remove('minimized');
+                // Mobile: Keep sidebar mini (64px)
+                sidebar.style.width = '64px';
+                sidebar.style.maxWidth = '64px';
+                sidebar.style.minWidth = '64px';
                 if (guardianContainer) {
-                    guardianContainer.style.marginLeft = '0';
+                    guardianContainer.style.marginLeft = '64px';
                 }
                 if (guardianMain) {
-                    guardianMain.style.width = '100vw';
+                    guardianMain.style.width = 'calc(100vw - 64px)';
                 }
             }
         });
