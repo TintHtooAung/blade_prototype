@@ -160,8 +160,13 @@ function loadAnnouncementDetails() {
 }
 
 function editAnnouncementFromDetails() {
-    // Redirect to edit page or show edit form
-    window.location.href = `/admin/create-announcement?id=${announcementId}`;
+    // Use the edit modal from announcements page
+    if (typeof openEditModal === 'function') {
+        openEditModal(announcementId);
+    } else {
+        // Fallback: redirect to announcements page
+        window.location.href = `/admin/announcements`;
+    }
 }
 
 // Load announcement details on page load

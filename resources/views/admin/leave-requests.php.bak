@@ -17,6 +17,46 @@ ob_start();
     </div>
 </div>
 
+<!-- Leave Request Statistics -->
+<div style="display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap;">
+    <div class="stat-card" style="flex: 1; min-width: 200px;">
+        <div class="stat-icon" style="background: #fff3e0;">
+            <i class="fas fa-clock" style="color: #f57c00;"></i>
+        </div>
+        <div class="stat-details">
+            <div class="stat-value" id="pendingCount">5</div>
+            <div class="stat-label">Pending Requests</div>
+        </div>
+    </div>
+    <div class="stat-card" style="flex: 1; min-width: 200px;">
+        <div class="stat-icon" style="background: #e8f5e9;">
+            <i class="fas fa-check-circle" style="color: #2e7d32;"></i>
+        </div>
+        <div class="stat-details">
+            <div class="stat-value" id="approvedCount">4</div>
+            <div class="stat-label">Approved</div>
+        </div>
+    </div>
+    <div class="stat-card" style="flex: 1; min-width: 200px;">
+        <div class="stat-icon" style="background: #ffebee;">
+            <i class="fas fa-times-circle" style="color: #c62828;"></i>
+        </div>
+        <div class="stat-details">
+            <div class="stat-value" id="rejectedCount">2</div>
+            <div class="stat-label">Rejected</div>
+        </div>
+    </div>
+    <div class="stat-card" style="flex: 1; min-width: 200px;">
+        <div class="stat-icon" style="background: #e3f2fd;">
+            <i class="fas fa-calendar-alt" style="color: #1976d2;"></i>
+        </div>
+        <div class="stat-details">
+            <div class="stat-value" id="totalCount">11</div>
+            <div class="stat-label">Total This Month</div>
+        </div>
+    </div>
+</div>
+
 <!-- View Toggle Tabs -->
 <div class="attendance-view-tabs" style="margin-bottom: 24px;">
     <button class="view-tab active" data-view="student" onclick="switchLeaveSection('student')">
@@ -45,11 +85,11 @@ ob_start();
                     <th>Request ID</th>
                     <th>Requester</th>
                     <th>Role</th>
-                    <th>Submitted</th>
                     <th>Type</th>
                     <th>From</th>
                     <th>To</th>
                     <th>Days</th>
+                    <th>Submitted</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -58,11 +98,11 @@ ob_start();
                     <td><a href="/admin/attendance/leave-detail/LR-2025-0146">#LR-2025-0146</a></td>
                     <td><strong>Sarah Johnson</strong><br><small>Grade 9-A</small></td>
                     <td>Student</td>
-                    <td>Nov 04, 2025</td>
                     <td>Sick Leave</td>
                     <td>Nov 05, 2025</td>
                     <td>Nov 05, 2025</td>
                     <td>1</td>
+                    <td>Nov 04, 2025</td>
                     <td>
                         <div style="display: flex; gap: 8px; align-items: center;">
                             <button class="icon-btn" onclick="approveLeaveRequest(this, 'LR-2025-0146', 'student')" title="Approve">
@@ -78,11 +118,11 @@ ob_start();
                     <td><a href="/admin/attendance/leave-detail/LR-2025-0147">#LR-2025-0147</a></td>
                     <td><strong>Michael Johnson</strong><br><small>Grade 7-B</small></td>
                     <td>Student</td>
-                    <td>Nov 04, 2025</td>
                     <td>Family Emergency</td>
                     <td>Nov 08, 2025</td>
                     <td>Nov 08, 2025</td>
                     <td>1</td>
+                    <td>Nov 04, 2025</td>
                     <td>
                         <div style="display: flex; gap: 8px; align-items: center;">
                             <button class="icon-btn" onclick="approveLeaveRequest(this, 'LR-2025-0147', 'student')" title="Approve">
@@ -127,13 +167,13 @@ ob_start();
                         <th>Request ID</th>
                         <th>Requester</th>
                         <th>Role</th>
-                        <th>Submitted</th>
                         <th>Type</th>
                         <th>From</th>
                         <th>To</th>
                         <th>Days</th>
+                        <th>Submitted</th>
                         <th>Status</th>
-                        <th>Approved By</th>
+                        <th>Processed Date</th>
                     </tr>
                 </thead>
                 <tbody id="historyBodyStudents">
@@ -141,37 +181,37 @@ ob_start();
                         <td><a href="/admin/attendance/leave-detail/LR-2025-0135">#LR-2025-0135</a></td>
                         <td><strong>Sarah Johnson</strong><br><small>Grade 9-A</small></td>
                         <td>Student</td>
-                        <td>Oct 28, 2025</td>
                         <td>Sick Leave</td>
                         <td>Oct 29, 2025</td>
                         <td>Oct 29, 2025</td>
                         <td>1</td>
+                        <td>Oct 28, 2025</td>
                         <td><span class="status-badge active">Approved</span></td>
-                        <td><strong>John Admin</strong><br><small>Administrator</small></td>
+                        <td>Oct 29, 2025</td>
                     </tr>
                     <tr data-status="approved" data-role="student" data-processed-date="2025-10-15">
                         <td><a href="/admin/attendance/leave-detail/LR-2025-0125">#LR-2025-0125</a></td>
                         <td><strong>Sarah Johnson</strong><br><small>Grade 9-A</small></td>
                         <td>Student</td>
-                        <td>Oct 14, 2025</td>
                         <td>Sick Leave</td>
                         <td>Oct 15, 2025</td>
                         <td>Oct 16, 2025</td>
                         <td>2</td>
+                        <td>Oct 14, 2025</td>
                         <td><span class="status-badge active">Approved</span></td>
-                        <td><strong>Jane Principal</strong><br><small>Principal</small></td>
+                        <td>Oct 15, 2025</td>
                     </tr>
                     <tr data-status="rejected" data-role="student" data-processed-date="2025-09-10">
                         <td><a href="/admin/attendance/leave-detail/LR-2025-0115">#LR-2025-0115</a></td>
                         <td><strong>Michael Johnson</strong><br><small>Grade 7-B</small></td>
                         <td>Student</td>
-                        <td>Sep 10, 2025</td>
                         <td>Personal</td>
                         <td>Sep 12, 2025</td>
                         <td>Sep 12, 2025</td>
                         <td>1</td>
+                        <td>Sep 10, 2025</td>
                         <td><span class="status-badge cancelled">Rejected</span></td>
-                        <td><strong>John Admin</strong><br><small>Administrator</small></td>
+                        <td>Sep 10, 2025</td>
                     </tr>
                 </tbody>
             </table>
@@ -202,11 +242,11 @@ ob_start();
                     <th>Request ID</th>
                     <th>Requester</th>
                     <th>Role</th>
-                    <th>Submitted</th>
                     <th>Type</th>
                     <th>From</th>
                     <th>To</th>
                     <th>Days</th>
+                    <th>Submitted</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -215,11 +255,11 @@ ob_start();
                     <td><a href="/admin/attendance/leave-detail/LR-2025-0142">#LR-2025-0142</a></td>
                     <td><strong>James Wilson</strong></td>
                     <td>Teacher</td>
-                    <td>Oct 28, 2025</td>
                     <td>Sick Leave</td>
                     <td>Oct 29, 2025</td>
                     <td>Oct 31, 2025</td>
                     <td>3</td>
+                    <td>Oct 28, 2025</td>
                     <td>
                         <div style="display: flex; gap: 8px; align-items: center;">
                             <button class="icon-btn" onclick="approveLeaveRequest(this, 'LR-2025-0142', 'staff')" title="Approve">
@@ -235,11 +275,11 @@ ob_start();
                     <td><a href="/admin/attendance/leave-detail/LR-2025-0143">#LR-2025-0143</a></td>
                     <td><strong>Anna Williams</strong></td>
                     <td>Staff</td>
-                    <td>Oct 29, 2025</td>
                     <td>Annual Leave</td>
                     <td>Nov 03, 2025</td>
                     <td>Nov 05, 2025</td>
                     <td>3</td>
+                    <td>Oct 29, 2025</td>
                     <td>
                         <div style="display: flex; gap: 8px; align-items: center;">
                             <button class="icon-btn" onclick="approveLeaveRequest(this, 'LR-2025-0143', 'staff')" title="Approve">
@@ -255,11 +295,11 @@ ob_start();
                     <td><a href="/admin/attendance/leave-detail/LR-2025-0144">#LR-2025-0144</a></td>
                     <td><strong>Lucas Adams</strong></td>
                     <td>Teacher</td>
-                    <td>Oct 30, 2025</td>
                     <td>Personal Leave</td>
                     <td>Nov 01, 2025</td>
                     <td>Nov 01, 2025</td>
                     <td>1</td>
+                    <td>Oct 30, 2025</td>
                     <td>
                         <div style="display: flex; gap: 8px; align-items: center;">
                             <button class="icon-btn" onclick="approveLeaveRequest(this, 'LR-2025-0144', 'staff')" title="Approve">
@@ -309,51 +349,51 @@ ob_start();
                     <th>Request ID</th>
                     <th>Requester</th>
                     <th>Role</th>
-                    <th>Submitted</th>
                     <th>Type</th>
                     <th>From</th>
                     <th>To</th>
                     <th>Days</th>
+                    <th>Submitted</th>
                     <th>Status</th>
-                        <th>Approved By</th>
-                    </tr>
-                </thead>
-                <tbody id="historyBodyStaff">
+                    <th>Processed Date</th>
+                </tr>
+            </thead>
+            <tbody id="historyBodyStaff">
                 <tr data-status="approved" data-role="teacher" data-processed-date="2025-09-11">
                     <td><a href="/admin/attendance/leave-detail/LR-2025-0128">#LR-2025-0128</a></td>
                     <td><strong>Sarah Johnson</strong></td>
                     <td>Teacher</td>
-                    <td>Sep 10, 2025</td>
                     <td>Annual Leave</td>
                     <td>Sep 15, 2025</td>
                     <td>Sep 20, 2025</td>
                     <td>5</td>
+                    <td>Sep 10, 2025</td>
                     <td><span class="status-badge active">Approved</span></td>
-                    <td><strong>Jane Principal</strong><br><small>Principal</small></td>
+                    <td>Sep 11, 2025</td>
                 </tr>
                 <tr data-status="approved" data-role="staff" data-processed-date="2025-09-19">
                     <td><a href="/admin/attendance/leave-detail/LR-2025-0130">#LR-2025-0130</a></td>
                     <td><strong>John Smith</strong></td>
                     <td>Staff</td>
-                    <td>Sep 19, 2025</td>
                     <td>Sick Leave</td>
                     <td>Sep 20, 2025</td>
                     <td>Sep 22, 2025</td>
                     <td>3</td>
+                    <td>Sep 19, 2025</td>
                     <td><span class="status-badge active">Approved</span></td>
-                    <td><strong>John Admin</strong><br><small>Administrator</small></td>
+                    <td>Sep 19, 2025</td>
                 </tr>
                 <tr data-status="rejected" data-role="teacher" data-processed-date="2025-08-02">
                     <td><a href="/admin/attendance/leave-detail/LR-2025-0105">#LR-2025-0105</a></td>
                     <td><strong>Michael Brown</strong></td>
                     <td>Teacher</td>
-                    <td>Aug 01, 2025</td>
                     <td>Personal Leave</td>
                     <td>Aug 05, 2025</td>
                     <td>Aug 06, 2025</td>
                     <td>2</td>
+                    <td>Aug 01, 2025</td>
                     <td><span class="status-badge cancelled">Rejected</span></td>
-                    <td><strong>Jane Principal</strong><br><small>Principal</small></td>
+                    <td>Aug 02, 2025</td>
                 </tr>
             </tbody>
         </table>
@@ -413,27 +453,23 @@ function approveLeaveRequest(btn, requestId, section) {
 function processApproval(row, requestId, section) {
     const cells = row.querySelectorAll('td');
     
-    // Extract all data from the row (new column order: ID, Requester, Role, Submitted, Type, From, To, Days, Actions)
+    // Extract all data from the row
     const requestIdLink = cells[0].innerHTML;
     const requester = cells[1].innerHTML;
     const role = cells[2].textContent;
-    const submitted = cells[3].textContent;
-    const type = cells[4].textContent;
-    const fromDate = cells[5].textContent;
-    const toDate = cells[6].textContent;
-    const days = cells[7].textContent;
+    const type = cells[3].textContent;
+    const fromDate = cells[4].textContent;
+    const toDate = cells[5].textContent;
+    const days = cells[6].textContent;
+    const submitted = cells[7].textContent;
     const dataRole = row.getAttribute('data-role');
     
-    // Get current user info (approver)
-    const approverInfo = getCurrentUserInfo();
-    const approverName = approverInfo.name || 'Admin User';
-    const approverRole = approverInfo.role || 'Administrator';
-    
-    // Get current date for processed date (for filtering purposes)
-    const todayDate = new Date();
-    const todayDateString = todayDate.toISOString().split('T')[0];
+    // Get current date for processed date
+    const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
     
     // Create new row for history table
+    const todayDate = new Date();
+    const todayDateString = todayDate.toISOString().split('T')[0];
     const historyRow = document.createElement('tr');
     historyRow.setAttribute('data-status', 'approved');
     historyRow.setAttribute('data-role', dataRole);
@@ -442,13 +478,13 @@ function processApproval(row, requestId, section) {
         <td>${requestIdLink}</td>
         <td>${requester}</td>
         <td>${role}</td>
-        <td>${submitted}</td>
         <td>${type}</td>
         <td>${fromDate}</td>
         <td>${toDate}</td>
         <td>${days}</td>
+        <td>${submitted}</td>
         <td><span class="status-badge active">Approved</span></td>
-        <td><strong>${approverName}</strong><br><small>${approverRole}</small></td>
+        <td>${today}</td>
     `;
     
     // Add to appropriate history table (at the beginning)
@@ -461,6 +497,9 @@ function processApproval(row, requestId, section) {
     
     // Show success message
     showActionStatus(`Leave request ${requestId} approved successfully!`, 'success');
+    
+    // Update stats
+    updateStats();
     
     // Re-apply filters
     filterHistory(section);
@@ -488,27 +527,23 @@ function rejectLeaveRequest(btn, requestId, section) {
 function processRejection(row, requestId, section) {
     const cells = row.querySelectorAll('td');
     
-    // Extract all data from the row (new column order: ID, Requester, Role, Submitted, Type, From, To, Days, Actions)
+    // Extract all data from the row
     const requestIdLink = cells[0].innerHTML;
     const requester = cells[1].innerHTML;
     const role = cells[2].textContent;
-    const submitted = cells[3].textContent;
-    const type = cells[4].textContent;
-    const fromDate = cells[5].textContent;
-    const toDate = cells[6].textContent;
-    const days = cells[7].textContent;
+    const type = cells[3].textContent;
+    const fromDate = cells[4].textContent;
+    const toDate = cells[5].textContent;
+    const days = cells[6].textContent;
+    const submitted = cells[7].textContent;
     const dataRole = row.getAttribute('data-role');
     
-    // Get current user info (approver/rejector)
-    const approverInfo = getCurrentUserInfo();
-    const approverName = approverInfo.name || 'Admin User';
-    const approverRole = approverInfo.role || 'Administrator';
-    
-    // Get current date for processed date (for filtering purposes)
-    const todayDate = new Date();
-    const todayDateString = todayDate.toISOString().split('T')[0];
+    // Get current date for processed date
+    const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
     
     // Create new row for history table
+    const todayDate = new Date();
+    const todayDateString = todayDate.toISOString().split('T')[0];
     const historyRow = document.createElement('tr');
     historyRow.setAttribute('data-status', 'rejected');
     historyRow.setAttribute('data-role', dataRole);
@@ -517,13 +552,13 @@ function processRejection(row, requestId, section) {
         <td>${requestIdLink}</td>
         <td>${requester}</td>
         <td>${role}</td>
-        <td>${submitted}</td>
         <td>${type}</td>
         <td>${fromDate}</td>
         <td>${toDate}</td>
         <td>${days}</td>
+        <td>${submitted}</td>
         <td><span class="status-badge cancelled">Rejected</span></td>
-        <td><strong>${approverName}</strong><br><small>${approverRole}</small></td>
+        <td>${today}</td>
     `;
     
     // Add to appropriate history table (at the beginning)
@@ -537,31 +572,11 @@ function processRejection(row, requestId, section) {
     // Show success message
     showActionStatus(`Leave request ${requestId} rejected.`, 'warning');
     
+    // Update stats
+    updateStats();
+    
     // Re-apply filters
     filterHistory(section);
-}
-
-// Get current user info (approver)
-function getCurrentUserInfo() {
-    // Try to get from localStorage or use default
-    try {
-        const userInfo = localStorage.getItem('currentUser');
-        if (userInfo) {
-            const user = JSON.parse(userInfo);
-            return {
-                name: user.name || 'Admin User',
-                role: user.role || 'Administrator'
-            };
-        }
-    } catch (e) {
-        console.error('Error getting user info:', e);
-    }
-    
-    // Default fallback
-    return {
-        name: 'Admin User',
-        role: 'Administrator'
-    };
 }
 
 function filterPendingRequests(section) {
@@ -663,8 +678,32 @@ function setTodayLeaveHistory(section) {
     }
 }
 
+function updateStats() {
+    const pendingStudents = document.querySelectorAll('#pendingRequestsBodyStudents tr').length;
+    const pendingStaff = document.querySelectorAll('#pendingRequestsBodyStaff tr').length;
+    const pendingRows = pendingStudents + pendingStaff;
+    
+    const historyStudents = document.querySelectorAll('#historyBodyStudents tr');
+    const historyStaff = document.querySelectorAll('#historyBodyStaff tr');
+    const allHistoryRows = [...historyStudents, ...historyStaff];
+    
+    let approved = 0, rejected = 0;
+    allHistoryRows.forEach(row => {
+        const status = row.getAttribute('data-status');
+        if (status === 'approved') approved++;
+        else if (status === 'rejected') rejected++;
+    });
+    
+    document.getElementById('pendingCount').textContent = pendingRows;
+    document.getElementById('approvedCount').textContent = approved;
+    document.getElementById('rejectedCount').textContent = rejected;
+    document.getElementById('totalCount').textContent = pendingRows + approved + rejected;
+}
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
+    updateStats();
+    
     // Initialize leave section from localStorage or default to student
     const savedSection = localStorage.getItem('selectedLeaveSection') || 'student';
     switchLeaveSection(savedSection);

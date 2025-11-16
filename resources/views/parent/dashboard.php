@@ -9,124 +9,15 @@ include __DIR__ . '/../components/ui/card.php';
 
 ob_start();
 ?>
-<!-- Welcome Header -->
-<div class="welcome-header">
-    <div class="welcome-content">
-        <h1 class="welcome-title">Welcome back, Parent! 👋</h1>
-        <p class="welcome-subtitle">Stay connected with your children's progress</p>
+<!-- Compact Page Header -->
+<div class="page-header-compact">
+    <div class="page-icon-compact">
+        <i class="<?php echo $pageIcon; ?>"></i>
     </div>
-    <div class="welcome-time">
-        <div class="current-date" id="currentDate"></div>
-        <div class="current-time" id="currentTime"></div>
+    <div class="page-title-compact">
+        <h2><?php echo $pageHeading; ?></h2>
     </div>
 </div>
-
-<style>
-/* Welcome Header Styles */
-.welcome-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-    padding: 24px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-    color: #fff;
-    flex-wrap: wrap;
-    gap: 16px;
-}
-
-.welcome-content {
-    flex: 1;
-    min-width: 250px;
-}
-
-.welcome-title {
-    font-size: 2rem;
-    font-weight: 700;
-    margin: 0 0 8px 0;
-    color: #fff;
-    line-height: 1.2;
-}
-
-.welcome-subtitle {
-    font-size: 1rem;
-    margin: 0;
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 400;
-}
-
-.welcome-time {
-    text-align: right;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.current-date {
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: #fff;
-}
-
-.current-time {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #fff;
-}
-
-@media (max-width: 768px) {
-    .welcome-header {
-        padding: 20px;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .welcome-title {
-        font-size: 1.5rem;
-    }
-    
-    .welcome-subtitle {
-        font-size: 0.9375rem;
-    }
-    
-    .welcome-time {
-        width: 100%;
-        text-align: left;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .current-time {
-        font-size: 1.25rem;
-    }
-}
-</style>
-
-<script>
-// Update time and date
-function updateDateTime() {
-    const now = new Date();
-    
-    // Update date
-    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const dateStr = now.toLocaleDateString('en-US', dateOptions);
-    document.getElementById('currentDate').textContent = dateStr;
-    
-    // Update time
-    const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-    document.getElementById('currentTime').textContent = timeStr;
-}
-
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
-    updateDateTime();
-    // Update time every minute
-    setInterval(updateDateTime, 60000);
-});
-</script>
 
 <!-- Dashboard Statistics -->
 <div class="detail-stats-grid">

@@ -27,23 +27,27 @@ ob_start();
 <div class="simple-section">
     <div class="simple-header">
         <h3>Profile: <?php echo htmlspecialchars($id); ?></h3>
-        <button class="simple-btn" onclick="window.location.href='/admin/student-profile-edit?id=<?php echo htmlspecialchars($id); ?>'">
-            <i class="fas fa-edit"></i> Edit Profile
-        </button>
     </div>
 
+    <!-- Basic Information Section -->
+    <div class="simple-header" style="margin-top:24px;">
+        <h4><i class="fas fa-info-circle"></i> Basic Information</h4>
+        <button class="simple-btn" onclick="openEditModal('basic')">
+            <i class="fas fa-edit"></i> Edit
+        </button>
+    </div>
     <div class="simple-table-container">
         <table class="basic-table">
             <tbody>
                 <tr><th style="width:220px;">Student ID</th><td><?php echo htmlspecialchars($id); ?></td></tr>
-                <tr><th>Full Name</th><td>Placeholder Name</td></tr>
-                <tr><th>Class</th><td>Grade 10-A</td></tr>
-                <tr><th>Age</th><td>16</td></tr>
-                <tr><th>Parent/Guardian</th><td>Placeholder Parent</td></tr>
-                <tr><th>Guardian Email</th><td>parent@email.com</td></tr>
-                <tr><th>Phone</th><td>+1-555-1000</td></tr>
-                <tr><th>Status</th><td><span class="status-badge paid">Active</span></td></tr>
-                <tr><th>Join Date</th><td>2023-09-01</td></tr>
+                <tr><th>Full Name</th><td id="basicFullName">Placeholder Name</td></tr>
+                <tr><th>Class</th><td id="basicClass">Grade 10-A</td></tr>
+                <tr><th>Age</th><td id="basicAge">16</td></tr>
+                <tr><th>Parent/Guardian</th><td id="basicGuardian">Placeholder Parent</td></tr>
+                <tr><th>Guardian Email</th><td id="basicGuardianEmail">parent@email.com</td></tr>
+                <tr><th>Phone</th><td id="basicPhone">+1-555-1000</td></tr>
+                <tr><th>Status</th><td id="basicStatus"><span class="status-badge paid">Active</span></td></tr>
+                <tr><th>Join Date</th><td id="basicJoinDate">2023-09-01</td></tr>
             </tbody>
         </table>
     </div>
@@ -51,18 +55,56 @@ ob_start();
     <!-- Personal Information Section -->
     <div class="simple-header" style="margin-top:24px;">
         <h4><i class="fas fa-user"></i> Personal Information</h4>
+        <button class="simple-btn" onclick="openEditModal('personal')">
+            <i class="fas fa-edit"></i> Edit
+        </button>
     </div>
     <div class="simple-table-container">
         <table class="basic-table">
             <tbody>
-                <tr><th style="width:220px;">NRC Number</th><td>12/STU(N)345678</td></tr>
-                <tr><th>Date of Birth</th><td>2008-05-12</td></tr>
-                <tr><th>Gender</th><td>Male</td></tr>
-                <tr><th>Address</th><td>789 Student Lane, City, State 12345</td></tr>
-                <tr><th>Emergency Contact</th><td>Mary Johnson - +1-555-1001</td></tr>
-                <tr><th>Blood Type</th><td>B+</td></tr>
-                <tr><th>Medical Conditions</th><td>None</td></tr>
-                <tr><th>Allergies</th><td>None</td></tr>
+                <tr><th style="width:220px;">NRC Number</th><td id="personalNRC">12/STU(N)345678</td></tr>
+                <tr><th>Date of Birth</th><td id="personalDOB">2008-05-12</td></tr>
+                <tr><th>Gender</th><td id="personalGender">Male</td></tr>
+                <tr><th>Address</th><td id="personalAddress">789 Student Lane, City, State 12345</td></tr>
+                <tr><th>Emergency Contact</th><td id="personalEmergency">Mary Johnson - +1-555-1001</td></tr>
+                <tr><th>Blood Type</th><td id="personalBloodType">B+</td></tr>
+                <tr><th>Medical Conditions</th><td id="personalMedical">None</td></tr>
+                <tr><th>Allergies</th><td id="personalAllergies">None</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Academic Information Section -->
+    <div class="simple-header" style="margin-top:24px;">
+        <h4><i class="fas fa-graduation-cap"></i> Academic Information</h4>
+        <button class="simple-btn" onclick="openEditModal('academic')">
+            <i class="fas fa-edit"></i> Edit
+        </button>
+    </div>
+    <div class="simple-table-container">
+        <table class="basic-table">
+            <tbody>
+                <tr><th style="width:220px;">Grade</th><td id="academicGrade">Grade 10</td></tr>
+                <tr><th>Class</th><td id="academicClass">A</td></tr>
+                <tr><th>Admission Date</th><td id="academicAdmission">2023-09-01</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Guardian Information Section -->
+    <div class="simple-header" style="margin-top:24px;">
+        <h4><i class="fas fa-users"></i> Guardian Information</h4>
+        <button class="simple-btn" onclick="openEditModal('guardian')">
+            <i class="fas fa-edit"></i> Edit
+        </button>
+    </div>
+    <div class="simple-table-container">
+        <table class="basic-table">
+            <tbody>
+                <tr><th style="width:220px;">Parent/Guardian Name</th><td id="guardianName">Placeholder Parent</td></tr>
+                <tr><th>Relationship</th><td id="guardianRelationship">Father</td></tr>
+                <tr><th>Email</th><td id="guardianEmail">parent@email.com</td></tr>
+                <tr><th>Phone</th><td id="guardianPhone">+1-555-1000</td></tr>
             </tbody>
         </table>
     </div>
@@ -148,9 +190,353 @@ ob_start();
 
 </div>
 
+<!-- Edit Modals -->
+<!-- Basic Information Modal -->
+<div id="editBasicModal" class="confirm-dialog-overlay" style="display:none;">
+    <div class="confirm-dialog-content" style="max-width: 600px;">
+        <div class="confirm-dialog-header">
+            <h4><i class="fas fa-info-circle"></i> Edit Basic Information</h4>
+            <button class="icon-btn" onclick="closeEditModal('basic')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="confirm-dialog-body" style="padding: 20px;">
+            <div class="form-section" style="padding:0;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Student ID</label>
+                        <input type="text" class="form-input" id="modalBasicId" value="<?php echo htmlspecialchars($id); ?>" readonly>
+                    </div>
+                    <div class="form-group" style="flex:2;">
+                        <label>Full Name</label>
+                        <input type="text" class="form-input" id="modalBasicFullName" placeholder="Enter full name">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Class</label>
+                        <input type="text" class="form-input" id="modalBasicClass" placeholder="e.g., Grade 10-A">
+                    </div>
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input type="number" class="form-input" id="modalBasicAge" placeholder="Age">
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select class="form-select" id="modalBasicStatus">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="graduated">Graduated</option>
+                            <option value="transferred">Transferred</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:2;">
+                        <label>Parent/Guardian</label>
+                        <input type="text" class="form-input" id="modalBasicGuardian" placeholder="Parent/Guardian name">
+                    </div>
+                    <div class="form-group">
+                        <label>Guardian Email</label>
+                        <input type="email" class="form-input" id="modalBasicGuardianEmail" placeholder="parent@email.com">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" class="form-input" id="modalBasicPhone" placeholder="+1-555-0000">
+                    </div>
+                    <div class="form-group">
+                        <label>Join Date</label>
+                        <input type="date" class="form-input" id="modalBasicJoinDate">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="confirm-dialog-actions">
+            <button class="simple-btn secondary" onclick="closeEditModal('basic')">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+            <button class="simple-btn primary" onclick="saveBasicInfo()">
+                <i class="fas fa-check"></i> Save Changes
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Personal Information Modal -->
+<div id="editPersonalModal" class="confirm-dialog-overlay" style="display:none;">
+    <div class="confirm-dialog-content" style="max-width: 600px;">
+        <div class="confirm-dialog-header">
+            <h4><i class="fas fa-user"></i> Edit Personal Information</h4>
+            <button class="icon-btn" onclick="closeEditModal('personal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="confirm-dialog-body" style="padding: 20px;">
+            <div class="form-section" style="padding:0;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>NRC Number</label>
+                        <input type="text" class="form-input" id="modalPersonalNRC" placeholder="e.g., 12/STU(N)345678">
+                    </div>
+                    <div class="form-group">
+                        <label>Date of Birth</label>
+                        <input type="date" class="form-input" id="modalPersonalDOB">
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select class="form-select" id="modalPersonalGender">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:2;">
+                        <label>Address</label>
+                        <input type="text" class="form-input" id="modalPersonalAddress" placeholder="Street, City, State">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:2;">
+                        <label>Emergency Contact</label>
+                        <input type="text" class="form-input" id="modalPersonalEmergency" placeholder="Name - Phone">
+                    </div>
+                    <div class="form-group">
+                        <label>Blood Type</label>
+                        <select class="form-select" id="modalPersonalBloodType">
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:2;">
+                        <label>Medical Conditions</label>
+                        <input type="text" class="form-input" id="modalPersonalMedical" placeholder="None">
+                    </div>
+                    <div class="form-group" style="flex:2;">
+                        <label>Allergies</label>
+                        <input type="text" class="form-input" id="modalPersonalAllergies" placeholder="None">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="confirm-dialog-actions">
+            <button class="simple-btn secondary" onclick="closeEditModal('personal')">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+            <button class="simple-btn primary" onclick="savePersonalInfo()">
+                <i class="fas fa-check"></i> Save Changes
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Academic Information Modal -->
+<div id="editAcademicModal" class="confirm-dialog-overlay" style="display:none;">
+    <div class="confirm-dialog-content" style="max-width: 600px;">
+        <div class="confirm-dialog-header">
+            <h4><i class="fas fa-graduation-cap"></i> Edit Academic Information</h4>
+            <button class="icon-btn" onclick="closeEditModal('academic')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="confirm-dialog-body" style="padding: 20px;">
+            <div class="form-section" style="padding:0;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Grade</label>
+                        <select class="form-select" id="modalAcademicGrade">
+                            <option value="Grade 7">Grade 7</option>
+                            <option value="Grade 8">Grade 8</option>
+                            <option value="Grade 9">Grade 9</option>
+                            <option value="Grade 10" selected>Grade 10</option>
+                            <option value="Grade 11">Grade 11</option>
+                            <option value="Grade 12">Grade 12</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Class</label>
+                        <select class="form-select" id="modalAcademicClass">
+                            <option value="A" selected>A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Admission Date</label>
+                        <input type="date" class="form-input" id="modalAcademicAdmission">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="confirm-dialog-actions">
+            <button class="simple-btn secondary" onclick="closeEditModal('academic')">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+            <button class="simple-btn primary" onclick="saveAcademicInfo()">
+                <i class="fas fa-check"></i> Save Changes
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Guardian Information Modal -->
+<div id="editGuardianModal" class="confirm-dialog-overlay" style="display:none;">
+    <div class="confirm-dialog-content" style="max-width: 600px;">
+        <div class="confirm-dialog-header">
+            <h4><i class="fas fa-users"></i> Edit Guardian Information</h4>
+            <button class="icon-btn" onclick="closeEditModal('guardian')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="confirm-dialog-body" style="padding: 20px;">
+            <div class="form-section" style="padding:0;">
+                <div class="form-row">
+                    <div class="form-group" style="flex:2;">
+                        <label>Parent/Guardian Name</label>
+                        <input type="text" class="form-input" id="modalGuardianName" placeholder="Enter parent/guardian name">
+                    </div>
+                    <div class="form-group">
+                        <label>Relationship</label>
+                        <select class="form-select" id="modalGuardianRelationship">
+                            <option value="Father">Father</option>
+                            <option value="Mother">Mother</option>
+                            <option value="Guardian">Guardian</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-input" id="modalGuardianEmail" placeholder="parent@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" class="form-input" id="modalGuardianPhone" placeholder="+1-555-0000">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="confirm-dialog-actions">
+            <button class="simple-btn secondary" onclick="closeEditModal('guardian')">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+            <button class="simple-btn primary" onclick="saveGuardianInfo()">
+                <i class="fas fa-check"></i> Save Changes
+            </button>
+        </div>
+    </div>
+</div>
+
 <script>
 const profileId = '<?php echo htmlspecialchars($id); ?>';
 let setupComplete = false;
+
+// Modal functions
+function openEditModal(section) {
+    const modal = document.getElementById(`edit${section.charAt(0).toUpperCase() + section.slice(1)}Modal`);
+    if (!modal) return;
+    
+    // Load current data into modal inputs
+    if (section === 'basic') {
+        document.getElementById('modalBasicFullName').value = document.getElementById('basicFullName').textContent.trim();
+        document.getElementById('modalBasicClass').value = document.getElementById('basicClass').textContent.trim();
+        document.getElementById('modalBasicAge').value = document.getElementById('basicAge').textContent.trim();
+        const statusText = document.getElementById('basicStatus').textContent.trim();
+        document.getElementById('modalBasicStatus').value = statusText.toLowerCase();
+        document.getElementById('modalBasicGuardian').value = document.getElementById('basicGuardian').textContent.trim();
+        document.getElementById('modalBasicGuardianEmail').value = document.getElementById('basicGuardianEmail').textContent.trim();
+        document.getElementById('modalBasicPhone').value = document.getElementById('basicPhone').textContent.trim();
+        document.getElementById('modalBasicJoinDate').value = document.getElementById('basicJoinDate').textContent.trim();
+    } else if (section === 'personal') {
+        document.getElementById('modalPersonalNRC').value = document.getElementById('personalNRC').textContent.trim();
+        document.getElementById('modalPersonalDOB').value = document.getElementById('personalDOB').textContent.trim();
+        document.getElementById('modalPersonalGender').value = document.getElementById('personalGender').textContent.trim();
+        document.getElementById('modalPersonalAddress').value = document.getElementById('personalAddress').textContent.trim();
+        document.getElementById('modalPersonalEmergency').value = document.getElementById('personalEmergency').textContent.trim();
+        document.getElementById('modalPersonalBloodType').value = document.getElementById('personalBloodType').textContent.trim();
+        document.getElementById('modalPersonalMedical').value = document.getElementById('personalMedical').textContent.trim();
+        document.getElementById('modalPersonalAllergies').value = document.getElementById('personalAllergies').textContent.trim();
+    } else if (section === 'academic') {
+        const gradeText = document.getElementById('academicGrade').textContent.trim();
+        document.getElementById('modalAcademicGrade').value = gradeText;
+        document.getElementById('modalAcademicClass').value = document.getElementById('academicClass').textContent.trim();
+        document.getElementById('modalAcademicAdmission').value = document.getElementById('academicAdmission').textContent.trim();
+    } else if (section === 'guardian') {
+        document.getElementById('modalGuardianName').value = document.getElementById('guardianName').textContent.trim();
+        document.getElementById('modalGuardianRelationship').value = document.getElementById('guardianRelationship').textContent.trim();
+        document.getElementById('modalGuardianEmail').value = document.getElementById('guardianEmail').textContent.trim();
+        document.getElementById('modalGuardianPhone').value = document.getElementById('guardianPhone').textContent.trim();
+    }
+    
+    modal.style.display = 'flex';
+}
+
+function closeEditModal(section) {
+    const modal = document.getElementById(`edit${section.charAt(0).toUpperCase() + section.slice(1)}Modal`);
+    if (modal) modal.style.display = 'none';
+}
+
+function saveBasicInfo() {
+    document.getElementById('basicFullName').textContent = document.getElementById('modalBasicFullName').value;
+    document.getElementById('basicClass').textContent = document.getElementById('modalBasicClass').value;
+    document.getElementById('basicAge').textContent = document.getElementById('modalBasicAge').value;
+    const status = document.getElementById('modalBasicStatus').value;
+    const statusClass = status === 'active' ? 'paid' : status === 'inactive' ? 'draft' : 'pending';
+    document.getElementById('basicStatus').innerHTML = `<span class="status-badge ${statusClass}">${status.charAt(0).toUpperCase() + status.slice(1)}</span>`;
+    document.getElementById('basicGuardian').textContent = document.getElementById('modalBasicGuardian').value;
+    document.getElementById('basicGuardianEmail').textContent = document.getElementById('modalBasicGuardianEmail').value;
+    document.getElementById('basicPhone').textContent = document.getElementById('modalBasicPhone').value;
+    document.getElementById('basicJoinDate').textContent = document.getElementById('modalBasicJoinDate').value;
+    
+    closeEditModal('basic');
+    showToast('Basic information updated successfully!', 'success');
+}
+
+function savePersonalInfo() {
+    document.getElementById('personalNRC').textContent = document.getElementById('modalPersonalNRC').value;
+    document.getElementById('personalDOB').textContent = document.getElementById('modalPersonalDOB').value;
+    document.getElementById('personalGender').textContent = document.getElementById('modalPersonalGender').value;
+    document.getElementById('personalAddress').textContent = document.getElementById('modalPersonalAddress').value;
+    document.getElementById('personalEmergency').textContent = document.getElementById('modalPersonalEmergency').value;
+    document.getElementById('personalBloodType').textContent = document.getElementById('modalPersonalBloodType').value;
+    document.getElementById('personalMedical').textContent = document.getElementById('modalPersonalMedical').value;
+    document.getElementById('personalAllergies').textContent = document.getElementById('modalPersonalAllergies').value;
+    
+    closeEditModal('personal');
+    showToast('Personal information updated successfully!', 'success');
+}
+
+function saveAcademicInfo() {
+    document.getElementById('academicGrade').textContent = document.getElementById('modalAcademicGrade').value;
+    document.getElementById('academicClass').textContent = document.getElementById('modalAcademicClass').value;
+    document.getElementById('academicAdmission').textContent = document.getElementById('modalAcademicAdmission').value;
+    // Update basic class display too
+    const grade = document.getElementById('modalAcademicGrade').value;
+    const classLetter = document.getElementById('modalAcademicClass').value;
+    document.getElementById('basicClass').textContent = `${grade}-${classLetter}`;
+    
+    closeEditModal('academic');
+    showToast('Academic information updated successfully!', 'success');
+}
+
+function saveGuardianInfo() {
+    document.getElementById('guardianName').textContent = document.getElementById('modalGuardianName').value;
+    document.getElementById('guardianRelationship').textContent = document.getElementById('modalGuardianRelationship').value;
+    document.getElementById('guardianEmail').textContent = document.getElementById('modalGuardianEmail').value;
+    document.getElementById('guardianPhone').textContent = document.getElementById('modalGuardianPhone').value;
+    // Update basic guardian display too
+    document.getElementById('basicGuardian').textContent = document.getElementById('modalGuardianName').value;
+    document.getElementById('basicGuardianEmail').textContent = document.getElementById('modalGuardianEmail').value;
+    
+    closeEditModal('guardian');
+    showToast('Guardian information updated successfully!', 'success');
+}
 
 // Load exam results and attendance data
 document.addEventListener('DOMContentLoaded', function() {

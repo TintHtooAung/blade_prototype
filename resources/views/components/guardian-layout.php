@@ -10,7 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/ios-floating-layout.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         .guardian-topbar { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; background:#174B8F; color:#fff; }
@@ -503,7 +502,6 @@
         }
     });
     </script>
-    <script src="/js/ios-floating-layout.js"></script>
 </body>
 </html>
 

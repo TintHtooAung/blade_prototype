@@ -7,6 +7,7 @@ $activePage = 'academic';
 
 // Include UI components
 include __DIR__ . '/../../components/ui/card.php';
+include __DIR__ . '/../../components/academic-dialogs.php';
 
 ob_start();
 ?>
@@ -65,41 +66,6 @@ ob_start();
     ]); ?>
 </div>
 
-<!-- Edit Batch Form -->
-<div id="editBatchForm" class="simple-section" style="display:none; margin-top:12px;">
-    <div class="simple-header">
-        <h4><i class="fas fa-edit"></i> Edit Batch</h4>
-    </div>
-    <div class="form-section">
-        <div class="form-row">
-            <div class="form-group" style="flex:2;">
-                <label for="editBatchName">Batch Name</label>
-                <input type="text" id="editBatchName" class="form-input" value="<?php echo htmlspecialchars($batchName); ?>">
-            </div>
-            <div class="form-group">
-                <label for="editBatchStart">Start Date</label>
-                <input type="date" id="editBatchStart" class="form-input" value="2024-04-01">
-            </div>
-            <div class="form-group">
-                <label for="editBatchEnd">End Date</label>
-                <input type="date" id="editBatchEnd" class="form-input" value="2025-03-31">
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label for="editBatchStatus">Status</label>
-                <select id="editBatchStatus" class="form-select">
-                    <option value="Active" selected>Active</option>
-                    <option value="Completed">Completed</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-actions">
-            <button id="cancelEditBatch" class="simple-btn secondary">Cancel</button>
-            <button id="saveEditBatch" class="simple-btn primary"><i class="fas fa-check"></i> Update Batch</button>
-        </div>
-    </div>
-</div>
 
 <!-- Academic Year Section -->
 <div class="detail-section">
@@ -107,23 +73,19 @@ ob_start();
         <h3 class="section-title">Academic Year</h3>
     </div>
     
-    <div class="simple-table-container">
-        <table class="basic-table">
-            <tbody>
-                <tr>
-                    <td style="width: 200px; font-weight: 600; color: #86868b;">Start Date</td>
-                    <td>2024-04-01</td>
-                </tr>
-                <tr>
-                    <td style="font-weight: 600; color: #86868b;">End Date</td>
-                    <td>2025-03-31</td>
-                </tr>
-                <tr>
-                    <td style="font-weight: 600; color: #86868b;">Duration</td>
-                    <td>12 months</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="academic-year-info">
+        <div class="year-detail">
+            <label>Start Date</label>
+            <span>2024-04-01</span>
+        </div>
+        <div class="year-detail">
+            <label>End Date</label>
+            <span>2025-03-31</span>
+        </div>
+        <div class="year-detail">
+            <label>Duration</label>
+            <span>12 months</span>
+        </div>
     </div>
 </div>
 
@@ -133,66 +95,78 @@ ob_start();
         <h3 class="section-title">Statistics</h3>
     </div>
     
-    <div class="simple-table-container">
-        <table class="basic-table">
-            <tbody>
-                <tr>
-                    <td style="width: 200px; font-weight: 600; color: #86868b;">Total Grades</td>
-                    <td>4</td>
-                </tr>
-                <tr>
-                    <td style="font-weight: 600; color: #86868b;">Total Classes</td>
-                    <td>13</td>
-                </tr>
-                <tr>
-                    <td style="font-weight: 600; color: #86868b;">Total Subjects</td>
-                    <td>43</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="stats-info">
+        <div class="stat-detail">
+            <label>Total Grades</label>
+            <span>4</span>
+        </div>
+        <div class="stat-detail">
+            <label>Total Classes</label>
+            <span>13</span>
+        </div>
+        <div class="stat-detail">
+            <label>Total Subjects</label>
+            <span>43</span>
+        </div>
     </div>
 </div>
 
 <!-- Grades in Batch Section -->
-<div class="detail-section">
-    <div class="section-header">
-        <h3 class="section-title">Grades in <?php echo htmlspecialchars($batchName); ?></h3>
+<div class="simple-section">
+    <div class="simple-header" style="margin-top:24px;">
+        <h4><i class="fas fa-graduation-cap"></i> Grades in <?php echo htmlspecialchars($batchName); ?></h4>
     </div>
     
     <div class="simple-table-container">
-        <table class="basic-table">
+        <table class="basic-table responsive-table">
             <thead>
                 <tr>
                     <th>Grade Name</th>
-                    <th>Category</th>
-                    <th>Classes</th>
-                    <th>Students</th>
+                    <th>Total Classes</th>
+                    <th>Total Students</th>
+                    <th>Status</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="gradesList">
                 <tr>
-                    <td><a href="/admin/academic/grade-detail/1" class="grade-link" style="font-weight: 600; color: #007AFF;">Grade 1</a></td>
-                    <td><span class="category-badge primary">Primary</span></td>
-                    <td>4 classes</td>
-                    <td>120 students</td>
+                    <td data-label="Grade Name">
+                        <a href="/admin/academic/grade-detail/1" style="text-decoration: none; color: #1976d2;">
+                            <strong>Grade 1</strong>
+                        </a>
+                    </td>
+                    <td data-label="Total Classes">4</td>
+                    <td data-label="Total Students">120</td>
+                    <td data-label="Status"><span class="status-badge active">Active</span></td>
                 </tr>
                 <tr>
-                    <td><a href="/admin/academic/grade-detail/2" class="grade-link" style="font-weight: 600; color: #007AFF;">Grade 2</a></td>
-                    <td><span class="category-badge primary">Primary</span></td>
-                    <td>4 classes</td>
-                    <td>115 students</td>
+                    <td data-label="Grade Name">
+                        <a href="/admin/academic/grade-detail/2" style="text-decoration: none; color: #1976d2;">
+                            <strong>Grade 2</strong>
+                        </a>
+                    </td>
+                    <td data-label="Total Classes">4</td>
+                    <td data-label="Total Students">115</td>
+                    <td data-label="Status"><span class="status-badge active">Active</span></td>
                 </tr>
                 <tr>
-                    <td><a href="/admin/academic/grade-detail/6" class="grade-link" style="font-weight: 600; color: #007AFF;">Grade 6</a></td>
-                    <td><span class="category-badge secondary">Middle</span></td>
-                    <td>3 classes</td>
-                    <td>90 students</td>
+                    <td data-label="Grade Name">
+                        <a href="/admin/academic/grade-detail/6" style="text-decoration: none; color: #1976d2;">
+                            <strong>Grade 6</strong>
+                        </a>
+                    </td>
+                    <td data-label="Total Classes">3</td>
+                    <td data-label="Total Students">90</td>
+                    <td data-label="Status"><span class="status-badge active">Active</span></td>
                 </tr>
                 <tr>
-                    <td><a href="/admin/academic/grade-detail/10" class="grade-link" style="font-weight: 600; color: #007AFF;">Grade 10</a></td>
-                    <td><span class="category-badge upcoming">High</span></td>
-                    <td>2 classes</td>
-                    <td>125 students</td>
+                    <td data-label="Grade Name">
+                        <a href="/admin/academic/grade-detail/10" style="text-decoration: none; color: #1976d2;">
+                            <strong>Grade 10</strong>
+                        </a>
+                    </td>
+                    <td data-label="Total Classes">2</td>
+                    <td data-label="Total Students">65</td>
+                    <td data-label="Status"><span class="status-badge active">Active</span></td>
                 </tr>
             </tbody>
         </table>
@@ -207,33 +181,32 @@ include __DIR__ . '/../../components/admin-layout.php';
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){
+    // Close Batch Dialog function
+    window.closeBatchDialog = function() {
+        document.getElementById('batchDialog').style.display = 'none';
+    };
+    
     // Edit Batch functionality
     const editBatchBtn = document.getElementById('editBatchBtn');
-    const editBatchForm = document.getElementById('editBatchForm');
-    const cancelEditBatchBtn = document.getElementById('cancelEditBatch');
-    const saveEditBatchBtn = document.getElementById('saveEditBatch');
     
     editBatchBtn.addEventListener('click', function() {
-        editBatchForm.style.display = 'block';
+        // Open dialog with current data
+        const batchName = '<?php echo htmlspecialchars($batchName); ?>';
+        document.getElementById('batchDialogTitle').textContent = 'Edit Batch';
+        document.getElementById('batchName').value = batchName;
+        document.getElementById('batchStart').value = '2024-04-01'; // Get from actual data
+        document.getElementById('batchEnd').value = '2025-03-31'; // Get from actual data
+        document.getElementById('batchStatus').value = 'Active'; // Get from actual data
+        document.getElementById('batchDialog').style.display = 'flex';
     });
     
-    // Check if edit parameter is present in URL and clean it up immediately
-    if (window.location.search.includes('edit=true')) {
-        editBatchForm.style.display = 'block';
-        // Remove edit parameter from URL immediately
-        const cleanUrl = window.location.pathname + window.location.search.replace(/[?&]edit=true/, '').replace(/[?&]$/, '');
-        window.history.replaceState({}, document.title, cleanUrl);
-    }
-    
-    cancelEditBatchBtn.addEventListener('click', function() {
-        editBatchForm.style.display = 'none';
-    });
-    
-    saveEditBatchBtn.addEventListener('click', function() {
-        const newName = document.getElementById('editBatchName').value.trim();
-        const newStart = document.getElementById('editBatchStart').value.trim();
-        const newEnd = document.getElementById('editBatchEnd').value.trim();
-        const newStatus = document.getElementById('editBatchStatus').value.trim();
+    // Override saveBatch function for detail page
+    const originalSaveBatch = window.saveBatch;
+    window.saveBatch = function() {
+        const newName = document.getElementById('batchName').value.trim();
+        const newStart = document.getElementById('batchStart').value.trim();
+        const newEnd = document.getElementById('batchEnd').value.trim();
+        const newStatus = document.getElementById('batchStatus').value.trim();
         
         if (!newName || !newStart || !newEnd || !newStatus) {
             alert('Please fill in all fields');
@@ -243,11 +216,11 @@ document.addEventListener('DOMContentLoaded', function(){
         // Update page title
         document.querySelector('.batch-info h1').textContent = newName;
         
-        // Hide form
-        editBatchForm.style.display = 'none';
+        // Close dialog
+        document.getElementById('batchDialog').style.display = 'none';
         
         showActionStatus('Batch updated successfully!', 'success');
-    });
+    };
     
     // Delete Batch functionality
     const deleteBatchBtn = document.getElementById('deleteBatchBtn');

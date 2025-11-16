@@ -39,24 +39,14 @@ ob_start();
             <div class="stat-change positive">Online access</div>
         </div>
     </div>
-    <div class="stat-card">
-        <div class="stat-icon">
-            <i class="fas fa-sync-alt"></i>
-        </div>
-        <div class="stat-content">
-            <h3>Last Refresh</h3>
-            <div class="stat-number" style="font-size:16px;" id="lastRefresh">Never</div>
-            <div class="stat-change">From profiles</div>
-        </div>
-    </div>
 </div>
 
 <!-- User Management Section -->
 <div class="simple-section">
     <div class="simple-header">
         <h3>Portal User Accounts</h3>
-        <button class="simple-btn primary" onclick="refreshUsersFromProfiles()">
-            <i class="fas fa-sync-alt"></i> Refresh from Profiles
+        <button class="simple-btn primary" onclick="openAddUserModal()">
+            <i class="fas fa-user-plus"></i> Add New User
         </button>
     </div>
     
@@ -66,11 +56,12 @@ ob_start();
             <label style="font-weight: 600; color: #666;">Filters:</label>
             <select class="filter-select" id="roleFilter" onchange="applyFilters()">
                 <option value="all">All Roles</option>
-                <option value="Guardian Portal">Guardian Portal</option>
+                <option value="Admin Portal">Admin Portal</option>
                 <option value="Teacher Portal">Teacher Portal</option>
+                <option value="Staff Access">Staff Access</option>
+                <option value="Guardian Portal">Guardian Portal</option>
                 <option value="Reception Access">Reception Access</option>
                 <option value="IT Access">IT Access</option>
-                <option value="Staff Access">Staff Access</option>
             </select>
             <select class="filter-select" id="statusFilter" onchange="applyFilters()">
                 <option value="all">All Status</option>
@@ -100,13 +91,124 @@ ob_start();
                 <tr class="no-data-row">
                     <td colspan="8" style="text-align:center; padding:40px; color:#999;">
                         <i class="fas fa-inbox" style="font-size:48px; margin-bottom:12px; display:block;"></i>
-                        No user accounts found. Click "Refresh from Profiles" to load created accounts.
+                        No user accounts found.
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 </div>
+
+<!-- Add New User Modal - Role Selection -->
+<div id="addUserModal" class="receipt-dialog-overlay" style="display:none;" onclick="if(event.target === this) closeAddUserModal();">
+    <div class="receipt-dialog-content" style="max-width: 800px; max-height: 90vh; overflow-y: auto;" onclick="event.stopPropagation();">
+        <div class="receipt-dialog-header">
+            <h3><i class="fas fa-user-plus"></i> Add New User - Select Role</h3>
+            <button class="receipt-close" onclick="closeAddUserModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="receipt-dialog-body" style="padding: 32px;">
+            <div style="text-align: center; margin-bottom: 32px;">
+                <p style="color: #6b7280; font-size: 16px; margin: 0;">Choose the type of account you want to create</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                <!-- Student Role -->
+                <div class="role-selection-card" onclick="selectRole('student')" style="cursor: pointer; border: 2px solid #e5e7eb; border-radius: 12px; padding: 24px; text-align: center; transition: all 0.3s ease; background: #fff;">
+                    <div style="width: 80px; height: 80px; margin: 0 auto 16px; background: linear-gradient(135deg, #4A90E2 0%, #357abd 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);">
+                        <i class="fas fa-user-graduate" style="font-size: 36px; color: #fff;"></i>
+                    </div>
+                    <h4 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 600; color: #111827;">Student</h4>
+                    <p style="margin: 0; color: #6b7280; font-size: 14px;">Create student profile with full registration</p>
+                </div>
+                
+                <!-- Teacher Role -->
+                <div class="role-selection-card" onclick="selectRole('teacher')" style="cursor: pointer; border: 2px solid #e5e7eb; border-radius: 12px; padding: 24px; text-align: center; transition: all 0.3s ease; background: #fff;">
+                    <div style="width: 80px; height: 80px; margin: 0 auto 16px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
+                        <i class="fas fa-chalkboard-teacher" style="font-size: 36px; color: #fff;"></i>
+                    </div>
+                    <h4 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 600; color: #111827;">Teacher</h4>
+                    <p style="margin: 0; color: #6b7280; font-size: 14px;">Create teacher profile with full registration</p>
+                </div>
+                
+                <!-- Staff Role -->
+                <div class="role-selection-card" onclick="selectRole('staff')" style="cursor: pointer; border: 2px solid #e5e7eb; border-radius: 12px; padding: 24px; text-align: center; transition: all 0.3s ease; background: #fff;">
+                    <div style="width: 80px; height: 80px; margin: 0 auto 16px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);">
+                        <i class="fas fa-user-tie" style="font-size: 36px; color: #fff;"></i>
+                    </div>
+                    <h4 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 600; color: #111827;">Staff</h4>
+                    <p style="margin: 0; color: #6b7280; font-size: 14px;">Create staff profile with full registration</p>
+                </div>
+                
+                <!-- Admin Role -->
+                <div class="role-selection-card" onclick="selectRole('admin')" style="cursor: pointer; border: 2px solid #e5e7eb; border-radius: 12px; padding: 24px; text-align: center; transition: all 0.3s ease; background: #fff;">
+                    <div style="width: 80px; height: 80px; margin: 0 auto 16px; background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);">
+                        <i class="fas fa-user-shield" style="font-size: 36px; color: #fff;"></i>
+                    </div>
+                    <h4 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 600; color: #111827;">Admin</h4>
+                    <p style="margin: 0; color: #6b7280; font-size: 14px;">Create admin account (no registration required)</p>
+                </div>
+            </div>
+        </div>
+        <div class="receipt-dialog-actions">
+            <button class="simple-btn secondary" onclick="closeAddUserModal()">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Admin Account Creation Modal (Simple) -->
+<div id="adminAccountModal" class="receipt-dialog-overlay" style="display:none;" onclick="if(event.target === this) closeAdminAccountModal();">
+    <div class="receipt-dialog-content" style="max-width: 600px;" onclick="event.stopPropagation();">
+        <div class="receipt-dialog-header">
+            <h3><i class="fas fa-user-shield"></i> Create Admin Account</h3>
+            <button class="receipt-close" onclick="closeAdminAccountModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="receipt-dialog-body">
+            <div class="form-section" style="padding:0;">
+                <div class="form-row">
+                    <div class="form-group" style="flex:1;">
+                        <label>Full Name <span style="color:red;">*</span></label>
+                        <input type="text" class="form-input" id="adminFullName" placeholder="Enter full name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:1;">
+                        <label>Email Address <span style="color:red;">*</span></label>
+                        <input type="email" class="form-input" id="adminEmail" placeholder="admin@school.edu" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:1;">
+                        <label>Password <span style="color:red;">*</span></label>
+                        <input type="password" class="form-input" id="adminPassword" placeholder="Enter password" required>
+                        <small style="color: #86868b; font-size: 0.75rem;">Minimum 6 characters</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="receipt-dialog-actions">
+            <button class="simple-btn secondary" onclick="closeAdminAccountModal()">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+            <button class="simple-btn primary" onclick="saveAdminAccount()">
+                <i class="fas fa-check"></i> Create Admin Account
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+.role-selection-card:hover {
+    border-color: #4A90E2 !important;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+</style>
 
 <!-- Edit User Modal -->
 <div id="editUserModal" class="confirm-dialog-overlay" style="display:none;">
@@ -174,52 +276,314 @@ document.addEventListener('DOMContentLoaded', function() {
     
     renderUserTable();
     updateStats();
-    
-    const lastRefresh = localStorage.getItem('lastUserRefresh');
-    if (lastRefresh) {
-        document.getElementById('lastRefresh').textContent = new Date(lastRefresh).toLocaleString();
-    } else {
-        document.getElementById('lastRefresh').textContent = new Date().toLocaleString();
-    }
 });
 
-function refreshUsersFromProfiles() {
-    const portalSetups = JSON.parse(localStorage.getItem('portalSetups') || '{}');
-    const createdAccounts = [];
+function generateUserId(role, fullName) {
+    // Generate user ID based on role prefix and name initials
+    const rolePrefixes = {
+        'Admin Portal': 'ADM',
+        'Teacher Portal': 'TCH',
+        'Staff Access': 'STF',
+        'Guardian Portal': 'GRD',
+        'Reception Access': 'REC',
+        'IT Access': 'IT'
+    };
     
-    // Filter only accounts that have been created
-    Object.values(portalSetups).forEach(setup => {
-        if (setup.accountCreated) {
-            createdAccounts.push({
-                userId: setup.userId,
-                email: setup.email,
-                fullName: setup.fullName,
-                role: setup.role,
-                profileId: setup.profileId,
-                profileType: setup.profileType,
-                status: setup.status || 'active',
-                password: '********', // Hidden for security
-                updatedAt: setup.updatedAt
-            });
+    const prefix = rolePrefixes[role] || 'USR';
+    const nameParts = fullName.trim().split(' ');
+    const initials = nameParts.length > 1 
+        ? (nameParts[0][0] + nameParts[nameParts.length - 1][0]).toUpperCase()
+        : nameParts[0].substring(0, 2).toUpperCase();
+    
+    // Generate a 4-digit number
+    const number = Math.floor(1000 + Math.random() * 9000);
+    
+    return `${prefix}-${initials}-${number}`;
+}
+
+let currentStep = 1;
+
+function openAddUserModal() {
+    document.getElementById('addUserModal').style.display = 'flex';
+}
+
+function closeAddUserModal() {
+    document.getElementById('addUserModal').style.display = 'none';
+}
+
+function selectRole(role) {
+    closeAddUserModal();
+    
+    if (role === 'student') {
+        // Open student wizard modal
+        if (typeof window.openAddStudentModal === 'function') {
+            window.openAddStudentModal();
+        } else {
+            alert('Student registration form is not available. Please use the Student Profiles page.');
         }
-    });
+    } else if (role === 'teacher') {
+        // Open teacher wizard modal
+        if (typeof window.openAddTeacherModal === 'function') {
+            window.openAddTeacherModal();
+        } else {
+            alert('Teacher registration form is not available. Please use the Teacher Profiles page.');
+        }
+    } else if (role === 'staff') {
+        // Open staff wizard modal
+        if (typeof window.openAddStaffModal === 'function') {
+            window.openAddStaffModal();
+        } else {
+            alert('Staff registration form is not available. Please use the Employee Profiles page.');
+        }
+    } else if (role === 'admin') {
+        // Open simple admin account creation
+        openAdminAccountModal();
+    }
+}
+
+function openAdminAccountModal() {
+    document.getElementById('adminAccountModal').style.display = 'flex';
+    // Clear form
+    document.getElementById('adminFullName').value = '';
+    document.getElementById('adminEmail').value = '';
+    document.getElementById('adminPassword').value = '';
+}
+
+function closeAdminAccountModal() {
+    document.getElementById('adminAccountModal').style.display = 'none';
+}
+
+function saveAdminAccount() {
+    const fullName = (document.getElementById('adminFullName').value || '').trim();
+    const email = (document.getElementById('adminEmail').value || '').trim();
+    const password = document.getElementById('adminPassword').value;
     
-    userAccounts = createdAccounts;
+    if (!fullName) {
+        alert('Please enter full name');
+        return;
+    }
+    
+    if (!email || !email.includes('@')) {
+        alert('Please enter a valid email address');
+        return;
+    }
+    
+    if (!password || password.length < 6) {
+        alert('Password must be at least 6 characters');
+        return;
+    }
+    
+    // Generate user ID
+    const userId = generateUserId('Admin Portal', fullName);
+    
+    const userAccount = {
+        userId: userId,
+        fullName: fullName,
+        email: email,
+        password: password,
+        role: 'Admin Portal',
+        status: 'active',
+        createdAt: new Date().toISOString(),
+        lastUpdated: new Date().toISOString()
+    };
     
     // Save to localStorage
-    localStorage.setItem('userAccounts', JSON.stringify(userAccounts));
-    localStorage.setItem('lastUserRefresh', new Date().toISOString());
+    let userAccounts = [];
+    try {
+        userAccounts = JSON.parse(localStorage.getItem('userAccounts') || '[]');
+    } catch (e) {
+        userAccounts = [];
+    }
     
-    // Update UI
-    document.getElementById('lastRefresh').textContent = new Date().toLocaleString();
+    userAccounts.push(userAccount);
+    localStorage.setItem('userAccounts', JSON.stringify(userAccounts));
+    
+    // Refresh table
     renderUserTable();
     updateStats();
     
-    if (createdAccounts.length === 0) {
-        showToast('No portal accounts found. Please complete portal setup in profile pages first.', 'info');
-    } else {
-        showToast(`${createdAccounts.length} user account${createdAccounts.length > 1 ? 's' : ''} refreshed successfully from profiles`, 'success');
+    // Close modal
+    closeAdminAccountModal();
+    
+    alert(`Admin account created successfully!\n\nUser ID: ${userId}\nEmail: ${email}`);
+}
+
+function goToStep1() {
+    currentStep = 1;
+    document.getElementById('step1Form').style.display = 'block';
+    document.getElementById('step2Form').style.display = 'none';
+    document.getElementById('modalStepTitle').textContent = 'Step 1: Account Info';
+    document.getElementById('nextBtn').style.display = 'inline-flex';
+    document.getElementById('createBtn').style.display = 'none';
+    document.getElementById('backBtn').style.display = 'none';
+}
+
+function handleNextStep() {
+    // Validate step 1
+    const fullName = document.getElementById('addFullName').value.trim();
+    const email = document.getElementById('addEmail').value.trim();
+    const password = document.getElementById('addPassword').value;
+    const role = document.getElementById('addRole').value;
+    
+    if (!fullName) {
+        showToast('Full name is required', 'error');
+        return;
     }
+    
+    if (!email) {
+        showToast('Email is required', 'error');
+        return;
+    }
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        showToast('Please enter a valid email address', 'error');
+        return;
+    }
+    
+    // Check if email already exists
+    if (userAccounts.some(u => u.email.toLowerCase() === email.toLowerCase())) {
+        showToast('Email already exists. Please use a different email.', 'error');
+        return;
+    }
+    
+    if (!password) {
+        showToast('Password is required', 'error');
+        return;
+    }
+    
+    if (password.length < 6) {
+        showToast('Password must be at least 6 characters long', 'error');
+        return;
+    }
+    
+    if (!role) {
+        showToast('User role is required', 'error');
+        return;
+    }
+    
+    // Go to step 2
+    currentStep = 2;
+    document.getElementById('step1Form').style.display = 'none';
+    document.getElementById('step2Form').style.display = 'block';
+    document.getElementById('modalStepTitle').textContent = 'Step 2: Registration Info';
+    document.getElementById('nextBtn').style.display = 'none';
+    document.getElementById('createBtn').style.display = 'inline-flex';
+    document.getElementById('backBtn').style.display = 'inline-flex';
+    
+    // Show role-specific fields
+    document.getElementById('adminFields').style.display = role === 'Admin Portal' ? 'block' : 'none';
+    document.getElementById('teacherFields').style.display = role === 'Teacher Portal' ? 'block' : 'none';
+    document.getElementById('staffFields').style.display = role === 'Staff Access' ? 'block' : 'none';
+    document.getElementById('guardianFields').style.display = role === 'Guardian Portal' ? 'block' : 'none';
+}
+
+function saveNewUser() {
+    // Get form values from step 1
+    const fullName = document.getElementById('addFullName').value.trim();
+    const email = document.getElementById('addEmail').value.trim();
+    const password = document.getElementById('addPassword').value;
+    const role = document.getElementById('addRole').value;
+    
+    // Get registration info based on role
+    const registrationInfo = {};
+    
+    if (role === 'Admin Portal') {
+        registrationInfo.department = document.getElementById('adminDepartment')?.value.trim() || '';
+        registrationInfo.phone = document.getElementById('adminPhone')?.value.trim() || '';
+        registrationInfo.address = document.getElementById('adminAddress')?.value.trim() || '';
+    } else if (role === 'Teacher Portal') {
+        registrationInfo.department = document.getElementById('teacherDepartment')?.value.trim() || '';
+        registrationInfo.subjects = document.getElementById('teacherSubjects')?.value.trim() || '';
+        registrationInfo.dateOfBirth = document.getElementById('teacherDOB')?.value || '';
+        registrationInfo.gender = document.getElementById('teacherGender')?.value || '';
+        registrationInfo.phone = document.getElementById('teacherPhone')?.value.trim() || '';
+        registrationInfo.nrc = document.getElementById('teacherNRC')?.value.trim() || '';
+        registrationInfo.address = document.getElementById('teacherAddress')?.value.trim() || '';
+        registrationInfo.emergencyContact = document.getElementById('teacherEmergency')?.value.trim() || '';
+    } else if (role === 'Staff Access') {
+        registrationInfo.department = document.getElementById('staffDepartment')?.value.trim() || '';
+        registrationInfo.position = document.getElementById('staffPosition')?.value.trim() || '';
+        registrationInfo.dateOfBirth = document.getElementById('staffDOB')?.value || '';
+        registrationInfo.gender = document.getElementById('staffGender')?.value || '';
+        registrationInfo.phone = document.getElementById('staffPhone')?.value.trim() || '';
+        registrationInfo.nrc = document.getElementById('staffNRC')?.value.trim() || '';
+        registrationInfo.address = document.getElementById('staffAddress')?.value.trim() || '';
+        registrationInfo.emergencyContact = document.getElementById('staffEmergency')?.value.trim() || '';
+    } else if (role === 'Guardian Portal') {
+        registrationInfo.relationship = document.getElementById('guardianRelationship')?.value || '';
+        registrationInfo.phone = document.getElementById('guardianPhone')?.value.trim() || '';
+        registrationInfo.address = document.getElementById('guardianAddress')?.value.trim() || '';
+    }
+    
+    // Generate User ID (ensure uniqueness)
+    let userId = generateUserId(role, fullName);
+    let attempts = 0;
+    while (userAccounts.some(u => u.userId === userId) && attempts < 5) {
+        userId = generateUserId(role, fullName);
+        attempts++;
+    }
+    
+    if (userAccounts.some(u => u.userId === userId)) {
+        showToast('Error generating unique User ID. Please try again.', 'error');
+        return;
+    }
+    
+    // Determine profile type based on role
+    const profileTypeMap = {
+        'Admin Portal': 'Admin',
+        'Teacher Portal': 'Teacher',
+        'Staff Access': 'Staff',
+        'Guardian Portal': 'Guardian'
+    };
+    const profileType = profileTypeMap[role] || 'User';
+    
+    // Create new user object with registration info
+    const newUser = {
+        userId: userId,
+        email: email,
+        fullName: fullName,
+        role: role,
+        profileId: userId, // Use userId as profileId for new accounts
+        profileType: profileType,
+        status: 'active', // Default to active
+        password: '********', // Store as hidden for security
+        updatedAt: new Date().toLocaleString(),
+        createdAt: new Date().toLocaleString(),
+        accountCreated: true,
+        registrationInfo: registrationInfo // Store role-specific registration data
+    };
+    
+    // Add to userAccounts array
+    userAccounts.push(newUser);
+    
+    // Save to localStorage
+    localStorage.setItem('userAccounts', JSON.stringify(userAccounts));
+    
+    // Also save to portalSetups for consistency
+    const portalSetups = JSON.parse(localStorage.getItem('portalSetups') || '{}');
+    portalSetups[userId] = {
+        userId: userId,
+        email: email,
+        fullName: fullName,
+        role: role,
+        profileId: userId,
+        profileType: profileType,
+        status: 'active',
+        accountCreated: true,
+        updatedAt: new Date().toLocaleString(),
+        registrationInfo: registrationInfo
+    };
+    localStorage.setItem('portalSetups', JSON.stringify(portalSetups));
+    
+    // Close modal
+    closeAddUserModal();
+    
+    // Refresh table and stats
+    renderUserTable();
+    updateStats();
+    
+    showToast(`User ${fullName} (${userId}) created successfully`, 'success');
 }
 
 function renderUserTable() {
@@ -229,7 +593,7 @@ function renderUserTable() {
         tbody.innerHTML = `<tr class="no-data-row">
             <td colspan="8" style="text-align:center; padding:40px; color:#999;">
                 <i class="fas fa-inbox" style="font-size:48px; margin-bottom:12px; display:block;"></i>
-                No user accounts found. Click "Refresh from Profiles" to load created accounts.
+                No user accounts found.
             </td>
         </tr>`;
         return;
@@ -237,15 +601,25 @@ function renderUserTable() {
     
     const filteredUsers = applyDataFilters();
     
+    if (filteredUsers.length === 0) {
+        tbody.innerHTML = `<tr class="no-data-row">
+            <td colspan="8" style="text-align:center; padding:40px; color:#999;">
+                <i class="fas fa-search" style="font-size:48px; margin-bottom:12px; display:block;"></i>
+                No users match the current filters.
+            </td>
+        </tr>`;
+        return;
+    }
+    
     tbody.innerHTML = filteredUsers.map(user => `
         <tr>
             <td><strong>${user.userId}</strong></td>
             <td>${user.email}</td>
             <td>${user.fullName}</td>
             <td><span class="badge tutorial-badge">${user.role}</span></td>
-            <td>${user.profileId} (${user.profileType})</td>
+            <td>${user.profileId || 'N/A'} ${user.profileType ? `(${user.profileType})` : ''}</td>
             <td><span class="status-badge ${user.status === 'active' ? 'paid' : 'draft'}">${user.status === 'active' ? 'Active' : 'Inactive'}</span></td>
-            <td>${user.updatedAt}</td>
+            <td>${user.updatedAt || user.createdAt || 'N/A'}</td>
             <td>
                 <button class="simple-btn-icon" onclick="editUser('${user.userId}')" title="Edit User">
                     <i class="fas fa-edit"></i>

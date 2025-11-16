@@ -15,99 +15,105 @@ ob_start();
     <div class="page-title-compact">
         <h2><?php echo $pageHeading; ?></h2>
     </div>
+    <div style="display: flex; gap: 12px; margin-left: auto;">
+        <button class="simple-btn" onclick="openCreateEventModal()">
+            <i class="fas fa-plus"></i> Add Event
+        </button>
+    </div>
 </div>
 
-<!-- Create Event Section -->
-<div class="simple-section">
-    <div class="simple-header">
-        <h3>Create New Event</h3>
-        <button class="simple-btn" id="toggleEventForm"><i class="fas fa-plus"></i> Add Event</button>
-</div>
-
-    <!-- Inline Event Form -->
-    <div id="eventForm" class="simple-section" style="display:none; margin-top:12px;">
-        <div class="simple-header">
-            <h4><i class="fas fa-calendar-plus"></i> Create Event</h4>
+<!-- Create Event Modal -->
+<div id="createEventModal" class="confirm-dialog-overlay" style="display:none;">
+    <div class="confirm-dialog-content" style="max-width: 800px; max-height: 90vh; overflow-y: auto;">
+        <div class="confirm-dialog-header">
+            <h4><i class="fas fa-calendar-plus"></i> Create New Event</h4>
+            <button class="icon-btn" onclick="closeCreateEventModal()"><i class="fas fa-times"></i></button>
         </div>
-        <div class="form-section">
-            <div class="form-row">
-                <div class="form-group" style="flex:2;">
-                    <label>Event Title</label>
-                    <input type="text" class="form-input" id="eventTitle" placeholder="e.g., Annual Science Fair">
+        <div class="confirm-dialog-body" style="padding: 20px;">
+            <div class="form-section" style="padding:0;">
+                <div class="form-row">
+                    <div class="form-group" style="flex:2;">
+                        <label>Event Title *</label>
+                        <input type="text" class="form-input" id="eventTitle" placeholder="e.g., Annual Science Fair">
+                    </div>
+                    <div class="form-group">
+                        <label>Category *</label>
+                        <select class="form-select" id="eventCategory">
+                            <option value="academic">Academic</option>
+                            <option value="sports">Sports</option>
+                            <option value="cultural">Cultural</option>
+                            <option value="meeting">Meeting</option>
+                            <option value="holiday">Holiday</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Category</label>
-                    <select class="form-select" id="eventCategory">
-                        <option value="academic">Academic</option>
-                        <option value="sports">Sports</option>
-                        <option value="cultural">Cultural</option>
-                        <option value="meeting">Meeting</option>
-                        <option value="holiday">Holiday</option>
-                    </select>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Event Date *</label>
+                        <input type="date" class="form-input" id="eventDate">
+                    </div>
+                    <div class="form-group">
+                        <label>Start Time *</label>
+                        <input type="time" class="form-input" id="eventStart">
+                    </div>
+                    <div class="form-group">
+                        <label>End Time</label>
+                        <input type="time" class="form-input" id="eventEnd">
+                    </div>
                 </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Event Date</label>
-                    <input type="date" class="form-input" id="eventDate">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Location *</label>
+                        <input type="text" class="form-input" id="eventLocation" placeholder="e.g., Main Hall">
+                    </div>
+                    <div class="form-group">
+                        <label>Participants</label>
+                        <select class="form-select" id="eventAudience">
+                            <option value="all">All School</option>
+                            <option value="students">Students</option>
+                            <option value="teachers">Teachers</option>
+                            <option value="staff">Staff</option>
+                            <option value="parents">Parents</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Start Time</label>
-                    <input type="time" class="form-input" id="eventStart">
+                <div class="form-row">
+                    <div class="form-group" style="flex:1;">
+                        <label>Description</label>
+                        <textarea class="form-input" id="eventDesc" rows="3" placeholder="Event description..."></textarea>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>End Time</label>
-                    <input type="time" class="form-input" id="eventEnd">
+                <div class="form-row">
+                    <div class="form-group" style="flex:1;">
+                        <label>Attach Files</label>
+                        <input type="file" class="form-input" id="eventAttachments" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.jpg,.jpeg,.png,.gif">
+                        <small style="color: #666; margin-top: 4px; display: block;">
+                            Supported formats: PDF, DOC, XLS, PPT, TXT, JPG, PNG (Max 10MB each)
+                        </small>
+                    </div>
                 </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Location</label>
-                    <input type="text" class="form-input" id="eventLocation" placeholder="e.g., Main Hall">
-                </div>
-                <div class="form-group">
-                    <label>Participants</label>
-                    <select class="form-select" id="eventAudience">
-                        <option value="all">All School</option>
-                        <option value="students">Students</option>
-                        <option value="teachers">Teachers</option>
-                        <option value="staff">Staff</option>
-                        <option value="parents">Parents</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group" style="flex:1;">
-                    <label>Description</label>
-                    <textarea class="form-input" id="eventDesc" rows="3" placeholder="Event description..."></textarea>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group" style="flex:1;">
-                    <label>Attach Files</label>
-                    <input type="file" class="form-input" id="eventAttachments" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.jpg,.jpeg,.png,.gif">
-                    <small style="color: #666; margin-top: 4px; display: block;">
-                        Supported formats: PDF, DOC, XLS, PPT, TXT, JPG, PNG (Max 10MB each)
-                    </small>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group" style="flex:1;">
-                    <div id="attachedFilesList" class="attached-files-list">
-                        <!-- Attached files will be displayed here -->
+                <div class="form-row">
+                    <div class="form-group" style="flex:1;">
+                        <div id="attachedFilesList" class="attached-files-list">
+                            <!-- Attached files will be displayed here -->
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="form-actions">
-                <button id="cancelEvent" class="simple-btn secondary"><i class="fas fa-times"></i> Cancel</button>
-                <button id="saveEvent" class="simple-btn primary"><i class="fas fa-check"></i> Save Event</button>
-            </div>
+        </div>
+        <div class="confirm-dialog-actions">
+            <button class="simple-btn secondary" onclick="closeCreateEventModal()">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+            <button class="simple-btn primary" onclick="saveNewEvent()">
+                <i class="fas fa-check"></i> Save Event
+            </button>
         </div>
     </div>
 </div>
 
 <!-- Events List -->
-<div class="simple-section" style="margin-top:16px;">
+<div class="simple-section" style="margin-top: 16px;">
     <div class="simple-header">
         <h4>All Events</h4>
         <div style="display:flex; gap:12px;">
@@ -369,27 +375,20 @@ ob_start();
 <script>
 let editingEventId = null;
 
-// Toggle form
-document.getElementById('toggleEventForm').addEventListener('click', function() {
-    const form = document.getElementById('eventForm');
-    const isHidden = form.style.display === 'none';
-    form.style.display = isHidden ? 'block' : 'none';
-    
-    if (isHidden) {
-        editingEventId = null;
-        clearForm();
-    }
-});
-
-// Cancel event
-document.getElementById('cancelEvent').addEventListener('click', function() {
-    document.getElementById('eventForm').style.display = 'none';
+// Create Event Modal Functions
+function openCreateEventModal() {
     editingEventId = null;
     clearForm();
-});
+    document.getElementById('createEventModal').style.display = 'flex';
+}
 
-// Save event
-document.getElementById('saveEvent').addEventListener('click', function() {
+function closeCreateEventModal() {
+    document.getElementById('createEventModal').style.display = 'none';
+    editingEventId = null;
+    clearForm();
+}
+
+function saveNewEvent() {
     const title = document.getElementById('eventTitle').value.trim();
     const category = document.getElementById('eventCategory').value;
     const date = document.getElementById('eventDate').value;
@@ -400,7 +399,11 @@ document.getElementById('saveEvent').addEventListener('click', function() {
     const desc = document.getElementById('eventDesc').value.trim();
     
     if (!title || !date || !start || !location) {
-        showToast('Please fill all required fields', 'warning');
+        if (typeof showToast === 'function') {
+            showToast('Please fill all required fields (Title, Date, Start Time, Location)', 'warning');
+        } else {
+            alert('Please fill all required fields (Title, Date, Start Time, Location)');
+        }
         return;
     }
     
@@ -431,15 +434,31 @@ document.getElementById('saveEvent').addEventListener('click', function() {
     
     localStorage.setItem('adminEvents', JSON.stringify(events));
     
-    showToast(editingEventId ? 
-        `Event "${eventData.title}" (${eventData.id}) updated successfully` : 
-        `Event "${eventData.title}" (${eventData.id}) created successfully`, 
-        'success');
+    if (typeof showToast === 'function') {
+        showToast(editingEventId ? 
+            `Event "${eventData.title}" (${eventData.id}) updated successfully` : 
+            `Event "${eventData.title}" (${eventData.id}) created successfully`, 
+            'success');
+    } else {
+        alert(editingEventId ? 
+            `Event "${eventData.title}" (${eventData.id}) updated successfully` : 
+            `Event "${eventData.title}" (${eventData.id}) created successfully`);
+    }
     
-    document.getElementById('eventForm').style.display = 'none';
-    editingEventId = null;
-    clearForm();
+    closeCreateEventModal();
     loadEvents();
+}
+
+// Close modal when clicking outside
+document.addEventListener('DOMContentLoaded', function() {
+    const createModal = document.getElementById('createEventModal');
+    if (createModal) {
+        createModal.addEventListener('click', function(e) {
+            if (e.target === createModal) {
+                closeCreateEventModal();
+            }
+        });
+    }
 });
 
 function clearForm() {

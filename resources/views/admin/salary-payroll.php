@@ -20,11 +20,6 @@ ob_start();
     <div class="page-title-compact">
         <h2>Salary & Payroll Management</h2>
     </div>
-    <div style="display: flex; gap: 12px; margin-left: auto;">
-        <button class="simple-btn secondary" onclick="window.location.href='/admin/payroll-history'">
-            <i class="fas fa-history"></i> Payroll History
-        </button>
-    </div>
 </div>
 
 <!-- Quick Payroll KPIs -->
@@ -34,9 +29,9 @@ ob_start();
             <i class="fas fa-wallet"></i>
         </div>
         <div class="stat-content">
-            <h3>This Month Payout</h3>
+            <h3>Total Payout</h3>
             <div class="stat-number" id="totalPayout">$196,450</div>
-            <div class="stat-change positive">January 2025</div>
+            <div class="stat-change positive" id="statMonth">All Months</div>
         </div>
     </div>
     <div class="stat-card">
@@ -59,28 +54,27 @@ ob_start();
             <div class="stat-change">0% completed</div>
         </div>
     </div>
-    <div class="stat-card">
-        <div class="stat-icon">
-            <i class="fas fa-flag"></i>
-        </div>
-        <div class="stat-content">
-            <h3>Status</h3>
-            <div class="stat-number" id="payrollStatus">Draft</div>
-            <div class="stat-change">Editable</div>
-        </div>
-    </div>
 </div>
 
-<!-- Payroll Management Section -->
-<div class="simple-section">
+<!-- Payroll Management Tabs Navigation -->
+<div style="margin-top: 24px;">
+    <div class="attendance-view-tabs">
+        <button class="view-tab active" data-view="payroll" onclick="switchPayrollView('payroll')">
+            <i class="fas fa-money-check-alt"></i> Payroll Management
+        </button>
+        <button class="view-tab" data-view="payroll-history" onclick="switchPayrollView('payroll-history')">
+            <i class="fas fa-history"></i> Payroll History
+        </button>
+    </div>
+
+    <!-- Payroll Management View -->
+    <div id="payroll-payroll-view" class="attendance-view-content">
+        <div class="simple-section">
     <div class="simple-header">
-        <h3>Payroll for January 2025</h3>
+        <h3>Payroll Management</h3>
         <div style="display: flex; gap: 12px;">
             <button class="simple-btn" onclick="generatePayroll()" id="generateBtn">
                 <i class="fas fa-calculator"></i> Generate Payroll (This Month)
-            </button>
-            <button class="simple-btn primary" onclick="clearPayrollForNextMonth()" id="clearAllBtn" style="display:none;" disabled>
-                <i class="fas fa-broom"></i> Clear All for Next Month
             </button>
         </div>
     </div>
@@ -89,6 +83,9 @@ ob_start();
     <div class="simple-header" style="margin-top:16px; padding: 12px 20px; background: #f8f9fa; border-radius: 6px;">
         <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
             <label style="font-weight: 600; color: #666;">Filters:</label>
+            <select class="filter-select" id="monthFilter" onchange="applyFilters()">
+                <option value="all">All Months</option>
+            </select>
             <select class="filter-select" id="employeeTypeFilter" onchange="applyFilters()">
                 <option value="all">All Employees</option>
                 <option value="teacher">Teachers Only</option>
@@ -118,15 +115,15 @@ ob_start();
         <table class="basic-table" id="payrollTable">
             <thead>
                 <tr>
-                    <th>Employee ID</th>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Department</th>
-                    <th>Net Pay</th>
-                    <th>Payment Type</th>
-                    <th>Status</th>
-                    <th>Withdrawn By/Time</th>
-                    <th>Actions</th>
+                    <th style="width: 40px;"></th>
+                    <th style="width: 50px;">No.</th>
+                    <th style="min-width: 200px;">Employee</th>
+                    <th style="min-width: 120px;">Position</th>
+                    <th style="min-width: 120px;">Department</th>
+                    <th style="min-width: 180px;">Salary Package</th>
+                    <th style="min-width: 160px;">Attendance Summary</th>
+                    <th style="min-width: 100px;">Status</th>
+                    <th style="min-width: 140px; text-align: center;">Actions</th>
                 </tr>
             </thead>
             <tbody id="payrollTableBody">
@@ -140,7 +137,149 @@ ob_start();
         </table>
     </div>
 </div>
+        </div>
+    </div>
 
+    <!-- Payroll History View -->
+    <div id="payroll-history-payroll-view" class="attendance-view-content" style="display: none;">
+        <!-- Month Selection -->
+        <div class="simple-section">
+            <div class="simple-header">
+                <h3><i class="fas fa-calendar-alt"></i> Select Month</h3>
+                <select class="filter-select" id="historyMonthFilter" onchange="loadPayrollHistory()">
+                    <option value="2025-01">January 2025</option>
+                    <option value="2024-12" selected>December 2024</option>
+                    <option value="2024-11">November 2024</option>
+                    <option value="2024-10">October 2024</option>
+                    <option value="2024-09">September 2024</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Month Summary Stats -->
+        <div class="stats-grid-secondary vertical-stats">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Selected Month</h3>
+                    <div class="stat-number" id="selectedMonthDisplay">December 2024</div>
+                    <div class="stat-change">Current selection</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Total Entries</h3>
+                    <div class="stat-number" id="monthTotalEntries">3</div>
+                    <div class="stat-change">Generated</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Withdrawals Completed</h3>
+                    <div class="stat-number" id="monthWithdrawnCount">0</div>
+                    <div class="stat-change">Processed</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Total Amount</h3>
+                    <div class="stat-number" id="monthTotalAmount">$0.00</div>
+                    <div class="stat-change">Paid out</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payroll History Table -->
+        <div class="simple-section">
+            <div class="simple-header">
+                <h3><i class="fas fa-history"></i> Payroll History</h3>
+            </div>
+            
+            <!-- Filters -->
+            <div class="simple-header" style="margin-top:16px; padding: 12px 20px; background: #f8f9fa; border-radius: 6px;">
+                <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                    <label style="font-weight: 600; color: #666;">Filters:</label>
+                    <select class="filter-select" id="historyTypeFilter" onchange="applyPayrollHistoryFilters()">
+                        <option value="all">All Types</option>
+                        <option value="Teacher">Teachers</option>
+                        <option value="Staff">Staff</option>
+                    </select>
+                    <select class="filter-select" id="historyDeptFilter" onchange="applyPayrollHistoryFilters()">
+                        <option value="all">All Departments</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Science">Science</option>
+                        <option value="English">English</option>
+                        <option value="Reception">Reception</option>
+                        <option value="IT">IT</option>
+                        <option value="Administration">Administration</option>
+                    </select>
+                    <select class="filter-select" id="historyStatusFilter" onchange="applyPayrollHistoryFilters()">
+                        <option value="all">All Status</option>
+                        <option value="withdrawn">Withdrawn</option>
+                        <option value="draft">Draft</option>
+                    </select>
+                    <input type="text" class="simple-search" id="historySearchEmployee" placeholder="Search by name or ID..." onkeyup="applyPayrollHistoryFilters()">
+                </div>
+            </div>
+
+            <!-- Payroll Table -->
+            <div class="simple-table-container" style="margin-top:16px;">
+                <table class="basic-table" id="payrollHistoryTable">
+                    <thead>
+                        <tr>
+                            <th>Employee ID</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Department</th>
+                            <th>Net Pay</th>
+                            <th>Payment Type</th>
+                            <th>Status</th>
+                            <th>Withdrawn By</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                        <tr>
+                            <td colspan="9" style="text-align: center; color: #999; padding: 40px;">Loading payroll history...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Payroll Details View Modal -->
+<div id="payrollDetailsModal" class="confirm-dialog-overlay" style="display:none;">
+    <div class="confirm-dialog-content" style="max-width: 900px; max-height: 90vh; overflow-y: auto;">
+        <div class="confirm-dialog-header" style="border-bottom: 1px solid #e0e0e0; padding-bottom: 12px;">
+            <h4 style="margin:0;"><i class="fas fa-file-invoice-dollar"></i> Payroll Details</h4>
+            <button class="icon-btn" onclick="closePayrollDetailsModal()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="confirm-dialog-body" style="padding: 24px;" id="payrollDetailsContent">
+            <!-- Content will be populated by JavaScript -->
+        </div>
+        <div class="confirm-dialog-actions">
+            <button class="simple-btn secondary" onclick="closePayrollDetailsModal()">
+                <i class="fas fa-times"></i> Close
+            </button>
+            <button class="simple-btn primary" onclick="printPayrollDetails()" id="printPayrollBtn" style="display: none;">
+                <i class="fas fa-print"></i> Print
+            </button>
+        </div>
+    </div>
+</div>
 
 <!-- Withdrawal Processing Modal -->
 <div id="withdrawalModal" class="confirm-dialog-overlay" style="display:none;">
@@ -149,7 +288,7 @@ ob_start();
             <h4 style="margin:0;"><i class="fas fa-hand-holding-usd"></i> Process Withdrawal</h4>
             <button class="icon-btn" onclick="closeWithdrawalModal()"><i class="fas fa-times"></i></button>
         </div>
-        <div class="confirm-dialog-body" style="padding: 20px;">
+            <div class="confirm-dialog-body" style="padding: 20px;">
             <p id="withdrawalEmployeeInfo" style="margin-bottom: 20px; font-weight: 600;"></p>
             <div class="form-section" style="padding:0;">
                 <div class="form-row">
@@ -160,6 +299,12 @@ ob_start();
                     <div class="form-group">
                         <label>Receptionist Name</label>
                         <input type="text" class="form-input" id="receptionistName" placeholder="Enter name">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex: 1;">
+                        <label>Remark</label>
+                        <input type="text" class="form-input" id="withdrawalRemark" placeholder="e.g., Send Payslip" value="Send Payslip">
                     </div>
                 </div>
             </div>
@@ -186,32 +331,111 @@ document.addEventListener('DOMContentLoaded', function() {
     const savedPayroll = localStorage.getItem('payrollData');
     if (savedPayroll) {
         payrollData = JSON.parse(savedPayroll);
+        // Backward compatibility: add missing fields to existing data
+        payrollData = payrollData.map(entry => {
+            if (!entry.position) entry.position = entry.type || 'Employee';
+            if (!entry.dateOfJoining) entry.dateOfJoining = '2023-01-01';
+            if (entry.workingDays === undefined) entry.workingDays = 21;
+            if (entry.leaveDays === undefined) entry.leaveDays = 0;
+            if (entry.annualLeave === undefined) entry.annualLeave = 0;
+            if (entry.daysAbsent === undefined) entry.daysAbsent = 0;
+            if (entry.daysPresent === undefined) entry.daysPresent = entry.workingDays || 21;
+            if (entry.basicSalary === undefined) entry.basicSalary = entry.totalSalary || entry.netPay || 0;
+            if (entry.attendanceAllowance === undefined) entry.attendanceAllowance = 0;
+            if (entry.loyaltyBonus === undefined) entry.loyaltyBonus = 0;
+            if (entry.otherBonus === undefined) entry.otherBonus = 0;
+            if (entry.totalSalary === undefined) entry.totalSalary = entry.netPay || entry.basicSalary || 0;
+            if (!entry.paymentDate && entry.withdrawnTime) {
+                entry.paymentDate = entry.withdrawnTime.split(' ')[0];
+            }
+            if (!entry.remark) entry.remark = '';
+            return entry;
+        });
+        localStorage.setItem('payrollData', JSON.stringify(payrollData));
         document.getElementById('generateBtn').style.display = 'none';
-        document.getElementById('clearAllBtn').style.display = 'inline-flex';
-        document.getElementById('payrollStatus').textContent = 'Draft';
         renderPayrollTable();
         updateStats();
     }
+    
+    // Populate month filter dropdown
+    populateMonthFilter();
 });
+
+function populateMonthFilter() {
+    const monthFilter = document.getElementById('monthFilter');
+    if (!monthFilter) return;
+    
+    // Get unique months from payroll data
+    const monthSet = new Set();
+    payrollData.forEach(entry => {
+        if (entry.month) {
+            monthSet.add(entry.month);
+        }
+    });
+    
+    // Sort months (newest first)
+    const sortedMonths = Array.from(monthSet).sort((a, b) => b.localeCompare(a));
+    
+    // Month names for display
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                       'July', 'August', 'September', 'October', 'November', 'December'];
+    
+    // Clear existing options except "All Months"
+    monthFilter.innerHTML = '<option value="all">All Months</option>';
+    
+    // Add month options
+    sortedMonths.forEach(monthKey => {
+        const [year, month] = monthKey.split('-');
+        const monthIndex = parseInt(month) - 1;
+        const monthName = monthNames[monthIndex];
+        const option = document.createElement('option');
+        option.value = monthKey;
+        option.textContent = `${monthName} ${year}`;
+        monthFilter.appendChild(option);
+    });
+    
+    // If no months in data, add current month and past 6 months as defaults
+    if (sortedMonths.length === 0) {
+        const currentDate = new Date();
+        for (let i = 0; i < 7; i++) {
+            const date = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1);
+            const monthValue = date.toISOString().substring(0, 7); // YYYY-MM format
+            const monthName = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+            const option = document.createElement('option');
+            option.value = monthValue;
+            option.textContent = monthName;
+            monthFilter.appendChild(option);
+        }
+    }
+}
 
 // Sample employees database
 const employeesDatabase = {
     teachers: [
-        {id: 'T001', name: 'Emma Wilson', dept: 'mathematics', netPay: 3505, paymentType: 'Bank Transfer'},
-        {id: 'T002', name: 'Liam Johnson', dept: 'science', netPay: 3505, paymentType: 'Bank Transfer'},
-        {id: 'T003', name: 'Olivia Brown', dept: 'english', netPay: 3505, paymentType: 'Cash'},
-        {id: 'T004', name: 'Noah Davis', dept: 'mathematics', netPay: 3505, paymentType: 'K-Pay'},
+        {id: 'TR008', name: 'U Kaung Kaung', position: 'Teacher', dept: 'Teaching', dateOfJoining: '2022-11-03', basicSalary: 300000, paymentType: 'Cash'},
+        {id: 'TR015', name: 'Daw Khine Hnin', position: 'Teacher', dept: 'Teaching', dateOfJoining: '2022-12-04', basicSalary: 300000, paymentType: 'Cash'},
+        {id: 'T001', name: 'Emma Wilson', position: 'Teacher', dept: 'Mathematics', dateOfJoining: '2023-01-15', basicSalary: 350000, paymentType: 'Bank Transfer'},
+        {id: 'T002', name: 'Liam Johnson', position: 'Teacher', dept: 'Science', dateOfJoining: '2023-02-20', basicSalary: 350000, paymentType: 'Bank Transfer'},
+        {id: 'T003', name: 'Olivia Brown', position: 'Teacher', dept: 'English', dateOfJoining: '2023-03-10', basicSalary: 350000, paymentType: 'Cash'},
+        {id: 'T004', name: 'Noah Davis', position: 'Teacher', dept: 'Mathematics', dateOfJoining: '2023-04-05', basicSalary: 350000, paymentType: 'KBZ Pay'},
     ],
     staff: [
-        {id: 'E001', name: 'Ava Martinez', dept: 'administration', netPay: 2195, paymentType: 'Bank Transfer'},
-        {id: 'E002', name: 'Ethan Garcia', dept: 'it', netPay: 2195, paymentType: 'Cash'},
-        {id: 'E003', name: 'Sophia Rodriguez', dept: 'library', netPay: 2195, paymentType: 'Bank Transfer'},
-        {id: 'E004', name: 'Isabella Martinez', dept: 'maintenance', netPay: 2195, paymentType: 'K-Pay'},
+        {id: 'E001', name: 'Ava Martinez', position: 'Administrator', dept: 'Administration', dateOfJoining: '2023-05-12', basicSalary: 250000, paymentType: 'Bank Transfer'},
+        {id: 'E002', name: 'Ethan Garcia', position: 'IT Support', dept: 'IT', dateOfJoining: '2023-06-18', basicSalary: 280000, paymentType: 'Cash'},
+        {id: 'E003', name: 'Sophia Rodriguez', position: 'Librarian', dept: 'Library', dateOfJoining: '2023-07-22', basicSalary: 220000, paymentType: 'Bank Transfer'},
+        {id: 'E004', name: 'Isabella Martinez', position: 'Maintenance', dept: 'Maintenance', dateOfJoining: '2023-08-30', basicSalary: 200000, paymentType: 'KBZ Pay'},
     ]
 };
 
 function generatePayroll() {
-    if (!confirm('Generate payroll for all employees for January 2025?\n\nThis will create payroll entries for all teachers and staff.')) {
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = String(now.getMonth() + 1).padStart(2, '0');
+    const monthKey = `${currentYear}-${currentMonth}`;
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const monthName = monthNames[now.getMonth()];
+    
+    if (!confirm(`Generate payroll for all employees for ${monthName} ${currentYear}?\n\nThis will create payroll entries for all teachers and staff.`)) {
         return;
     }
             // Generate payroll entries
@@ -219,45 +443,98 @@ function generatePayroll() {
             let idCounter = 1;
             
             employeesDatabase.teachers.forEach(emp => {
+                const workingDays = 21;
+                const leaveDays = Math.floor(Math.random() * 3); // 0-2 leave days
+                const annualLeave = 0;
+                const daysAbsent = Math.floor(Math.random() * 2); // 0-1 absent days
+                const daysPresent = workingDays - leaveDays - daysAbsent;
+                const basicSalary = emp.basicSalary || 300000;
+                const attendanceAllowance = daysPresent >= 20 ? 30000 : 0;
+                const loyaltyBonus = 0;
+                const otherBonus = 0;
+                const totalSalary = basicSalary + attendanceAllowance + loyaltyBonus + otherBonus;
+                
                 payrollData.push({
                     id: 'PAY' + String(idCounter++).padStart(4, '0'),
                     employeeId: emp.id,
                     name: emp.name,
-                    type: 'Teacher',
+                    position: emp.position || 'Teacher',
                     dept: emp.dept,
-                    netPay: emp.netPay,
+                    dateOfJoining: emp.dateOfJoining || '2023-01-01',
+                    workingDays: workingDays,
+                    leaveDays: leaveDays,
+                    annualLeave: annualLeave,
+                    daysAbsent: daysAbsent,
+                    daysPresent: daysPresent,
+                    basicSalary: basicSalary,
+                    attendanceAllowance: attendanceAllowance,
+                    loyaltyBonus: loyaltyBonus,
+                    otherBonus: otherBonus,
+                    totalSalary: totalSalary,
                     paymentType: emp.paymentType,
+                    paymentDate: null,
                     status: 'draft',
                     withdrawnBy: null,
-                    withdrawnTime: null
+                    withdrawnTime: null,
+                    remark: '',
+                    month: monthKey,
+                    year: currentYear,
+                    monthNum: currentMonth
                 });
             });
             
             employeesDatabase.staff.forEach(emp => {
+                const workingDays = 21;
+                const leaveDays = Math.floor(Math.random() * 3); // 0-2 leave days
+                const annualLeave = 0;
+                const daysAbsent = Math.floor(Math.random() * 2); // 0-1 absent days
+                const daysPresent = workingDays - leaveDays - daysAbsent;
+                const basicSalary = emp.basicSalary || 200000;
+                const attendanceAllowance = daysPresent >= 20 ? 20000 : 0;
+                const loyaltyBonus = 0;
+                const otherBonus = 0;
+                const totalSalary = basicSalary + attendanceAllowance + loyaltyBonus + otherBonus;
+                
                 payrollData.push({
                     id: 'PAY' + String(idCounter++).padStart(4, '0'),
                     employeeId: emp.id,
                     name: emp.name,
-                    type: 'Staff',
+                    position: emp.position || 'Staff',
                     dept: emp.dept,
-                    netPay: emp.netPay,
+                    dateOfJoining: emp.dateOfJoining || '2023-01-01',
+                    workingDays: workingDays,
+                    leaveDays: leaveDays,
+                    annualLeave: annualLeave,
+                    daysAbsent: daysAbsent,
+                    daysPresent: daysPresent,
+                    basicSalary: basicSalary,
+                    attendanceAllowance: attendanceAllowance,
+                    loyaltyBonus: loyaltyBonus,
+                    otherBonus: otherBonus,
+                    totalSalary: totalSalary,
                     paymentType: emp.paymentType,
+                    paymentDate: null,
                     status: 'draft',
                     withdrawnBy: null,
-                    withdrawnTime: null
+                    withdrawnTime: null,
+                    remark: '',
+                    month: monthKey,
+                    year: currentYear,
+                    monthNum: currentMonth
                 });
             });
             
             document.getElementById('generateBtn').style.display = 'none';
-            document.getElementById('clearAllBtn').style.display = 'inline-flex';
-            document.getElementById('payrollStatus').textContent = 'Draft';
             
             // Save to localStorage
             localStorage.setItem('payrollData', JSON.stringify(payrollData));
             
+            // Update month filter with new month
+            populateMonthFilter();
+            
             renderPayrollTable();
             updateStats();
-            showToast(`${payrollData.length} payroll entries generated successfully for January 2025`, 'success');
+            showToast(`${payrollData.length} payroll entries generated successfully for ${monthName} ${currentYear}`, 'success');
 }
 
 function renderPayrollTable() {
@@ -274,125 +551,473 @@ function renderPayrollTable() {
     
     let filteredData = applyDataFilters();
     
-    tbody.innerHTML = filteredData.map(entry => `
-        <tr>
-            <td><strong>${entry.employeeId}</strong></td>
-            <td>${entry.name}</td>
-            <td>${entry.type}</td>
-            <td style="text-transform: capitalize;">${entry.dept}</td>
-            <td><strong>$${entry.netPay.toFixed(2)}</strong></td>
-            <td>${entry.paymentType}</td>
-            <td><span class="status-badge ${entry.status}">${entry.status === 'draft' ? 'Draft' : 'Withdrawn'}</span></td>
-            <td>${entry.withdrawnBy ? `${entry.withdrawnBy}<br><small style="color:#999;">${entry.withdrawnTime}</small>` : '-'}</td>
-            <td>
-                ${entry.status === 'draft' ? `
-                    <button class="simple-btn-icon" onclick="viewPayrollDetails('${entry.id}')" title="View Details">
-                        <i class="fas fa-eye"></i>
-                    </button>
-                    <button class="simple-btn-icon" onclick="editPayrollDetails('${entry.id}')" title="Edit">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="simple-btn-icon" onclick="processWithdrawal('${entry.id}')" title="Process Withdrawal">
-                        <i class="fas fa-hand-holding-usd"></i>
-                    </button>
-                ` : `
-                    <button class="simple-btn-icon" onclick="viewPayrollDetails('${entry.id}')" title="View Payroll">
-                        <i class="fas fa-file-invoice-dollar"></i>
-                    </button>
-                    <button class="simple-btn-icon" onclick="viewWithdrawalReceipt('${entry.id}')" title="View Withdrawal Receipt">
-                        <i class="fas fa-receipt"></i>
-                    </button>
-                `}
-            </td>
-        </tr>
-    `).join('');
+    tbody.innerHTML = filteredData.map((entry, index) => {
+        const statusText = entry.status === 'draft' ? 'Draft' : entry.status === 'withdrawn' ? 'Paid' : entry.status;
+        const statusClass = entry.status === 'draft' ? 'warning' : entry.status === 'withdrawn' ? 'active' : '';
+        
+        // Calculate totals
+        const basicSalary = entry.basicSalary || 0;
+        const attendanceAllowance = entry.attendanceAllowance || 0;
+        const loyaltyBonus = entry.loyaltyBonus || 0;
+        const otherBonus = entry.otherBonus || 0;
+        const totalSalary = entry.totalSalary || entry.netPay || 0;
+        
+        // Attendance summary
+        const workingDays = entry.workingDays || 21;
+        const leaveDays = entry.leaveDays || 0;
+        const annualLeave = entry.annualLeave || 0;
+        const daysAbsent = entry.daysAbsent || 0;
+        const daysPresent = entry.daysPresent || 0;
+        
+        // Payment info
+        const paymentDate = entry.paymentDate || (entry.withdrawnTime ? entry.withdrawnTime.split(' ')[0] : '-');
+        const paymentType = entry.paymentType || '-';
+        const remark = entry.remark || '-';
+        const dateOfJoining = entry.dateOfJoining ? new Date(entry.dateOfJoining).toLocaleDateString('en-GB') : '-';
+        
+        // Actions
+        const actions = entry.status === 'draft' ? `
+            <div style="display: flex; gap: 6px; justify-content: center;">
+                <button class="payroll-action-btn view-btn" onclick="viewPayrollDetails('${entry.id}')" title="View Details">
+                    <i class="fas fa-eye"></i> View
+                </button>
+                <button class="payroll-action-btn process-btn" onclick="processWithdrawal('${entry.id}')" title="Process Payment">
+                    <i class="fas fa-check-circle"></i> Pay
+                </button>
+            </div>
+        ` : `
+            <div style="display: flex; gap: 6px; justify-content: center;">
+                <button class="payroll-action-btn view-btn" onclick="viewPayrollDetails('${entry.id}')" title="View Payroll">
+                    <i class="fas fa-file-invoice-dollar"></i> View
+                </button>
+                <button class="payroll-action-btn receipt-btn" onclick="viewWithdrawalReceipt('${entry.id}')" title="View Receipt">
+                    <i class="fas fa-receipt"></i> Receipt
+                </button>
+            </div>
+        `;
+        
+        return `
+            <tr class="payroll-row" data-entry-id="${entry.id}">
+                <td style="text-align: center; cursor: pointer;" onclick="toggleRowDetails('${entry.id}')">
+                    <i class="fas fa-chevron-down row-toggle-icon" id="toggle-${entry.id}"></i>
+                </td>
+                <td>${index + 1}</td>
+                <td>
+                    <div style="display: flex; flex-direction: column;">
+                        <strong style="font-size: 14px; color: #111827; margin-bottom: 2px;">${entry.name}</strong>
+                        <small style="color: #6b7280; font-size: 12px;">${entry.employeeId}</small>
+                    </div>
+                </td>
+                <td>${entry.position || entry.type || '-'}</td>
+                <td>${entry.dept}</td>
+                <td>
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                        <strong style="color: #10b981; font-size: 15px;">${formatCurrency(totalSalary)}</strong>
+                        <small style="color: #6b7280; font-size: 11px; cursor: pointer;" onclick="event.stopPropagation(); toggleRowDetails('${entry.id}')">
+                            <i class="fas fa-info-circle"></i> View breakdown
+                        </small>
+                    </div>
+                </td>
+                <td>
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="color: #10b981; font-weight: 600;">${daysPresent}</span>
+                            <span style="color: #6b7280; font-size: 12px;">/ ${workingDays} days</span>
+                        </div>
+                        <small style="color: #6b7280; font-size: 11px; cursor: pointer;" onclick="event.stopPropagation(); toggleRowDetails('${entry.id}')">
+                            <i class="fas fa-info-circle"></i> View details
+                        </small>
+                    </div>
+                </td>
+                <td>
+                    <span class="status-badge ${statusClass}">${statusText}</span>
+                </td>
+                <td>${actions}</td>
+            </tr>
+            <tr class="payroll-details-row" id="details-${entry.id}" style="display: none;">
+                <td colspan="9" style="background: #f9fafb; padding: 20px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+                        <!-- Salary Package Details -->
+                        <div style="background: white; padding: 16px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                            <h4 style="margin: 0 0 12px 0; font-size: 14px; font-weight: 600; color: #374151; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-wallet" style="color: #10b981;"></i> Salary Package
+                            </h4>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+                                    <span style="color: #6b7280; font-size: 13px;">Basic Salary</span>
+                                    <span style="font-weight: 500; color: #111827;">${formatCurrency(basicSalary)}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+                                    <span style="color: #6b7280; font-size: 13px;">Attendance Allowance</span>
+                                    <span style="font-weight: 500; color: #111827;">${formatCurrency(attendanceAllowance)}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+                                    <span style="color: #6b7280; font-size: 13px;">Loyalty Bonus</span>
+                                    <span style="font-weight: 500; color: #111827;">${formatCurrency(loyaltyBonus)}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+                                    <span style="color: #6b7280; font-size: 13px;">Other Bonus</span>
+                                    <span style="font-weight: 500; color: #111827;">${formatCurrency(otherBonus)}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 8px 0; margin-top: 4px; border-top: 2px solid #e5e7eb;">
+                                    <span style="font-weight: 600; color: #111827; font-size: 14px;">Total Salary</span>
+                                    <span style="font-weight: 700; color: #10b981; font-size: 15px;">${formatCurrency(totalSalary)}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Attendance Summary Details -->
+                        <div style="background: white; padding: 16px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                            <h4 style="margin: 0 0 12px 0; font-size: 14px; font-weight: 600; color: #374151; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-calendar-check" style="color: #3b82f6;"></i> Attendance Summary
+                            </h4>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+                                    <span style="color: #6b7280; font-size: 13px;">Working Days</span>
+                                    <span style="font-weight: 500; color: #111827;">${workingDays}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+                                    <span style="color: #6b7280; font-size: 13px;">Days Present</span>
+                                    <span style="font-weight: 500; color: #10b981;">${daysPresent}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+                                    <span style="color: #6b7280; font-size: 13px;">Leave Days</span>
+                                    <span style="font-weight: 500; color: #f59e0b;">${leaveDays}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+                                    <span style="color: #6b7280; font-size: 13px;">Annual Leave</span>
+                                    <span style="font-weight: 500; color: #111827;">${annualLeave}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+                                    <span style="color: #6b7280; font-size: 13px;">Days Absent</span>
+                                    <span style="font-weight: 500; color: #ef4444;">${daysAbsent}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Payment & Additional Info -->
+                        <div style="background: white; padding: 16px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                            <h4 style="margin: 0 0 12px 0; font-size: 14px; font-weight: 600; color: #374151; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-info-circle" style="color: #8b5cf6;"></i> Additional Information
+                            </h4>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+                                    <span style="color: #6b7280; font-size: 13px;">Date of Joining</span>
+                                    <span style="font-weight: 500; color: #111827;">${dateOfJoining}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+                                    <span style="color: #6b7280; font-size: 13px;">Payment Method</span>
+                                    <span style="font-weight: 500; color: #111827;">${paymentType}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+                                    <span style="color: #6b7280; font-size: 13px;">Payment Date</span>
+                                    <span style="font-weight: 500; color: #111827;">${paymentDate}</span>
+                                </div>
+                                ${remark !== '-' ? `
+                                <div style="padding: 8px 0; margin-top: 4px; border-top: 1px solid #f3f4f6;">
+                                    <span style="color: #6b7280; font-size: 13px; display: block; margin-bottom: 4px;">Remark</span>
+                                    <span style="font-weight: 500; color: #111827; font-size: 13px;">${remark}</span>
+                                </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
+    
+    // Add click handlers for row expansion
+    attachRowToggleHandlers();
+}
+
+function toggleRowDetails(entryId) {
+    const detailsRow = document.getElementById(`details-${entryId}`);
+    const toggleIcon = document.getElementById(`toggle-${entryId}`);
+    
+    if (!detailsRow || !toggleIcon) return;
+    
+    const isVisible = detailsRow.style.display !== 'none';
+    
+    if (isVisible) {
+        detailsRow.style.display = 'none';
+        toggleIcon.classList.remove('fa-chevron-up');
+        toggleIcon.classList.add('fa-chevron-down');
+    } else {
+        detailsRow.style.display = 'table-row';
+        toggleIcon.classList.remove('fa-chevron-down');
+        toggleIcon.classList.add('fa-chevron-up');
+    }
+}
+
+function attachRowToggleHandlers() {
+    // Handlers are already attached via onclick in the HTML
+}
+
+function formatCurrency(amount) {
+    // Format as Myanmar currency (no decimal, with commas)
+    return amount.toLocaleString('en-US') + ' MMK';
 }
 
 function applyDataFilters() {
+    const monthFilter = document.getElementById('monthFilter').value;
     const typeFilter = document.getElementById('employeeTypeFilter').value;
     const deptFilter = document.getElementById('departmentFilter').value;
     const statusFilter = document.getElementById('statusFilter').value;
     const searchTerm = document.getElementById('searchEmployee').value.toLowerCase();
     
     return payrollData.filter(entry => {
-        if (typeFilter !== 'all' && entry.type.toLowerCase() !== typeFilter) return false;
-        if (deptFilter !== 'all' && entry.dept !== deptFilter) return false;
+        if (monthFilter !== 'all') {
+            // Extract month from entry
+            const entryMonth = entry.month || extractMonthFromPayrollId(entry.id);
+            if (entryMonth !== monthFilter) return false;
+        }
+        if (typeFilter !== 'all') {
+            const entryType = (entry.position || entry.type || '').toLowerCase();
+            if (typeFilter === 'teacher' && !entryType.includes('teacher')) return false;
+            if (typeFilter === 'staff' && entryType.includes('teacher')) return false;
+        }
+        if (deptFilter !== 'all' && entry.dept.toLowerCase() !== deptFilter.toLowerCase()) return false;
         if (statusFilter !== 'all' && entry.status !== statusFilter) return false;
         if (searchTerm && !entry.name.toLowerCase().includes(searchTerm) && !entry.employeeId.toLowerCase().includes(searchTerm)) return false;
         return true;
     });
 }
 
+function extractMonthFromPayrollId(payrollId) {
+    // Extract month from payroll entry or use current month as default
+    const entry = payrollData.find(e => e.id === payrollId);
+    if (entry && entry.month) {
+        return entry.month;
+    }
+    return new Date().toISOString().substring(0, 7); // Returns YYYY-MM format
+}
+
 function applyFilters() {
     renderPayrollTable();
+    updateStats();
 }
+
+let currentPayrollDetailsId = null;
 
 function viewPayrollDetails(payrollId) {
     const entry = payrollData.find(e => e.id === payrollId);
     if (!entry) return;
     
-    // Create custom payroll details dialog
-    const payrollDialog = document.createElement('div');
-    payrollDialog.className = 'receipt-dialog-overlay';
-    payrollDialog.style.display = 'flex';
+    currentPayrollDetailsId = payrollId;
     
-    payrollDialog.innerHTML = `
-        <div class="receipt-dialog-content">
-            <div class="receipt-dialog-header">
-                <h3><i class="fas fa-file-invoice-dollar"></i> Payroll Details</h3>
-                <button class="receipt-close" onclick="this.closest('.receipt-dialog-overlay').remove()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="receipt-dialog-body">
-                <div class="receipt-info">
-                    <div class="receipt-row">
-                        <span class="receipt-label">Employee Name:</span>
-                        <span class="receipt-value">${entry.name}</span>
+    // Calculate values
+    const basicSalary = entry.basicSalary || 0;
+    const attendanceAllowance = entry.attendanceAllowance || 0;
+    const loyaltyBonus = entry.loyaltyBonus || 0;
+    const otherBonus = entry.otherBonus || 0;
+    const totalSalary = entry.totalSalary || entry.netPay || 0;
+    const workingDays = entry.workingDays || 21;
+    const leaveDays = entry.leaveDays || 0;
+    const annualLeave = entry.annualLeave || 0;
+    const daysAbsent = entry.daysAbsent || 0;
+    const daysPresent = entry.daysPresent || 0;
+    const dateOfJoining = entry.dateOfJoining ? new Date(entry.dateOfJoining).toLocaleDateString('en-GB') : '-';
+    const paymentDate = entry.paymentDate || (entry.withdrawnTime ? entry.withdrawnTime.split(' ')[0] : '-');
+    const statusText = entry.status === 'draft' ? 'Draft' : entry.status === 'withdrawn' ? 'Paid' : entry.status;
+    const statusClass = entry.status === 'draft' ? 'warning' : entry.status === 'withdrawn' ? 'active' : '';
+    
+    const content = `
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <!-- Employee Information -->
+            <div style="background: #f9fafb; padding: 20px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                <h4 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600; color: #374151; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-user" style="color: #4A90E2;"></i> Employee Information
+                </h4>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+                        <span style="color: #6b7280; font-size: 13px;">Payroll ID</span>
+                        <span style="font-weight: 600; color: #111827;">${entry.id}</span>
                     </div>
-                    <div class="receipt-row">
-                        <span class="receipt-label">Employee ID:</span>
-                        <span class="receipt-value">${entry.employeeId}</span>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+                        <span style="color: #6b7280; font-size: 13px;">Employee Name</span>
+                        <span style="font-weight: 600; color: #111827;">${entry.name}</span>
                     </div>
-                    <div class="receipt-row">
-                        <span class="receipt-label">Employee Type:</span>
-                        <span class="receipt-value">${entry.type}</span>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+                        <span style="color: #6b7280; font-size: 13px;">Employee ID</span>
+                        <span style="font-weight: 500; color: #111827;">${entry.employeeId}</span>
                     </div>
-                    <div class="receipt-row">
-                        <span class="receipt-label">Department:</span>
-                        <span class="receipt-value">${entry.dept}</span>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+                        <span style="color: #6b7280; font-size: 13px;">Position</span>
+                        <span style="font-weight: 500; color: #111827;">${entry.position || entry.type || '-'}</span>
                     </div>
-                    <div class="receipt-row">
-                        <span class="receipt-label">Net Pay:</span>
-                        <span class="receipt-value">$${entry.netPay.toFixed(2)}</span>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+                        <span style="color: #6b7280; font-size: 13px;">Department</span>
+                        <span style="font-weight: 500; color: #111827;">${entry.dept}</span>
                     </div>
-                    <div class="receipt-row">
-                        <span class="receipt-label">Payment Type:</span>
-                        <span class="receipt-value">${entry.paymentType}</span>
-                    </div>
-                    <div class="receipt-row">
-                        <span class="receipt-label">Status:</span>
-                        <span class="receipt-value">${entry.status}</span>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                        <span style="color: #6b7280; font-size: 13px;">Date of Joining</span>
+                        <span style="font-weight: 500; color: #111827;">${dateOfJoining}</span>
                     </div>
                 </div>
             </div>
-            <div class="receipt-dialog-actions">
-                <button class="simple-btn secondary" onclick="this.closest('.receipt-dialog-overlay').remove()">
-                    <i class="fas fa-times"></i> Close
-                </button>
+            
+            <!-- Salary Package -->
+            <div style="background: #f9fafb; padding: 20px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                <h4 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600; color: #374151; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-wallet" style="color: #10b981;"></i> Salary Package
+                </h4>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+                        <span style="color: #6b7280; font-size: 13px;">Basic Salary</span>
+                        <span style="font-weight: 500; color: #111827;">${formatCurrency(basicSalary)}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+                        <span style="color: #6b7280; font-size: 13px;">Attendance Allowance</span>
+                        <span style="font-weight: 500; color: #111827;">${formatCurrency(attendanceAllowance)}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+                        <span style="color: #6b7280; font-size: 13px;">Loyalty Bonus</span>
+                        <span style="font-weight: 500; color: #111827;">${formatCurrency(loyaltyBonus)}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+                        <span style="color: #6b7280; font-size: 13px;">Other Bonus</span>
+                        <span style="font-weight: 500; color: #111827;">${formatCurrency(otherBonus)}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 12px 0; margin-top: 4px; border-top: 2px solid #e5e7eb;">
+                        <span style="font-weight: 700; color: #111827; font-size: 15px;">Total Salary</span>
+                        <span style="font-weight: 700; color: #10b981; font-size: 18px;">${formatCurrency(totalSalary)}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Attendance Summary -->
+            <div style="background: #f9fafb; padding: 20px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                <h4 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600; color: #374151; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-calendar-check" style="color: #3b82f6;"></i> Attendance Summary
+                </h4>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+                        <span style="color: #6b7280; font-size: 13px;">Working Days</span>
+                        <span style="font-weight: 500; color: #111827;">${workingDays}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+                        <span style="color: #6b7280; font-size: 13px;">Days Present</span>
+                        <span style="font-weight: 600; color: #10b981;">${daysPresent}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+                        <span style="color: #6b7280; font-size: 13px;">Leave Days</span>
+                        <span style="font-weight: 500; color: #f59e0b;">${leaveDays}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+                        <span style="color: #6b7280; font-size: 13px;">Annual Leave</span>
+                        <span style="font-weight: 500; color: #111827;">${annualLeave}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                        <span style="color: #6b7280; font-size: 13px;">Days Absent</span>
+                        <span style="font-weight: 500; color: #ef4444;">${daysAbsent}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Payment Information -->
+            <div style="background: #f9fafb; padding: 20px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                <h4 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600; color: #374151; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-credit-card" style="color: #8b5cf6;"></i> Payment Information
+                </h4>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+                        <span style="color: #6b7280; font-size: 13px;">Status</span>
+                        <span class="status-badge ${statusClass}">${statusText}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+                        <span style="color: #6b7280; font-size: 13px;">Payment Method</span>
+                        <span style="font-weight: 500; color: #111827;">${entry.paymentType || '-'}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+                        <span style="color: #6b7280; font-size: 13px;">Payment Date</span>
+                        <span style="font-weight: 500; color: #111827;">${paymentDate}</span>
+                    </div>
+                    ${entry.withdrawnBy ? `
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+                        <span style="color: #6b7280; font-size: 13px;">Withdrawn By</span>
+                        <span style="font-weight: 500; color: #111827;">${entry.withdrawnBy}</span>
+                    </div>
+                    ` : ''}
+                    ${entry.withdrawnTime ? `
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+                        <span style="color: #6b7280; font-size: 13px;">Withdrawal Time</span>
+                        <span style="font-weight: 500; color: #111827;">${entry.withdrawnTime}</span>
+                    </div>
+                    ` : ''}
+                    ${entry.remark ? `
+                    <div style="padding: 8px 0; margin-top: 4px; border-top: 1px solid #e5e7eb;">
+                        <span style="color: #6b7280; font-size: 13px; display: block; margin-bottom: 4px;">Remark</span>
+                        <span style="font-weight: 500; color: #111827; font-size: 13px;">${entry.remark}</span>
+                    </div>
+                    ` : ''}
+                </div>
             </div>
         </div>
     `;
     
-    document.body.appendChild(payrollDialog);
-    
-    // Close on overlay click
-    payrollDialog.addEventListener('click', function(e) {
-        if (e.target === payrollDialog) {
-            payrollDialog.remove();
-        }
-    });
+    document.getElementById('payrollDetailsContent').innerHTML = content;
+    document.getElementById('printPayrollBtn').style.display = 'inline-flex';
+    document.getElementById('payrollDetailsModal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
 }
+
+function closePayrollDetailsModal() {
+    document.getElementById('payrollDetailsModal').style.display = 'none';
+    document.body.style.overflow = '';
+    currentPayrollDetailsId = null;
+}
+
+function printPayrollDetails() {
+    if (!currentPayrollDetailsId) return;
+    
+    const entry = payrollData.find(e => e.id === currentPayrollDetailsId);
+    if (!entry) return;
+    
+    const printWindow = window.open('', '_blank');
+    const content = document.getElementById('payrollDetailsContent').innerHTML;
+    
+    printWindow.document.write(`
+        <html>
+        <head>
+            <title>Payroll Details - ${entry.id}</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; background: white; }
+                .print-header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #e5e7eb; padding-bottom: 20px; }
+                .print-header h2 { margin: 0; color: #111827; }
+                .print-header p { margin: 5px 0; color: #6b7280; }
+                ${document.getElementById('payrollDetailsContent').querySelector('style')?.innerHTML || ''}
+            </style>
+        </head>
+        <body>
+            <div class="print-header">
+                <h2>Payroll Details</h2>
+                <p>Smart Campus Nova Hub</p>
+                <p>Payroll ID: ${entry.id}</p>
+            </div>
+            ${content}
+        </body>
+        </html>
+    `);
+    printWindow.document.close();
+    printWindow.print();
+}
+
+// Close modal on overlay click
+document.getElementById('payrollDetailsModal')?.addEventListener('click', function(e) {
+    if (e.target === this) {
+        closePayrollDetailsModal();
+    }
+});
+
+// Close modal on Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        if (document.getElementById('payrollDetailsModal').style.display === 'flex') {
+            closePayrollDetailsModal();
+        }
+    }
+});
 
 function editPayrollDetails(payrollId) {
     // In real app, redirect to edit page similar to invoice-edit
@@ -427,20 +1052,36 @@ function viewWithdrawalReceipt(payrollId) {
                         <span class="receipt-value">${entry.name}</span>
                     </div>
                     <div class="receipt-row">
-                        <span class="receipt-label">Amount:</span>
-                        <span class="receipt-value">$${entry.netPay.toFixed(2)}</span>
+                        <span class="receipt-label">Position:</span>
+                        <span class="receipt-value">${entry.position || entry.type || '-'}</span>
                     </div>
                     <div class="receipt-row">
-                        <span class="receipt-label">Payment Type:</span>
-                        <span class="receipt-value">${entry.paymentType}</span>
+                        <span class="receipt-label">Employee ID:</span>
+                        <span class="receipt-value">${entry.employeeId}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Total Salary:</span>
+                        <span class="receipt-value"><strong>${formatCurrency(entry.totalSalary || entry.netPay || 0)}</strong></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Payment Method:</span>
+                        <span class="receipt-value">${entry.paymentType || '-'}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Payment Date:</span>
+                        <span class="receipt-value">${entry.paymentDate || (entry.withdrawnTime ? entry.withdrawnTime.split(' ')[0] : '-')}</span>
                     </div>
                     <div class="receipt-row">
                         <span class="receipt-label">Withdrawn By:</span>
-                        <span class="receipt-value">${entry.withdrawnBy}</span>
+                        <span class="receipt-value">${entry.withdrawnBy || '-'}</span>
                     </div>
                     <div class="receipt-row">
                         <span class="receipt-label">Withdrawal Time:</span>
-                        <span class="receipt-value">${entry.withdrawnTime}</span>
+                        <span class="receipt-value">${entry.withdrawnTime || '-'}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Remark:</span>
+                        <span class="receipt-value">${entry.remark || '-'}</span>
                     </div>
                 </div>
             </div>
@@ -498,20 +1139,36 @@ function printWithdrawalReceipt(payrollId) {
                     <span class="receipt-value">${entry.name}</span>
                 </div>
                 <div class="receipt-row">
-                    <span class="receipt-label">Amount:</span>
-                    <span class="receipt-value">$${entry.netPay.toFixed(2)}</span>
+                    <span class="receipt-label">Position:</span>
+                    <span class="receipt-value">${entry.position || entry.type || '-'}</span>
                 </div>
                 <div class="receipt-row">
-                    <span class="receipt-label">Payment Type:</span>
-                    <span class="receipt-value">${entry.paymentType}</span>
+                    <span class="receipt-label">Employee ID:</span>
+                    <span class="receipt-value">${entry.employeeId}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Total Salary:</span>
+                    <span class="receipt-value"><strong>${formatCurrency(entry.totalSalary || entry.netPay || 0)}</strong></span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Payment Method:</span>
+                    <span class="receipt-value">${entry.paymentType || '-'}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Payment Date:</span>
+                    <span class="receipt-value">${entry.paymentDate || (entry.withdrawnTime ? entry.withdrawnTime.split(' ')[0] : '-')}</span>
                 </div>
                 <div class="receipt-row">
                     <span class="receipt-label">Withdrawn By:</span>
-                    <span class="receipt-value">${entry.withdrawnBy}</span>
+                    <span class="receipt-value">${entry.withdrawnBy || '-'}</span>
                 </div>
                 <div class="receipt-row">
                     <span class="receipt-label">Withdrawal Time:</span>
-                    <span class="receipt-value">${entry.withdrawnTime}</span>
+                    <span class="receipt-value">${entry.withdrawnTime || '-'}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Remark:</span>
+                    <span class="receipt-value">${entry.remark || '-'}</span>
                 </div>
             </div>
         </body>
@@ -529,8 +1186,9 @@ function processWithdrawal(payrollId) {
     }
     
     currentWithdrawalId = payrollId;
+    const totalAmount = entry.totalSalary || entry.netPay || 0;
     document.getElementById('withdrawalEmployeeInfo').textContent = 
-        `Processing withdrawal for: ${entry.name} (${entry.employeeId}) - $${entry.netPay.toFixed(2)}`;
+        `Processing withdrawal for: ${entry.name} (${entry.employeeId}) - ${formatCurrency(totalAmount)}`;
     document.getElementById('receptionistId').value = '';
     document.getElementById('receptionistName').value = '';
     document.getElementById('withdrawalModal').style.display = 'flex';
@@ -553,9 +1211,14 @@ function confirmWithdrawal() {
     const entry = payrollData.find(e => e.id === currentWithdrawalId);
     if (!entry) return;
     
+    const now = new Date();
+    const paymentDateStr = now.toLocaleDateString('en-GB'); // DD/MM/YYYY format
+    
+    const remark = document.getElementById('withdrawalRemark').value || 'Send Payslip';
+    
     entry.status = 'withdrawn';
     entry.withdrawnBy = `${receptionistId} - ${receptionistName}`;
-    entry.withdrawnTime = new Date().toLocaleString('en-US', { 
+    entry.withdrawnTime = now.toLocaleString('en-US', { 
         year: 'numeric', 
         month: '2-digit', 
         day: '2-digit', 
@@ -563,6 +1226,8 @@ function confirmWithdrawal() {
         minute: '2-digit',
         hour12: false 
     });
+    entry.paymentDate = paymentDateStr;
+    entry.remark = remark;
     
     // Save to localStorage
     localStorage.setItem('payrollData', JSON.stringify(payrollData));
@@ -573,63 +1238,544 @@ function confirmWithdrawal() {
     showToast(`Withdrawal for ${entry.name} (${entry.employeeId}) recorded successfully`, 'success');
 }
 
-function clearPayrollForNextMonth() {
-    const withdrawn = payrollData.filter(e => e.status === 'withdrawn').length;
-    if (withdrawn !== payrollData.length) {
-        showToast(`Cannot clear payroll. ${payrollData.length - withdrawn} withdrawals are still pending.`, 'warning');
+function updateStats() {
+    const monthFilter = document.getElementById('monthFilter').value;
+    
+    // Filter data by selected month
+    let filteredData = payrollData;
+    if (monthFilter !== 'all') {
+        filteredData = payrollData.filter(entry => entry.month === monthFilter);
+    }
+    
+    const total = filteredData.reduce((sum, entry) => sum + (entry.totalSalary || entry.netPay || 0), 0);
+    const withdrawn = filteredData.filter(e => e.status === 'withdrawn').length;
+    const teachers = filteredData.filter(e => (e.position || e.type || '').toLowerCase().includes('teacher')).length;
+    const staff = filteredData.filter(e => !(e.position || e.type || '').toLowerCase().includes('teacher')).length;
+    
+    document.getElementById('totalPayout').textContent = formatCurrency(total);
+    document.getElementById('totalEmployees').textContent = filteredData.length;
+    document.getElementById('withdrawnCount').textContent = `${withdrawn} / ${filteredData.length}`;
+    
+    const percentage = filteredData.length > 0 ? Math.round((withdrawn / filteredData.length) * 100) : 0;
+    document.querySelector('#withdrawnCount').nextElementSibling.textContent = `${percentage}% completed`;
+    
+    // Update stat month display
+    const statMonth = document.getElementById('statMonth');
+    if (statMonth) {
+        if (monthFilter === 'all') {
+            statMonth.textContent = 'All Months';
+        } else {
+            const [year, month] = monthFilter.split('-');
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                               'July', 'August', 'September', 'October', 'November', 'December'];
+            const monthName = monthNames[parseInt(month) - 1];
+            statMonth.textContent = `${monthName} ${year}`;
+        }
+    }
+}
+
+// Tab Switching Function
+function switchPayrollView(view) {
+    // Hide all views
+    document.querySelectorAll('.attendance-view-content').forEach(content => {
+        content.style.display = 'none';
+    });
+    
+    // Remove active class from all tabs
+    document.querySelectorAll('.view-tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    
+    // Show selected view
+    const viewElement = document.getElementById(`${view}-payroll-view`);
+    if (viewElement) {
+        viewElement.style.display = 'block';
+    }
+    
+    // Add active class to selected tab
+    const activeTab = document.querySelector(`.view-tab[data-view="${view}"]`);
+    if (activeTab) {
+        activeTab.classList.add('active');
+    }
+    
+    // Initialize payroll history if switching to that tab
+    if (view === 'payroll-history') {
+        if (typeof initializeDemoPayrollHistory === 'function') {
+            initializeDemoPayrollHistory();
+        }
+        if (typeof loadPayrollHistory === 'function') {
+            loadPayrollHistory();
+        }
+    }
+}
+
+// Payroll History Functions
+let allPayrollHistory = [];
+let filteredHistory = [];
+
+function initializeDemoPayrollHistory() {
+    const existingHistory = localStorage.getItem('payrollHistory');
+    if (existingHistory) {
+        allPayrollHistory = JSON.parse(existingHistory);
         return;
     }
     
-    showConfirmDialog({
-        title: 'Clear All Payroll',
-        message: 'All withdrawals have been completed. This will archive all records and prepare for next month. Continue?',
-        confirmText: 'Clear All',
-        confirmIcon: 'fas fa-broom',
-        onConfirm: () => {
-            const clearedCount = payrollData.length;
-            payrollData = [];
-            // Clear from localStorage
-            localStorage.removeItem('payrollData');
-            
-            document.getElementById('generateBtn').style.display = 'inline-flex';
-            document.getElementById('clearAllBtn').style.display = 'none';
-            renderPayrollTable();
-            updateStats();
-            showToast(`${clearedCount} payroll entries cleared successfully for next month`, 'success');
-        }
+    // Create demo payroll history for past months
+    const demoHistory = [];
+    const months = [
+        { key: '2024-12', name: 'December 2024' },
+        { key: '2024-11', name: 'November 2024' },
+        { key: '2024-10', name: 'October 2024' }
+    ];
+    
+    const employees = [
+        { name: 'Emma Wilson', type: 'Teacher', dept: 'Mathematics', employeeId: 'T001', netPay: 2500 },
+        { name: 'James Anderson', type: 'Teacher', dept: 'Science', employeeId: 'T002', netPay: 2600 },
+        { name: 'Sophia Davis', type: 'Teacher', dept: 'English', employeeId: 'T003', netPay: 2550 },
+        { name: 'Ava Martinez', type: 'Staff', dept: 'Reception', employeeId: 'E001', netPay: 1800 },
+        { name: 'Ethan Garcia', type: 'Staff', dept: 'IT', employeeId: 'E002', netPay: 2200 }
+    ];
+    
+    let payrollCounter = 1;
+    months.forEach(month => {
+        employees.forEach((employee, idx) => {
+            const isWithdrawn = Math.random() > 0.1; // 90% withdrawal rate
+            const paymentType = isWithdrawn ? ['Bank Transfer', 'Cash', 'K-Pay'][Math.floor(Math.random() * 3)] : 'Bank Transfer';
+            const entry = {
+                id: `PAY-${month.key}-${String(payrollCounter).padStart(3, '0')}`,
+                month: month.key,
+                monthName: month.name,
+                employeeId: employee.employeeId,
+                name: employee.name,
+                type: employee.type,
+                dept: employee.dept,
+                netPay: employee.netPay,
+                status: isWithdrawn ? 'withdrawn' : 'draft',
+                paymentType: paymentType,
+                withdrawnBy: isWithdrawn ? 'Reception Staff' : '',
+                withdrawnTime: isWithdrawn ? `${month.key}-${String(20 + idx).padStart(2, '0')} 14:${String(idx * 10).padStart(2, '0')}:00` : ''
+            };
+            demoHistory.push(entry);
+            payrollCounter++;
+        });
     });
-}
-
-function updateStats() {
-    const total = payrollData.reduce((sum, entry) => sum + entry.netPay, 0);
-    const withdrawn = payrollData.filter(e => e.status === 'withdrawn').length;
-    const teachers = payrollData.filter(e => e.type === 'Teacher').length;
-    const staff = payrollData.filter(e => e.type === 'Staff').length;
     
-    document.getElementById('totalPayout').textContent = '$' + total.toFixed(2);
-    document.getElementById('totalEmployees').textContent = payrollData.length;
-    document.getElementById('withdrawnCount').textContent = `${withdrawn} / ${payrollData.length}`;
-    
-    const percentage = payrollData.length > 0 ? Math.round((withdrawn / payrollData.length) * 100) : 0;
-    document.querySelector('#withdrawnCount').nextElementSibling.textContent = `${percentage}% completed`;
-    
-    // Enable/disable clear button based on completion
-    const clearBtn = document.getElementById('clearAllBtn');
-    if (payrollData.length > 0 && withdrawn === payrollData.length) {
-        clearBtn.disabled = false;
-        clearBtn.title = 'All withdrawals complete - Ready to clear';
-    } else {
-        clearBtn.disabled = true;
-        clearBtn.title = `Cannot clear - ${payrollData.length - withdrawn} withdrawals pending`;
-    }
+    allPayrollHistory = demoHistory;
+    localStorage.setItem('payrollHistory', JSON.stringify(allPayrollHistory));
 }
 
 function loadPayrollHistory() {
-    const month = document.getElementById('historyMonthFilter').value;
-    // In real implementation, load from database based on selected month
-    console.log('Loading payroll history for:', month);
+    const monthFilter = document.getElementById('historyMonthFilter');
+    if (!monthFilter) return;
+    
+    const selectedMonth = monthFilter.value;
+    const monthName = monthFilter.options[monthFilter.selectedIndex].text;
+    
+    const selectedMonthDisplay = document.getElementById('selectedMonthDisplay');
+    if (selectedMonthDisplay) {
+        selectedMonthDisplay.textContent = monthName;
+    }
+    
+    // Filter by month
+    filteredHistory = allPayrollHistory.filter(entry => entry.month === selectedMonth);
+    
+    // Update stats
+    updatePayrollMonthStats();
+    
+    // Apply other filters and render
+    applyPayrollHistoryFilters();
+}
+
+function updatePayrollMonthStats() {
+    const totalEntries = filteredHistory.length;
+    const withdrawnEntries = filteredHistory.filter(entry => entry.status === 'withdrawn');
+    const totalAmount = withdrawnEntries.reduce((sum, entry) => sum + entry.netPay, 0);
+    
+    const monthTotalEntries = document.getElementById('monthTotalEntries');
+    const monthWithdrawnCount = document.getElementById('monthWithdrawnCount');
+    const monthTotalAmount = document.getElementById('monthTotalAmount');
+    
+    if (monthTotalEntries) monthTotalEntries.textContent = totalEntries;
+    if (monthWithdrawnCount) monthWithdrawnCount.textContent = `${withdrawnEntries.length} / ${totalEntries}`;
+    if (monthTotalAmount) monthTotalAmount.textContent = `$${totalAmount.toFixed(2)}`;
+}
+
+function applyPayrollHistoryFilters() {
+    const statusFilter = document.getElementById('historyStatusFilter');
+    const typeFilter = document.getElementById('historyTypeFilter');
+    const deptFilter = document.getElementById('historyDeptFilter');
+    const searchText = document.getElementById('historySearchEmployee');
+    
+    if (!statusFilter || !typeFilter || !deptFilter || !searchText) return;
+    
+    const statusValue = statusFilter.value;
+    const typeValue = typeFilter.value;
+    const deptValue = deptFilter.value;
+    const searchValue = searchText.value.toLowerCase();
+    
+    let displayHistory = [...filteredHistory];
+    
+    if (statusValue !== 'all') {
+        displayHistory = displayHistory.filter(entry => entry.status === statusValue);
+    }
+    
+    if (typeValue !== 'all') {
+        displayHistory = displayHistory.filter(entry => entry.type === typeValue);
+    }
+    
+    if (deptValue !== 'all') {
+        displayHistory = displayHistory.filter(entry => entry.dept === deptValue);
+    }
+    
+    if (searchValue) {
+        displayHistory = displayHistory.filter(entry => 
+            entry.name.toLowerCase().includes(searchValue) || 
+            entry.employeeId.toLowerCase().includes(searchValue) ||
+            entry.id.toLowerCase().includes(searchValue)
+        );
+    }
+    
+    renderPayrollHistoryTable(displayHistory);
+}
+
+function renderPayrollHistoryTable(data) {
+    const tbody = document.getElementById('historyTableBody');
+    if (!tbody) return;
+    
+    if (data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #999; padding: 40px;"><i class="fas fa-inbox" style="font-size:48px; margin-bottom:12px; display:block;"></i>No payroll history found for selected filters</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = data.map(entry => {
+        const statusBadge = entry.status === 'withdrawn' 
+            ? '<span class="badge badge-success">Withdrawn</span>' 
+            : '<span class="badge badge-secondary">Draft</span>';
+        
+        const withdrawnInfo = entry.status === 'withdrawn' && entry.withdrawnBy 
+            ? `${entry.withdrawnBy}<br><small style="color: #666;">${entry.withdrawnTime}</small>`
+            : '<span style="color: #999;">-</span>';
+        
+        return `
+            <tr>
+                <td>${entry.employeeId}</td>
+                <td>${entry.name}</td>
+                <td>${entry.type}</td>
+                <td>${entry.dept}</td>
+                <td><strong>$${entry.netPay.toFixed(2)}</strong></td>
+                <td>${entry.paymentType}</td>
+                <td>${statusBadge}</td>
+                <td>${withdrawnInfo}</td>
+                <td>
+                    <button class="simple-btn secondary small" onclick="window.location.href='/admin/payroll-details?id=${entry.id}'" title="View Details">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    ${entry.status === 'withdrawn' ? `
+                        <button class="simple-btn primary small" onclick="viewHistoryReceipt('${entry.id}')" title="View Receipt">
+                            <i class="fas fa-receipt"></i>
+                        </button>
+                    ` : ''}
+                </td>
+            </tr>
+        `;
+    }).join('');
+}
+
+function viewHistoryReceipt(payrollId) {
+    const entry = allPayrollHistory.find(e => e.id === payrollId);
+    if (!entry || entry.status !== 'withdrawn') return;
+    
+    // Create receipt dialog
+    const dialog = document.createElement('div');
+    dialog.className = 'receipt-dialog-overlay';
+    dialog.style.display = 'flex';
+    
+    dialog.innerHTML = `
+        <div class="receipt-dialog-content">
+            <div class="receipt-dialog-header">
+                <h3><i class="fas fa-receipt"></i> Withdrawal Receipt</h3>
+                <button class="receipt-close" onclick="this.closest('.receipt-dialog-overlay').remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="receipt-dialog-body">
+                <div class="receipt-info">
+                    <div class="receipt-row">
+                        <span class="receipt-label">Payroll ID:</span>
+                        <span class="receipt-value">${entry.id}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Employee Name:</span>
+                        <span class="receipt-value">${entry.name}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Amount:</span>
+                        <span class="receipt-value">$${entry.netPay.toFixed(2)}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Payment Type:</span>
+                        <span class="receipt-value">${entry.paymentType}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Withdrawn By:</span>
+                        <span class="receipt-value">${entry.withdrawnBy}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Withdrawal Time:</span>
+                        <span class="receipt-value">${entry.withdrawnTime}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="receipt-dialog-actions">
+                <button class="simple-btn secondary" onclick="this.closest('.receipt-dialog-overlay').remove()">
+                    <i class="fas fa-times"></i> Close
+                </button>
+                <button class="simple-btn primary" onclick="printHistoryReceipt('${entry.id}')">
+                    <i class="fas fa-print"></i> Print Receipt
+                </button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(dialog);
+    dialog.addEventListener('click', function(e) {
+        if (e.target === dialog) dialog.remove();
+    });
+}
+
+function printHistoryReceipt(payrollId) {
+    const entry = allPayrollHistory.find(e => e.id === payrollId);
+    if (!entry) return;
+    
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+        <html>
+        <head>
+            <title>Withdrawal Receipt - ${entry.id}</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                .receipt-header { text-align: center; margin-bottom: 30px; }
+                .receipt-details { margin: 20px 0; }
+                .receipt-row { display: flex; justify-content: space-between; margin: 10px 0; padding: 5px 0; border-bottom: 1px solid #eee; }
+                .receipt-label { font-weight: bold; }
+                .receipt-value { color: #333; }
+            </style>
+        </head>
+        <body>
+            <div class="receipt-header">
+                <h2>Withdrawal Receipt</h2>
+                <p>Smart Campus Nova Hub</p>
+            </div>
+            <div class="receipt-details">
+                <div class="receipt-row">
+                    <span class="receipt-label">Payroll ID:</span>
+                    <span class="receipt-value">${entry.id}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Employee Name:</span>
+                    <span class="receipt-value">${entry.name}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Amount:</span>
+                    <span class="receipt-value">$${entry.netPay.toFixed(2)}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Payment Type:</span>
+                    <span class="receipt-value">${entry.paymentType}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Withdrawn By:</span>
+                    <span class="receipt-value">${entry.withdrawnBy}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Withdrawal Time:</span>
+                    <span class="receipt-value">${entry.withdrawnTime}</span>
+                </div>
+            </div>
+        </body>
+        </html>
+    `);
+    printWindow.document.close();
+    printWindow.print();
 }
 </script>
+
+<style>
+/* Payroll Management Tabs Styling */
+.attendance-view-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.view-tab {
+    background: none;
+    border: none;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #6b7280;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.view-tab:hover {
+    color: #4A90E2;
+    background: #f9fafb;
+}
+
+.view-tab.active {
+    color: #4A90E2;
+    border-bottom-color: #4A90E2;
+}
+
+.view-tab i {
+    font-size: 16px;
+}
+
+.attendance-view-content {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.badge-success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.badge-secondary {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+/* Payroll Table Enhancements */
+.payroll-row {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.payroll-row:hover {
+    background-color: #f9fafb;
+}
+
+.payroll-row td {
+    vertical-align: middle;
+    padding: 12px 16px;
+}
+
+.row-toggle-icon {
+    transition: transform 0.2s ease;
+    color: #6b7280;
+    font-size: 12px;
+}
+
+.row-toggle-icon:hover {
+    color: #4A90E2;
+}
+
+.payroll-details-row td {
+    padding: 0 !important;
+}
+
+.payroll-action-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.payroll-action-btn.view-btn {
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+}
+
+.payroll-action-btn.view-btn:hover {
+    background: #dbeafe;
+    border-color: #93c5fd;
+}
+
+.payroll-action-btn.process-btn {
+    background: #dcfce7;
+    color: #16a34a;
+    border: 1px solid #86efac;
+}
+
+.payroll-action-btn.process-btn:hover {
+    background: #bbf7d0;
+    border-color: #4ade80;
+}
+
+.payroll-action-btn.receipt-btn {
+    background: #fef3c7;
+    color: #d97706;
+    border: 1px solid #fde68a;
+}
+
+.payroll-action-btn.receipt-btn:hover {
+    background: #fde68a;
+    border-color: #fcd34d;
+}
+
+.payroll-action-btn i {
+    font-size: 11px;
+}
+
+/* Status Badge Enhancements */
+.status-badge.warning {
+    background: #fef3c7;
+    color: #d97706;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.status-badge.active {
+    background: #dcfce7;
+    color: #166534;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+</style>
 
 <?php
 $content = ob_get_clean();

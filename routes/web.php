@@ -44,18 +44,21 @@ Route::prefix('admin')->group(function () {
         include resource_path('views/admin/user-management.php'); 
     })->name('admin.user-management');
     
+    Route::get('/academic-setup', function() { 
+        include resource_path('views/admin/academic-setup.php'); 
+    })->name('admin.academic-setup');
+    
     Route::get('/academic-management', function() { 
         include resource_path('views/admin/academic-management.php'); 
     })->name('admin.academic-management');
     
     Route::get('/department-management', function() {
-        include resource_path('views/admin/department-management-v2.php');
+        include resource_path('views/admin/department-management.php');
     })->name('admin.department-management');
-
-    // Alias route for v2 (direct access)
-    Route::get('/department-management-v2', function() {
-        include resource_path('views/admin/department-management-v2.php');
-    })->name('admin.department-management.v2');
+    
+    Route::get('/events-announcements-setup', function() { 
+        include resource_path('views/admin/events-announcements-setup.php'); 
+    })->name('admin.events-announcements-setup');
     
     Route::get('/announcements', function() { 
         include resource_path('views/admin/announcements.php'); 
@@ -65,6 +68,10 @@ Route::prefix('admin')->group(function () {
         include resource_path('views/admin/event-planner.php'); 
     })->name('admin.event-planner');
     
+    Route::get('/event-calendar', function() { 
+        include resource_path('views/admin/event-calendar.php'); 
+    })->name('admin.event-calendar');
+    
     Route::get('/schedule-planner', function() { 
         include resource_path('views/admin/schedule-planner.php'); 
     })->name('admin.schedule-planner');
@@ -72,6 +79,21 @@ Route::prefix('admin')->group(function () {
     Route::get('/attendance', function() { 
         include resource_path('views/admin/attendance.php'); 
     })->name('admin.attendance');
+    Route::get('/attendance/student', function() { 
+        include resource_path('views/admin/attendance-student.php'); 
+    })->name('admin.attendance.student');
+    Route::get('/attendance/teacher', function() { 
+        include resource_path('views/admin/attendance-teacher.php'); 
+    })->name('admin.attendance.teacher');
+    Route::get('/attendance/staff', function() { 
+        include resource_path('views/admin/attendance-staff.php'); 
+    })->name('admin.attendance.staff');
+    Route::get('/attendance/class', function() { 
+        include resource_path('views/admin/attendance-class.php'); 
+    })->name('admin.attendance.class');
+    Route::get('/leave-requests', function() { 
+        include resource_path('views/admin/leave-requests.php'); 
+    })->name('admin.leave-requests');
     Route::get('/attendance/leave-detail/{id}', function($id) {
         // Make $id available in included page
         $leaveId = $id;
@@ -93,6 +115,10 @@ Route::prefix('admin')->group(function () {
     Route::get('/exam-database', function() { 
         include resource_path('views/admin/exam-database.php'); 
     })->name('admin.exam-database');
+    
+    Route::get('/student-fee-management', function() { 
+        include resource_path('views/admin/student-fee-management.php'); 
+    })->name('admin.student-fee-management');
     
     Route::get('/finance', function() { 
         include resource_path('views/admin/finance.php'); 
@@ -139,55 +165,4 @@ Route::prefix('guardian')->group(function () {
     Route::get('/profile', function () {
         include resource_path('views/guardian/profile.php');
     })->name('guardian.profile');
-});
-
-// Parent portal routes
-Route::prefix('parent')->group(function () {
-    Route::get('/dashboard', function () {
-        include resource_path('views/parent/dashboard.php');
-    })->name('parent.dashboard');
-    
-    Route::get('/my-children', function () {
-        include resource_path('views/parent/my-children.php');
-    })->name('parent.my-children');
-    
-    Route::get('/attendance', function () {
-        include resource_path('views/parent/attendance.php');
-    })->name('parent.attendance');
-    
-    Route::get('/exam-results', function () {
-        include resource_path('views/parent/exam-results.php');
-    })->name('parent.exam-results');
-    
-    Route::get('/homework', function () {
-        include resource_path('views/parent/homework.php');
-    })->name('parent.homework');
-    
-    Route::get('/fee-payment', function () {
-        include resource_path('views/parent/fee-payment.php');
-    })->name('parent.fee-payment');
-    
-    Route::get('/payment-history', function () {
-        include resource_path('views/parent/payment-history.php');
-    })->name('parent.payment-history');
-    
-    Route::get('/announcements', function () {
-        include resource_path('views/parent/announcements.php');
-    })->name('parent.announcements');
-    
-    Route::get('/announcement-details', function () {
-        include resource_path('views/parent/announcement-details.php');
-    })->name('parent.announcement-details');
-    
-    Route::get('/event-calendar', function () {
-        include resource_path('views/parent/event-calendar.php');
-    })->name('parent.event-calendar');
-    
-    Route::get('/leave-request', function () {
-        include resource_path('views/parent/leave-request.php');
-    })->name('parent.leave-request');
-    
-    Route::get('/academic-reports', function () {
-        include resource_path('views/parent/academic-reports.php');
-    })->name('parent.academic-reports');
 });

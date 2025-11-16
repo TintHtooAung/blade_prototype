@@ -108,12 +108,13 @@ ob_start();
                 <table class="basic-table" id="scheduleTable">
                     <thead>
                         <tr>
-                            <th style="width:25%;">Subject</th>
-                            <th style="width:15%;">Marks</th>
-                            <th style="width:20%;">Date</th>
-                            <th style="width:15%;">Start Time</th>
-                            <th style="width:20%;">Room</th>
-                            <th style="width:5%;">Action</th>
+                            <th style="width:22%;">Subject</th>
+                            <th style="width:12%;">Marks</th>
+                            <th style="width:15%;">Date</th>
+                            <th style="width:13%;">Start Time</th>
+                            <th style="width:13%;">End Time</th>
+                            <th style="width:18%;">Room</th>
+                            <th style="width:7%;">Action</th>
                         </tr>
                     </thead>
                     <tbody id="scheduleBody">
@@ -122,6 +123,7 @@ ob_start();
                             <td><input type="number" class="form-input" value="100"></td>
                             <td><input type="date" class="form-input" value="2025-01-20"></td>
                             <td><input type="time" class="form-input" value="09:00"></td>
+                            <td><input type="time" class="form-input" value="11:00"></td>
                             <td><input type="text" class="form-input" value="Room 201"></td>
                             <td>
                                 <button class="simple-btn-icon" onclick="removeRow(this)" title="Remove">
@@ -134,6 +136,7 @@ ob_start();
                             <td><input type="number" class="form-input" value="100"></td>
                             <td><input type="date" class="form-input" value="2025-01-22"></td>
                             <td><input type="time" class="form-input" value="10:30"></td>
+                            <td><input type="time" class="form-input" value="12:30"></td>
                             <td><input type="text" class="form-input" value="Lab A"></td>
                             <td>
                                 <button class="simple-btn-icon" onclick="removeRow(this)" title="Remove">
@@ -146,6 +149,7 @@ ob_start();
                             <td><input type="number" class="form-input" value="100"></td>
                             <td><input type="date" class="form-input" value="2025-01-24"></td>
                             <td><input type="time" class="form-input" value="08:30"></td>
+                            <td><input type="time" class="form-input" value="10:30"></td>
                             <td><input type="text" class="form-input" value="Room 105"></td>
                             <td>
                                 <button class="simple-btn-icon" onclick="removeRow(this)" title="Remove">
@@ -189,6 +193,7 @@ function addSubjectRow() {
         <td><input type="number" class="form-input" value="100"></td>
         <td><input type="date" class="form-input"></td>
         <td><input type="time" class="form-input"></td>
+        <td><input type="time" class="form-input"></td>
         <td><input type="text" class="form-input" placeholder="Room"></td>
         <td>
             <button class="simple-btn-icon" onclick="removeRow(this)" title="Remove">
@@ -231,8 +236,9 @@ function saveDraft() {
             subject: inputs[0].value,
             marks: inputs[1].value,
             date: inputs[2].value,
-            time: inputs[3].value,
-            room: inputs[4].value
+            startTime: inputs[3].value,
+            endTime: inputs[4].value,
+            room: inputs[5].value
         });
     });
     
@@ -256,13 +262,13 @@ function saveAndActivate() {
     let valid = true;
     rows.forEach(row => {
         const inputs = row.querySelectorAll('input');
-        if (!inputs[0].value || !inputs[2].value || !inputs[3].value) {
+        if (!inputs[0].value || !inputs[2].value || !inputs[3].value || !inputs[4].value) {
             valid = false;
         }
     });
     
     if (!valid) {
-        showToast('Please fill all required fields (Subject, Date, Time)', 'warning');
+        showToast('Please fill all required fields (Subject, Date, Start Time, End Time)', 'warning');
         return;
     }
     
@@ -283,8 +289,9 @@ function saveAndActivate() {
             subject: inputs[0].value,
             marks: inputs[1].value,
             date: inputs[2].value,
-            time: inputs[3].value,
-            room: inputs[4].value
+            startTime: inputs[3].value,
+            endTime: inputs[4].value,
+            room: inputs[5].value
         });
     });
     

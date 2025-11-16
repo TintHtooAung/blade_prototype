@@ -122,10 +122,12 @@ ob_start();
                     <th>Employee ID</th>
                     <th>Name</th>
                     <th>Type</th>
+                    <th>Department</th>
                     <th>Net Pay</th>
                     <th>Payment Type</th>
-                    <th>Withdrawn Date</th>
+                    <th>Status</th>
                     <th>Withdrawn By</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="historyTableBody">
@@ -220,8 +222,11 @@ function initializeDemoPayrollHistory() {
 
 // Load payroll history for selected month
 function loadPayrollHistory() {
-    const selectedMonth = document.getElementById('monthYearFilter').value;
-    const monthName = document.getElementById('monthYearFilter').options[document.getElementById('monthYearFilter').selectedIndex].text;
+    const monthFilter = document.getElementById('historyMonthFilter');
+    if (!monthFilter) return;
+    
+    const selectedMonth = monthFilter.value;
+    const monthName = monthFilter.options[monthFilter.selectedIndex].text;
     
     // Update display
     document.getElementById('selectedMonthDisplay').textContent = monthName;
@@ -278,10 +283,10 @@ function applyFilters() {
 }
 
 function renderPayrollHistoryTable(data) {
-    const tbody = document.getElementById('payrollHistoryTableBody');
+    const tbody = document.getElementById('historyTableBody');
     
     if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #999;">No payroll history found for selected filters</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #999; padding: 40px;"><i class="fas fa-inbox" style="font-size:48px; margin-bottom:12px; display:block;"></i>No payroll history found for selected filters</td></tr>';
         return;
     }
     
@@ -305,7 +310,7 @@ function renderPayrollHistoryTable(data) {
                 <td>${statusBadge}</td>
                 <td>${withdrawnInfo}</td>
                 <td>
-                    <button class="simple-btn secondary small" onclick="viewPayrollHistory('${entry.id}')" title="View Details">
+                    <button class="simple-btn secondary small" onclick="window.location.href='/admin/payroll-details?id=${entry.id}'" title="View Details">
                         <i class="fas fa-eye"></i>
                     </button>
                     ${entry.status === 'withdrawn' ? `

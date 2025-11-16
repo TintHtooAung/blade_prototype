@@ -8,6 +8,7 @@ $activePage = 'academic';
 
 // Include UI components
 include __DIR__ . '/../../components/ui/card.php';
+include __DIR__ . '/../../components/academic-dialogs.php';
 
 // Determine portal (admin or staff) from URL
 $uri = $_SERVER['REQUEST_URI'] ?? '';
@@ -71,36 +72,6 @@ ob_start();
     ]); ?>
 </div>
 
-<!-- Edit Grade Form -->
-<div id="editGradeForm" class="simple-section" style="display:none; margin-top:12px;">
-    <div class="simple-header">
-        <h4><i class="fas fa-edit"></i> Edit Grade</h4>
-    </div>
-    <div class="form-section">
-        <div class="form-row">
-            <div class="form-group">
-                <label for="editGradeLevel">Grade Level</label>
-                <input type="text" id="editGradeLevel" class="form-input" value="<?php echo htmlspecialchars($gradeName); ?>">
-            </div>
-            <div class="form-group">
-                <label for="editGradeCategory">Category</label>
-                <select id="editGradeCategory" class="form-input">
-                    <option value="Primary" selected>Primary</option>
-                    <option value="Secondary">Secondary</option>
-                    <option value="High School">High School</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="editGradeDescription">Description</label>
-                <input type="text" id="editGradeDescription" class="form-input" value="Academic Level">
-            </div>
-        </div>
-        <div class="form-actions">
-            <button id="cancelEditGrade" class="simple-btn secondary">Cancel</button>
-            <button id="saveEditGrade" class="simple-btn primary"><i class="fas fa-check"></i> Update Grade</button>
-        </div>
-    </div>
-</div>
 
 <!-- Grade Information Section removed per updated model -->
 
@@ -110,66 +81,78 @@ ob_start();
         <h3 class="section-title">Academic Statistics</h3>
     </div>
     
-    <div class="simple-table-container">
-        <table class="basic-table">
-            <tbody>
-                <tr>
-                    <td style="width: 200px; font-weight: 600; color: #86868b;">Total Subjects</td>
-                    <td>8</td>
-                </tr>
-                <tr>
-                    <td style="font-weight: 600; color: #86868b;">Core Subjects</td>
-                    <td>6</td>
-                </tr>
-                <tr>
-                    <td style="font-weight: 600; color: #86868b;">Elective Subjects</td>
-                    <td>2</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="stats-info">
+        <div class="stat-detail">
+            <label>Total Subjects</label>
+            <span>8</span>
+        </div>
+        <div class="stat-detail">
+            <label>Core Subjects</label>
+            <span>6</span>
+        </div>
+        <div class="stat-detail">
+            <label>Elective Subjects</label>
+            <span>2</span>
+        </div>
     </div>
 </div>
 
 <!-- Classes in Grade Section -->
-<div class="detail-section">
-    <div class="section-header">
-        <h3 class="section-title">Classes in <?php echo htmlspecialchars($gradeName); ?></h3>
+<div class="simple-section">
+    <div class="simple-header" style="margin-top:24px;">
+        <h4><i class="fas fa-users"></i> Classes in <?php echo htmlspecialchars($gradeName); ?></h4>
     </div>
     
     <div class="simple-table-container">
-        <table class="basic-table">
+        <table class="basic-table responsive-table">
             <thead>
                 <tr>
                     <th>Class Name</th>
-                    <th>Room</th>
-                    <th>Students</th>
-                    <th>Teacher</th>
+                    <th>Class Teacher</th>
+                    <th>Total Students</th>
+                    <th>Status</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr style="cursor:pointer;" onclick="window.location.href='<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>A'">
-                    <td><a href="<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>A" class="grade-link" onclick="event.stopPropagation()" style="font-weight: 600; color: #007AFF;">Class <?php echo $gradeId; ?>A</a></td>
-                    <td>Room 101</td>
-                    <td>30 students</td>
-                    <td>Ms. Sarah Johnson</td>
+            <tbody id="classesList">
+                <tr>
+                    <td data-label="Class Name">
+                        <a href="<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>A" style="text-decoration: none; color: #1976d2;">
+                            <strong>Grade <?php echo $gradeId; ?>-A</strong>
+            </a>
+                    </td>
+                    <td data-label="Class Teacher">Ms. Sarah Johnson</td>
+                    <td data-label="Total Students">30</td>
+                    <td data-label="Status"><span class="status-badge active">Active</span></td>
                 </tr>
-                <tr style="cursor:pointer;" onclick="window.location.href='<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>B'">
-                    <td><a href="<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>B" class="grade-link" onclick="event.stopPropagation()" style="font-weight: 600; color: #007AFF;">Class <?php echo $gradeId; ?>B</a></td>
-                    <td>Room 102</td>
-                    <td>30 students</td>
-                    <td>Mr. David Chen</td>
+                <tr>
+                    <td data-label="Class Name">
+                        <a href="<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>B" style="text-decoration: none; color: #1976d2;">
+                            <strong>Grade <?php echo $gradeId; ?>-B</strong>
+            </a>
+                    </td>
+                    <td data-label="Class Teacher">Mr. David Lee</td>
+                    <td data-label="Total Students">28</td>
+                    <td data-label="Status"><span class="status-badge active">Active</span></td>
                 </tr>
-                <tr style="cursor:pointer;" onclick="window.location.href='<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>C'">
-                    <td><a href="<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>C" class="grade-link" onclick="event.stopPropagation()" style="font-weight: 600; color: #007AFF;">Class <?php echo $gradeId; ?>C</a></td>
-                    <td>Room 103</td>
-                    <td>30 students</td>
-                    <td>Ms. Emily Rodriguez</td>
+                <tr>
+                    <td data-label="Class Name">
+                        <a href="<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>C" style="text-decoration: none; color: #1976d2;">
+                            <strong>Grade <?php echo $gradeId; ?>-C</strong>
+            </a>
+                    </td>
+                    <td data-label="Class Teacher">Ms. Emily Chen</td>
+                    <td data-label="Total Students">32</td>
+                    <td data-label="Status"><span class="status-badge active">Active</span></td>
                 </tr>
-                <tr style="cursor:pointer;" onclick="window.location.href='<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>D'">
-                    <td><a href="<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>D" class="grade-link" onclick="event.stopPropagation()" style="font-weight: 600; color: #007AFF;">Class <?php echo $gradeId; ?>D</a></td>
-                    <td>Room 104</td>
-                    <td>30 students</td>
-                    <td>Dr. James Wilson</td>
+                <tr>
+                    <td data-label="Class Name">
+                        <a href="<?php echo $portalPrefix; ?>/academic/class-detail/<?php echo $gradeId; ?>D" style="text-decoration: none; color: #1976d2;">
+                            <strong>Grade <?php echo $gradeId; ?>-D</strong>
+                        </a>
+                    </td>
+                    <td data-label="Class Teacher">Mr. Robert Kim</td>
+                    <td data-label="Total Students">29</td>
+                    <td data-label="Status"><span class="status-badge active">Active</span></td>
                 </tr>
             </tbody>
         </table>
@@ -186,47 +169,44 @@ include $layoutPath;
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){
+    // Close Grade Dialog function
+    window.closeGradeDialog = function() {
+        document.getElementById('gradeDialog').style.display = 'none';
+    };
+    
     // Edit Grade functionality
     const editGradeBtn = document.getElementById('editGradeBtn');
-    const editGradeForm = document.getElementById('editGradeForm');
-    const cancelEditGradeBtn = document.getElementById('cancelEditGrade');
-    const saveEditGradeBtn = document.getElementById('saveEditGrade');
     const gradeTitle = document.getElementById('gradeTitle');
     
     editGradeBtn.addEventListener('click', function() {
-        editGradeForm.style.display = 'block';
+        // Open dialog with current data
+        const gradeName = '<?php echo htmlspecialchars($gradeName); ?>';
+        document.getElementById('gradeDialogTitle').textContent = 'Edit Grade';
+        document.getElementById('gradeLevel').value = gradeName;
+        document.getElementById('gradeCategory').value = 'Primary'; // Get from actual data
+        document.getElementById('gradeDescription').value = 'Academic Level'; // Get from actual data
+        document.getElementById('gradeDialog').style.display = 'flex';
     });
     
-    // Check if edit parameter is present in URL and clean it up immediately
-    if (window.location.search.includes('edit=true')) {
-        editGradeForm.style.display = 'block';
-        // Remove edit parameter from URL immediately
-        const cleanUrl = window.location.pathname + window.location.search.replace(/[?&]edit=true/, '').replace(/[?&]$/, '');
-        window.history.replaceState({}, document.title, cleanUrl);
-    }
-    
-    cancelEditGradeBtn.addEventListener('click', function() {
-        editGradeForm.style.display = 'none';
-    });
-    
-    saveEditGradeBtn.addEventListener('click', function() {
-        const newLevel = document.getElementById('editGradeLevel').value.trim();
-        const newCategory = document.getElementById('editGradeCategory').value.trim();
-        const newDescription = document.getElementById('editGradeDescription').value.trim();
+    // Override saveGrade function for detail page
+    window.saveGrade = function() {
+        const newLevel = document.getElementById('gradeLevel').value.trim();
+        const newCategory = document.getElementById('gradeCategory').value.trim();
+        const newDescription = document.getElementById('gradeDescription').value.trim();
         
-        if (!newLevel || !newCategory || !newDescription) {
-            alert('Please fill in all fields');
+        if (!newLevel || !newCategory) {
+            alert('Please fill in all required fields');
             return;
         }
         
         // Update page title
         gradeTitle.textContent = newLevel;
         
-        // Hide form
-        editGradeForm.style.display = 'none';
+        // Close dialog
+        document.getElementById('gradeDialog').style.display = 'none';
         
         showActionStatus('Grade updated successfully!', 'success');
-    });
+    };
     
     // Delete Grade functionality
     const deleteGradeBtn = document.getElementById('deleteGradeBtn');
@@ -254,6 +234,7 @@ document.addEventListener('DOMContentLoaded', function(){
 .section-actions {
     display: flex;
     gap: 8px;
+    align-items: center;
 }
 </style>
 

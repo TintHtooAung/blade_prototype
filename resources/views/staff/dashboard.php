@@ -6,17 +6,16 @@ $activePage = 'dashboard';
 
 ob_start();
 ?>
-<!-- Welcome Header -->
-<div class="welcome-header">
-    <div class="welcome-content">
-        <h1 class="welcome-title">Welcome back, Staff Member! 👋</h1>
-        <p class="welcome-subtitle">Ready to make today productive</p>
-    </div>
-    <div class="welcome-time">
-        <div class="current-date" id="currentDate"></div>
-        <div class="current-time" id="currentTime"></div>
-    </div>
-</div>
+<!-- Compact Page Header -->
+<div class="page-header-compact">
+    <div class="page-icon-compact">
+        <i class="<?php echo $pageIcon; ?>"></i>
+        </div>
+    <div class="page-title-compact">
+        <h2><?php echo $pageHeading; ?></h2>
+        <p class="dashboard-subtitle">Tools and insights for daily school operations</p>
+                </div>
+            </div>
 
 <!-- School Info Header Section (aligned with Admin design) -->
 <div class="school-info-header">
@@ -42,7 +41,7 @@ ob_start();
     </div>
 </div>
 
-<!-- Statistics Grid - Clean Blue Card Design -->
+<!-- Statistics Grid -->
 <div class="stats-grid-secondary vertical-stats">
     <!-- Total Students -->
     <div class="stat-card">
@@ -57,26 +56,26 @@ ob_start();
     </div>
 
     <!-- Total Staff -->
-    <div class="stat-card clickable-card" onclick="window.location.href='/staff/employee-profiles'">
+    <div class="stat-card" onclick="window.location.href='/staff/employee-profiles'" style="cursor: pointer;">
         <div class="stat-icon">
             <i class="fas fa-users-cog"></i>
         </div>
         <div class="stat-content">
             <h3>Total Staff</h3>
             <div class="stat-number">45</div>
-            <div class="stat-change positive">Today: 95.2%</div>
+            <div class="stat-change">Today: 95.2%</div>
         </div>
     </div>
 
     <!-- Total Teachers -->
-    <div class="stat-card clickable-card" onclick="window.location.href='/staff/teacher-profiles'">
+    <div class="stat-card" onclick="window.location.href='/staff/teacher-profiles'" style="cursor: pointer;">
         <div class="stat-icon">
             <i class="fas fa-chalkboard-teacher"></i>
         </div>
         <div class="stat-content">
             <h3>Total Teachers</h3>
             <div class="stat-number">111</div>
-            <div class="stat-change positive">Today: 97.5%</div>
+            <div class="stat-change">Today: 97.5%</div>
         </div>
     </div>
 
@@ -87,13 +86,13 @@ ob_start();
         </div>
         <div class="stat-content">
             <h3>Active Batch</h3>
-            <div class="stat-number">2024-2025</div>
+            <div class="stat-number" style="font-size: 1.25rem;">2024-2025</div>
             <div class="stat-change">Current Year</div>
         </div>
     </div>
 
     <!-- Total Grades -->
-    <div class="stat-card clickable-card" onclick="window.location.href='/staff/academic/grades'">
+    <div class="stat-card" onclick="window.location.href='/staff/academic/grades'" style="cursor: pointer;">
         <div class="stat-icon">
             <i class="fas fa-layer-group"></i>
         </div>
@@ -105,7 +104,7 @@ ob_start();
     </div>
 
     <!-- Total Classes -->
-    <div class="stat-card clickable-card" onclick="window.location.href='/staff/academic/classes'">
+    <div class="stat-card" onclick="window.location.href='/staff/academic/classes'" style="cursor: pointer;">
         <div class="stat-icon">
             <i class="fas fa-chalkboard"></i>
         </div>
@@ -117,7 +116,7 @@ ob_start();
     </div>
 
     <!-- Total Subjects -->
-    <div class="stat-card clickable-card" onclick="window.location.href='/staff/academic/subjects'">
+    <div class="stat-card" onclick="window.location.href='/staff/academic/subjects'" style="cursor: pointer;">
         <div class="stat-icon">
             <i class="fas fa-book"></i>
         </div>
@@ -215,88 +214,6 @@ ob_start();
 </div>
 
 <style>
-/* Welcome Header Styles */
-.welcome-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-    padding: 24px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-    color: #fff;
-    flex-wrap: wrap;
-    gap: 16px;
-}
-
-.welcome-content {
-    flex: 1;
-    min-width: 250px;
-}
-
-.welcome-title {
-    font-size: 2rem;
-    font-weight: 700;
-    margin: 0 0 8px 0;
-    color: #fff;
-    line-height: 1.2;
-}
-
-.welcome-subtitle {
-    font-size: 1rem;
-    margin: 0;
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 400;
-}
-
-.welcome-time {
-    text-align: right;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.current-date {
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: #fff;
-}
-
-.current-time {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #fff;
-}
-
-@media (max-width: 768px) {
-    .welcome-header {
-        padding: 20px;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .welcome-title {
-        font-size: 1.5rem;
-    }
-    
-    .welcome-subtitle {
-        font-size: 0.9375rem;
-    }
-    
-    .welcome-time {
-        width: 100%;
-        text-align: left;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .current-time {
-        font-size: 1.25rem;
-    }
-}
-
 /* Dashboard Enhancements */
 .dashboard-subtitle {
     font-size: 0.875rem;
@@ -574,30 +491,6 @@ ob_start();
     align-items: center;
 }
 </style>
-
-<script>
-// Update time and date
-function updateDateTime() {
-    const now = new Date();
-    
-    // Update date
-    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const dateStr = now.toLocaleDateString('en-US', dateOptions);
-    document.getElementById('currentDate').textContent = dateStr;
-    
-    // Update time
-    const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-    document.getElementById('currentTime').textContent = timeStr;
-}
-
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
-    updateDateTime();
-    // Update time every minute
-    setInterval(updateDateTime, 60000);
-});
-</script>
-
 <?php
 $content = ob_get_clean();
 

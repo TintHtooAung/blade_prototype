@@ -1,27 +1,6 @@
 <?php
 // Admin Sidebar Component
 $activePage = $activePage ?? 'dashboard';
-$menuItems = [
-    ['id' => 'dashboard', 'icon' => 'fas fa-home', 'label' => 'Admin Dashboard', 'url' => '/admin/dashboard'],
-    ['id' => 'users', 'icon' => 'fas fa-users', 'label' => 'User Management', 'url' => '/admin/user-management'],
-    ['id' => 'academic', 'icon' => 'fas fa-graduation-cap', 'label' => 'School Structure ', 'url' => '/admin/academic-management'],
-    ['id' => 'departments', 'icon' => 'fas fa-building', 'label' => 'Departments', 'url' => '/admin/department-management'],
-    ['id' => 'announcements', 'icon' => 'fas fa-bell', 'label' => 'Announcements', 'url' => '/admin/announcements'],
-    ['id' => 'events', 'icon' => 'fas fa-calendar', 'label' => 'Event Planner', 'url' => '/admin/event-planner'],
-    ['id' => 'event-calendar', 'icon' => 'fas fa-calendar-alt', 'label' => 'Event Calendar', 'url' => '/admin/event-calendar'],
-    ['id' => 'schedule', 'icon' => 'fas fa-clock', 'label' => 'Schedule Planner', 'url' => '/admin/schedule-planner'],
-    ['id' => 'attendance', 'icon' => 'fas fa-user-check', 'label' => 'Attendance', 'url' => '/admin/attendance'],
-    ['id' => 'leave-requests', 'icon' => 'fas fa-calendar-times', 'label' => 'Leave Requests', 'url' => '/admin/leave-requests'],
-    ['id' => 'teachers', 'icon' => 'fas fa-chalkboard-teacher', 'label' => 'Teacher Profiles', 'url' => '/admin/teacher-profiles'],
-    ['id' => 'students', 'icon' => 'fas fa-user-graduate', 'label' => 'Student Profiles', 'url' => '/admin/student-profiles'],
-    ['id' => 'employees', 'icon' => 'fas fa-users-cog', 'label' => 'Staff Profiles', 'url' => '/admin/employee-profiles'],
-    ['id' => 'exams', 'icon' => 'fas fa-clipboard-list', 'label' => 'Exam Database', 'url' => '/admin/exam-database'],
-    ['id' => 'finance', 'icon' => 'fas fa-file-invoice-dollar', 'label' => 'Student Fee', 'url' => '/admin/student-fee-management'],
-    ['id' => 'payroll', 'icon' => 'fas fa-money-check-alt', 'label' => 'Salary & Payroll', 'url' => '/admin/salary-payroll'],
-    ['id' => 'school', 'icon' => 'fas fa-school', 'label' => 'School Info', 'url' => '/admin/school-info'],
-    ['id' => 'logs', 'icon' => 'fas fa-chart-line', 'label' => 'User Activity Logs', 'url' => '/admin/activity-logs'],
-    ['id' => 'reports', 'icon' => 'fas fa-file-alt', 'label' => 'Report Centre', 'url' => '/admin/report-centre']
-];
 ?>
 <!-- Admin Sidebar -->
 <div class="sidebar" id="sidebar" data-minimized-state="" style="">
@@ -42,7 +21,11 @@ $menuItems = [
                 sidebar.setAttribute('data-minimized-state', 'true');
             }
             const mainContent = document.querySelector('.main-content');
-        // Will be handled by updateMainContentState() after DOMContentLoaded
+            if (mainContent) {
+                mainContent.style.marginLeft = '64px';
+                mainContent.style.width = 'calc(100vw - 64px)';
+                mainContent.style.transition = 'none';
+            }
         } else {
             // Default: EXPANDED state - ensure sidebar is expanded
             const sidebar = document.getElementById('sidebar');
@@ -61,7 +44,8 @@ $menuItems = [
 })();
 </script>
     <!-- Hamburger Menu Toggle (Desktop) -->
-    <button class="sidebar-hamburger" id="sidebarHamburger" title="Close Sidebar">
+    <button class="sidebar-hamburger" id="sidebarHamburger" title="Toggle Sidebar">
+        <i class="fas fa-bars"></i>
         <i class="fas fa-times"></i>
     </button>
     
@@ -72,24 +56,246 @@ $menuItems = [
     
     <!-- Logo Section removed - using header logo only -->
     
-    <ul class="sidebar-nav" style="margin-top: 0; padding-top: 52px;">
+    <ul class="sidebar-nav" style="margin-top: 0;">
         <!-- Hamburger menu as first nav item when minimized -->
         <li class="sidebar-hamburger-nav-item">
             <button class="sidebar-nav-hamburger" id="sidebarNavHamburger" title="Expand Sidebar">
+                <i class="fas fa-arrow-right"></i>
                 <i class="fas fa-bars"></i>
-                <span class="sidebar-nav-label">Menu</span>
+                <span class="sidebar-nav-label">Expand</span>
             </button>
         </li>
-        <?php foreach ($menuItems as $item): ?>
+        
+        <!-- Group 1: Dashboard -->
         <li>
-            <a href="<?php echo $item['url']; ?>" 
-               class="<?php echo ($activePage === $item['id']) ? 'active' : ''; ?>"
-               title="<?php echo $item['label']; ?>">
-                <i class="<?php echo $item['icon']; ?>"></i> 
-                <span class="sidebar-nav-label"><?php echo $item['label']; ?></span>
+            <a href="/admin/dashboard" 
+               class="<?php echo ($activePage === 'dashboard') ? 'active' : ''; ?>"
+               title="Admin Dashboard">
+                <i class="fas fa-home"></i> 
+                <span class="sidebar-nav-label">Admin Dashboard</span>
             </a>
         </li>
-        <?php endforeach; ?>
+        
+        <!-- Group 2: Academic Management (Academic Setup + Academic Management + Exam Database) -->
+        <li class="sidebar-section-header" style="margin: 1rem 0 0.5rem 0; color: #a0aec0; font-size: 0.75rem; text-transform: uppercase; padding: 0 1.5rem;">ACADEMIC MANAGEMENT</li>
+        <li>
+            <a href="/admin/academic-setup" 
+               class="<?php echo ($activePage === 'academic-setup') ? 'active' : ''; ?>"
+               title="Setup">
+                <i class="fas fa-magic"></i> 
+                <span class="sidebar-nav-label">Setup</span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/academic-management" 
+               class="<?php echo ($activePage === 'academic') ? 'active' : ''; ?>"
+               title="Academic Management">
+                <i class="fas fa-graduation-cap"></i> 
+                <span class="sidebar-nav-label">Academic Management</span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/exam-database" 
+               class="<?php echo ($activePage === 'exams') ? 'active' : ''; ?>"
+               title="Exam Database">
+                <i class="fas fa-clipboard-list"></i> 
+                <span class="sidebar-nav-label">Exam Database</span>
+            </a>
+        </li>
+        
+        <!-- Group 3: Events (Event Planner, Event Calendar + Announcements) -->
+        <li class="sidebar-section-header" style="margin: 1rem 0 0.5rem 0; color: #a0aec0; font-size: 0.75rem; text-transform: uppercase; padding: 0 1.5rem;">EVENTS & ANNOUNCEMENTS</li>
+        <li>
+            <a href="/admin/events-setup" 
+               class="<?php echo ($activePage === 'events-setup') ? 'active' : ''; ?>"
+               title="Setup">
+                <i class="fas fa-cog"></i> 
+                <span class="sidebar-nav-label">Setup</span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/event-planner" 
+               class="<?php echo ($activePage === 'events') ? 'active' : ''; ?>"
+               title="Event Planner">
+                <i class="fas fa-calendar"></i> 
+                <span class="sidebar-nav-label">Event Planner</span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/event-calendar" 
+               class="<?php echo ($activePage === 'event-calendar') ? 'active' : ''; ?>"
+               title="Event Calendar">
+                <i class="fas fa-calendar-alt"></i> 
+                <span class="sidebar-nav-label">Event Calendar</span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/announcements" 
+               class="<?php echo ($activePage === 'announcements') ? 'active' : ''; ?>"
+               title="Announcements">
+                <i class="fas fa-bell"></i> 
+                <span class="sidebar-nav-label">Announcements</span>
+            </a>
+        </li>
+        
+        <!-- Group 4: Schedule Planner, Attendance, Leave -->
+        <li class="sidebar-section-header" style="margin: 1rem 0 0.5rem 0; color: #a0aec0; font-size: 0.75rem; text-transform: uppercase; padding: 0 1.5rem;">SCHEDULE & ATTENDANCE</li>
+        <li>
+            <a href="/admin/schedule-attendance-setup" 
+               class="<?php echo ($activePage === 'schedule-attendance-setup') ? 'active' : ''; ?>"
+               title="Setup">
+                <i class="fas fa-cog"></i> 
+                <span class="sidebar-nav-label">Setup</span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/schedule-planner" 
+               class="<?php echo ($activePage === 'schedule') ? 'active' : ''; ?>"
+               title="Schedule Planner">
+                <i class="fas fa-clock"></i> 
+                <span class="sidebar-nav-label">Schedule Planner</span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/attendance/student" 
+               class="<?php echo ($activePage === 'attendance-student') ? 'active' : ''; ?>"
+               title="Student Attendance">
+                <i class="fas fa-user-graduate"></i> 
+                <span class="sidebar-nav-label">Student Attendance</span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/attendance/teacher" 
+               class="<?php echo ($activePage === 'attendance-teacher') ? 'active' : ''; ?>"
+               title="Teacher Attendance">
+                <i class="fas fa-chalkboard-teacher"></i> 
+                <span class="sidebar-nav-label">Teacher Attendance</span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/attendance/staff" 
+               class="<?php echo ($activePage === 'attendance-staff') ? 'active' : ''; ?>"
+               title="Staff Attendance">
+                <i class="fas fa-users-cog"></i> 
+                <span class="sidebar-nav-label">Staff Attendance</span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/leave-requests" 
+               class="<?php echo ($activePage === 'leave-requests') ? 'active' : ''; ?>"
+               title="Leave Requests">
+                <i class="fas fa-calendar-times"></i> 
+                <span class="sidebar-nav-label">Leave Requests</span>
+            </a>
+        </li>
+        
+        <!-- Group 5: Department, Profiles -->
+        <li class="sidebar-section-header" style="margin: 1rem 0 0.5rem 0; color: #a0aec0; font-size: 0.75rem; text-transform: uppercase; padding: 0 1.5rem;">DEPARTMENTS & PROFILES</li>
+        <li>
+            <a href="/admin/department-management" 
+               class="<?php echo ($activePage === 'departments') ? 'active' : ''; ?>"
+               title="Departments">
+                <i class="fas fa-building"></i> 
+                <span class="sidebar-nav-label">Departments</span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/teacher-profiles" 
+               class="<?php echo ($activePage === 'teachers') ? 'active' : ''; ?>"
+               title="Teacher Profiles">
+                <i class="fas fa-chalkboard-teacher"></i> 
+                <span class="sidebar-nav-label">Teacher Profiles</span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/student-profiles" 
+               class="<?php echo ($activePage === 'students') ? 'active' : ''; ?>"
+               title="Student Profiles">
+                <i class="fas fa-user-graduate"></i> 
+                <span class="sidebar-nav-label">Student Profiles</span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/employee-profiles" 
+               class="<?php echo ($activePage === 'employees') ? 'active' : ''; ?>"
+               title="Staff Profiles">
+                <i class="fas fa-users-cog"></i> 
+                <span class="sidebar-nav-label">Staff Profiles</span>
+            </a>
+        </li>
+        
+        <!-- Group 7: Student Fee, Payroll, Finance -->
+        <li class="sidebar-section-header" style="margin: 1rem 0 0.5rem 0; color: #a0aec0; font-size: 0.75rem; text-transform: uppercase; padding: 0 1.5rem;">FINANCE</li>
+        <li>
+            <a href="/admin/finance-setup" 
+               class="<?php echo ($activePage === 'finance-setup') ? 'active' : ''; ?>"
+               title="Setup">
+                <i class="fas fa-cog"></i> 
+                <span class="sidebar-nav-label">Setup</span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/student-fee-management" 
+               class="<?php echo ($activePage === 'student-fee') ? 'active' : ''; ?>"
+               title="Student Fee">
+                <i class="fas fa-file-invoice-dollar"></i> 
+                <span class="sidebar-nav-label">Student Fee</span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/salary-payroll" 
+               class="<?php echo ($activePage === 'payroll') ? 'active' : ''; ?>"
+               title="Salary & Payroll">
+                <i class="fas fa-money-check-alt"></i> 
+                <span class="sidebar-nav-label">Salary & Payroll</span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/finance" 
+               class="<?php echo ($activePage === 'finance') ? 'active' : ''; ?>"
+               title="Finance">
+                <i class="fas fa-dollar-sign"></i> 
+                <span class="sidebar-nav-label">Finance</span>
+            </a>
+        </li>
+        
+        <!-- Group 8: School Info, User Management, Activity -->
+        <li class="sidebar-section-header" style="margin: 1rem 0 0.5rem 0; color: #a0aec0; font-size: 0.75rem; text-transform: uppercase; padding: 0 1.5rem;">SETTINGS</li>
+        <li>
+            <a href="/admin/school-info" 
+               class="<?php echo ($activePage === 'school') ? 'active' : ''; ?>"
+               title="School Info">
+                <i class="fas fa-school"></i> 
+                <span class="sidebar-nav-label">School Info</span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/user-management" 
+               class="<?php echo ($activePage === 'users') ? 'active' : ''; ?>"
+               title="User Management">
+                <i class="fas fa-users"></i> 
+                <span class="sidebar-nav-label">User Management</span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/activity-logs" 
+               class="<?php echo ($activePage === 'logs') ? 'active' : ''; ?>"
+               title="User Activity Logs">
+                <i class="fas fa-chart-line"></i> 
+                <span class="sidebar-nav-label">User Activity Logs</span>
+            </a>
+        </li>
+        
+        <!-- Group 9: Report Centre -->
+        <li class="sidebar-section-header" style="margin: 1rem 0 0.5rem 0; color: #a0aec0; font-size: 0.75rem; text-transform: uppercase; padding: 0 1.5rem;">REPORTS</li>
+        <li>
+            <a href="/admin/report-centre" 
+               class="<?php echo ($activePage === 'reports') ? 'active' : ''; ?>"
+               title="Report Centre">
+                <i class="fas fa-file-alt"></i> 
+                <span class="sidebar-nav-label">Report Centre</span>
+            </a>
+        </li>
     </ul>
 </div>
 
@@ -100,35 +306,30 @@ $menuItems = [
 /* Include shared hamburger menu styles */
 @import url('/css/sidebar-hamburger.css');
 
-/* Mobile Responsive - Mini Sidebar with Hamburger */
+/* Mobile Responsive Only */
 @media (max-width: 768px) {
     .sidebar {
-        position: absolute !important;
-        width: 64px !important;
-        max-width: 64px !important;
-        min-width: 64px !important;
-        z-index: 100;
-        transition: width 0.3s ease, max-width 0.3s ease;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
     }
     
-    /* Expanded state on mobile */
-    .sidebar.mobile-expanded {
-        width: 240px !important;
-        max-width: 240px !important;
-        min-width: 240px !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    }
-    
-    .sidebar-nav-label {
-        display: none !important;
-    }
-    
-    .sidebar.mobile-expanded .sidebar-nav-label {
-        display: inline !important;
+    .sidebar.open {
+        transform: translateX(0);
     }
     
     .sidebar-toggle {
-        display: none !important;
+        display: block;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background: rgba(0, 0, 0, 0.7);
+        border: none;
+        color: white;
+        padding: 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        z-index: 1002;
+        font-size: 16px;
     }
     
     .sidebar-overlay {
@@ -139,7 +340,7 @@ $menuItems = [
         width: 100%;
         height: 100%;
         background: rgba(0, 0, 0, 0.5);
-        z-index: 99;
+        z-index: 999;
     }
     
     .sidebar-overlay.show {
@@ -147,51 +348,7 @@ $menuItems = [
     }
     
     .main-content {
-        margin-left: 64px !important;
-        width: calc(100vw - 64px) !important;
-        transition: none;
-    }
-    
-    /* Show mobile hamburger button */
-    .sidebar-hamburger {
-        display: flex !important;
-        position: absolute;
-        top: 16px;
-        right: 12px;
-        background: transparent;
-        border: none;
-        color: #1d1d1f;
-        padding: 8px;
-        cursor: pointer;
-        border-radius: 6px;
-        z-index: 10;
-        width: 32px;
-        height: 32px;
-    }
-    
-    .sidebar-hamburger:hover {
-        background: rgba(0, 122, 255, 0.1);
-        color: #007AFF;
-    }
-    
-    /* Show nav items in icon-only mode */
-    .sidebar-nav a {
-        justify-content: center;
-        padding: 0.75rem 0.5rem;
-    }
-    
-    .sidebar.mobile-expanded .sidebar-nav a {
-        justify-content: flex-start;
-        padding: 0.75rem 1rem;
-    }
-    
-    .sidebar-nav i {
-        margin-right: 0;
-        font-size: 1.1rem;
-    }
-    
-    .sidebar.mobile-expanded .sidebar-nav i {
-        margin-right: 0.75rem;
+        margin-left: 0 !important;
     }
 }
 
@@ -200,11 +357,102 @@ $menuItems = [
         display: none;
     }
 }
+
+/* Hide section headers in minimized state */
+.sidebar.minimized .sidebar-section-header {
+    display: none;
+}
+
+/* Submenu Styles */
+.sidebar-nav li.has-submenu {
+    position: relative;
+}
+
+.sidebar-submenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.sidebar-nav li.submenu-open .sidebar-submenu {
+    max-height: 500px;
+    padding: 4px 0;
+}
+
+.sidebar-submenu li {
+    margin: 0;
+}
+
+.sidebar-submenu a {
+    padding: 10px 1.5rem 10px 3.5rem !important;
+    font-size: 0.875rem;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+}
+
+.sidebar-submenu a:hover {
+    background: rgba(74, 144, 226, 0.1);
+    color: #4A90E2;
+}
+
+.sidebar-submenu a.active {
+    background: rgba(74, 144, 226, 0.15);
+    color: #4A90E2;
+    font-weight: 600;
+    border-left: 3px solid #4A90E2;
+}
+
+.sidebar-submenu a i {
+    font-size: 14px;
+    width: 16px;
+    text-align: center;
+}
+
+.submenu-arrow {
+    margin-left: auto;
+    font-size: 12px;
+    transition: transform 0.3s ease;
+}
+
+.sidebar-nav li.submenu-open .submenu-arrow {
+    transform: rotate(180deg);
+}
+
+.sidebar.minimized .sidebar-submenu {
+    display: none;
+}
+
+.sidebar.minimized .submenu-arrow {
+    display: none;
+}
 </style>
 
 <script>
 // Initialize sidebar state immediately to prevent flicker
-// Main content will be updated by updateMainContentState() after DOMContentLoaded
+(function() {
+    const savedState = localStorage.getItem('sidebarMinimized');
+    if (savedState === 'true' && window.innerWidth > 768) {
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('.main-content');
+            if (sidebar) {
+                sidebar.classList.add('minimized');
+            }
+            if (mainContent) {
+                mainContent.style.marginLeft = '64px';
+                mainContent.style.width = 'calc(100vw - 64px)';
+                mainContent.style.transition = 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+            }
+        });
+    }
+})();
 
 document.addEventListener('DOMContentLoaded', function() {
     const sidebar = document.getElementById('sidebar');
@@ -226,14 +474,10 @@ document.addEventListener('DOMContentLoaded', function() {
             sidebar.style.maxWidth = '64px';
             sidebar.style.minWidth = '64px';
         }
-        // Will be handled by updateMainContentState() after DOMContentLoaded
-        // Set hamburger icon to bars (will be hidden, nav shows bars)
-        if (sidebarHamburger) {
-            const icon = sidebarHamburger.querySelector('i');
-            if (icon) {
-                icon.className = 'fas fa-bars';
-            }
-            sidebarHamburger.title = 'Expand Sidebar';
+        if (mainContent) {
+            mainContent.style.marginLeft = '64px';
+            mainContent.style.width = 'calc(100vw - 64px)';
+            mainContent.style.transition = 'none';
         }
     } else {
         // Default: EXPANDED state (no saved state or 'false')
@@ -245,19 +489,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 sidebar.style.minWidth = '';
                 sidebar.style.transition = 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
             }
-            // Will be handled by updateMainContentState() after DOMContentLoaded
-            // Set hamburger icon to X (close)
-            if (sidebarHamburger) {
-                const icon = sidebarHamburger.querySelector('i');
-                if (icon) {
-                    icon.className = 'fas fa-times';
-                }
-                sidebarHamburger.title = 'Close Sidebar';
+            if (mainContent) {
+                mainContent.style.marginLeft = '240px';
+                mainContent.style.width = 'calc(100vw - 240px)';
+                mainContent.style.transition = 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
             }
         }
     }
     
-    // Desktop hamburger menu toggle - ONLY way to expand/collapse sidebar
+    // Desktop hamburger menu toggle
     if (sidebarHamburger) {
         sidebarHamburger.addEventListener('click', function(e) {
             e.stopPropagation();
@@ -266,40 +506,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 const isMinimized = sidebar.classList.contains('minimized');
                 localStorage.setItem('sidebarMinimized', isMinimized);
                 
-                // Update sidebar width
                 if (isMinimized) {
+                    // Minimizing: Lock width with inline styles
                     sidebar.style.width = '64px';
                     sidebar.style.maxWidth = '64px';
                     sidebar.style.minWidth = '64px';
                     sidebar.style.transition = 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                    if (mainContent) {
+                        mainContent.style.marginLeft = '64px';
+                        mainContent.style.width = 'calc(100vw - 64px)';
+                        mainContent.style.transition = 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                    }
                 } else {
+                    // Expanding: Remove inline style locks and restore expanded state
                     sidebar.style.width = '240px';
                     sidebar.style.maxWidth = '';
                     sidebar.style.minWidth = '';
                     sidebar.style.transition = 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                }
-                
-                // Update main content state
-                updateMainContentState();
-                
-                // Toggle icon between X and bars
-                const icon = sidebarHamburger.querySelector('i');
-                if (isMinimized) {
-                    if (icon) {
-                        icon.className = 'fas fa-bars';
+                    if (mainContent) {
+                        mainContent.style.marginLeft = '240px';
+                        mainContent.style.width = 'calc(100vw - 240px)';
+                        mainContent.style.transition = 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
                     }
-                    sidebarHamburger.title = 'Expand Sidebar';
-                } else {
-                    if (icon) {
-                        icon.className = 'fas fa-times';
-                    }
-                    sidebarHamburger.title = 'Close Sidebar';
                 }
             }
         });
     }
     
-    // Hamburger nav item toggle (when minimized) - ONLY way to expand from minimized state
+    // Hamburger nav item toggle (when minimized)
     const sidebarNavHamburger = document.getElementById('sidebarNavHamburger');
     if (sidebarNavHamburger) {
         sidebarNavHamburger.addEventListener('click', function(e) {
@@ -313,130 +547,63 @@ document.addEventListener('DOMContentLoaded', function() {
                 sidebar.style.maxWidth = '';
                 sidebar.style.minWidth = '';
                 sidebar.style.transition = 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                
-                // Update main content state
-                updateMainContentState();
-                
-                // Update main hamburger icon to X (close)
-                if (sidebarHamburger) {
-                    const icon = sidebarHamburger.querySelector('i');
-                    if (icon) {
-                        icon.className = 'fas fa-times';
-                    }
-                    sidebarHamburger.title = 'Close Sidebar';
+                if (mainContent) {
+                    mainContent.style.marginLeft = '240px';
+                    mainContent.style.width = 'calc(100vw - 240px)';
+                    mainContent.style.transition = 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
                 }
             }
         });
     }
     
-    // Mobile sidebar toggle functionality
-    if (window.innerWidth <= 768) {
-        const hamburger = document.getElementById('sidebarHamburger');
-        const overlay = document.getElementById('sidebarOverlay');
-        
-        if (hamburger) {
-            hamburger.addEventListener('click', function(e) {
-                e.stopPropagation();
-                sidebar.classList.toggle('mobile-expanded');
-                if (overlay) {
-                    overlay.classList.toggle('show');
+    // Mobile sidebar toggle
+    if (sidebarToggle) {
+    sidebarToggle.addEventListener('click', function() {
+        if (window.innerWidth <= 768) {
+            sidebar.classList.toggle('open');
+                if (sidebarOverlay) {
+            sidebarOverlay.classList.toggle('show');
                 }
-            });
         }
-        
-        // Close sidebar when clicking overlay
-        if (overlay) {
-            overlay.addEventListener('click', function() {
-                sidebar.classList.remove('mobile-expanded');
-                overlay.classList.remove('show');
-            });
-        }
-        
-        // Close sidebar when clicking a nav link
-        const navLinks = sidebar.querySelectorAll('.sidebar-nav a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                if (window.innerWidth <= 768) {
-                    sidebar.classList.remove('mobile-expanded');
-                    if (overlay) {
-                        overlay.classList.remove('show');
-                    }
-                }
-            });
-        });
-    }
-    
-    // Centralized function to update main content based on sidebar state
-    function updateMainContentState() {
-        if (!mainContent || window.innerWidth <= 768) return;
-        
-        const isMinimized = sidebar.classList.contains('minimized');
-        
-        if (isMinimized) {
-            // Minimized state: main content should use full space (64px sidebar)
-            mainContent.style.marginLeft = '64px';
-            mainContent.style.width = 'calc(100vw - 64px)';
-            mainContent.style.transition = 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-        } else {
-            // Expanded state: main content should account for 240px sidebar
-            mainContent.style.marginLeft = '240px';
-            mainContent.style.width = 'calc(100vw - 240px)';
-            mainContent.style.transition = 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-        }
-    }
-    
-    // MutationObserver to catch sidebar state changes
-    const observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                updateMainContentState();
-            }
-        });
     });
+    }
     
-    // Observe sidebar for class changes
-    if (sidebar) {
-        observer.observe(sidebar, {
-            attributes: true,
-            attributeFilter: ['class']
+    // Close mobile sidebar when clicking overlay
+    if (sidebarOverlay) {
+    sidebarOverlay.addEventListener('click', function() {
+        sidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('show');
         });
     }
     
-    // Ensure navigation links do NOT expand sidebar on desktop - LOCK IT
+    // Ensure navigation links don't expand sidebar on desktop - LOCK IT
     const sidebarLinks = sidebar.querySelectorAll('a');
     sidebarLinks.forEach(link => {
-        // Skip hamburger nav item - it should expand sidebar
-        if (link.closest('.sidebar-hamburger-nav-item')) {
-            return;
-        }
-        
         link.addEventListener('click', function(e) {
             if (window.innerWidth <= 768) {
-                // Mobile: close sidebar when clicking nav link
-                sidebar.classList.remove('mobile-expanded');
+                sidebar.classList.remove('open');
                 if (sidebarOverlay) {
                     sidebarOverlay.classList.remove('show');
                 }
             } else {
-                // Desktop: Keep sidebar in current state (minimized stays minimized)
-                // Do NOT expand sidebar when clicking navigation links
                 const isMinimized = sidebar.classList.contains('minimized');
                 if (isMinimized) {
-                    // Keep minimized - don't expand
                     sidebar.style.width = '64px';
                     sidebar.style.transition = 'none';
                     sidebar.style.maxWidth = '64px';
                     sidebar.style.minWidth = '64px';
                     sidebar.classList.add('minimized');
                     localStorage.setItem('sidebarMinimized', 'true');
-                    updateMainContentState();
+                    if (mainContent) {
+                        mainContent.style.marginLeft = '64px';
+                        mainContent.style.width = 'calc(100vw - 64px)';
+                        mainContent.style.transition = 'none';
+                    }
                 }
             }
         });
-        
         link.addEventListener('mouseenter', function(e) {
             if (window.innerWidth > 768 && sidebar.classList.contains('minimized')) {
-                // Prevent expansion on hover - keep minimized
                 sidebar.style.width = '64px';
                 sidebar.style.transition = 'none';
             }
@@ -446,21 +613,32 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle window resize
     window.addEventListener('resize', function() {
         if (window.innerWidth > 768) {
-            // Desktop: Restore state and update main content
-            updateMainContentState();
-        } else {
-            // Mobile: Keep sidebar mini (64px)
-            sidebar.style.width = '64px';
-            sidebar.style.maxWidth = '64px';
-            sidebar.style.minWidth = '64px';
+            sidebar.classList.remove('open');
+            if (sidebarOverlay) {
+            sidebarOverlay.classList.remove('show');
+            }
+            
+            // Restore minimized state on desktop
+            const isMinimized = sidebar.classList.contains('minimized');
             if (mainContent) {
-                mainContent.style.marginLeft = '64px';
-                mainContent.style.width = 'calc(100vw - 64px)';
+                if (isMinimized) {
+                    mainContent.style.marginLeft = '64px';
+                    mainContent.style.width = 'calc(100vw - 64px)';
+                } else {
+                    mainContent.style.marginLeft = '240px';
+                    mainContent.style.width = 'calc(100vw - 240px)';
+                }
+                mainContent.style.transition = 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+            }
+        } else {
+            // On mobile, ensure sidebar is closed and reset main content
+            sidebar.classList.remove('minimized');
+            if (mainContent) {
+                mainContent.style.marginLeft = '0';
+                mainContent.style.width = '100vw';
             }
         }
     });
     
-    // Initial state update
-    updateMainContentState();
 });
 </script>

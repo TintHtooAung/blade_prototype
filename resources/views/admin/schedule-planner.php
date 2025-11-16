@@ -142,8 +142,8 @@ ob_start();
             </div>
 
             <div class="dialog-actions">
-                <button class="simple-btn secondary" onclick="closeSettingsDialog()">Cancel</button>
                 <button class="simple-btn primary" onclick="applySettings()"><i class="fas fa-check"></i> Apply Settings</button>
+                <button class="simple-btn secondary" onclick="closeSettingsDialog()"><i class="fas fa-times"></i> Close</button>
             </div>
         </div>
     </div>
@@ -1122,7 +1122,8 @@ function createSchedule() {
                     <h3>${className}</h3>
                 <div class="simple-actions">
                     <button class="simple-btn" onclick="openSettingsDialog('${scheduleId}')"><i class="fas fa-cog"></i> Settings</button>
-                    <button class="simple-btn secondary" onclick="saveSchedule('${scheduleId}')"><i class="fas fa-save"></i> Save</button>
+                    <button class="simple-btn secondary" onclick="confirmSaveDraft('${scheduleId}')" style="background: #6b7280; color: white; border-color: #6b7280;"><i class="fas fa-save"></i> Save as Draft</button>
+                    <button class="simple-btn primary" onclick="confirmPublish('${scheduleId}')" style="background: #1976d2; color: white; border-color: #1976d2;"><i class="fas fa-bullhorn"></i> Publish</button>
                 </div>
             </div>
             
@@ -1310,9 +1311,11 @@ function editPeriodTime(input, scheduleId, periodIdx) {
                     </div>
                 </div>
                 <div class="form-actions">
-                    <button class="simple-btn secondary" onclick="this.closest('.time-picker-modal').remove()">Cancel</button>
                     <button class="simple-btn primary" onclick="savePeriodTime('${scheduleId}', ${periodIdx}, this)">
                         <i class="fas fa-check"></i> Save
+                    </button>
+                    <button class="simple-btn secondary" onclick="this.closest('.time-picker-modal').remove()">
+                        <i class="fas fa-times"></i> Close
                     </button>
                 </div>
             </div>
@@ -1639,7 +1642,8 @@ function viewSchedule(scheduleId) {
                     <h3>${schedule.className}</h3>
                 <div class="simple-actions">
                     <button class="simple-btn" onclick="openSettingsDialog('${scheduleId}')"><i class="fas fa-cog"></i> Settings</button>
-                    <button class="simple-btn secondary" onclick="saveSchedule('${scheduleId}')"><i class="fas fa-save"></i> Save</button>
+                    <button class="simple-btn secondary" onclick="confirmSaveDraft('${scheduleId}')" style="background: #6b7280; color: white; border-color: #6b7280;"><i class="fas fa-save"></i> Save as Draft</button>
+                    <button class="simple-btn primary" onclick="confirmPublish('${scheduleId}')" style="background: #1976d2; color: white; border-color: #1976d2;"><i class="fas fa-bullhorn"></i> Publish</button>
                 </div>
             </div>
             
@@ -1860,19 +1864,11 @@ function updateRowActionsForStatus(row, status) {
     const actionsCell = row.querySelector('td:last-child');
     const scheduleId = row.dataset.scheduleId;
     if (!actionsCell) return;
-    if (status === 'published') {
+    // Only show view and delete buttons
         actionsCell.innerHTML = `
             <button class="simple-btn-icon" onclick="viewSchedule('${scheduleId}')" title="View Schedule"><i class="fas fa-eye"></i></button>
-            <button class="simple-btn-icon" onclick="publishOrUpdate('${scheduleId}')" title="Update Changes"><i class="fas fa-upload"></i></button>
             <button class="simple-btn-icon" onclick="removeSchedule('${scheduleId}')" title="Remove Schedule"><i class="fas fa-trash"></i></button>
         `;
-    } else {
-        actionsCell.innerHTML = `
-            <button class="simple-btn-icon" onclick="viewSchedule('${scheduleId}')" title="View Schedule"><i class="fas fa-eye"></i></button>
-            <button class="simple-btn-icon" onclick="publishOrUpdate('${scheduleId}')" title="Publish Schedule"><i class="fas fa-bullhorn"></i></button>
-            <button class="simple-btn-icon" onclick="removeSchedule('${scheduleId}')" title="Remove Schedule"><i class="fas fa-trash"></i></button>
-        `;
-    }
 }
 
 // Table-level publish/update button handler (mirrors primaryActionFromView)
@@ -1966,33 +1962,80 @@ function saveScheduleModal() {
     showActionStatus('Draft changes saved locally', 'success');
 }
 
-function saveSchedule(scheduleId) {
+function confirmSaveDraft(scheduleId) {
+    showConfirmDialog({
+        title: 'Save as Draft',
+        message: 'Schedule changes will be saved but not published. Changes will only be visible to you.',
+        confirmText: 'OK',
+        confirmIcon: 'fas fa-save',
+        buttonStyle: 'primary',
+        dialogIcon: 'fas fa-save',
+        iconWrapperStyle: 'primary',
+        onConfirm: () => {
+            saveSchedule(scheduleId, 'draft');
+        }
+    });
+}
+
+function confirmPublish(scheduleId) {
+    showConfirmDialog({
+        title: 'Publish Schedule',
+        message: 'Changes will be committed to the whole portal. All users will see the updated schedule.',
+        confirmText: 'OK',
+        confirmIcon: 'fas fa-bullhorn',
+        buttonStyle: 'primary',
+        dialogIcon: 'fas fa-bullhorn',
+        iconWrapperStyle: 'primary',
+        onConfirm: () => {
+            saveSchedule(scheduleId, 'publish');
+        }
+    });
+}
+
+function saveSchedule(scheduleId, action) {
     const schedule = mockSchedules.find(s => s.id === scheduleId);
     if (!schedule) return;
     
-    // Only show "Draft saved" if it's still a draft (never been published)
-    if (schedule.status === 'draft' && !schedule.lastPublishedAt) {
-        showActionStatus('Draft saved', 'success');
-    } else {
-        showActionStatus('Changes saved', 'success');
-    }
-    
     const row = document.querySelector(`tr[data-schedule-id="${scheduleId}"]`);
+    
+    if (action === 'publish') {
+        // Publish the schedule
+        schedule.status = 'published';
+        schedule.statusText = 'Published';
+        schedule.hasUnpublishedChanges = false;
+        schedule.lastPublishedAt = new Date().toISOString();
+        schedule.lastEditedAt = new Date().toISOString();
+        
+        if (row) {
+            const badge = row.querySelector('.status-badge');
+            badge.textContent = 'Published';
+            badge.className = 'status-badge published';
+            updateRowActionsForStatus(row, 'published');
+            const lastCell = row.querySelector('.last-change-cell');
+            if (lastCell) lastCell.textContent = formatLastChange(schedule);
+            const changesCell = row.querySelector('.changes-cell');
+            if (changesCell) changesCell.innerHTML = formatChangesPill(schedule);
+        }
+        showActionStatus('Schedule published successfully', 'success');
+    } else {
+        // Save as draft
+        schedule.status = 'draft';
+        schedule.statusText = 'Draft';
+        schedule.lastEditedAt = new Date().toISOString();
+        
     if (row) {
-        // Don't change status if it was previously published
-        if (schedule.status === 'draft' && !schedule.lastPublishedAt) {
             const badge = row.querySelector('.status-badge');
             badge.textContent = 'Draft';
             badge.className = 'status-badge draft';
             updateRowActionsForStatus(row, 'draft');
-        }
-        
-        schedule.lastEditedAt = new Date().toISOString();
         const lastCell = row.querySelector('.last-change-cell');
         if (lastCell) lastCell.textContent = formatLastChange(schedule);
         const changesCell = row.querySelector('.changes-cell');
         if (changesCell) changesCell.innerHTML = formatChangesPill(schedule);
     }
+        showActionStatus('Draft saved successfully', 'success');
+    }
+    
     // Close inline editor section after saving
     const section = document.getElementById(scheduleId);
     if (section) {

@@ -14,15 +14,13 @@ $systemAlerts = [
 
 ob_start();
 ?>
-<!-- Welcome Header -->
-<div class="welcome-header">
-    <div class="welcome-content">
-        <h1 class="welcome-title">Welcome back, Administrator! 👋</h1>
-        <p class="welcome-subtitle">Here's an overview of your school's performance today</p>
+<!-- Compact Page Header -->
+<div class="page-header-compact">
+    <div class="page-icon-compact">
+        <i class="<?php echo $pageIcon; ?>"></i>
     </div>
-    <div class="welcome-time">
-        <div class="current-date" id="currentDate"></div>
-        <div class="current-time" id="currentTime"></div>
+    <div class="page-title-compact">
+        <h2><?php echo $pageHeading; ?></h2>
     </div>
 </div>
 
@@ -72,7 +70,7 @@ ob_start();
         <div class="stat-content">
             <h3>Total Staff</h3>
             <div class="stat-number">45</div>
-            <div class="stat-change positive">Today: 95.2%</div>
+            <div class="stat-change">Today: 95.2%</div>
         </div>
     </div>
 
@@ -84,7 +82,7 @@ ob_start();
         <div class="stat-content">
             <h3>Total Teachers</h3>
             <div class="stat-number">111</div>
-            <div class="stat-change positive">Today: 97.5%</div>
+            <div class="stat-change">Today: 97.5%</div>
         </div>
     </div>
 
@@ -101,74 +99,6 @@ ob_start();
     </div>
 </div>
 
-<!-- School Health Score & Top Performers Row -->
-<div class="row">
-    <!-- School Health Score -->
-    <div class="col-lg-6">
-        <div class="health-card">
-            <div class="health-card-header">
-                <h5><i class="fas fa-heartbeat"></i> School Health Score</h5>
-                <span class="health-badge" id="healthBadge">Excellent</span>
-        </div>
-            <div class="health-score-display">
-                <div class="health-score-circle">
-                    <svg class="progress-ring" width="160" height="160">
-                        <circle class="progress-ring-circle-bg" cx="80" cy="80" r="70" />
-                        <circle class="progress-ring-circle" id="healthScoreCircle" cx="80" cy="80" r="70" 
-                                stroke-dasharray="<?php echo 2 * pi() * 70 * 0.906; ?> <?php echo 2 * pi() * 70; ?>" />
-                    </svg>
-                    <div class="score-text">
-                        <span class="score-value" id="healthScoreValue">90.6%</span>
-                        <span class="score-label">Health Score</span>
-                        <span class="score-period" id="healthScorePeriod">This Month</span>
-        </div>
-    </div>
-                <div class="health-metrics">
-                    <div class="health-metric">
-                        <span class="metric-label">
-                            <i class="fas fa-user-check"></i> Attendance
-                        </span>
-                        <span class="metric-value positive" id="metricAttendance">94.2%</span>
-        </div>
-                    <div class="health-metric">
-                        <span class="metric-label">
-                            <i class="fas fa-tasks"></i> Homework Completion
-                        </span>
-                        <span class="metric-value positive" id="metricHomework">88.5%</span>
-        </div>
-                    <div class="health-metric">
-                        <span class="metric-label">
-                            <i class="fas fa-graduation-cap"></i> Academic Results
-                        </span>
-                        <span class="metric-value positive" id="metricAcademic">87.3%</span>
-    </div>
-        </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Top Performers Section -->
-    <div class="col-lg-6">
-        <div class="performers-card">
-            <div class="performers-card-header">
-                <h5><i class="fas fa-trophy"></i> Top Performers</h5>
-                <select id="performersClassSelector" class="class-selector" onchange="updateTopPerformers()">
-                    <option value="Grade 9-A">Grade 9-A</option>
-                    <option value="Grade 9-B">Grade 9-B</option>
-                    <option value="Grade 10-A" selected>Grade 10-A</option>
-                    <option value="Grade 10-B">Grade 10-B</option>
-                    <option value="Grade 11-A">Grade 11-A</option>
-                    <option value="Grade 11-B">Grade 11-B</option>
-                    <option value="Grade 12-A">Grade 12-A</option>
-                    <option value="Grade 12-B">Grade 12-B</option>
-                </select>
-        </div>
-            <div class="performers-list" id="performersList">
-                <!-- Top performers will be dynamically loaded here -->
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Dashboard Cards Row - Priority Section -->
 <div class="row">
@@ -256,88 +186,6 @@ ob_start();
 
 
 <style>
-/* Welcome Header Styles */
-.welcome-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-    padding: 24px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-    color: #fff;
-    flex-wrap: wrap;
-    gap: 16px;
-}
-
-.welcome-content {
-    flex: 1;
-    min-width: 250px;
-}
-
-.welcome-title {
-    font-size: 2rem;
-    font-weight: 700;
-    margin: 0 0 8px 0;
-    color: #fff;
-    line-height: 1.2;
-}
-
-.welcome-subtitle {
-    font-size: 1rem;
-    margin: 0;
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 400;
-}
-
-.welcome-time {
-    text-align: right;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.current-date {
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: #fff;
-}
-
-.current-time {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #fff;
-}
-
-@media (max-width: 768px) {
-    .welcome-header {
-        padding: 20px;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .welcome-title {
-        font-size: 1.5rem;
-    }
-    
-    .welcome-subtitle {
-        font-size: 0.9375rem;
-    }
-    
-    .welcome-time {
-        width: 100%;
-        text-align: left;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .current-time {
-        font-size: 1.25rem;
-    }
-}
-
 /* Dashboard Enhancements */
 .dashboard-subtitle {
     font-size: 0.875rem;
@@ -1435,221 +1283,6 @@ ob_start();
 // Make system alerts available globally for notification dropdown
 window.systemAlerts = <?php echo json_encode($systemAlerts); ?>;
 
-// School-wide health data (This Month)
-const schoolHealthData = {
-    attendance: 94.2,
-    homework: 88.5,
-    academic: 87.3,
-    score: 90.6
-};
-
-function updateHealthScore() {
-    const data = schoolHealthData;
-    const score = data.score;
-    const attendance = data.attendance;
-    const homework = data.homework;
-    const academic = data.academic;
-    
-    // Animate score value change
-    const scoreElement = document.getElementById('healthScoreValue');
-    const currentScore = parseFloat(scoreElement.textContent.replace('%', ''));
-    animateNumber(scoreElement, currentScore, score, '%');
-    
-    // Update period label
-    const periodElement = document.getElementById('healthScorePeriod');
-    periodElement.textContent = 'This Month';
-    
-    // Animate metrics
-    animateNumber(document.getElementById('metricAttendance'), 
-        parseFloat(document.getElementById('metricAttendance').textContent.replace('%', '')), 
-        attendance, '%');
-    animateNumber(document.getElementById('metricHomework'), 
-        parseFloat(document.getElementById('metricHomework').textContent.replace('%', '')), 
-        homework, '%');
-    animateNumber(document.getElementById('metricAcademic'), 
-        parseFloat(document.getElementById('metricAcademic').textContent.replace('%', '')), 
-        academic, '%');
-    
-    // Update badge with animation
-    const badge = document.getElementById('healthBadge');
-    badge.style.transform = 'scale(0.9)';
-    badge.style.opacity = '0.7';
-    
-    setTimeout(() => {
-        if (score >= 90) {
-            badge.textContent = 'Excellent';
-            badge.className = 'health-badge health-excellent';
-        } else if (score >= 85) {
-            badge.textContent = 'Good';
-            badge.className = 'health-badge health-good';
-        } else if (score >= 75) {
-            badge.textContent = 'Average';
-            badge.className = 'health-badge health-average';
-        } else {
-            badge.textContent = 'Needs Improvement';
-            badge.className = 'health-badge health-poor';
-        }
-        badge.style.transform = 'scale(1)';
-        badge.style.opacity = '1';
-    }, 200);
-    
-    // Update circle progress with smooth animation
-    const circumference = 2 * Math.PI * 70;
-    const offset = circumference - (score / 100) * circumference;
-    const circle = document.getElementById('healthScoreCircle');
-    
-    // Animate stroke dashoffset
-    circle.style.transition = 'stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.5s ease';
-    circle.style.strokeDasharray = `${circumference}`;
-    circle.style.strokeDashoffset = offset;
-    
-    // Update circle color based on score with smooth transition
-    setTimeout(() => {
-        if (score >= 90) {
-            circle.style.stroke = '#4caf50';
-        } else if (score >= 85) {
-            circle.style.stroke = '#ff9800';
-        } else if (score >= 75) {
-            circle.style.stroke = '#ff9800';
-        } else {
-            circle.style.stroke = '#d32f2f';
-        }
-    }, 100);
-    
-    // Update metric colors with animation
-    updateMetricColor('metricAttendance', attendance);
-    updateMetricColor('metricHomework', homework);
-    updateMetricColor('metricAcademic', academic);
-}
-
-function animateNumber(element, start, end, suffix = '') {
-    const duration = 800;
-    const startTime = performance.now();
-    const difference = end - start;
-    
-    function update(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        
-        // Easing function for smooth animation
-        const easeOutCubic = 1 - Math.pow(1 - progress, 3);
-        const current = start + (difference * easeOutCubic);
-        
-        element.textContent = current.toFixed(1) + suffix;
-        
-        if (progress < 1) {
-            requestAnimationFrame(update);
-        }
-    }
-    
-    requestAnimationFrame(update);
-}
-
-function updateMetricColor(elementId, value) {
-    const element = document.getElementById(elementId);
-    element.classList.remove('positive', 'warning', 'negative');
-    if (value >= 90) {
-        element.classList.add('positive');
-    } else if (value >= 75) {
-        element.classList.add('warning');
-    } else {
-        element.classList.add('negative');
-    }
-}
-
-// Top Performers Data (This Month)
-const topPerformersData = {
-    'Grade 9-A': [
-        { name: 'Sarah Johnson', attendance: 98.5, academic: 95.2, overall: 96.85 },
-        { name: 'Michael Chen', attendance: 97.2, academic: 93.8, overall: 95.5 },
-        { name: 'Emily Rodriguez', attendance: 96.8, academic: 92.1, overall: 94.45 }
-    ],
-    'Grade 9-B': [
-        { name: 'David Kim', attendance: 99.1, academic: 94.5, overall: 96.8 },
-        { name: 'Priya Patel', attendance: 97.5, academic: 93.2, overall: 95.35 },
-        { name: 'James Wilson', attendance: 96.3, academic: 91.8, overall: 94.05 }
-    ],
-    'Grade 10-A': [
-        { name: 'Emma Thompson', attendance: 99.5, academic: 96.8, overall: 98.15 },
-        { name: 'Ryan Martinez', attendance: 98.2, academic: 95.1, overall: 96.65 },
-        { name: 'Sophia Lee', attendance: 97.8, academic: 94.3, overall: 96.05 }
-    ],
-    'Grade 10-B': [
-        { name: 'Alexander Brown', attendance: 98.8, academic: 94.9, overall: 96.85 },
-        { name: 'Isabella Garcia', attendance: 97.5, academic: 93.5, overall: 95.5 },
-        { name: 'Daniel Taylor', attendance: 96.5, academic: 92.2, overall: 94.35 }
-    ],
-    'Grade 11-A': [
-        { name: 'Olivia Davis', attendance: 99.2, academic: 95.5, overall: 97.35 },
-        { name: 'Noah Anderson', attendance: 98.0, academic: 94.2, overall: 96.1 },
-        { name: 'Ava Jackson', attendance: 97.3, academic: 93.1, overall: 95.2 }
-    ],
-    'Grade 11-B': [
-        { name: 'William White', attendance: 98.5, academic: 94.8, overall: 96.65 },
-        { name: 'Mia Harris', attendance: 97.2, academic: 93.5, overall: 95.35 },
-        { name: 'Lucas Clark', attendance: 96.8, academic: 92.3, overall: 94.55 }
-    ],
-    'Grade 12-A': [
-        { name: 'Charlotte Lewis', attendance: 99.8, academic: 97.2, overall: 98.5 },
-        { name: 'Benjamin Walker', attendance: 98.5, academic: 95.8, overall: 97.15 },
-        { name: 'Amelia Hall', attendance: 97.9, academic: 94.5, overall: 96.2 }
-    ],
-    'Grade 12-B': [
-        { name: 'Henry Young', attendance: 99.0, academic: 96.1, overall: 97.55 },
-        { name: 'Luna King', attendance: 98.2, academic: 95.0, overall: 96.6 },
-        { name: 'Logan Wright', attendance: 97.5, academic: 93.8, overall: 95.65 }
-    ]
-};
-
-function updateTopPerformers() {
-    const selectedClass = document.getElementById('performersClassSelector').value;
-    const performers = topPerformersData[selectedClass] || [];
-    const container = document.getElementById('performersList');
-    
-    if (performers.length === 0) {
-        container.innerHTML = '<div style="text-align: center; padding: 20px; color: #86868b;">No data available for this class</div>';
-        return;
-    }
-    
-    const medals = ['gold', 'silver', 'bronze'];
-    const medalIcons = ['fa-medal', 'fa-medal', 'fa-medal'];
-    
-    container.innerHTML = performers.map((performer, index) => {
-        const medal = medals[index];
-        const icon = medalIcons[index];
-        const attendanceClass = getPerformanceClass(performer.attendance);
-        const academicClass = getPerformanceClass(performer.academic);
-        
-        return `
-            <div class="performer-item">
-                <div class="performer-rank ${medal}">
-                    <i class="fas ${icon}"></i>
-                </div>
-                <div class="performer-info">
-                    <div class="performer-name">${performer.name}</div>
-                    <div class="performer-metrics">
-                        <div class="performer-metric">
-                            <i class="fas fa-user-check"></i>
-                            <span class="performer-metric-value ${attendanceClass}">${performer.attendance.toFixed(1)}%</span>
-                            <span>Attendance</span>
-                        </div>
-                        <div class="performer-metric">
-                            <i class="fas fa-graduation-cap"></i>
-                            <span class="performer-metric-value ${academicClass}">${performer.academic.toFixed(1)}%</span>
-                            <span>Academic</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-    }).join('');
-}
-
-function getPerformanceClass(value) {
-    if (value >= 95) return 'positive';
-    if (value >= 85) return 'warning';
-    return 'negative';
-}
 
 // Upcoming Events Data
 const upcomingEventsData = [
@@ -1739,27 +1372,9 @@ function updateUpcomingExams() {
     });
 }
 
-// Update time and date
-function updateDateTime() {
-    const now = new Date();
-    
-    // Update date
-    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const dateStr = now.toLocaleDateString('en-US', dateOptions);
-    document.getElementById('currentDate').textContent = dateStr;
-    
-    // Update time
-    const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-    document.getElementById('currentTime').textContent = timeStr;
-}
-
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
-    updateHealthScore();
-    updateTopPerformers();
-    updateDateTime();
-    // Update time every minute
-    setInterval(updateDateTime, 60000);
+    // Dashboard initialization
 });
 </script>
 

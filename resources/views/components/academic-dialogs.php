@@ -59,23 +59,26 @@
             <form id="batchForm">
                 <input type="hidden" id="batchId">
                 <div class="form-row">
-                    <div class="form-group">
+                    <div class="form-group" style="flex:2;">
                         <label>Batch Name *</label>
                         <input type="text" class="form-input" id="batchName" placeholder="e.g., 2024-2025" required>
                     </div>
                     <div class="form-group">
-                        <label>Year *</label>
-                        <input type="number" class="form-input" id="batchYear" placeholder="e.g., 2024" required>
+                        <label>Start Date *</label>
+                        <input type="date" class="form-input" id="batchStart" required>
+                    </div>
+                    <div class="form-group">
+                        <label>End Date *</label>
+                        <input type="date" class="form-input" id="batchEnd" required>
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group" style="flex: 1;">
-                        <label>Department *</label>
-                        <select class="form-select" id="batchDepartment" required>
-                            <option value="">Select Department</option>
-                            <option value="Computer Science">Computer Science</option>
-                            <option value="Mathematics">Mathematics</option>
-                            <option value="ICT">ICT</option>
+                    <div class="form-group">
+                        <label>Status *</label>
+                        <select class="form-select" id="batchStatus" required>
+                            <option value="Active">Active</option>
+                            <option value="Upcoming">Upcoming</option>
+                            <option value="Completed">Completed</option>
                         </select>
                     </div>
                 </div>
@@ -106,23 +109,21 @@
                 <input type="hidden" id="gradeId">
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Grade Name *</label>
-                        <input type="text" class="form-input" id="gradeName" placeholder="e.g., Grade 7" required>
+                        <label>Grade Level *</label>
+                        <input type="text" class="form-input" id="gradeLevel" placeholder="e.g., Grade 1" required>
                     </div>
                     <div class="form-group">
-                        <label>Level *</label>
-                        <input type="number" class="form-input" id="gradeLevel" placeholder="e.g., 7" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group" style="flex: 1;">
                         <label>Category *</label>
                         <select class="form-select" id="gradeCategory" required>
                             <option value="">Select Category</option>
                             <option value="Primary">Primary</option>
-                            <option value="Middle">Middle</option>
-                            <option value="High">High</option>
+                            <option value="Secondary">Secondary</option>
+                            <option value="High School">High School</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input type="text" class="form-input" id="gradeDescription" placeholder="e.g., Academic Level">
                     </div>
                 </div>
             </form>
@@ -153,30 +154,31 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>Room Number *</label>
-                        <input type="text" class="form-input" id="roomNumber" placeholder="e.g., A101" required>
+                        <input type="text" class="form-input" id="roomNumber" placeholder="e.g., 101" required>
                     </div>
                     <div class="form-group">
-                        <label>Type *</label>
-                        <select class="form-select" id="roomType" required>
-                            <option value="">Select Type</option>
-                            <option value="Classroom">Classroom</option>
-                            <option value="Laboratory">Laboratory</option>
-                            <option value="Library">Library</option>
-                            <option value="Auditorium">Auditorium</option>
-                        </select>
+                        <label>Building</label>
+                        <input type="text" class="form-input" id="roomBuilding" placeholder="e.g., Building A">
+                    </div>
+                    <div class="form-group">
+                        <label>Floor</label>
+                        <input type="text" class="form-input" id="roomFloor" placeholder="e.g., 1st Floor">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Capacity *</label>
-                        <input type="number" class="form-input" id="roomCapacity" placeholder="e.g., 30" required>
+                        <label>Seating Capacity *</label>
+                        <input type="number" class="form-input" id="roomCapacity" placeholder="e.g., 35" required>
                     </div>
                     <div class="form-group">
-                        <label>Status *</label>
-                        <select class="form-select" id="roomStatus" required>
+                        <label>Equipment</label>
+                        <input type="text" class="form-input" id="roomEquipment" placeholder="e.g., Projector, Whiteboard">
+                    </div>
+                    <div class="form-group">
+                        <label>Air Conditioning</label>
+                        <select class="form-select" id="roomAC">
                             <option value="Available">Available</option>
-                            <option value="Occupied">Occupied</option>
-                            <option value="Maintenance">Maintenance</option>
+                            <option value="Not Available">Not Available</option>
                         </select>
                     </div>
                 </div>
@@ -208,27 +210,21 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>Class Name *</label>
-                        <input type="text" class="form-input" id="className" placeholder="e.g., Grade 7-A" required>
+                        <input type="text" class="form-input" id="className" placeholder="e.g., 1A" required>
                     </div>
                     <div class="form-group">
                         <label>Grade *</label>
-                        <select class="form-select" id="classGrade" required>
-                            <option value="">Select Grade</option>
-                            <option value="Grade 7">Grade 7</option>
-                            <option value="Grade 8">Grade 8</option>
-                            <option value="Grade 9">Grade 9</option>
-                            <option value="Grade 10">Grade 10</option>
-                        </select>
+                        <input type="text" class="form-input" id="classGrade" placeholder="e.g., Grade 1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Room</label>
+                        <input type="text" class="form-input" id="classRoom" placeholder="e.g., Room 101">
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group">
-                        <label>Section *</label>
-                        <input type="text" class="form-input" id="classSection" placeholder="e.g., A" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Students Count</label>
-                        <input type="number" class="form-input" id="classStudents" placeholder="e.g., 30">
+                    <div class="form-group" style="flex: 1;">
+                        <label>Class Teacher</label>
+                        <input type="text" class="form-input" id="classTeacher" placeholder="e.g., Ms. Sarah Johnson">
                     </div>
                 </div>
             </form>
@@ -258,18 +254,12 @@
                 <input type="hidden" id="subjectId">
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Subject Name *</label>
-                        <input type="text" class="form-input" id="subjectName" placeholder="e.g., Mathematics" required>
-                    </div>
-                    <div class="form-group">
                         <label>Subject Code *</label>
                         <input type="text" class="form-input" id="subjectCode" placeholder="e.g., MATH" required>
                     </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Credits *</label>
-                        <input type="number" class="form-input" id="subjectCredits" placeholder="e.g., 4" required>
+                    <div class="form-group" style="flex:2;">
+                        <label>Subject Name *</label>
+                        <input type="text" class="form-input" id="subjectName" placeholder="e.g., Mathematics" required>
                     </div>
                     <div class="form-group">
                         <label>Category *</label>
@@ -278,6 +268,12 @@
                             <option value="Core">Core</option>
                             <option value="Elective">Elective</option>
                         </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Grade</label>
+                        <input type="text" class="form-input" id="subjectGrade" placeholder="e.g., Grade 1">
                     </div>
                 </div>
             </form>

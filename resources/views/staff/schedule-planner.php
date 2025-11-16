@@ -140,8 +140,8 @@ ob_start();
             </div>
 
             <div class="dialog-actions">
-                <button class="simple-btn secondary" onclick="closeSettingsDialog()">Cancel</button>
                 <button class="simple-btn primary" onclick="applySettings()"><i class="fas fa-check"></i> Apply Settings</button>
+                <button class="simple-btn secondary" onclick="closeSettingsDialog()"><i class="fas fa-times"></i> Close</button>
             </div>
         </div>
     </div>

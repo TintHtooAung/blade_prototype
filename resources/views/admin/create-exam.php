@@ -181,6 +181,7 @@ function createExamForm(grade, className, examType) {
             <td><input type="number" class="form-input marks-input" value="${examType === 'Tutorial' ? 25 : 100}"></td>
             <td><input type="date" class="form-input"></td>
             <td><input type="time" class="form-input"></td>
+            <td><input type="time" class="form-input"></td>
             <td><input type="text" class="form-input" placeholder="Room"></td>
         </tr>
     `).join('');
@@ -216,11 +217,12 @@ function createExamForm(grade, className, examType) {
                     <table class="basic-table">
                         <thead>
                             <tr>
-                                <th style="width:30%;">Subject</th>
-                                <th style="width:15%;">Marks</th>
-                                <th style="width:20%;">Date</th>
-                                <th style="width:20%;">Start Time</th>
-                                <th style="width:15%;">Room</th>
+                                <th style="width:25%;">Subject</th>
+                                <th style="width:12%;">Marks</th>
+                                <th style="width:15%;">Date</th>
+                                <th style="width:15%;">Start Time</th>
+                                <th style="width:15%;">End Time</th>
+                                <th style="width:18%;">Room</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -111,9 +111,42 @@ ob_start();
         </div>
     </div>
 
+    <!-- Monthly Fees Summary Table -->
+    <div class="simple-section" style="margin-top: 24px;">
+        <div class="simple-header">
+            <h3>Monthly Fees Summary</h3>
+        </div>
+        <div class="simple-table-container" style="margin-top:16px;">
+            <table class="basic-table" id="monthlyFeesSummaryTable">
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Academic Year</th>
+                        <th>Grade</th>
+                        <th>Total Students</th>
+                        <th>Fully Paid</th>
+                        <th>Not Paid</th>
+                        <th>Fee Amount</th>
+                        <th>Total Collected</th>
+                        <th>Remaining</th>
+                    </tr>
+                </thead>
+                <tbody id="monthlyFeesSummaryTableBody">
+                    <tr>
+                        <td colspan="9" style="text-align: center; color: #999;">Loading summary...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     <!-- Invoice Table -->
-    <div class="simple-table-container" style="margin-top:16px;">
-        <table class="basic-table" id="paymentHistoryTable">
+    <div class="simple-section" style="margin-top: 24px;">
+        <div class="simple-header">
+            <h3>Payment History Details</h3>
+        </div>
+        <div class="simple-table-container" style="margin-top:16px;">
+            <table class="basic-table" id="paymentHistoryTable">
             <thead>
                 <tr>
                     <th>Invoice #</th>
@@ -133,6 +166,7 @@ ob_start();
                 </tr>
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 
@@ -209,6 +243,9 @@ function loadPaymentHistory() {
     
     // Apply other filters and render
     applyFilters();
+    
+    // Update monthly fees summary
+    generateMonthlyFeesSummary();
 }
 
 function updateMonthStats() {
@@ -485,9 +522,126 @@ function printHistoryReceipt(invoiceId) {
     printWindow.print();
 }
 
+// Generate Monthly Fees Summary
+function generateMonthlyFeesSummary() {
+    const tbody = document.getElementById('monthlyFeesSummaryTableBody');
+    if (!tbody) return;
+    
+    // Get all payment history data
+    const allHistory = JSON.parse(localStorage.getItem('invoiceHistory') || '[]');
+    const currentInvoices = JSON.parse(localStorage.getItem('invoiceData') || '[]');
+    const combinedData = [...allHistory, ...currentInvoices];
+    
+    // Group by month, academic year, and grade
+    const summaryMap = new Map();
+    
+    combinedData.forEach(invoice => {
+        // Extract month and year
+        let monthKey, academicYear, year, month;
+        
+        if (invoice.month) {
+            // Format: YYYY-MM
+            const parts = invoice.month.split('-');
+            year = parts[0];
+            month = parts[1];
+            monthKey = invoice.month;
+        } else if (invoice.id) {
+            // Extract from invoice ID: INV-YYYY-MM-XXX
+            const match = invoice.id.match(/INV-(\d{4})-(\d{2})-/);
+            if (match) {
+                year = match[1];
+                month = match[2];
+                monthKey = `${year}-${month}`;
+            }
+        }
+        
+        if (!monthKey) return;
+        
+        // Determine academic year (assuming July-June cycle)
+        const monthNum = parseInt(month);
+        const yearNum = parseInt(year);
+        if (monthNum >= 7) {
+            academicYear = `${yearNum}-${yearNum + 1}`;
+        } else {
+            academicYear = `${yearNum - 1}-${yearNum}`;
+        }
+        
+        const grade = invoice.grade || 'All';
+        const key = `${monthKey}-${grade}`;
+        
+        if (!summaryMap.has(key)) {
+            summaryMap.set(key, {
+                month: monthKey,
+                monthNum: monthNum,
+                year: year,
+                academicYear: academicYear,
+                grade: grade,
+                totalStudents: 0,
+                fullyPaid: 0,
+                notPaid: 0,
+                feeAmount: 0,
+                totalCollected: 0,
+                remaining: 0
+            });
+        }
+        
+        const summary = summaryMap.get(key);
+        summary.totalStudents++;
+        summary.feeAmount += invoice.amount || 0;
+        
+        if (invoice.status === 'paid') {
+            summary.fullyPaid++;
+            summary.totalCollected += invoice.amount || 0;
+        } else {
+            summary.notPaid++;
+            summary.remaining += invoice.amount || 0;
+        }
+    });
+    
+    // Convert to array and sort by year-month (newest first), then by grade
+    const summaryArray = Array.from(summaryMap.values()).sort((a, b) => {
+        if (a.month !== b.month) {
+            return b.month.localeCompare(a.month);
+        }
+        return a.grade - b.grade;
+    });
+    
+    // Month names
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                       'July', 'August', 'September', 'October', 'November', 'December'];
+    
+    if (summaryArray.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #999;">No summary data available</td></tr>';
+        return;
+    }
+    
+    // Render table rows
+    tbody.innerHTML = summaryArray.map(summary => {
+        const monthName = monthNames[parseInt(summary.monthNum) - 1];
+        const feeAmountFormatted = summary.feeAmount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        const totalCollectedFormatted = summary.totalCollected.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        const remainingFormatted = summary.remaining.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        
+        return `
+            <tr>
+                <td>${monthName}</td>
+                <td>${summary.academicYear}</td>
+                <td>${summary.grade}</td>
+                <td>${summary.totalStudents}</td>
+                <td>${summary.fullyPaid}</td>
+                <td>${summary.notPaid}</td>
+                <td>${feeAmountFormatted}</td>
+                <td>${totalCollectedFormatted}</td>
+                <td>${remainingFormatted}</td>
+            </tr>
+        `;
+    }).join('');
+}
+
 // Initialize on page load
 initializeDemoPaymentHistory();
 loadPaymentHistory();
+generateMonthlyFeesSummary();
 </script>
 
 <style>

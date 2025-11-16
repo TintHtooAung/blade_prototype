@@ -18,52 +18,52 @@ ob_start();
 </div>
 
 <!-- Student Stats Cards -->
-<div class="stats-grid-secondary vertical-stats">
+<div class="stats-grid-horizontal" style="margin-bottom: 24px;">
     <!-- Total Students -->
-    <div class="stat-card">
-        <div class="stat-icon">
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal blue">
             <i class="fas fa-user-graduate"></i>
         </div>
-        <div class="stat-content">
-            <h3>Total Students</h3>
-            <div class="stat-number">986</div>
-            <div class="stat-change">All enrolled</div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">986</div>
+            <div class="stat-label">Total Students</div>
+            <div class="stat-today">All enrolled</div>
         </div>
     </div>
 
     <!-- Active Students -->
-    <div class="stat-card">
-        <div class="stat-icon">
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal green">
             <i class="fas fa-check-circle"></i>
         </div>
-        <div class="stat-content">
-            <h3>Active Students</h3>
-            <div class="stat-number">978</div>
-            <div class="stat-change positive">99.2% active</div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">978</div>
+            <div class="stat-label">Active Students</div>
+            <div class="stat-today">99.2% active</div>
         </div>
     </div>
 
     <!-- Average Attendance -->
-    <div class="stat-card">
-        <div class="stat-icon">
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal yellow">
             <i class="fas fa-calendar-check"></i>
         </div>
-        <div class="stat-content">
-            <h3>Avg Attendance</h3>
-            <div class="stat-number">94.2%</div>
-            <div class="stat-change">This month</div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">94.2%</div>
+            <div class="stat-label">Avg Attendance</div>
+            <div class="stat-today">This month</div>
         </div>
     </div>
 
     <!-- New Enrollments -->
-    <div class="stat-card">
-        <div class="stat-icon">
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal purple">
             <i class="fas fa-user-plus"></i>
         </div>
-        <div class="stat-content">
-            <h3>New Enrollments</h3>
-            <div class="stat-number">23</div>
-            <div class="stat-change">This month</div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">23</div>
+            <div class="stat-label">New Enrollments</div>
+            <div class="stat-today">This month</div>
         </div>
     </div>
 </div>
@@ -72,98 +72,469 @@ ob_start();
 <div class="simple-section">
     <div class="simple-header">
         <h3>All Students</h3>
-        <button class="simple-btn" id="toggleStudentForm"><i class="fas fa-plus"></i> Add New Student</button>
+        <button class="simple-btn" id="openStudentModal"><i class="fas fa-plus"></i> Add New Student</button>
     </div>
 
-    <!-- Inline Create Student Form (hidden by default) -->
-    <div id="studentForm" class="simple-section" style="display:none; margin-top:12px;">
-        <div class="simple-header">
-            <h4><i class="fas fa-user-plus"></i> Create Student (Draft)</h4>
-        </div>
-        <div class="form-section">
-            <div class="form-row">
-                <div class="form-group" style="flex:2;">
-                    <label for="sName">Full Name</label>
-                    <input type="text" id="sName" class="form-input" placeholder="Enter full name">
-                </div>
-                <div class="form-group">
-                    <label for="sDOB">Date of Birth</label>
-                    <input type="date" id="sDOB" class="form-input">
-                </div>
-                <div class="form-group">
-                    <label for="sClass">Class</label>
-                    <input type="text" id="sClass" class="form-input" placeholder="e.g., Grade 9-A">
+    <!-- Add New Student Modal -->
+    <div id="addStudentModal" class="receipt-dialog-overlay" style="display:none;" onclick="if(event.target === this) closeAddStudentModal();">
+        <div class="receipt-dialog-content wizard-modal" style="max-width: 1000px; max-height: 90vh; overflow: hidden; display: flex; flex-direction: column;" onclick="event.stopPropagation();">
+            <div class="receipt-dialog-header">
+                <h3><i class="fas fa-user-plus"></i> Add New Student</h3>
+                <button class="receipt-close" onclick="closeAddStudentModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Wizard Progress Bar -->
+            <div class="wizard-progress-bar">
+                <div class="wizard-steps-container">
+                    <div class="wizard-step-item active" data-step="1" onclick="goToStudentStep(1)">
+                        <div class="step-indicator">
+                            <i class="fas fa-pencil-alt"></i>
+                        </div>
+                        <span class="step-label">Basic Info</span>
+                    </div>
+                    <div class="wizard-step-item" data-step="2" onclick="goToStudentStep(2)">
+                        <div class="step-indicator">2</div>
+                        <span class="step-label">Academic</span>
+                    </div>
+                    <div class="wizard-step-item" data-step="3" onclick="goToStudentStep(3)">
+                        <div class="step-indicator">3</div>
+                        <span class="step-label">Family</span>
+                    </div>
+                    <div class="wizard-step-item" data-step="4" onclick="goToStudentStep(4)">
+                        <div class="step-indicator">4</div>
+                        <span class="step-label">Medical</span>
+                    </div>
+                    <div class="wizard-step-item" data-step="5" onclick="goToStudentStep(5)">
+                        <div class="step-indicator">5</div>
+                        <span class="step-label">Portal</span>
+                    </div>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="sGender">Gender</label>
-                    <select id="sGender" class="form-select">
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
-                    </select>
+
+            <div class="wizard-content-wrapper" style="flex: 1; display: flex; overflow: hidden;">
+                <div class="wizard-main-content" style="flex: 1; overflow-y: auto; padding: 32px;">
+                    <div style="margin-bottom: 24px;">
+                        <h2 style="margin: 0; font-size: 28px; font-weight: 700; color: #111827;">Add New Student</h2>
+                    </div>
+                    <div class="form-section" style="padding:0;">
+                        <!-- Step 1: Basic Information -->
+                        <div class="wizard-step" id="studentStep1Form" style="display:block;">
+                            <div style="display:flex; align-items:center; margin-bottom:20px;">
+                                <i class="fas fa-user" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
+                                <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Basic Information</h4>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sPhoto">Photo</label>
+                                    <input type="file" id="sPhoto" class="form-input" accept="image/*">
+                                </div>
+                                <div class="form-group" style="flex:2;">
+                                    <label for="sName">Name <span style="color:red;">*</span></label>
+                                    <input type="text" id="sName" class="form-input" placeholder="Enter full name" required>
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sStudentId">Student ID</label>
+                                    <input type="text" id="sStudentId" class="form-input" placeholder="Auto-generated">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sDateOfJoining">Date of Joining</label>
+                                    <input type="date" id="sDateOfJoining" class="form-input">
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sGender">Gender</label>
+                                    <select id="sGender" class="form-select">
+                                        <option value="">Select</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sEthnicity">Ethnicity</label>
+                                    <input type="text" id="sEthnicity" class="form-input" placeholder="Enter ethnicity">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sReligious">Religious</label>
+                                    <input type="text" id="sReligious" class="form-input" placeholder="Enter religion">
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sNRC">NRC</label>
+                                    <input type="text" id="sNRC" class="form-input" placeholder="e.g., 12/STU(N)345678">
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sDOB">D.O.B</label>
+                                    <input type="date" id="sDOB" class="form-input">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Academic Information -->
+                        <div class="wizard-step" id="studentStep2Form" style="display:none;">
+                            <div style="display:flex; align-items:center; margin-bottom:20px;">
+                                <i class="fas fa-graduation-cap" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
+                                <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Academic Information</h4>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sStartingGrade">Starting Grade at School</label>
+                                    <select id="sStartingGrade" class="form-select">
+                                        <option value="">Select</option>
+                                        <option value="Grade 1">Grade 1</option>
+                                        <option value="Grade 2">Grade 2</option>
+                                        <option value="Grade 3">Grade 3</option>
+                                        <option value="Grade 4">Grade 4</option>
+                                        <option value="Grade 5">Grade 5</option>
+                                        <option value="Grade 6">Grade 6</option>
+                                        <option value="Grade 7">Grade 7</option>
+                                        <option value="Grade 8">Grade 8</option>
+                                        <option value="Grade 9">Grade 9</option>
+                                        <option value="Grade 10">Grade 10</option>
+                                        <option value="Grade 11">Grade 11</option>
+                                        <option value="Grade 12">Grade 12</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sCurrentGrade">Current Grade</label>
+                                    <select id="sCurrentGrade" class="form-select">
+                                        <option value="">Select</option>
+                                        <option value="Grade 1">Grade 1</option>
+                                        <option value="Grade 2">Grade 2</option>
+                                        <option value="Grade 3">Grade 3</option>
+                                        <option value="Grade 4">Grade 4</option>
+                                        <option value="Grade 5">Grade 5</option>
+                                        <option value="Grade 6">Grade 6</option>
+                                        <option value="Grade 7">Grade 7</option>
+                                        <option value="Grade 8">Grade 8</option>
+                                        <option value="Grade 9">Grade 9</option>
+                                        <option value="Grade 10">Grade 10</option>
+                                        <option value="Grade 11">Grade 11</option>
+                                        <option value="Grade 12">Grade 12</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sCurrentClass">Current Class</label>
+                                    <input type="text" id="sCurrentClass" class="form-input" placeholder="e.g., Grade 9-A">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sGuardianTeacher">Guardian Teacher</label>
+                                    <input type="text" id="sGuardianTeacher" class="form-input" placeholder="Teacher name">
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sAssistantTeacher">Assistant Teacher</label>
+                                    <input type="text" id="sAssistantTeacher" class="form-input" placeholder="Teacher name">
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sPreviousSchool">Previous School</label>
+                                    <input type="text" id="sPreviousSchool" class="form-input" placeholder="School name">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sAddress">Address</label>
+                                    <input type="text" id="sAddress" class="form-input" placeholder="Street, City, State">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Family Information -->
+                        <div class="wizard-step" id="studentStep3Form" style="display:none;">
+                            <div style="display:flex; align-items:center; margin-bottom:20px;">
+                                <i class="fas fa-users" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
+                                <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Family Information</h4>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group" style="flex:2;">
+                                    <label for="sFatherName">Father Name</label>
+                                    <input type="text" id="sFatherName" class="form-input" placeholder="Enter father's name">
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sFatherNRC">Father's NRC</label>
+                                    <input type="text" id="sFatherNRC" class="form-input" placeholder="e.g., 12/FAT(N)123456">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sFatherPhone">Father's Phone No.</label>
+                                    <input type="tel" id="sFatherPhone" class="form-input" placeholder="+1-555-0000">
+                                </div>
+                                <div class="form-group" style="flex:2;">
+                                    <label for="sFatherOccupation">Father's Occupation</label>
+                                    <input type="text" id="sFatherOccupation" class="form-input" placeholder="Enter occupation">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group" style="flex:2;">
+                                    <label for="sMotherName">Mother Name</label>
+                                    <input type="text" id="sMotherName" class="form-input" placeholder="Enter mother's name">
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sMotherNRC">Mother's NRC</label>
+                                    <input type="text" id="sMotherNRC" class="form-input" placeholder="e.g., 12/MOT(N)123456">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sMotherPhone">Mother's Phone No.</label>
+                                    <input type="tel" id="sMotherPhone" class="form-input" placeholder="+1-555-0000">
+                                </div>
+                                <div class="form-group" style="flex:2;">
+                                    <label for="sMotherOccupation">Mother's Occupation</label>
+                                    <input type="text" id="sMotherOccupation" class="form-input" placeholder="Enter occupation">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sGuardianName">Guardian Name</label>
+                                    <input type="text" id="sGuardianName" class="form-input" placeholder="Enter guardian's name">
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sGuardianPhone">Guardian's Phone No.</label>
+                                    <input type="tel" id="sGuardianPhone" class="form-input" placeholder="+1-555-0000">
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sGuardianEmail">Guardian's Email</label>
+                                    <input type="email" id="sGuardianEmail" class="form-input" placeholder="guardian@email.com">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sEmergencyPhone">Emergency Contact Phone No.</label>
+                                    <input type="tel" id="sEmergencyPhone" class="form-input" placeholder="+1-555-0000">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sRelativeName">In-School Relative Name</label>
+                                    <input type="text" id="sRelativeName" class="form-input" placeholder="Enter relative's name">
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sRelativeGrade">Grade</label>
+                                    <select id="sRelativeGrade" class="form-select">
+                                        <option value="">Select</option>
+                                        <option value="Grade 1">Grade 1</option>
+                                        <option value="Grade 2">Grade 2</option>
+                                        <option value="Grade 3">Grade 3</option>
+                                        <option value="Grade 4">Grade 4</option>
+                                        <option value="Grade 5">Grade 5</option>
+                                        <option value="Grade 6">Grade 6</option>
+                                        <option value="Grade 7">Grade 7</option>
+                                        <option value="Grade 8">Grade 8</option>
+                                        <option value="Grade 9">Grade 9</option>
+                                        <option value="Grade 10">Grade 10</option>
+                                        <option value="Grade 11">Grade 11</option>
+                                        <option value="Grade 12">Grade 12</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sRelativeRelationship">Relationship</label>
+                                    <select id="sRelativeRelationship" class="form-select">
+                                        <option value="">Select</option>
+                                        <option value="Sibling">Sibling</option>
+                                        <option value="Cousin">Cousin</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Medical Information -->
+                        <div class="wizard-step" id="studentStep4Form" style="display:none;">
+                            <div style="display:flex; align-items:center; margin-bottom:20px;">
+                                <i class="fas fa-heartbeat" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
+                                <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Medical Information</h4>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sBlood">Blood Type</label>
+                                    <select id="sBlood" class="form-select">
+                                        <option value="">Select</option>
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
+                                        <option value="O+">O+</option>
+                                        <option value="O-">O-</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sWeight">Weight (kg)</label>
+                                    <input type="number" id="sWeight" class="form-input" placeholder="e.g., 45" step="0.1">
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sHeight">Height (cm)</label>
+                                    <input type="number" id="sHeight" class="form-input" placeholder="e.g., 150" step="0.1">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sMedicineAllergy">Medicine Allergy</label>
+                                    <input type="text" id="sMedicineAllergy" class="form-input" placeholder="List any medicine allergies">
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sFoodAllergy">Food Allergy</label>
+                                    <input type="text" id="sFoodAllergy" class="form-input" placeholder="List any food allergies">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group" style="flex:1;">
+                                    <label for="sMedicalDirectory">Medical Directory</label>
+                                    <textarea id="sMedicalDirectory" class="form-input" rows="3" placeholder="Additional medical information"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 5: Portal Registration -->
+                        <div class="wizard-step" id="studentStep5Form" style="display:none;">
+                            <div style="display:flex; align-items:center; margin-bottom:20px;">
+                                <i class="fas fa-user-shield" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
+                                <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Portal Registration</h4>
+                            </div>
+                            
+                            <!-- Portal Account Type Selection -->
+                            <div class="form-row" style="margin-bottom: 24px;">
+                                <div class="form-group" style="flex:1;">
+                                    <label>Portal Account Type <span style="color:red;">*</span></label>
+                                    <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 8px;">
+                                        <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; padding: 16px; border: 2px solid #4A90E2; border-radius: 8px; transition: all 0.2s; background: #f0f7ff;" id="newAccountLabel" onclick="document.getElementById('sPortalAccountType').checked = true; togglePortalAccountType();">
+                                            <input type="radio" name="portalAccountType" id="sPortalAccountType" value="new" checked onchange="togglePortalAccountType()">
+                                            <div style="flex: 1;">
+                                                <div style="font-weight: 600; color: #111827; margin-bottom: 4px;">
+                                                    <i class="fas fa-user-plus" style="color: #4A90E2; margin-right: 8px;"></i>Create New Portal Account
+                                                </div>
+                                                <div style="font-size: 13px; color: #6b7280;">Create a new parent/guardian portal account for this student</div>
+                                            </div>
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; padding: 16px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s; background: transparent;" id="bindAccountLabel" onclick="document.getElementById('sBindAccountType').checked = true; togglePortalAccountType();">
+                                            <input type="radio" name="portalAccountType" id="sBindAccountType" value="bind" onchange="togglePortalAccountType()">
+                                            <div style="flex: 1;">
+                                                <div style="font-weight: 600; color: #111827; margin-bottom: 4px;">
+                                                    <i class="fas fa-link" style="color: #10b981; margin-right: 8px;"></i>Bind to Existing Parent Account
+                                                </div>
+                                                <div style="font-size: 13px; color: #6b7280;">Link this student to an existing parent portal account (e.g., second child at school)</div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- New Account Fields -->
+                            <div id="newAccountFields">
+                                <div class="form-row">
+                                    <div class="form-group" style="flex:1;">
+                                        <label for="sPortalEmail">Portal Email</label>
+                                        <input type="email" id="sPortalEmail" class="form-input" placeholder="portal@email.com">
+                                    </div>
+                                    <div class="form-group" style="flex:1;">
+                                        <label for="sPortalPassword">Portal Password</label>
+                                        <input type="password" id="sPortalPassword" class="form-input" placeholder="Enter password">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group" style="flex:1;">
+                                        <label for="sPortalPhone">Phone Number</label>
+                                        <input type="tel" id="sPortalPhone" class="form-input" placeholder="+1-555-0000">
+                                    </div>
+                                    <div class="form-group" style="flex:1;">
+                                        <label for="sPortalRelationship">Relationship with Student</label>
+                                        <select id="sPortalRelationship" class="form-select">
+                                            <option value="">Select relationship</option>
+                                            <option value="Parent">Parent</option>
+                                            <option value="Guardian">Guardian</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Bind Account Fields -->
+                            <div id="bindAccountFields" style="display: none;">
+                                <div style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 16px; margin-bottom: 20px;">
+                                    <div style="display: flex; align-items: start; gap: 12px;">
+                                        <i class="fas fa-info-circle" style="color: #10b981; font-size: 20px; margin-top: 2px;"></i>
+                                        <div style="flex: 1;">
+                                            <div style="font-weight: 600; color: #166534; margin-bottom: 4px;">Binding to Existing Account</div>
+                                            <div style="font-size: 13px; color: #15803d;">This option is for parents who already have portal access and want to add another student (e.g., second child at school). The student will be linked to the existing parent account.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group" style="flex:1;">
+                                        <label for="sBindParentEmail">Existing Parent Email <span style="color:red;">*</span></label>
+                                        <input type="email" id="sBindParentEmail" class="form-input" placeholder="existing.parent@email.com">
+                                        <small style="color: #6b7280; font-size: 12px; margin-top: 4px; display: block;">Enter the email of the existing parent portal account</small>
+                                    </div>
+                                    <div class="form-group" style="flex:1;">
+                                        <label for="sBindParentPhone">Parent Phone Number</label>
+                                        <input type="tel" id="sBindParentPhone" class="form-input" placeholder="+1-555-0000">
+                                        <small style="color: #6b7280; font-size: 12px; margin-top: 4px; display: block;">Optional: For verification purposes</small>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group" style="flex:1;">
+                                        <label for="sBindRelationship">Relationship with Student</label>
+                                        <select id="sBindRelationship" class="form-select">
+                                            <option value="">Select relationship</option>
+                                            <option value="Parent">Parent</option>
+                                            <option value="Guardian">Guardian</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" style="flex:1;">
+                                        <label>
+                                            <input type="checkbox" id="sSecondKidAtSchool" style="margin-right: 8px;">
+                                            Second Kid at School
+                                        </label>
+                                        <small style="color: #6b7280; font-size: 12px; margin-top: 4px; display: block;">Check if this is the second (or more) child at the school for this parent</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="sNRC">NRC Number</label>
-                    <input type="text" id="sNRC" class="form-input" placeholder="e.g., 12/STU(N)345678">
-                </div>
-                <div class="form-group" style="flex:2;">
-                    <label for="sAddress">Address</label>
-                    <input type="text" id="sAddress" class="form-input" placeholder="Street, City, State">
+                
+                <!-- Sidebar with Tips -->
+                <div class="wizard-sidebar">
+                    <div class="wizard-sidebar-content">
+                        <h3 class="sidebar-title">Student Registration</h3>
+                        <ul class="sidebar-tips">
+                            <li>Fill out all required fields marked with <span style="color:red;">*</span> to proceed</li>
+                            <li>You can navigate between steps using the progress bar or navigation buttons</li>
+                            <li>All information can be edited before final submission</li>
+                            <li>Portal registration is optional but recommended for parent/guardian access</li>
+                        </ul>
+                        <div class="sidebar-help">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Need help? Contact the admin support team</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="sParent">Parent/Guardian</label>
-                    <input type="text" id="sParent" class="form-input" placeholder="Parent name">
+            
+            <div class="wizard-footer" style="border-top: 1px solid #e5e7eb; padding: 16px 32px; background: #f9fafb; display: flex; justify-content: space-between; align-items: center;">
+                <button id="cancelStudent" class="wizard-btn-secondary" onclick="closeAddStudentModal()" style="display:none;">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <div style="display: flex; gap: 12px; margin-left: auto;">
+                    <button id="backStudentBtn" class="wizard-btn-secondary" onclick="goToPreviousStudentStep()" style="display:none;">
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </button>
+                    <button id="nextStudentBtn" class="wizard-btn-primary" onclick="handleNextStudentStep()" style="display:none;">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button id="saveStudent" class="wizard-btn-primary" onclick="saveStudentForm()" style="display:none;">
+                        <i class="fas fa-save"></i> Save and Preview
+                    </button>
                 </div>
-                <div class="form-group">
-                    <label for="sPhone">Phone</label>
-                    <input type="text" id="sPhone" class="form-input" placeholder="+1-555-...">
-                </div>
-                <div class="form-group">
-                    <label for="sEmail">Email</label>
-                    <input type="email" id="sEmail" class="form-input" placeholder="parent@email.com">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="sBlood">Blood Type</label>
-                    <select id="sBlood" class="form-select">
-                        <option value="">Select</option>
-                        <option value="A+">A+</option>
-                        <option value="A-">A-</option>
-                        <option value="B+">B+</option>
-                        <option value="B-">B-</option>
-                        <option value="AB+">AB+</option>
-                        <option value="AB-">AB-</option>
-                        <option value="O+">O+</option>
-                        <option value="O-">O-</option>
-                    </select>
-                </div>
-                <div class="form-group" style="flex:2;">
-                    <label for="sEmergency">Emergency Contact</label>
-                    <input type="text" id="sEmergency" class="form-input" placeholder="Name - Phone">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="sEnroll">Enrollment Date</label>
-                    <input type="date" id="sEnroll" class="form-input">
-                </div>
-                <div class="form-group">
-                    <label for="sStatus">Status</label>
-                    <select id="sStatus" class="form-select">
-                        <option value="Active">Active</option>
-                        <option value="Transfer">Transfer</option>
-                        <option value="Inactive">Inactive</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-actions">
-                <button id="cancelStudent" class="simple-btn secondary">Cancel</button>
-                <button id="saveStudent" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
             </div>
         </div>
     </div>
@@ -173,61 +544,641 @@ ob_start();
         <button class="simple-btn">Search</button>
     </div>
 
+    <style>
+    /* Wizard Styles - Upwork-inspired Design */
+    .wizard-modal {
+        display: flex;
+        flex-direction: column;
+        background: #fff;
+    }
+
+    /* Progress Bar - Horizontal with connected steps */
+    .wizard-progress-bar {
+        background: #fff;
+        border-bottom: 1px solid #e5e7eb;
+        padding: 24px 32px;
+    }
+
+    .wizard-steps-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        max-width: 100%;
+        overflow-x: auto;
+        padding: 0;
+    }
+
+    .wizard-steps-container::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: #e5e7eb;
+        z-index: 0;
+    }
+
+    .wizard-step-item {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        min-width: 100px;
+        flex: 1;
+    }
+
+    .wizard-step-item:hover {
+        transform: translateY(-2px);
+    }
+
+    .step-indicator {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #fff;
+        border: 3px solid #d1d5db;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 14px;
+        color: #6b7280;
+        transition: all 0.3s ease;
+        margin-bottom: 8px;
+        position: relative;
+    }
+
+    .wizard-step-item.active .step-indicator {
+        background: #4A90E2;
+        border-color: #4A90E2;
+        color: #fff;
+        box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+    }
+
+    .wizard-step-item.active .step-indicator i {
+        font-size: 16px;
+    }
+
+    .wizard-step-item.completed .step-indicator {
+        background: #4A90E2;
+        border-color: #4A90E2;
+        color: #fff;
+    }
+
+    .wizard-step-item.completed .step-indicator::after {
+        content: '✓';
+        font-size: 18px;
+        font-weight: bold;
+        color: #fff;
+        position: absolute;
+    }
+
+    .wizard-step-item.completed .step-indicator {
+        font-size: 0;
+    }
+
+    .step-label {
+        font-size: 13px;
+        font-weight: 500;
+        color: #6b7280;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .wizard-step-item.active .step-label {
+        color: #4A90E2;
+        font-weight: 600;
+    }
+
+    .wizard-step-item.completed .step-label {
+        color: #4A90E2;
+    }
+
+    /* Progress line - blue for completed steps */
+    .wizard-step-item.completed::after,
+    .wizard-step-item.active::after {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        width: 100%;
+        height: 3px;
+        background: #4A90E2;
+        z-index: 0;
+        transform: translateY(-50%);
+    }
+
+    .wizard-step-item:last-child::after {
+        display: none;
+    }
+
+    /* Main Content Area */
+    .wizard-content-wrapper {
+        display: flex;
+        background: #fff;
+    }
+
+    .wizard-main-content {
+        flex: 1;
+        padding: 32px;
+        background: #fff;
+    }
+
+    /* Sidebar */
+    .wizard-sidebar {
+        width: 320px;
+        background: #f9fafb;
+        border-left: 1px solid #e5e7eb;
+        padding: 24px;
+        overflow-y: auto;
+    }
+
+    .wizard-sidebar-content {
+        background: #fff;
+        border: 2px solid #4A90E2;
+        border-radius: 8px;
+        padding: 20px;
+    }
+
+    .sidebar-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #111827;
+        margin: 0 0 16px 0;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .sidebar-tips {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 20px 0;
+    }
+
+    .sidebar-tips li {
+        font-size: 14px;
+        color: #4b5563;
+        line-height: 1.6;
+        margin-bottom: 12px;
+        padding-left: 20px;
+        position: relative;
+    }
+
+    .sidebar-tips li::before {
+        content: '•';
+        position: absolute;
+        left: 0;
+        color: #4A90E2;
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    .sidebar-help {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px;
+        background: #eff6ff;
+        border-radius: 6px;
+        font-size: 13px;
+        color: #1e40af;
+    }
+
+    .sidebar-help i {
+        color: #4A90E2;
+    }
+
+    /* Footer Buttons */
+    .wizard-footer {
+        border-top: 1px solid #e5e7eb;
+        padding: 16px 32px;
+        background: #f9fafb;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .wizard-btn-primary {
+        background: #4A90E2;
+        color: #fff;
+        border: none;
+        padding: 10px 24px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s ease;
+    }
+
+    .wizard-btn-primary:hover {
+        background: #357abd;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+    }
+
+    .wizard-btn-secondary {
+        background: #fff;
+        color: #374151;
+        border: 1px solid #d1d5db;
+        padding: 10px 24px;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 14px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s ease;
+    }
+
+    .wizard-btn-secondary:hover {
+        background: #f9fafb;
+        border-color: #9ca3af;
+    }
+
+    /* Step Animation */
+    .wizard-step {
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Scrollbar for progress bar */
+    .wizard-steps-container::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    .wizard-steps-container::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .wizard-steps-container::-webkit-scrollbar-thumb {
+        background: #d1d5db;
+        border-radius: 2px;
+    }
+
+    .wizard-steps-container::-webkit-scrollbar-thumb:hover {
+        background: #9ca3af;
+    }
+    </style>
+
     <script>
-    // Inline student create form interactions
+    // Student modal wizard functions
+    let currentStudentStep = 1;
+    const totalStudentSteps = 5;
+
+    function openAddStudentModal() {
+        currentStudentStep = 1;
+        document.getElementById('addStudentModal').style.display = 'flex';
+        
+        // Reset all form fields
+        document.getElementById('sPhoto').value = '';
+        document.getElementById('sName').value = '';
+        document.getElementById('sStudentId').value = '';
+        document.getElementById('sDateOfJoining').value = '';
+        document.getElementById('sGender').value = '';
+        document.getElementById('sEthnicity').value = '';
+        document.getElementById('sReligious').value = '';
+        document.getElementById('sNRC').value = '';
+        document.getElementById('sDOB').value = '';
+        document.getElementById('sStartingGrade').value = '';
+        document.getElementById('sCurrentGrade').value = '';
+        document.getElementById('sCurrentClass').value = '';
+        document.getElementById('sGuardianTeacher').value = '';
+        document.getElementById('sAssistantTeacher').value = '';
+        document.getElementById('sPreviousSchool').value = '';
+        document.getElementById('sAddress').value = '';
+        document.getElementById('sFatherName').value = '';
+        document.getElementById('sFatherNRC').value = '';
+        document.getElementById('sFatherPhone').value = '';
+        document.getElementById('sFatherOccupation').value = '';
+        document.getElementById('sMotherName').value = '';
+        document.getElementById('sMotherNRC').value = '';
+        document.getElementById('sMotherPhone').value = '';
+        document.getElementById('sMotherOccupation').value = '';
+        document.getElementById('sGuardianName').value = '';
+        document.getElementById('sGuardianPhone').value = '';
+        document.getElementById('sGuardianEmail').value = '';
+        document.getElementById('sEmergencyPhone').value = '';
+        document.getElementById('sRelativeName').value = '';
+        document.getElementById('sRelativeGrade').value = '';
+        document.getElementById('sRelativeRelationship').value = '';
+        document.getElementById('sBlood').value = '';
+        document.getElementById('sWeight').value = '';
+        document.getElementById('sHeight').value = '';
+        document.getElementById('sMedicineAllergy').value = '';
+        document.getElementById('sFoodAllergy').value = '';
+        document.getElementById('sMedicalDirectory').value = '';
+        document.getElementById('sPortalEmail').value = '';
+        document.getElementById('sPortalPassword').value = '';
+        document.getElementById('sPortalPhone').value = '';
+        document.getElementById('sPortalRelationship').value = '';
+        document.getElementById('sPortalAccountType').checked = true;
+        document.getElementById('sBindAccountType').checked = false;
+        document.getElementById('sBindParentEmail').value = '';
+        document.getElementById('sBindParentPhone').value = '';
+        document.getElementById('sBindRelationship').value = '';
+        document.getElementById('sSecondKidAtSchool').checked = false;
+        
+        // Reset portal account type UI
+        togglePortalAccountType();
+        
+        // Reset to step 1
+        goToStudentStep(1);
+        
+        // Show Next button on step 1
+        document.getElementById('nextStudentBtn').style.display = 'inline-flex';
+    }
+
+    function closeAddStudentModal() {
+        document.getElementById('addStudentModal').style.display = 'none';
+    }
+
+    function goToStudentStep(step) {
+        currentStudentStep = step;
+        
+        // Hide all steps
+        document.getElementById('studentStep1Form').style.display = 'none';
+        document.getElementById('studentStep2Form').style.display = 'none';
+        document.getElementById('studentStep3Form').style.display = 'none';
+        document.getElementById('studentStep4Form').style.display = 'none';
+        document.getElementById('studentStep5Form').style.display = 'none';
+        
+        // Show current step
+        document.getElementById('studentStep' + step + 'Form').style.display = 'block';
+        
+        // Update progress bar active states
+        const stepItems = document.querySelectorAll('#addStudentModal .wizard-step-item');
+        stepItems.forEach((item, index) => {
+            if (index + 1 <= step) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+        
+        // Update button visibility
+        const cancelBtn = document.getElementById('cancelStudent');
+        const backBtn = document.getElementById('backStudentBtn');
+        const nextBtn = document.getElementById('nextStudentBtn');
+        const saveBtn = document.getElementById('saveStudent');
+        
+        cancelBtn.style.display = step === 1 ? 'inline-block' : 'none';
+        backBtn.style.display = step > 1 ? 'inline-flex' : 'none';
+        nextBtn.style.display = step < totalStudentSteps ? 'inline-flex' : 'none';
+        saveBtn.style.display = step === totalStudentSteps ? 'inline-flex' : 'none';
+    }
+
+    function goToPreviousStudentStep() {
+        if (currentStudentStep > 1) {
+            goToStudentStep(currentStudentStep - 1);
+        }
+    }
+
+    function handleNextStudentStep() {
+        // Validate current step
+        if (currentStudentStep === 1) {
+            const name = (document.getElementById('sName').value || '').trim();
+            if (!name) {
+                alert('Please enter student name');
+                return;
+            }
+        }
+        
+        if (currentStudentStep < totalStudentSteps) {
+            goToStudentStep(currentStudentStep + 1);
+        }
+    }
+
+    // Toggle portal account type fields
+    function togglePortalAccountType() {
+        const accountType = document.querySelector('input[name="portalAccountType"]:checked')?.value || 'new';
+        const newAccountFields = document.getElementById('newAccountFields');
+        const bindAccountFields = document.getElementById('bindAccountFields');
+        const newAccountLabel = document.getElementById('newAccountLabel');
+        const bindAccountLabel = document.getElementById('bindAccountLabel');
+        
+        if (accountType === 'bind') {
+            newAccountFields.style.display = 'none';
+            bindAccountFields.style.display = 'block';
+            newAccountLabel.style.borderColor = '#e5e7eb';
+            newAccountLabel.style.background = 'transparent';
+            bindAccountLabel.style.borderColor = '#10b981';
+            bindAccountLabel.style.background = '#f0fdf4';
+        } else {
+            newAccountFields.style.display = 'block';
+            bindAccountFields.style.display = 'none';
+            newAccountLabel.style.borderColor = '#4A90E2';
+            newAccountLabel.style.background = '#f0f7ff';
+            bindAccountLabel.style.borderColor = '#e5e7eb';
+            bindAccountLabel.style.background = 'transparent';
+        }
+    }
+
+    // Make functions globally available
+    window.openAddStudentModal = openAddStudentModal;
+    window.closeAddStudentModal = closeAddStudentModal;
+    window.goToPreviousStudentStep = goToPreviousStudentStep;
+    window.handleNextStudentStep = handleNextStudentStep;
+    window.goToStudentStep = goToStudentStep;
+    window.togglePortalAccountType = togglePortalAccountType;
+
+    // Student create form interactions
     document.addEventListener('DOMContentLoaded', function(){
-        const toggleBtn=document.getElementById('toggleStudentForm');
-        const formCard=document.getElementById('studentForm');
-        const cancelBtn=document.getElementById('cancelStudent');
+        const openBtn=document.getElementById('openStudentModal');
         const saveBtn=document.getElementById('saveStudent');
         const tableBody=document.querySelector('.simple-table-container table tbody');
+        const portalEmailInput = document.getElementById('sPortalEmail');
+        const portalPasswordInput = document.getElementById('sPortalPassword');
+        const portalPhoneInput = document.getElementById('sPortalPhone');
+        const portalRelationshipSelect = document.getElementById('sPortalRelationship');
+        const guardianEmailInput = document.getElementById('sGuardianEmail');
+        const guardianPhoneInput = document.getElementById('sGuardianPhone');
 
-        function toggle(){ formCard.style.display = formCard.style.display==='none' ? 'block' : 'none'; }
-        if (toggleBtn) toggleBtn.addEventListener('click', function(e){ e.preventDefault(); toggle(); });
-        if (cancelBtn) cancelBtn.addEventListener('click', function(e){ e.preventDefault(); formCard.style.display='none'; });
+        if (openBtn) openBtn.addEventListener('click', function(e){ e.preventDefault(); openAddStudentModal(); });
+        
+        // Auto-fill portal email from guardian email if portal email is empty
+        if(guardianEmailInput && portalEmailInput) {
+            guardianEmailInput.addEventListener('blur', function() {
+                if(!portalEmailInput.value && this.value) {
+                    portalEmailInput.value = this.value;
+                }
+            });
+        }
+        
+        // Auto-fill portal phone from guardian phone if portal phone is empty
+        if(guardianPhoneInput && portalPhoneInput) {
+            guardianPhoneInput.addEventListener('blur', function() {
+                if(!portalPhoneInput.value && this.value) {
+                    portalPhoneInput.value = this.value;
+                }
+            });
+        }
 
         function prependRow(s){
             const tr=document.createElement('tr');
             tr.innerHTML = `
                 <td><strong>${s.id}</strong></td>
                 <td>${s.name}</td>
-                <td>${s.klass}</td>
+                <td>${s.currentClass || s.klass || ''}</td>
                 <td>${s.age||''}</td>
-                <td>${s.parent||''}</td>
-                <td>${s.phone||''}</td>
-                <td>${s.email||''}</td>
-                <td>${s.enroll||''}</td>
+                <td>${s.guardianName || s.parent || ''}</td>
+                <td>${s.guardianPhone || s.phone || ''}</td>
+                <td>${s.guardianEmail || s.email || ''}</td>
+                <td>${s.dateOfJoining || s.enroll || ''}</td>
                 <td>${s.status||'Active'}</td>
                 <td><button class="view-btn">View Details</button></td>`;
             tableBody.prepend(tr);
         }
 
-        if (saveBtn) saveBtn.addEventListener('click', function(e){
-            e.preventDefault();
+        function saveStudentForm() {
             const name=(document.getElementById('sName').value||'').trim();
             if(!name){ alert('Please enter full name'); return; }
+            
+            // Get portal account type
+            const portalAccountType = document.querySelector('input[name="portalAccountType"]:checked')?.value || 'new';
+            const isBindingAccount = portalAccountType === 'bind';
+            
+            // Validate portal registration fields based on account type
+            let portalEmail = '';
+            let portalPassword = '';
+            let portalPhone = '';
+            let portalRelationship = '';
+            let bindParentEmail = '';
+            let bindParentPhone = '';
+            let bindRelationship = '';
+            let secondKidAtSchool = false;
+            let createPortal = false;
+            
+            if (isBindingAccount) {
+                // Binding to existing account
+                bindParentEmail = (document.getElementById('sBindParentEmail').value||'').trim();
+                bindParentPhone = (document.getElementById('sBindParentPhone').value||'').trim();
+                bindRelationship = document.getElementById('sBindRelationship').value;
+                secondKidAtSchool = document.getElementById('sSecondKidAtSchool').checked;
+                
+                if (!bindParentEmail) {
+                    alert('Please enter the existing parent email address to bind this student');
+                    return;
+                }
+                
+                if (!bindParentEmail.includes('@')) {
+                    alert('Please enter a valid parent email address');
+                    return;
+                }
+                
+                createPortal = true; // Mark as portal account (bound)
+            } else {
+                // Creating new account
+                portalEmail = (document.getElementById('sPortalEmail').value||'').trim();
+                portalPassword = document.getElementById('sPortalPassword').value;
+                portalPhone = (document.getElementById('sPortalPhone').value||'').trim();
+                portalRelationship = document.getElementById('sPortalRelationship').value;
+                createPortal = portalEmail && portalPassword;
+                
+                if(createPortal) {
+                    if(!portalEmail.includes('@')) {
+                        alert('Please enter a valid portal email address');
+                        return;
+                    }
+                }
+            }
+            
+            // Generate Student ID if not provided
+            const studentId = (document.getElementById('sStudentId').value||'').trim() || 'S'+Date.now();
+            
             const obj={
-                id:'S'+Date.now(),
+                id: studentId,
                 name,
+                photo: document.getElementById('sPhoto').files.length > 0 ? document.getElementById('sPhoto').files[0].name : '',
+                dateOfJoining: document.getElementById('sDateOfJoining').value||'',
                 dob: document.getElementById('sDOB').value||'',
                 gender: document.getElementById('sGender') ? document.getElementById('sGender').value : '',
+                ethnicity: (document.getElementById('sEthnicity').value||'').trim(),
+                religious: (document.getElementById('sReligious').value||'').trim(),
                 nrc: (document.getElementById('sNRC').value||'').trim(),
+                startingGrade: document.getElementById('sStartingGrade') ? document.getElementById('sStartingGrade').value : '',
+                currentGrade: document.getElementById('sCurrentGrade') ? document.getElementById('sCurrentGrade').value : '',
+                currentClass: (document.getElementById('sCurrentClass').value||'').trim(),
+                guardianTeacher: (document.getElementById('sGuardianTeacher').value||'').trim(),
+                assistantTeacher: (document.getElementById('sAssistantTeacher').value||'').trim(),
+                previousSchool: (document.getElementById('sPreviousSchool').value||'').trim(),
                 address: (document.getElementById('sAddress').value||'').trim(),
-                klass:(document.getElementById('sClass').value||'').trim(),
-                parent:(document.getElementById('sParent').value||'').trim(),
-                phone:(document.getElementById('sPhone').value||'').trim(),
-                email:(document.getElementById('sEmail').value||'').trim(),
+                fatherName: (document.getElementById('sFatherName').value||'').trim(),
+                fatherNRC: (document.getElementById('sFatherNRC').value||'').trim(),
+                fatherPhone: (document.getElementById('sFatherPhone').value||'').trim(),
+                fatherOccupation: (document.getElementById('sFatherOccupation').value||'').trim(),
+                motherName: (document.getElementById('sMotherName').value||'').trim(),
+                motherNRC: (document.getElementById('sMotherNRC').value||'').trim(),
+                motherPhone: (document.getElementById('sMotherPhone').value||'').trim(),
+                motherOccupation: (document.getElementById('sMotherOccupation').value||'').trim(),
+                guardianName: (document.getElementById('sGuardianName').value||'').trim(),
+                guardianPhone: (document.getElementById('sGuardianPhone').value||'').trim(),
+                guardianEmail: (document.getElementById('sGuardianEmail').value||'').trim(),
+                emergencyPhone: (document.getElementById('sEmergencyPhone').value||'').trim(),
+                relativeName: (document.getElementById('sRelativeName').value||'').trim(),
+                relativeGrade: document.getElementById('sRelativeGrade') ? document.getElementById('sRelativeGrade').value : '',
+                relativeRelationship: document.getElementById('sRelativeRelationship') ? document.getElementById('sRelativeRelationship').value : '',
                 bloodType: document.getElementById('sBlood') ? document.getElementById('sBlood').value : '',
-                emergencyContact: (document.getElementById('sEmergency').value||'').trim(),
-                enroll:document.getElementById('sEnroll').value||'',
-                status:document.getElementById('sStatus').value||'Active'
+                weight: (document.getElementById('sWeight').value||'').trim(),
+                height: (document.getElementById('sHeight').value||'').trim(),
+                medicineAllergy: (document.getElementById('sMedicineAllergy').value||'').trim(),
+                foodAllergy: (document.getElementById('sFoodAllergy').value||'').trim(),
+                medicalDirectory: (document.getElementById('sMedicalDirectory').value||'').trim(),
+                // Legacy fields for compatibility
+                klass: (document.getElementById('sCurrentClass').value||'').trim(),
+                parent: (document.getElementById('sGuardianName').value||'').trim(),
+                phone: (document.getElementById('sGuardianPhone').value||'').trim(),
+                email: (document.getElementById('sGuardianEmail').value||'').trim(),
+                enroll: document.getElementById('sDateOfJoining').value||'',
+                status: 'Active',
+                portalAccount: createPortal,
+                portalAccountType: portalAccountType,
+                portalEmail: createPortal && !isBindingAccount ? portalEmail : '',
+                portalPhone: createPortal && !isBindingAccount ? portalPhone : '',
+                portalRelationship: createPortal && !isBindingAccount ? portalRelationship : '',
+                bindParentEmail: isBindingAccount ? bindParentEmail : '',
+                bindParentPhone: isBindingAccount ? bindParentPhone : '',
+                bindRelationship: isBindingAccount ? bindRelationship : '',
+                secondKidAtSchool: isBindingAccount ? secondKidAtSchool : false
             };
             let list=[]; try{ list=JSON.parse(localStorage.getItem('students')||'[]'); }catch(e){ list=[]; }
             list.unshift(obj); localStorage.setItem('students', JSON.stringify(list));
             prependRow(obj);
-            formCard.style.display='none';
-            alert('Student added (draft). Final fields to be decided after onboarding.');
-        });
+            closeAddStudentModal();
+            
+            if(createPortal) {
+                if (isBindingAccount) {
+                    const bindInfo = `Bound to existing account:\nEmail: ${bindParentEmail}\nPhone: ${bindParentPhone || 'N/A'}\nRelationship: ${bindRelationship || 'N/A'}\nSecond Kid at School: ${secondKidAtSchool ? 'Yes' : 'No'}`;
+                    alert(`Student added successfully!\n\n${bindInfo}`);
+                } else {
+                    const portalInfo = `Email: ${portalEmail}\nPhone: ${portalPhone || 'N/A'}\nRelationship: ${portalRelationship || 'N/A'}`;
+                    alert(`Student added successfully!\n\nPortal access created:\n${portalInfo}`);
+                }
+            } else {
+                alert('Student added successfully!');
+            }
+        }
+        
+        // Make saveStudentForm globally available
+        window.saveStudentForm = saveStudentForm;
     });
     </script>
 

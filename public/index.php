@@ -32,6 +32,18 @@ switch ($path) {
     case '/admin/academic-management':
         include __DIR__ . '/../resources/views/admin/academic-management.php';
         break;
+    case '/admin/academic-setup':
+        include __DIR__ . '/../resources/views/admin/academic-setup.php';
+        break;
+    case '/admin/schedule-attendance-setup':
+        include __DIR__ . '/../resources/views/admin/schedule-attendance-setup.php';
+        break;
+    case '/admin/events-setup':
+        include __DIR__ . '/../resources/views/admin/events-setup.php';
+        break;
+    case '/admin/finance-setup':
+        include __DIR__ . '/../resources/views/admin/finance-setup.php';
+        break;
     case '/admin/department-management':
         include __DIR__ . '/../resources/views/admin/department-management.php';
         break;
@@ -65,6 +77,30 @@ switch ($path) {
     case '/admin/attendance':
         include __DIR__ . '/../resources/views/admin/attendance.php';
         break;
+    case '/admin/attendance/student':
+        include __DIR__ . '/../resources/views/admin/attendance-student.php';
+        break;
+    case '/admin/attendance/teacher':
+        include __DIR__ . '/../resources/views/admin/attendance-teacher.php';
+        break;
+    case '/admin/attendance/staff':
+        include __DIR__ . '/../resources/views/admin/attendance-staff.php';
+        break;
+    case '/admin/attendance/staff-history':
+        include __DIR__ . '/../resources/views/admin/attendance-staff-history.php';
+        break;
+    case '/admin/attendance/staff-detail':
+        include __DIR__ . '/../resources/views/admin/attendance-staff-detail.php';
+        break;
+    case '/admin/attendance/class':
+        include __DIR__ . '/../resources/views/admin/attendance-class.php';
+        break;
+    case '/admin/attendance/teacher-detail':
+        include __DIR__ . '/../resources/views/admin/attendance-teacher-detail.php';
+        break;
+    case '/admin/attendance/student-detail':
+        include __DIR__ . '/../resources/views/admin/attendance-student-detail.php';
+        break;
     case '/admin/leave-requests':
         include __DIR__ . '/../resources/views/admin/leave-requests.php';
         break;
@@ -94,6 +130,8 @@ switch ($path) {
         break;
 
     case '/admin/finance':
+        include __DIR__ . '/../resources/views/admin/finance.php';
+        break;
     case '/admin/student-fee-management':
         include __DIR__ . '/../resources/views/admin/student-fee-management.php';
         break;
@@ -114,6 +152,9 @@ switch ($path) {
         break;
     case '/admin/salary-payroll':
         include __DIR__ . '/../resources/views/admin/salary-payroll.php';
+        break;
+    case '/admin/payroll-details':
+        include __DIR__ . '/../resources/views/admin/payroll-details.php';
         break;
     case '/admin/school-info':
         include __DIR__ . '/../resources/views/admin/school-info.php';

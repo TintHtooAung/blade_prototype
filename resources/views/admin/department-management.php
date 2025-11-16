@@ -15,55 +15,60 @@ ob_start();
     <div class="page-title-compact">
         <h2><?php echo $pageHeading; ?></h2>
     </div>
+    <div style="display: flex; gap: 12px; margin-left: auto;">
+        <button class="simple-btn" onclick="openCreateDepartmentModal()">
+            <i class="fas fa-plus"></i> Add Department
+        </button>
+    </div>
 </div>
 
 <!-- Department Stats Cards -->
-<div class="stats-grid-secondary vertical-stats">
+<div class="stats-grid-horizontal" style="margin-bottom: 24px;">
     <!-- Primary Teachers -->
-    <div class="stat-card">
-        <div class="stat-icon">
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal blue">
             <i class="fas fa-chalkboard-teacher"></i>
         </div>
-        <div class="stat-content">
-            <h3>Primary Teachers</h3>
-            <div class="stat-number">15</div>
-            <div class="stat-change">PRIMARY</div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">15</div>
+            <div class="stat-label">Primary Teachers</div>
+            <div class="stat-today">PRIMARY</div>
         </div>
     </div>
 
     <!-- Language Teachers -->
-    <div class="stat-card">
-        <div class="stat-icon">
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal purple">
             <i class="fas fa-language"></i>
         </div>
-        <div class="stat-content">
-            <h3>Language Teachers</h3>
-            <div class="stat-number">8</div>
-            <div class="stat-change">LANG</div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">8</div>
+            <div class="stat-label">Language Teachers</div>
+            <div class="stat-today">LANG</div>
         </div>
     </div>
 
     <!-- ICT Staff -->
-    <div class="stat-card">
-        <div class="stat-icon">
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal teal">
             <i class="fas fa-laptop-code"></i>
         </div>
-        <div class="stat-content">
-            <h3>ICT Staff</h3>
-            <div class="stat-number">5</div>
-            <div class="stat-change">ICT</div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">5</div>
+            <div class="stat-label">ICT Staff</div>
+            <div class="stat-today">ICT</div>
         </div>
     </div>
 
     <!-- Total Departments -->
-    <div class="stat-card">
-        <div class="stat-icon">
+    <div class="stat-card-horizontal">
+        <div class="stat-icon-horizontal green">
             <i class="fas fa-building"></i>
         </div>
-        <div class="stat-content">
-            <h3>Total Departments</h3>
-            <div class="stat-number">3</div>
-            <div class="stat-change">Active</div>
+        <div class="stat-content-horizontal">
+            <div class="stat-value">3</div>
+            <div class="stat-label">Total Departments</div>
+            <div class="stat-today">Active</div>
         </div>
     </div>
 </div>
@@ -71,30 +76,6 @@ ob_start();
 <div class="detail-management-section" style="margin-top: 12px;">
     <div class="section-header">
         <h3 class="section-title">Departments</h3>
-        <button class="simple-btn" id="toggleDepartmentForm"><i class="fas fa-plus"></i> Add Department</button>
-    </div>
-
-    <!-- Inline Create Department Form -->
-    <div id="departmentForm" class="simple-section" style="display:none; margin-top:12px;">
-        <div class="simple-header">
-            <h4><i class="fas fa-building"></i> Create Department</h4>
-        </div>
-        <div class="form-section">
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="deptCode">Department Code</label>
-                    <input type="text" id="deptCode" class="form-input" placeholder="e.g., LANG">
-                </div>
-                <div class="form-group" style="flex:2;">
-                    <label for="deptName">Department Name</label>
-                    <input type="text" id="deptName" class="form-input" placeholder="e.g., Language Teachers">
-                </div>
-            </div>
-            <div class="form-actions">
-                <button id="cancelDepartment" class="simple-btn secondary">Cancel</button>
-                <button id="saveDepartment" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
-            </div>
-        </div>
     </div>
 
     <div class="detail-table-container">
@@ -144,6 +125,40 @@ ob_start();
     </div>
 </div>
 
+<!-- Create Department Modal -->
+<div id="createDepartmentModal" class="confirm-dialog-overlay" style="display:none;">
+    <div class="confirm-dialog-content" style="max-width: 600px;">
+        <div class="confirm-dialog-header">
+            <h4><i class="fas fa-building"></i> Create New Department</h4>
+            <button class="icon-btn" onclick="closeCreateDepartmentModal()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="confirm-dialog-body" style="padding: 20px;">
+            <div class="form-section" style="padding:0;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="deptCode">Department Code *</label>
+                        <input type="text" id="deptCode" class="form-input" placeholder="e.g., LANG">
+                        <small style="color: #666; font-size: 12px;">Short code for the department</small>
+                    </div>
+                    <div class="form-group" style="flex:2;">
+                        <label for="deptName">Department Name *</label>
+                        <input type="text" id="deptName" class="form-input" placeholder="e.g., Language Teachers">
+                        <small style="color: #666; font-size: 12px;">Full name of the department</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="confirm-dialog-actions">
+            <button class="simple-btn secondary" onclick="closeCreateDepartmentModal()">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+            <button class="simple-btn primary" onclick="saveNewDepartment()">
+                <i class="fas fa-check"></i> Save Department
+            </button>
+        </div>
+    </div>
+</div>
+
 <script>
 // Department data for cards
 const departmentData = {
@@ -186,47 +201,96 @@ function updateDepartmentCards() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function(){
-    const toggle=document.getElementById('toggleDepartmentForm');
-    const form=document.getElementById('departmentForm');
-    const cancel=document.getElementById('cancelDepartment');
-    const save=document.getElementById('saveDepartment');
-    function toggleForm(e){ e.preventDefault(); form.style.display = (form.style.display==='none')?'block':'none'; }
-    if(toggle) toggle.addEventListener('click', toggleForm);
-    if(cancel) cancel.addEventListener('click', function(e){ e.preventDefault(); form.style.display='none'; });
-    if(save) save.addEventListener('click', function(e){ e.preventDefault();
-        const code=(document.getElementById('deptCode').value||'').trim().toUpperCase(); 
-        if(!code){ alert('Enter department code'); return; }
-        const name=(document.getElementById('deptName').value||'').trim(); 
-        if(!name){ alert('Enter department name'); return; }
-        
-        // Add to department data
-        departmentData[code] = { 
-            name: name, 
-            count: 0, 
-            icon: 'fa-building', 
-            color: 'green' 
-        };
-        
-        const tbody=document.getElementById('deptTableBody');
-        const tr=document.createElement('tr');
-        tr.innerHTML=`
-            <td class="expand-cell"></td>
-            <td class="department-code"><a href="/admin/academic/department-detail/${code}" class="department-link"><strong>${code}</strong></a></td>
-            <td class="department-name">${name}</td>
-            <td class="student-count">0</td>
-            <td class="actions-cell">
-                <a class="action-icon view" href="/admin/academic/department-detail/${code}" title="View"><i class="fas fa-eye"></i></a>
-                <button class="action-icon delete" title="Delete" onclick="deleteDepartment('${code}')"><i class="fas fa-trash"></i></button>
-            </td>`;
-        tbody.prepend(tr);
-        
-        // Update cards
-        updateDepartmentCards();
-        
-        form.style.display='none';
+// Create Department Modal Functions
+function openCreateDepartmentModal() {
+    clearDepartmentForm();
+    document.getElementById('createDepartmentModal').style.display = 'flex';
+}
+
+function closeCreateDepartmentModal() {
+    document.getElementById('createDepartmentModal').style.display = 'none';
+    clearDepartmentForm();
+}
+
+function clearDepartmentForm() {
+    document.getElementById('deptCode').value = '';
+    document.getElementById('deptName').value = '';
+}
+
+function saveNewDepartment() {
+    const code = (document.getElementById('deptCode').value || '').trim().toUpperCase();
+    if (!code) {
+        if (typeof showToast === 'function') {
+            showToast('Please enter department code', 'warning');
+        } else {
+            alert('Please enter department code');
+        }
+        return;
+    }
+    
+    const name = (document.getElementById('deptName').value || '').trim();
+    if (!name) {
+        if (typeof showToast === 'function') {
+            showToast('Please enter department name', 'warning');
+        } else {
+            alert('Please enter department name');
+        }
+        return;
+    }
+    
+    // Check if department code already exists
+    if (departmentData[code]) {
+        if (typeof showToast === 'function') {
+            showToast(`Department code "${code}" already exists`, 'warning');
+        } else {
+            alert(`Department code "${code}" already exists`);
+        }
+        return;
+    }
+    
+    // Add to department data
+    departmentData[code] = { 
+        name: name, 
+        count: 0, 
+        icon: 'fa-building', 
+        color: 'green' 
+    };
+    
+    const tbody = document.getElementById('deptTableBody');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+        <td class="expand-cell"></td>
+        <td class="department-code"><a href="/admin/academic/department-detail/${code}" class="department-link"><strong>${code}</strong></a></td>
+        <td class="department-name">${name}</td>
+        <td class="student-count">0</td>
+        <td class="actions-cell">
+            <a class="action-icon view" href="/admin/academic/department-detail/${code}" title="View"><i class="fas fa-eye"></i></a>
+            <button class="action-icon delete" title="Delete" onclick="deleteDepartment('${code}')"><i class="fas fa-trash"></i></button>
+        </td>`;
+    tbody.prepend(tr);
+    
+    // Update cards
+    updateDepartmentCards();
+    
+    if (typeof showToast === 'function') {
+        showToast(`Department "${name}" added successfully`, 'success');
+    } else {
         alert('Department added successfully.');
-    });
+    }
+    
+    closeCreateDepartmentModal();
+}
+
+// Close modal when clicking outside
+document.addEventListener('DOMContentLoaded', function() {
+    const createModal = document.getElementById('createDepartmentModal');
+    if (createModal) {
+        createModal.addEventListener('click', function(e) {
+            if (e.target === createModal) {
+                closeCreateDepartmentModal();
+            }
+        });
+    }
     
     // Initialize cards
     updateDepartmentCards();

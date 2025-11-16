@@ -16,7 +16,6 @@ $activePage = $activePage ?? 'dashboard';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/ios-floating-layout.css">
 </head>
 <body>
     <?php
@@ -753,7 +752,6 @@ $activePage = $activePage ?? 'dashboard';
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/ios-floating-layout.js"></script>
     <script src="/js/dropdown.js"></script>
 
     <style>
@@ -763,6 +761,28 @@ $activePage = $activePage ?? 'dashboard';
     .sidebar {
         top: 64px !important;
         height: calc(100vh - 64px) !important;
+    }
+    
+    /* Ensure sidebar hamburger is visible and positioned correctly - simple rounded border cross with increased visibility */
+    .sidebar .sidebar-hamburger {
+        display: flex !important;
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        z-index: 100;
+        background: transparent;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 50%;
+        box-shadow: none;
+        width: 32px;
+        height: 32px;
+        opacity: 0.85;
+        color: rgba(0, 0, 0, 0.6);
+    }
+    
+    /* Add padding to sidebar nav to create space below close button */
+    .sidebar .sidebar-nav {
+        padding-top: 56px !important;
     }
 
     .main-content {

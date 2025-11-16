@@ -1,49 +1,91 @@
-/* Hamburger Menu Button (Desktop) - iOS Style */
+/* Hamburger Menu Button (Desktop) - Simple rounded border cross button with increased visibility */
 .sidebar-hamburger {
     position: absolute;
     top: 12px;
     right: 12px;
-    background: rgba(0, 122, 255, 0.08);
-    border: none;
-    color: #007AFF;
-    padding: 8px;
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    color: rgba(0, 0, 0, 0.6);
+    padding: 0;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 50%;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 10;
+    z-index: 100;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
-    opacity: 1;
+    width: 32px;
+    height: 32px;
+    opacity: 0.85;
     visibility: visible;
+    box-shadow: none;
+    margin-top: 0;
 }
 
 .sidebar-hamburger:hover {
-    background: rgba(0, 122, 255, 0.15);
-    color: #007AFF;
-    transform: scale(1.08);
-    box-shadow: 0 2px 8px rgba(0, 122, 255, 0.2);
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.25);
+    color: rgba(0, 0, 0, 0.85);
+    opacity: 1;
+    transform: scale(1.05);
 }
 
-.sidebar-hamburger:active {
-    transform: scale(0.95);
-}
-
+/* Hide all Font Awesome icons */
 .sidebar-hamburger i {
-    font-size: 16px;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                opacity 0.2s ease;
+    display: none !important;
 }
 
-/* Smooth icon rotation during transitions */
-.sidebar-hamburger i.fa-times {
-    transform: rotate(0deg);
+/* Icon transitions for hamburger button */
+.sidebar-hamburger {
+    position: relative;
 }
 
-.sidebar-hamburger i.fa-bars {
-    transform: rotate(0deg);
+/* Create simple cross using single line - increased visibility */
+.sidebar-hamburger::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 11px;
+    height: 1.8px;
+    background-color: currentColor;
+    border-radius: 1px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.sidebar-hamburger::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 11px;
+    height: 1.8px;
+    background-color: currentColor;
+    border-radius: 1px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* Show cross when expanded (not minimized) */
+.sidebar:not(.minimized) .sidebar-hamburger::before,
+.sidebar:not(.minimized) .sidebar-hamburger::after {
+    opacity: 1;
+}
+
+/* Hide cross when minimized */
+.sidebar.minimized .sidebar-hamburger::before,
+.sidebar.minimized .sidebar-hamburger::after {
+    opacity: 0;
+}
+
+/* When minimized, hide the hamburger button entirely */
+.sidebar.minimized .sidebar-hamburger {
+    display: none !important;
 }
 
 /* Minimized Sidebar State - LOCKED */
@@ -51,6 +93,28 @@
     width: 64px !important;
     max-width: 64px !important;
     min-width: 64px !important;
+    padding-top: 0; /* Remove top padding, let nav handle positioning */
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    scrollbar-width: none !important; /* Firefox */
+    -ms-overflow-style: none !important; /* IE and Edge */
+}
+
+/* Hide scrollbar for minimized sidebar in Chrome, Safari and Opera */
+.sidebar.minimized::-webkit-scrollbar {
+    display: none !important;
+}
+
+/* Ensure minimized sidebar starts at same top position as expanded */
+.sidebar.minimized {
+    top: 0;
+}
+
+/* Smooth scrolling for sidebar */
+.sidebar {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
 /* Prevent any expansion on hover when minimized */
@@ -85,23 +149,35 @@
 }
 
 .sidebar.minimized .sidebar-nav {
-    margin-top: 0;
-    padding-top: 0 !important; /* Remove padding, will be handled by first nav item */
+    margin-top: 0; /* Start nav at top padding */
+    padding-top: 0.5rem; /* Aligned with page title icon (matches page-header-compact padding) */
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
 }
 
 .sidebar .sidebar-nav {
-    margin-top: 0;
-    padding-top: 52px; /* Padding to avoid hamburger button in expanded state */
+    margin-top: 0; /* No logo section, start nav immediately */
+    padding-top: 56px; /* Add padding to push nav items below close button */
 }
 
 .sidebar.minimized .sidebar-nav a {
     justify-content: center;
     padding: 0.75rem 0.5rem;
-    margin: 0 0.5rem 0.5rem 0.5rem; /* Add bottom margin for spacing between icons */
+    margin: 0 0.5rem; /* Consistent horizontal margin */
     cursor: pointer;
     position: relative;
     min-width: 44px; /* Ensure adequate click target */
     min-height: 44px; /* Ensure adequate click target */
+    border-radius: 8px;
+}
+
+/* Compact grid layout for minimized sidebar */
+.sidebar.minimized .sidebar-nav {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+    align-content: start;
 }
 
 .sidebar.minimized .sidebar-nav a:hover {
@@ -132,86 +208,106 @@
 /* Show hamburger nav item when minimized, hide when expanded */
 .sidebar-hamburger-nav-item {
     display: none;
-    margin: 0;
 }
 
 .sidebar.minimized .sidebar-hamburger-nav-item {
-    display: flex !important; /* Use flex to center the button */
-    justify-content: center !important; /* Center horizontally */
-    align-items: center !important; /* Center vertically */
-    margin: 0 !important;
-    padding: 0 !important; /* No padding - let button handle it */
-    width: 100% !important; /* Full width for centering */
-    box-sizing: border-box !important;
-    list-style: none !important;
+    display: block;
+    margin-bottom: 0.25rem; /* Same spacing as other menu items */
 }
 
 /* Style hamburger menu as nav item - match other nav items exactly */
 .sidebar-nav-hamburger {
-    background: transparent !important;
-    border: none !important;
-    color: #1d1d1f !important;
-    padding: 10px !important; /* Match icon container padding */
-    margin: 0 !important; /* No margin - container centers it */
-    cursor: pointer !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    border-radius: 14px !important; /* Match icon container border radius */
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    width: 56px !important; /* Match icon container width - perfectly centered in 64px sidebar */
-    height: 56px !important; /* Match icon container height - perfectly centered */
-    min-width: 56px !important;
-    min-height: 56px !important;
-    font-size: inherit !important;
-    font-family: inherit !important;
-    position: relative !important;
-    text-align: center !important;
-    box-sizing: border-box !important;
+    width: calc(100% - 1rem); /* Same as nav items: 100% minus left/right margin (0.5rem each) */
+    background: transparent;
+    border: none;
+    color: #1d1d1f;
+    padding: 0.75rem 0.5rem;
+    margin: 0 0.5rem 0.5rem 0.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    min-width: 44px;
+    min-height: 44px;
+    font-size: inherit;
+    font-family: inherit;
+    position: relative;
+    text-align: center;
+    box-sizing: border-box;
 }
 
 .sidebar-nav-hamburger:hover {
-    background: rgba(0, 122, 255, 0.12); /* Match nav items hover background */
+    background: rgba(0, 122, 255, 0.1);
     color: #007AFF;
-    transform: scale(1.1); /* Match nav items hover scale */
-}
-
-.sidebar-nav-hamburger:active {
-    background: rgba(0, 122, 255, 0.15);
-    transform: scale(0.98);
+    transform: scale(1.1);
 }
 
 .sidebar-nav-hamburger i {
-    font-size: 1.5rem !important; /* Match icon size in minimized sidebar (24px) */
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100% !important;
-    text-align: center !important;
-    line-height: 1 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-shrink: 0 !important;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    font-size: 1.1rem;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    text-align: center;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-/* Pulse effect on hover */
-.sidebar-nav-hamburger:hover i {
-    animation: hamburgerPulse 0.6s ease-in-out;
+/* Icon transitions for nav hamburger */
+.sidebar-nav-hamburger {
+    position: relative;
 }
 
-@keyframes hamburgerPulse {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
+.sidebar-nav-hamburger .fa-arrow-right,
+.sidebar-nav-hamburger .fa-bars {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Default: expanded state - show arrow (hidden by default) */
+.sidebar-nav-hamburger .fa-arrow-right {
+    opacity: 0;
+    transform: translate(-50%, -50%) translateX(-10px);
+}
+
+.sidebar-nav-hamburger .fa-bars {
+    opacity: 0;
+    transform: translate(-50%, -50%) translateX(10px);
+}
+
+/* When minimized, show hamburger icon */
+.sidebar.minimized .sidebar-nav-hamburger .fa-arrow-right {
+    opacity: 0;
+    transform: translate(-50%, -50%) translateX(-10px);
+}
+
+.sidebar.minimized .sidebar-nav-hamburger .fa-bars {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateX(0);
 }
 
 .sidebar.minimized .sidebar-nav-hamburger .sidebar-nav-label {
     display: none;
+}
+
+/* Fix nav hamburger margin in minimized state - positioned at top of sidebar, aligned with page title icon */
+.sidebar.minimized .sidebar-nav-hamburger {
+    margin: 0 0.5rem;
+    margin-top: 0; /* Start at top of sidebar component */
+    margin-bottom: 0.25rem; /* Normal gap between items */
+}
+
+/* Regular minimized sidebar icons should start right after hamburger */
+.sidebar.minimized .sidebar-nav > li:not(.sidebar-hamburger-nav-item) {
+    margin-top: 0;
 }
 
 /* When expanded, hide the nav hamburger item */
@@ -219,10 +315,17 @@
     display: none;
 }
 
-/* Hide section headers in minimized state */
+/* Hide section headers in minimized state - applies to all portals */
 .sidebar.minimized .sidebar-nav li[style*="margin"],
-.sidebar.minimized .sidebar-section-header {
-    display: none;
+.sidebar.minimized .sidebar-section-header,
+.sidebar.minimized li.sidebar-section-header {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
 }
 
 /* Sidebar Logo Text */
@@ -248,60 +351,23 @@
     white-space: nowrap;
 }
 
-/* Smooth Transitions */
+/* Smooth Transitions - BUT NOT WHEN MINIMIZED */
 .sidebar {
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.sidebar-nav {
-    /* Ensure consistent top position in all states */
-    position: relative;
+.sidebar.minimized {
+    transition: none !important;
 }
 
 .sidebar-nav a {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Ensure first nav items align properly in both states */
-.sidebar-nav li:first-child {
-    margin-top: 0 !important;
-}
-
-/* In minimized state, position first real nav item to match expanded state */
-.sidebar.minimized .sidebar-hamburger-nav-item + li {
-    margin-top: 0 !important;
-}
-
-/* Calculate positioning: hamburger button is at 16px top + 36px height = 52px
-   In minimized mode, we want the first real nav item to also start at ~52px */
-.sidebar.minimized .sidebar-hamburger-nav-item + li a {
-    margin-top: 0;
+    transition: all 0.2s ease;
 }
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
-    /* Mobile always uses minimized sidebar */
-    .sidebar-nav {
-        padding-top: 0 !important;
-    }
-    
-    /* Show hamburger nav item on mobile - centered */
-    .sidebar-hamburger-nav-item {
-        display: flex !important;
-        justify-content: center !important;
-        align-items: flex-start !important;
-        padding-top: 16px;
-        height: 52px;
-        box-sizing: border-box;
-    }
-    
     .sidebar-hamburger {
         display: none;
-    }
-    
-    /* Ensure nav items maintain position on mobile */
-    .sidebar-nav li:first-child {
-        margin-top: 0 !important;
     }
 }
 

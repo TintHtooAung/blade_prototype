@@ -478,29 +478,20 @@ body {
     -webkit-backdrop-filter: blur(20px);
     border-right: 1px solid rgba(255, 255, 255, 0.3);
     height: 100vh;
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 1rem 0;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    z-index: 100;
-    /* Invisible scrollbar - seamless scrolling */
+    /* Hide scrollbar for Chrome, Safari and Opera */
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE and Edge */
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
 .sidebar::-webkit-scrollbar {
-    width: 0px;
-    display: none;
-}
-
-.sidebar::-webkit-scrollbar-track {
-    display: none;
-}
-
-.sidebar::-webkit-scrollbar-thumb {
     display: none;
 }
 
@@ -628,26 +619,17 @@ body {
     font-size: 0.9rem;
 }
 
-/* Full Width Main Content - Maximum Space, No Gap */
+/* Full Width Main Content - Maximum Space */
 .main-content {
-    margin-left: 240px;  /* Aligns with expanded sidebar right edge - no gap */
+    margin-left: 240px;
     padding: 1rem;
     min-height: 100vh;
     background: transparent;
     border-radius: 0;
-    width: calc(100vw - 240px);  /* Full width minus expanded sidebar */
+    width: calc(100vw - 240px);
     max-width: none;
     transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     animation: fadeInContent 0.3s ease-in-out;
-    box-sizing: border-box;
-}
-
-/* When sidebar is minimized - adjust main content, no gap */
-.sidebar.minimized ~ .main-content,
-body:has(.sidebar.minimized) .main-content {
-    margin-left: 64px;  /* Aligns with minimized sidebar right edge - no gap */
-    width: calc(100vw - 64px);  /* Full width minus minimized sidebar */
-    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes fadeInContent {
@@ -5427,76 +5409,36 @@ body:has(.sidebar.minimized) .main-content {
 }
 
 .vertical-stats .stat-card {
-    padding: 1rem;
+    padding: 0.75rem;
     display: flex;
     align-items: center;
     gap: 1rem;
-    background: #ffffff;
-    border-radius: 12px;
-    border: 1px solid #e0e7ff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    transition: all 0.2s ease;
-}
-
-.vertical-stats .stat-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-    border-color: #c7d2fe;
 }
 
 .vertical-stats .stat-icon {
-    width: 48px;
-    height: 48px;
-    font-size: 1.25rem;
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
     flex-shrink: 0;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-    color: #1e40af;
 }
 
 .vertical-stats .stat-content {
     flex: 1;
-    min-width: 0;
 }
 
 .vertical-stats .stat-content h3 {
     font-size: 0.75rem;
     margin: 0 0 0.25rem 0;
-    color: #64748b;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.025em;
 }
 
 .vertical-stats .stat-number {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 0.25rem;
-    color: #1d1d1f;
-    line-height: 1;
 }
 
 .vertical-stats .stat-change {
-    font-size: 0.75rem;
-    color: #86868b;
-    font-weight: 500;
-}
-
-.vertical-stats .stat-change.positive {
-    color: #059669;
-}
-
-/* Clickable stat cards */
-.vertical-stats .stat-card.clickable-card {
-    cursor: pointer;
-}
-
-.vertical-stats .stat-card.clickable-card:hover {
-    border-color: #93c5fd;
-    background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+    font-size: 0.65rem;
 }
 
 /* Icon-only Tabs */
@@ -6732,18 +6674,17 @@ body:has(.sidebar.minimized) .main-content {
 /* iOS Responsive Design */
 @media (max-width: 768px) {
     .sidebar {
-        position: absolute;
-        width: 64px !important;
-        max-width: 64px !important;
-        min-width: 64px !important;
-        z-index: 100;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 1000;
+        width: 220px;
     }
     
     .main-content {
-        margin-left: 64px;
+        margin-left: 0;
         border-radius: 0;
         padding: 1rem;
-        width: calc(100vw - 64px);
+        width: 100vw;
     }
     
     .role-cards {
