@@ -501,6 +501,44 @@
             dropdown.style.display = 'none';
         }
     });
+    
+    // Fix sidebar height to match main content - keeps sidebar parallel at all times
+    function syncSidebarHeight() {
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.guardian-main');
+        
+        if (sidebar && mainContent) {
+            const mainContentHeight = mainContent.scrollHeight;
+            const viewportHeight = window.innerHeight;
+            const targetHeight = Math.max(mainContentHeight, viewportHeight);
+            sidebar.style.height = targetHeight + 'px';
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        syncSidebarHeight();
+        window.addEventListener('resize', syncSidebarHeight);
+        
+        const observer = new MutationObserver(function() {
+            syncSidebarHeight();
+        });
+        
+        const mainContent = document.querySelector('.guardian-main');
+        if (mainContent) {
+            observer.observe(mainContent, {
+                childList: true,
+                subtree: true,
+                attributes: true,
+                attributeFilter: ['style', 'class']
+            });
+        }
+        
+        let scrollTimeout;
+        window.addEventListener('scroll', function() {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(syncSidebarHeight, 100);
+        });
+    });
     </script>
 </body>
 </html>

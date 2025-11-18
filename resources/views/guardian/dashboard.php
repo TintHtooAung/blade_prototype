@@ -17,7 +17,7 @@ ob_start();
 </div>
 
 <div class="stats-grid">
-    <div class="stat-card">
+    <div class="stat-card" onclick="window.location.href='/guardian/attendance'" style="cursor: pointer;">
         <div class="stat-icon blue"><i class="fas fa-user-graduate"></i></div>
         <div class="stat-content">
             <h3>92%</h3>
@@ -25,7 +25,7 @@ ob_start();
             <div class="stat-badge"><i class="fas fa-arrow-up"></i> Week +2%</div>
         </div>
     </div>
-    <div class="stat-card">
+    <div class="stat-card" onclick="window.location.href='/guardian/reports'" style="cursor: pointer;">
         <div class="stat-icon green"><i class="fas fa-chart-line"></i></div>
         <div class="stat-content">
             <h3>78%</h3>
@@ -33,7 +33,7 @@ ob_start();
             <div class="stat-badge"><i class="fas fa-equals"></i> Stable</div>
         </div>
     </div>
-    <div class="stat-card">
+    <div class="stat-card" onclick="window.location.href='/guardian/reports'" style="cursor: pointer;">
         <div class="stat-icon yellow"><i class="fas fa-book"></i></div>
         <div class="stat-content">
             <h3>3</h3>

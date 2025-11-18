@@ -9,7 +9,7 @@ ob_start();
 <!-- Statistics Grid - Top Row -->
 <div class="stats-grid">
     <!-- Total Students -->
-    <div class="stat-card">
+    <div class="stat-card" onclick="window.location.href='/admin/student-profiles'" style="cursor: pointer;">
         <div class="stat-icon blue">
             <i class="fas fa-user-graduate"></i>
         </div>
@@ -23,7 +23,7 @@ ob_start();
     </div>
 
     <!-- Total Staff -->
-    <div class="stat-card">
+    <div class="stat-card" onclick="window.location.href='/admin/employee-profiles'" style="cursor: pointer;">
         <div class="stat-icon green">
             <i class="fas fa-users-cog"></i>
         </div>
@@ -37,7 +37,7 @@ ob_start();
     </div>
 
     <!-- Total Teachers -->
-    <div class="stat-card">
+    <div class="stat-card" onclick="window.location.href='/admin/teacher-profiles'" style="cursor: pointer;">
         <div class="stat-icon yellow">
             <i class="fas fa-chalkboard-teacher"></i>
         </div>
@@ -54,7 +54,7 @@ ob_start();
 <!-- Statistics Grid - Bottom Row -->
 <div class="stats-grid-secondary">
     <!-- Active Batch -->
-    <div class="stat-card-secondary">
+    <div class="stat-card-secondary" onclick="window.location.href='/admin/academic-management?tab=batches'" style="cursor: pointer;">
         <div class="stat-icon yellow">
             <i class="fas fa-calendar-alt"></i>
         </div>
@@ -64,7 +64,7 @@ ob_start();
     </div>
 
     <!-- Total Grades -->
-    <div class="stat-card-secondary">
+    <div class="stat-card-secondary" onclick="window.location.href='/admin/academic-management?tab=grades'" style="cursor: pointer;">
         <div class="stat-icon teal">
             <i class="fas fa-layer-group"></i>
         </div>
@@ -74,7 +74,7 @@ ob_start();
     </div>
 
     <!-- Total Classes -->
-    <div class="stat-card-secondary">
+    <div class="stat-card-secondary" onclick="window.location.href='/admin/academic-management?tab=classes'" style="cursor: pointer;">
         <div class="stat-icon blue">
             <i class="fas fa-chalkboard"></i>
         </div>
@@ -84,7 +84,7 @@ ob_start();
     </div>
 
     <!-- Total Subjects -->
-    <div class="stat-card-secondary">
+    <div class="stat-card-secondary" onclick="window.location.href='/admin/academic-management?tab=subjects'" style="cursor: pointer;">
         <div class="stat-icon purple">
             <i class="fas fa-book"></i>
         </div>

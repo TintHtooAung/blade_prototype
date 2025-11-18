@@ -21,7 +21,7 @@ ob_start();
 
 <!-- Dashboard Statistics -->
 <div class="detail-stats-grid">
-    <div class="stat-card">
+    <div class="stat-card" onclick="window.location.href='/parent/my-children'" style="cursor: pointer;">
         <div class="stat-content">
             <p>My Children</p>
             <h3>2</h3>
@@ -30,7 +30,7 @@ ob_start();
             <i class="fas fa-child"></i>
         </div>
     </div>
-    <div class="stat-card">
+    <div class="stat-card" onclick="window.location.href='/parent/fee-payment'" style="cursor: pointer;">
         <div class="stat-content">
             <p>Pending Fees</p>
             <h3>$450</h3>
@@ -39,7 +39,7 @@ ob_start();
             <i class="fas fa-dollar-sign"></i>
         </div>
     </div>
-    <div class="stat-card">
+    <div class="stat-card" onclick="window.location.href='/parent/homework'" style="cursor: pointer;">
         <div class="stat-content">
             <p>Pending Homework</p>
             <h3>5</h3>
@@ -48,7 +48,7 @@ ob_start();
             <i class="fas fa-tasks"></i>
         </div>
     </div>
-    <div class="stat-card">
+    <div class="stat-card" onclick="window.location.href='/parent/announcements'" style="cursor: pointer;">
         <div class="stat-content">
             <p>New Announcements</p>
             <h3>3</h3>

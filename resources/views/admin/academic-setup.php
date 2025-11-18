@@ -58,10 +58,43 @@ ob_start();
             <div class="form-section" style="padding:0;">
                 <!-- Step 1: Batch Setup -->
                 <div class="wizard-step" id="setup-step-1" style="display:block;">
-                    <div style="display:flex; align-items:center; margin-bottom:20px;">
-                        <i class="fas fa-calendar-alt" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
-                        <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Create Academic Batch</h4>
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
+                        <div style="display:flex; align-items:center;">
+                            <i class="fas fa-calendar-alt" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
+                            <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Create Academic Batch</h4>
+                        </div>
+                        <button type="button" class="add-item-btn" onclick="toggleAddForm('addBatchForm')">
+                            <i class="fas fa-plus"></i> Add Batch
+                        </button>
                     </div>
+                    
+                    <!-- Add Batch Form -->
+                    <div id="addBatchForm" class="add-item-form" style="display:none; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                        <h5 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600; color: #374151;">Add New Batch</h5>
+                        <div class="form-row">
+                            <div class="form-group" style="flex:1;">
+                                <label for="addBatchName">Batch Name <span style="color:red;">*</span></label>
+                                <input type="text" id="addBatchName" class="form-input" placeholder="e.g., 2025-2026">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label for="addBatchStart">Start Date <span style="color:red;">*</span></label>
+                                <input type="date" id="addBatchStart" class="form-input">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label for="addBatchEnd">End Date <span style="color:red;">*</span></label>
+                                <input type="date" id="addBatchEnd" class="form-input">
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 8px; margin-top: 12px;">
+                            <button type="button" class="form-btn-primary" onclick="addBatchItem()">
+                                <i class="fas fa-check"></i> Add Batch
+                            </button>
+                            <button type="button" class="form-btn-secondary" onclick="toggleAddForm('addBatchForm')">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                    
                     <div class="form-row">
                         <div class="form-group" style="flex:1;">
                             <label for="setupBatchName">Batch Name <span style="color:red;">*</span></label>
@@ -86,10 +119,47 @@ ob_start();
 
                 <!-- Step 2: Grades Setup -->
                 <div class="wizard-step" id="setup-step-2" style="display:none;">
-                    <div style="display:flex; align-items:center; margin-bottom:20px;">
-                        <i class="fas fa-layer-group" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
-                        <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Setup Grades</h4>
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
+                        <div style="display:flex; align-items:center;">
+                            <i class="fas fa-layer-group" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
+                            <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Setup Grades</h4>
+                        </div>
+                        <button type="button" class="add-item-btn" onclick="toggleAddForm('addGradeForm')">
+                            <i class="fas fa-plus"></i> Add Grade
+                        </button>
                     </div>
+                    
+                    <!-- Add Grade Form -->
+                    <div id="addGradeForm" class="add-item-form" style="display:none; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                        <h5 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600; color: #374151;">Add New Grade</h5>
+                        <div class="form-row">
+                            <div class="form-group" style="flex:1;">
+                                <label for="addGradeLevel">Grade Level <span style="color:red;">*</span></label>
+                                <input type="number" id="addGradeLevel" class="form-input" placeholder="e.g., 13" min="1">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label for="addGradeName">Grade Name</label>
+                                <input type="text" id="addGradeName" class="form-input" placeholder="e.g., Grade 13">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label for="addGradeCategory">Category</label>
+                                <select id="addGradeCategory" class="form-select">
+                                    <option value="Primary">Primary</option>
+                                    <option value="Middle">Middle</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 8px; margin-top: 12px;">
+                            <button type="button" class="form-btn-primary" onclick="addGradeItem()">
+                                <i class="fas fa-check"></i> Add Grade
+                            </button>
+                            <button type="button" class="form-btn-secondary" onclick="toggleAddForm('addGradeForm')">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                    
                     <div style="margin-bottom: 20px;">
                         <label style="display: block; margin-bottom: 12px; font-weight: 600;">Select Grades to Create</label>
                         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;">
@@ -153,10 +223,49 @@ ob_start();
 
                 <!-- Step 3: Classes Setup -->
                 <div class="wizard-step" id="setup-step-3" style="display:none;">
-                    <div style="display:flex; align-items:center; margin-bottom:20px;">
-                        <i class="fas fa-chalkboard" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
-                        <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Setup Classes</h4>
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
+                        <div style="display:flex; align-items:center;">
+                            <i class="fas fa-chalkboard" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
+                            <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Setup Classes</h4>
+                        </div>
+                        <button type="button" class="add-item-btn" onclick="toggleAddForm('addClassForm')">
+                            <i class="fas fa-plus"></i> Add Class
+                        </button>
                     </div>
+                    
+                    <!-- Add Class Form -->
+                    <div id="addClassForm" class="add-item-form" style="display:none; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                        <h5 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600; color: #374151;">Add New Class</h5>
+                        <div class="form-row">
+                            <div class="form-group" style="flex:1;">
+                                <label for="addClassName">Class Name <span style="color:red;">*</span></label>
+                                <input type="text" id="addClassName" class="form-input" placeholder="e.g., 10-A">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label for="addClassGrade">Grade</label>
+                                <input type="text" id="addClassGrade" class="form-input" placeholder="e.g., Grade 10">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label for="addClassRoom">Room</label>
+                                <input type="text" id="addClassRoom" class="form-input" placeholder="e.g., Room 201">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group" style="flex:1;">
+                                <label for="addClassTeacher">Class Teacher</label>
+                                <input type="text" id="addClassTeacher" class="form-input" placeholder="e.g., Ms. Smith">
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 8px; margin-top: 12px;">
+                            <button type="button" class="form-btn-primary" onclick="addClassItem()">
+                                <i class="fas fa-check"></i> Add Class
+                            </button>
+                            <button type="button" class="form-btn-secondary" onclick="toggleAddForm('addClassForm')">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                    
                     <div class="form-row">
                         <div class="form-group" style="flex:1;">
                             <label for="setupClassesPerGrade">Classes per Grade <span style="color:red;">*</span></label>
@@ -188,10 +297,57 @@ ob_start();
 
                 <!-- Step 4: Rooms Setup -->
                 <div class="wizard-step" id="setup-step-4" style="display:none;">
-                    <div style="display:flex; align-items:center; margin-bottom:20px;">
-                        <i class="fas fa-door-open" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
-                        <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Setup Rooms</h4>
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
+                        <div style="display:flex; align-items:center;">
+                            <i class="fas fa-door-open" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
+                            <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Setup Rooms</h4>
+                        </div>
+                        <button type="button" class="add-item-btn" onclick="toggleAddForm('addRoomForm')">
+                            <i class="fas fa-plus"></i> Add Room
+                        </button>
                     </div>
+                    
+                    <!-- Add Room Form -->
+                    <div id="addRoomForm" class="add-item-form" style="display:none; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                        <h5 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600; color: #374151;">Add New Room</h5>
+                        <div class="form-row">
+                            <div class="form-group" style="flex:1;">
+                                <label for="addRoomNumber">Room Number <span style="color:red;">*</span></label>
+                                <input type="text" id="addRoomNumber" class="form-input" placeholder="e.g., 201">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label for="addRoomName">Room Name</label>
+                                <input type="text" id="addRoomName" class="form-input" placeholder="e.g., Classroom A">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label for="addRoomFloor">Floor</label>
+                                <input type="text" id="addRoomFloor" class="form-input" placeholder="e.g., 2nd Floor">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group" style="flex:1;">
+                                <label for="addRoomCapacity">Seating Capacity</label>
+                                <input type="number" id="addRoomCapacity" class="form-input" placeholder="e.g., 35" min="1">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label for="addRoomStatus">Status</label>
+                                <select id="addRoomStatus" class="form-select">
+                                    <option value="Available">Available</option>
+                                    <option value="Occupied">Occupied</option>
+                                    <option value="Maintenance">Maintenance</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 8px; margin-top: 12px;">
+                            <button type="button" class="form-btn-primary" onclick="addRoomItem()">
+                                <i class="fas fa-check"></i> Add Room
+                            </button>
+                            <button type="button" class="form-btn-secondary" onclick="toggleAddForm('addRoomForm')">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                    
                     <div class="form-row">
                         <div class="form-group" style="flex:1;">
                             <label for="setupTotalRooms">Total Rooms <span style="color:red;">*</span></label>
@@ -216,10 +372,46 @@ ob_start();
 
                 <!-- Step 5: Subjects Setup -->
                 <div class="wizard-step" id="setup-step-5" style="display:none;">
-                    <div style="display:flex; align-items:center; margin-bottom:20px;">
-                        <i class="fas fa-book" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
-                        <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Setup Core Subjects</h4>
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
+                        <div style="display:flex; align-items:center;">
+                            <i class="fas fa-book" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
+                            <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Setup Core Subjects</h4>
+                        </div>
+                        <button type="button" class="add-item-btn" onclick="toggleAddForm('addSubjectForm')">
+                            <i class="fas fa-plus"></i> Add Subject
+                        </button>
                     </div>
+                    
+                    <!-- Add Subject Form -->
+                    <div id="addSubjectForm" class="add-item-form" style="display:none; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                        <h5 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600; color: #374151;">Add New Subject</h5>
+                        <div class="form-row">
+                            <div class="form-group" style="flex:1;">
+                                <label for="addSubjectCode">Subject Code <span style="color:red;">*</span></label>
+                                <input type="text" id="addSubjectCode" class="form-input" placeholder="e.g., CHEM">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label for="addSubjectName">Subject Name <span style="color:red;">*</span></label>
+                                <input type="text" id="addSubjectName" class="form-input" placeholder="e.g., Chemistry">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label for="addSubjectCategory">Category</label>
+                                <select id="addSubjectCategory" class="form-select">
+                                    <option value="Core">Core</option>
+                                    <option value="Elective">Elective</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 8px; margin-top: 12px;">
+                            <button type="button" class="form-btn-primary" onclick="addSubjectItem()">
+                                <i class="fas fa-check"></i> Add Subject
+                            </button>
+                            <button type="button" class="form-btn-secondary" onclick="toggleAddForm('addSubjectForm')">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                    
                     <div style="margin-bottom: 20px;">
                         <label style="display: block; margin-bottom: 12px; font-weight: 600;">Select Core Subjects</label>
                         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
@@ -306,6 +498,357 @@ ob_start();
 <script>
 let currentSetupStep = 1;
 const totalSetupSteps = 5;
+
+// Storage for added items
+let addedBatches = [];
+let addedGrades = [];
+let addedClasses = [];
+let addedRooms = [];
+let addedSubjects = [];
+
+// Toggle add form visibility
+function toggleAddForm(formId) {
+    const form = document.getElementById(formId);
+    if (form) {
+        const isVisible = form.style.display !== 'none';
+        form.style.display = isVisible ? 'none' : 'block';
+        
+        // Clear form when hiding
+        if (isVisible) {
+            clearAddForm(formId);
+        }
+    }
+}
+
+// Clear add form fields
+function clearAddForm(formId) {
+    if (formId === 'addBatchForm') {
+        document.getElementById('addBatchName').value = '';
+        document.getElementById('addBatchStart').value = '';
+        document.getElementById('addBatchEnd').value = '';
+    } else if (formId === 'addGradeForm') {
+        document.getElementById('addGradeLevel').value = '';
+        document.getElementById('addGradeName').value = '';
+        document.getElementById('addGradeCategory').value = 'Primary';
+    } else if (formId === 'addClassForm') {
+        document.getElementById('addClassName').value = '';
+        document.getElementById('addClassGrade').value = '';
+        document.getElementById('addClassRoom').value = '';
+        document.getElementById('addClassTeacher').value = '';
+    } else if (formId === 'addRoomForm') {
+        document.getElementById('addRoomNumber').value = '';
+        document.getElementById('addRoomName').value = '';
+        document.getElementById('addRoomFloor').value = '';
+        document.getElementById('addRoomCapacity').value = '';
+        document.getElementById('addRoomStatus').value = 'Available';
+    } else if (formId === 'addSubjectForm') {
+        document.getElementById('addSubjectCode').value = '';
+        document.getElementById('addSubjectName').value = '';
+        document.getElementById('addSubjectCategory').value = 'Core';
+    }
+}
+
+// Add Batch Item
+function addBatchItem() {
+    const name = document.getElementById('addBatchName').value.trim();
+    const start = document.getElementById('addBatchStart').value;
+    const end = document.getElementById('addBatchEnd').value;
+    
+    if (!name || !start || !end) {
+        alert('Please fill in all required fields');
+        return;
+    }
+    
+    // Validate dates
+    if (new Date(start) >= new Date(end)) {
+        alert('End date must be after start date');
+        return;
+    }
+    
+    const batch = {
+        id: 'BATCH' + Date.now(),
+        name: name,
+        start: start,
+        end: end
+    };
+    
+    addedBatches.push(batch);
+    
+    // Update main batch form if empty
+    if (!document.getElementById('setupBatchName').value) {
+        document.getElementById('setupBatchName').value = name;
+        document.getElementById('setupBatchStart').value = start;
+        document.getElementById('setupBatchEnd').value = end;
+    }
+    
+    // Save to localStorage
+    saveAddedItems();
+    
+    // Show success message
+    showItemAddedNotification('Batch added successfully!');
+    
+    // Clear and hide form
+    clearAddForm('addBatchForm');
+    toggleAddForm('addBatchForm');
+}
+
+// Add Grade Item
+function addGradeItem() {
+    const level = document.getElementById('addGradeLevel').value.trim();
+    const name = document.getElementById('addGradeName').value.trim();
+    const category = document.getElementById('addGradeCategory').value;
+    
+    if (!level) {
+        alert('Please enter grade level');
+        return;
+    }
+    
+    const gradeLevel = parseInt(level);
+    if (isNaN(gradeLevel) || gradeLevel < 1) {
+        alert('Please enter a valid grade level');
+        return;
+    }
+    
+    const gradeName = name || `Grade ${level}`;
+    
+    const grade = {
+        id: 'GRADE' + Date.now(),
+        level: gradeLevel,
+        name: gradeName,
+        category: category
+    };
+    
+    addedGrades.push(grade);
+    
+    // Check if grade checkbox exists, if not create one
+    const existingCheckbox = document.querySelector(`.grade-checkbox[value="${gradeLevel}"]`);
+    if (existingCheckbox) {
+        existingCheckbox.checked = true;
+    } else {
+        // Add new checkbox to the grades grid
+        addGradeCheckbox(gradeLevel, gradeName);
+    }
+    
+    // Save to localStorage
+    saveAddedItems();
+    
+    // Show success message
+    showItemAddedNotification('Grade added successfully!');
+    
+    // Clear and hide form
+    clearAddForm('addGradeForm');
+    toggleAddForm('addGradeForm');
+}
+
+// Add Grade Checkbox dynamically
+function addGradeCheckbox(level, name) {
+    const gradesContainer = document.querySelector('#setup-step-2 .form-row').nextElementSibling;
+    if (gradesContainer) {
+        const label = document.createElement('label');
+        label.style.cssText = 'display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;';
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'grade-checkbox';
+        checkbox.value = level;
+        checkbox.checked = true;
+        
+        const span = document.createElement('span');
+        span.textContent = name;
+        
+        label.appendChild(checkbox);
+        label.appendChild(span);
+        
+        const grid = gradesContainer.querySelector('div[style*="grid-template-columns"]');
+        if (grid) {
+            grid.appendChild(label);
+        }
+    }
+}
+
+// Add Class Item
+function addClassItem() {
+    const name = document.getElementById('addClassName').value.trim();
+    const grade = document.getElementById('addClassGrade').value.trim();
+    const room = document.getElementById('addClassRoom').value.trim();
+    const teacher = document.getElementById('addClassTeacher').value.trim();
+    
+    if (!name) {
+        alert('Please enter class name');
+        return;
+    }
+    
+    const classItem = {
+        id: 'CLASS' + Date.now(),
+        name: name,
+        grade: grade || '',
+        room: room || '',
+        teacher: teacher || ''
+    };
+    
+    addedClasses.push(classItem);
+    
+    // Save to localStorage
+    saveAddedItems();
+    
+    // Show success message
+    showItemAddedNotification('Class added successfully!');
+    
+    // Clear and hide form
+    clearAddForm('addClassForm');
+    toggleAddForm('addClassForm');
+}
+
+// Add Room Item
+function addRoomItem() {
+    const number = document.getElementById('addRoomNumber').value.trim();
+    const name = document.getElementById('addRoomName').value.trim();
+    const floor = document.getElementById('addRoomFloor').value.trim();
+    const capacity = document.getElementById('addRoomCapacity').value;
+    const status = document.getElementById('addRoomStatus').value;
+    
+    if (!number) {
+        alert('Please enter room number');
+        return;
+    }
+    
+    const room = {
+        id: 'ROOM' + Date.now(),
+        number: number,
+        name: name || number,
+        floor: floor || '',
+        capacity: capacity ? parseInt(capacity) : 30,
+        status: status
+    };
+    
+    addedRooms.push(room);
+    
+    // Update total rooms count if needed
+    const totalRoomsInput = document.getElementById('setupTotalRooms');
+    if (totalRoomsInput) {
+        const currentTotal = parseInt(totalRoomsInput.value) || 0;
+        totalRoomsInput.value = currentTotal + 1;
+    }
+    
+    // Save to localStorage
+    saveAddedItems();
+    
+    // Show success message
+    showItemAddedNotification('Room added successfully!');
+    
+    // Clear and hide form
+    clearAddForm('addRoomForm');
+    toggleAddForm('addRoomForm');
+}
+
+// Add Subject Item
+function addSubjectItem() {
+    const code = document.getElementById('addSubjectCode').value.trim();
+    const name = document.getElementById('addSubjectName').value.trim();
+    const category = document.getElementById('addSubjectCategory').value;
+    
+    if (!code || !name) {
+        alert('Please fill in all required fields');
+        return;
+    }
+    
+    const subject = {
+        id: 'SUBJECT' + Date.now(),
+        code: code,
+        name: name,
+        category: category
+    };
+    
+    addedSubjects.push(subject);
+    
+    // Add new checkbox to the subjects grid
+    addSubjectCheckbox(name, code);
+    
+    // Save to localStorage
+    saveAddedItems();
+    
+    // Show success message
+    showItemAddedNotification('Subject added successfully!');
+    
+    // Clear and hide form
+    clearAddForm('addSubjectForm');
+    toggleAddForm('addSubjectForm');
+}
+
+// Add Subject Checkbox dynamically
+function addSubjectCheckbox(name, code) {
+    const subjectsContainer = document.querySelector('#setup-step-5 .form-row').nextElementSibling;
+    if (subjectsContainer) {
+        const label = document.createElement('label');
+        label.style.cssText = 'display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;';
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'subject-checkbox';
+        checkbox.value = name;
+        checkbox.setAttribute('data-code', code);
+        checkbox.checked = true;
+        
+        const span = document.createElement('span');
+        span.textContent = name;
+        
+        label.appendChild(checkbox);
+        label.appendChild(span);
+        
+        const grid = subjectsContainer.querySelector('div[style*="grid-template-columns"]');
+        if (grid) {
+            grid.appendChild(label);
+        }
+    }
+}
+
+// Save added items to localStorage
+function saveAddedItems() {
+    try {
+        const addedItems = {
+            batches: addedBatches,
+            grades: addedGrades,
+            classes: addedClasses,
+            rooms: addedRooms,
+            subjects: addedSubjects
+        };
+        localStorage.setItem('academicSetupAddedItems', JSON.stringify(addedItems));
+    } catch (e) {
+        console.error('Error saving added items:', e);
+    }
+}
+
+// Load added items from localStorage
+function loadAddedItems() {
+    try {
+        const addedItemsStr = localStorage.getItem('academicSetupAddedItems');
+        if (addedItemsStr) {
+            const addedItems = JSON.parse(addedItemsStr);
+            addedBatches = addedItems.batches || [];
+            addedGrades = addedItems.grades || [];
+            addedClasses = addedItems.classes || [];
+            addedRooms = addedItems.rooms || [];
+            addedSubjects = addedItems.subjects || [];
+        }
+    } catch (e) {
+        console.error('Error loading added items:', e);
+    }
+}
+
+// Show item added notification
+function showItemAddedNotification(message) {
+    const notification = document.createElement('div');
+    notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #10b981; color: #fff; padding: 12px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 10000; animation: slideInRight 0.3s ease-out;';
+    notification.innerHTML = `<i class="fas fa-check-circle" style="margin-right: 8px;"></i>${message}`;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOutRight 0.3s ease-out';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
 
 // Load existing setup data from localStorage
 function loadExistingSetupData() {
@@ -403,6 +946,9 @@ function loadExistingSetupData() {
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
+    // Load added items
+    loadAddedItems();
+    
     // Try to load existing setup data first
     const hasExistingData = loadExistingSetupData();
     
@@ -692,7 +1238,15 @@ function completeSetup() {
         subjects: Array.from(document.querySelectorAll('.subject-checkbox:checked')).map(cb => ({
             name: cb.value,
             code: cb.getAttribute('data-code')
-        }))
+        })),
+        // Include added items
+        addedItems: {
+            batches: addedBatches,
+            grades: addedGrades,
+            classes: addedClasses,
+            rooms: addedRooms,
+            subjects: addedSubjects
+        }
     };
     
     // Save to localStorage with flag to apply on next page load
@@ -704,8 +1258,14 @@ function completeSetup() {
         console.error('Error saving setup data:', e);
     }
     
+    // Calculate totals including added items
+    const totalGrades = setupData.grades.length + addedGrades.length;
+    const totalClasses = (setupData.grades.length * setupData.classes.perGrade) + addedClasses.length;
+    const totalRooms = setupData.rooms.total + addedRooms.length;
+    const totalSubjects = setupData.subjects.length + addedSubjects.length;
+    
     // Show success notification
-    showSuccessNotification(`Academic setup completed successfully! Created ${setupData.grades.length} Grades, ${setupData.grades.length * setupData.classes.perGrade} Classes, ${setupData.rooms.total} Rooms, and ${setupData.subjects.length} Subjects.`);
+    showSuccessNotification(`Academic setup completed successfully! Created ${totalGrades} Grades, ${totalClasses} Classes, ${totalRooms} Rooms, and ${totalSubjects} Subjects.`);
     
     // Redirect to academic management page after a short delay
     setTimeout(() => {
@@ -1082,6 +1642,105 @@ label:has(.subject-checkbox:hover) {
 .form-select:focus {
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(74, 144, 226, 0.15);
+}
+
+/* Add Item Button Styles */
+.add-item-btn {
+    background: #4A90E2;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.add-item-btn:hover {
+    background: #357abd;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+.add-item-form {
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Form Button Styles */
+.form-btn-primary {
+    background: #4A90E2;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.form-btn-primary:hover {
+    background: #357abd;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+.form-btn-secondary {
+    background: #fff;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.form-btn-secondary:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+}
+
+/* Notification Animations */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(400px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(400px);
+    }
 }
 
 @media (max-width: 992px) {

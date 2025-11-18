@@ -51,7 +51,7 @@ ob_start();
 <!-- Statistics Cards Section -->
 <div class="stats-grid-secondary vertical-stats">
     <!-- Total Students -->
-    <div class="stat-card">
+    <div class="stat-card" onclick="window.location.href='/admin/student-profiles'" style="cursor: pointer;">
         <div class="stat-icon">
             <i class="fas fa-user-graduate"></i>
         </div>
@@ -63,7 +63,7 @@ ob_start();
     </div>
 
     <!-- Total Staff -->
-    <div class="stat-card">
+    <div class="stat-card" onclick="window.location.href='/admin/employee-profiles'" style="cursor: pointer;">
         <div class="stat-icon">
             <i class="fas fa-users-cog"></i>
         </div>
@@ -75,7 +75,7 @@ ob_start();
     </div>
 
     <!-- Total Teachers -->
-    <div class="stat-card">
+    <div class="stat-card" onclick="window.location.href='/admin/teacher-profiles'" style="cursor: pointer;">
         <div class="stat-icon">
             <i class="fas fa-chalkboard-teacher"></i>
         </div>
@@ -87,7 +87,7 @@ ob_start();
     </div>
 
     <!-- Fee Collection -->
-    <div class="stat-card">
+    <div class="stat-card" onclick="window.location.href='/admin/student-fee-management'" style="cursor: pointer;">
         <div class="stat-icon">
             <i class="fas fa-dollar-sign"></i>
         </div>

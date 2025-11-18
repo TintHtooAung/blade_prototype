@@ -114,35 +114,66 @@ ob_start();
         </div>
     </div>
 
-    <!-- Invoice Table -->
-    <div class="simple-table-container" style="margin-top:16px;">
-        <table class="basic-table" id="invoiceTable">
-                    <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Student Name</th>
-                            <th>Student ID</th>
-                            <th>Grade/Class</th>
-                            <th>Month</th>
-                            <th>Academic Year</th>
-                            <th>Fee Amount</th>
-                            <th>Paid Amount</th>
-                            <th>Payment Date</th>
-                            <th>Payment Method</th>
-                            <th>Remark</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
+    <!-- Invoice Table with Selectable Column Groups -->
+    <div class="simple-table-container" style="margin-top:16px; overflow-x: auto;">
+        <table class="fee-grouped-table" id="invoiceTable">
+            <thead>
+                <!-- Group Header Row -->
+                <tr class="group-header-row">
+                    <th rowspan="2" class="col-no">No.</th>
+                    <th colspan="3" class="group-header toggleable" data-group="student" id="group-header-student">
+                        <div class="group-header-content" onclick="toggleColumnGroup('student')">
+                            <i class="fas fa-chevron-down group-icon" id="icon-student"></i>
+                            <span>Student Info</span>
+                        </div>
+                    </th>
+                    <th colspan="2" class="group-header toggleable" data-group="invoice" id="group-header-invoice">
+                        <div class="group-header-content" onclick="toggleColumnGroup('invoice')">
+                            <i class="fas fa-chevron-down group-icon" id="icon-invoice"></i>
+                            <span>Invoice Info</span>
+                        </div>
+                    </th>
+                    <th colspan="2" class="group-header toggleable" data-group="payment" id="group-header-payment">
+                        <div class="group-header-content" onclick="toggleColumnGroup('payment')">
+                            <i class="fas fa-chevron-down group-icon" id="icon-payment"></i>
+                            <span>Payment Info</span>
+                        </div>
+                    </th>
+                    <th colspan="2" class="group-header toggleable" data-group="additional" id="group-header-additional">
+                        <div class="group-header-content" onclick="toggleColumnGroup('additional')">
+                            <i class="fas fa-chevron-down group-icon" id="icon-additional"></i>
+                            <span>Additional Info</span>
+                        </div>
+                    </th>
+                    <th rowspan="2" class="col-status">Status</th>
+                    <th rowspan="2" class="col-actions">Actions</th>
+                </tr>
+                <!-- Column Header Row -->
+                <tr class="column-header-row">
+                    <!-- Student Info Sub-columns -->
+                    <th class="col-student expandable" data-group="student">Student Name</th>
+                    <th class="col-student expandable" data-group="student">Student ID</th>
+                    <th class="col-student summary-col" data-group="student">Grade/Class</th>
+                    <!-- Invoice Info Sub-columns -->
+                    <th class="col-invoice expandable" data-group="invoice">Month</th>
+                    <th class="col-invoice summary-col" data-group="invoice">Academic Year</th>
+                    <!-- Payment Info Sub-columns -->
+                    <th class="col-payment expandable" data-group="payment">Fee Amount</th>
+                    <th class="col-payment summary-col" data-group="payment">Paid Amount</th>
+                    <!-- Additional Info Sub-columns -->
+                    <th class="col-additional expandable" data-group="additional">Payment Date</th>
+                    <th class="col-additional summary-col" data-group="additional">Payment Method</th>
+                </tr>
+            </thead>
             <tbody id="invoiceTableBody">
                 <tr class="no-data-row">
-                    <td colspan="12" style="text-align:center; padding:40px; color:#999;">
+                    <td colspan="13" style="text-align:center; padding:40px; color:#999;">
                         <i class="fas fa-inbox" style="font-size:48px; margin-bottom:12px; display:block;"></i>
                         No invoices generated yet. Click "Generate Invoices" to create invoices for all students this month.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
         </div>
     </div>
@@ -799,6 +830,205 @@ ob_start();
 .badge-secondary {
     background: #f1f5f9;
     color: #64748b;
+}
+
+/* Clean Fee Grouped Table - Similar to Payroll */
+.fee-grouped-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+}
+
+.group-header-row {
+    background: #f8f9fa;
+}
+
+.group-header {
+    background: #f8f9fa;
+    border: 1px solid #e0e7ff;
+    border-bottom: 2px solid #c7d2fe;
+    padding: 10px 16px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 13px;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.group-header.toggleable {
+    cursor: pointer;
+    user-select: none;
+}
+
+.group-header.toggleable:hover {
+    background: #f1f5f9;
+    border-color: #a5b4fc;
+}
+
+.group-header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.group-icon {
+    font-size: 12px;
+    transition: transform 0.2s ease;
+    color: #6b7280;
+}
+
+.group-header.toggleable:hover .group-icon {
+    color: #4A90E2;
+}
+
+/* Expandable columns - hidden when collapsed */
+.expandable {
+    transition: all 0.2s ease;
+}
+
+/* Summary column - always visible */
+.summary-col {
+    font-weight: 600;
+}
+
+.column-header-row th {
+    background: #ffffff;
+    border: 1px solid #e0e7ff;
+    border-top: none;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    color: #6b7280;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+/* Column width classes */
+.col-no {
+    width: 50px;
+    text-align: center;
+}
+
+.col-status {
+    min-width: 100px;
+    text-align: center;
+}
+
+.col-actions {
+    min-width: 140px;
+    text-align: center;
+}
+
+.col-student,
+.col-invoice,
+.col-payment,
+.col-additional {
+    min-width: 120px;
+    transition: all 0.2s ease;
+}
+
+/* Fee Table Row Styling */
+.fee-row {
+    transition: background-color 0.2s ease;
+}
+
+.fee-row:hover {
+    background-color: #f9fafb;
+}
+
+.fee-row td {
+    vertical-align: middle;
+    padding: 12px 14px;
+    border: 1px solid #e0e7ff;
+    font-size: 13px;
+    color: #374151;
+}
+
+.fee-row td.col-no {
+    text-align: center;
+    color: #6b7280;
+}
+
+.fee-row td.col-status {
+    text-align: center;
+}
+
+.fee-action-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.fee-action-btn.view-btn {
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+}
+
+.fee-action-btn.view-btn:hover {
+    background: #dbeafe;
+    border-color: #93c5fd;
+}
+
+.fee-action-btn.process-btn {
+    background: #dcfce7;
+    color: #16a34a;
+    border: 1px solid #86efac;
+}
+
+.fee-action-btn.process-btn:hover {
+    background: #bbf7d0;
+    border-color: #4ade80;
+}
+
+.fee-action-btn.receipt-btn {
+    background: #fef3c7;
+    color: #d97706;
+    border: 1px solid #fde68a;
+}
+
+.fee-action-btn.receipt-btn:hover {
+    background: #fde68a;
+    border-color: #fcd34d;
+}
+
+.fee-action-btn i {
+    font-size: 11px;
+}
+
+/* Status Badge Enhancements */
+.status-badge.warning {
+    background: #fef3c7;
+    color: #d97706;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.status-badge.active {
+    background: #dcfce7;
+    color: #166534;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
 }
 </style>
 

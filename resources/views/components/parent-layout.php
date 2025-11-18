@@ -40,10 +40,18 @@ $activePage = $activePage ?? 'dashboard';
     <style>
     /* Profile section is now in unified header - no floating badge needed */
     
-    /* Adjust sidebar and main content for fixed header */
+    /* Fix sidebar to always be parallel with main content - fixed positioning */
     .sidebar {
+        position: fixed !important;
         top: 64px !important;
-        height: calc(100vh - 64px) !important;
+        left: 0 !important;
+        bottom: 0 !important;
+        height: auto !important;
+        min-height: calc(100vh - 64px) !important;
+        max-height: none !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        z-index: 999 !important;
     }
     
     /* Ensure sidebar hamburger is visible and positioned correctly - simple rounded border cross with increased visibility */
@@ -192,6 +200,44 @@ $activePage = $activePage ?? 'dashboard';
             setTimeout(() => toast.remove(), 300);
         }, 3000);
     }
+    
+    // Fix sidebar height to match main content - keeps sidebar parallel at all times
+    function syncSidebarHeight() {
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+        
+        if (sidebar && mainContent) {
+            const mainContentHeight = mainContent.scrollHeight;
+            const viewportHeight = window.innerHeight - 64;
+            const targetHeight = Math.max(mainContentHeight, viewportHeight);
+            sidebar.style.height = targetHeight + 'px';
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        syncSidebarHeight();
+        window.addEventListener('resize', syncSidebarHeight);
+        
+        const observer = new MutationObserver(function() {
+            syncSidebarHeight();
+        });
+        
+        const mainContent = document.querySelector('.main-content');
+        if (mainContent) {
+            observer.observe(mainContent, {
+                childList: true,
+                subtree: true,
+                attributes: true,
+                attributeFilter: ['style', 'class']
+            });
+        }
+        
+        let scrollTimeout;
+        window.addEventListener('scroll', function() {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(syncSidebarHeight, 100);
+        });
+    });
     </script>
 </body>
 </html>

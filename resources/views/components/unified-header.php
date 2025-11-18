@@ -30,12 +30,6 @@ $logoUrl = $logoUrl ?? '/images/smart-campus-logo.svg';
         </div>
     </div>
     <div class="header-right">
-        <!-- Search Bar -->
-        <div class="header-search">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search..." class="header-search-input">
-        </div>
-        
         <!-- Notification Icon -->
         <div class="header-notification" onclick="toggleNotificationDropdown()" title="System Alerts">
             <i class="fas fa-bell"></i>
@@ -118,14 +112,16 @@ $logoUrl = $logoUrl ?? '/images/smart-campus-logo.svg';
     left: 0;
     right: 0;
     height: 64px;
-    background: #fff;
-    border-bottom: 1px solid #e5e5e7;
+    background: rgba(248, 250, 252, 0.9);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0;
     z-index: 1000;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
 }
 
 .header-left {
@@ -193,48 +189,8 @@ $logoUrl = $logoUrl ?? '/images/smart-campus-logo.svg';
     justify-content: flex-end;
     gap: 16px;
     flex: 1;
-    max-width: 600px;
+    max-width: 420px;
     padding-right: 20px;
-}
-
-/* Search Bar */
-.header-search {
-    position: relative;
-    display: flex;
-    align-items: center;
-    flex: 1;
-    max-width: 300px;
-    min-width: 200px;
-}
-
-.header-search i {
-    position: absolute;
-    left: 12px;
-    color: #86868b;
-    font-size: 0.875rem;
-    pointer-events: none;
-}
-
-.header-search-input {
-    width: 100%;
-    padding: 8px 12px 8px 36px;
-    border: 1px solid #e5e5e7;
-    border-radius: 8px;
-    font-size: 0.875rem;
-    color: #1d1d1f;
-    background: #f9fafb;
-    transition: all 0.2s;
-}
-
-.header-search-input:focus {
-    outline: none;
-    border-color: #1976d2;
-    background: #fff;
-    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
-}
-
-.header-search-input::placeholder {
-    color: #86868b;
 }
 
 /* Notification Icon */
@@ -493,18 +449,7 @@ $logoUrl = $logoUrl ?? '/images/smart-campus-logo.svg';
 }
 
 /* Responsive */
-@media (max-width: 1200px) {
-    .header-search {
-        max-width: 200px;
-        min-width: 150px;
-    }
-}
-
 @media (max-width: 992px) {
-    .header-search {
-        display: none;
-    }
-    
     .header-right {
         gap: 12px;
         max-width: none;

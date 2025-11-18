@@ -19,7 +19,7 @@ ob_start();
 <!-- Statistics Grid -->
 <div class="stats-grid-secondary vertical-stats">
     <!-- Active Classes -->
-    <div class="stat-card">
+    <div class="stat-card" onclick="window.location.href='/teacher/class-management'" style="cursor: pointer;">
         <div class="stat-icon">
             <i class="fas fa-chalkboard"></i>
         </div>
@@ -31,7 +31,7 @@ ob_start();
     </div>
 
     <!-- Total Students -->
-    <div class="stat-card">
+    <div class="stat-card" onclick="window.location.href='/teacher/class-management'" style="cursor: pointer;">
         <div class="stat-icon">
             <i class="fas fa-users"></i>
         </div>
@@ -43,7 +43,7 @@ ob_start();
     </div>
 
     <!-- Pending Assignments -->
-    <div class="stat-card">
+    <div class="stat-card" onclick="window.location.href='/teacher/homework'" style="cursor: pointer;">
         <div class="stat-icon">
             <i class="fas fa-clipboard-list"></i>
         </div>
@@ -55,7 +55,7 @@ ob_start();
     </div>
 
     <!-- Upcoming Events -->
-    <div class="stat-card">
+    <div class="stat-card" onclick="window.location.href='/teacher/event-calendar'" style="cursor: pointer;">
         <div class="stat-icon">
             <i class="fas fa-calendar"></i>
         </div>

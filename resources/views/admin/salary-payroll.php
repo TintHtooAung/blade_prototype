@@ -110,25 +110,60 @@ ob_start();
         </div>
     </div>
 
-    <!-- Payroll Table -->
-    <div class="simple-table-container" style="margin-top:16px;">
-        <table class="basic-table" id="payrollTable">
+    <!-- Payroll Table with Selectable Column Groups -->
+    <div class="simple-table-container" style="margin-top:16px; overflow-x: auto;">
+        <table class="payroll-grouped-table" id="payrollTable">
             <thead>
-                <tr>
-                    <th style="width: 40px;"></th>
-                    <th style="width: 50px;">No.</th>
-                    <th style="min-width: 200px;">Employee</th>
-                    <th style="min-width: 120px;">Position</th>
-                    <th style="min-width: 120px;">Department</th>
-                    <th style="min-width: 180px;">Salary Package</th>
-                    <th style="min-width: 160px;">Attendance Summary</th>
-                    <th style="min-width: 100px;">Status</th>
-                    <th style="min-width: 140px; text-align: center;">Actions</th>
+                <!-- Group Header Row -->
+                <tr class="group-header-row">
+                    <th rowspan="2" class="col-no">No.</th>
+                    <th rowspan="2" class="col-employee">Employee</th>
+                    <th rowspan="2" class="col-position">Position</th>
+                    <th rowspan="2" class="col-department">Department</th>
+                    <th colspan="5" class="group-header toggleable" data-group="payments" id="group-header-payments">
+                        <div class="group-header-content" onclick="toggleColumnGroup('payments')">
+                            <i class="fas fa-chevron-down group-icon" id="icon-payments"></i>
+                            <span>Payments</span>
+                        </div>
+                    </th>
+                    <th colspan="5" class="group-header toggleable" data-group="attendance" id="group-header-attendance">
+                        <div class="group-header-content" onclick="toggleColumnGroup('attendance')">
+                            <i class="fas fa-chevron-down group-icon" id="icon-attendance"></i>
+                            <span>Attendance</span>
+                        </div>
+                    </th>
+                    <th colspan="3" class="group-header toggleable" data-group="additional" id="group-header-additional">
+                        <div class="group-header-content" onclick="toggleColumnGroup('additional')">
+                            <i class="fas fa-chevron-down group-icon" id="icon-additional"></i>
+                            <span>Additional Info</span>
+                        </div>
+                    </th>
+                    <th rowspan="2" class="col-status">Status</th>
+                    <th rowspan="2" class="col-actions">Actions</th>
+                </tr>
+                <!-- Column Header Row -->
+                <tr class="column-header-row">
+                    <!-- Payments Sub-columns -->
+                    <th class="col-payments expandable" data-group="payments">Basic Salary</th>
+                    <th class="col-payments expandable" data-group="payments">Attendance Allowance</th>
+                    <th class="col-payments expandable" data-group="payments">Loyalty Bonus</th>
+                    <th class="col-payments expandable" data-group="payments">Other Bonus</th>
+                    <th class="col-payments summary-col" data-group="payments">Total Salary</th>
+                    <!-- Attendance Sub-columns -->
+                    <th class="col-attendance expandable" data-group="attendance">Working Days</th>
+                    <th class="col-attendance expandable" data-group="attendance">Days Present</th>
+                    <th class="col-attendance expandable" data-group="attendance">Leave Days</th>
+                    <th class="col-attendance expandable" data-group="attendance">Annual Leave</th>
+                    <th class="col-attendance summary-col" data-group="attendance">Days Absent</th>
+                    <!-- Additional Info Sub-columns -->
+                    <th class="col-additional expandable" data-group="additional">Date of Joining</th>
+                    <th class="col-additional expandable" data-group="additional">Payment Method</th>
+                    <th class="col-additional summary-col" data-group="additional">Payment Date</th>
                 </tr>
             </thead>
             <tbody id="payrollTableBody">
                 <tr class="no-data-row">
-                    <td colspan="9" style="text-align:center; padding:40px; color:#999;">
+                    <td colspan="20" style="text-align:center; padding:40px; color:#999;">
                         <i class="fas fa-inbox" style="font-size:48px; margin-bottom:12px; display:block;"></i>
                         No payroll generated yet. Click "Generate Payroll" to create payroll for this month.
                     </td>
@@ -142,68 +177,17 @@ ob_start();
 
     <!-- Payroll History View -->
     <div id="payroll-history-payroll-view" class="attendance-view-content" style="display: none;">
-        <!-- Month Selection -->
+        <!-- Payroll History Table -->
         <div class="simple-section">
             <div class="simple-header">
-                <h3><i class="fas fa-calendar-alt"></i> Select Month</h3>
-                <select class="filter-select" id="historyMonthFilter" onchange="loadPayrollHistory()">
+                <h3><i class="fas fa-history"></i> Payroll History</h3>
+                <select class="filter-select" id="historyMonthFilter" onchange="loadPayrollHistory()" style="min-width: 180px;">
                     <option value="2025-01">January 2025</option>
                     <option value="2024-12" selected>December 2024</option>
                     <option value="2024-11">November 2024</option>
                     <option value="2024-10">October 2024</option>
                     <option value="2024-09">September 2024</option>
                 </select>
-            </div>
-        </div>
-
-        <!-- Month Summary Stats -->
-        <div class="stats-grid-secondary vertical-stats">
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-calendar-alt"></i>
-                </div>
-                <div class="stat-content">
-                    <h3>Selected Month</h3>
-                    <div class="stat-number" id="selectedMonthDisplay">December 2024</div>
-                    <div class="stat-change">Current selection</div>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-users"></i>
-                </div>
-                <div class="stat-content">
-                    <h3>Total Entries</h3>
-                    <div class="stat-number" id="monthTotalEntries">3</div>
-                    <div class="stat-change">Generated</div>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <div class="stat-content">
-                    <h3>Withdrawals Completed</h3>
-                    <div class="stat-number" id="monthWithdrawnCount">0</div>
-                    <div class="stat-change">Processed</div>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-dollar-sign"></i>
-                </div>
-                <div class="stat-content">
-                    <h3>Total Amount</h3>
-                    <div class="stat-number" id="monthTotalAmount">$0.00</div>
-                    <div class="stat-change">Paid out</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Payroll History Table -->
-        <div class="simple-section">
-            <div class="simple-header">
-                <h3><i class="fas fa-history"></i> Payroll History</h3>
             </div>
             
             <!-- Filters -->
@@ -537,11 +521,25 @@ function generatePayroll() {
             showToast(`${payrollData.length} payroll entries generated successfully for ${monthName} ${currentYear}`, 'success');
 }
 
+// Column group expand/collapse state - must be defined before renderPayrollTable
+const columnGroups = {
+    payments: true,    // true = expanded, false = collapsed
+    attendance: true,
+    additional: true
+};
+
 function renderPayrollTable() {
     const tbody = document.getElementById('payrollTableBody');
     if (payrollData.length === 0) {
+        // Calculate colspan based on collapsed state
+        let colspan = 4; // No, Employee, Position, Department
+        colspan += columnGroups.payments ? 5 : 1;
+        colspan += columnGroups.attendance ? 5 : 1;
+        colspan += columnGroups.additional ? 3 : 1;
+        colspan += 2; // Status, Actions
+        
         tbody.innerHTML = `<tr class="no-data-row">
-            <td colspan="9" style="text-align:center; padding:40px; color:#999;">
+            <td colspan="${colspan}" style="text-align:center; padding:40px; color:#999;">
                 <i class="fas fa-inbox" style="font-size:48px; margin-bottom:12px; display:block;"></i>
                 No payroll generated yet. Click "Generate Payroll" to create payroll for this month.
             </td>
@@ -596,11 +594,13 @@ function renderPayrollTable() {
             </div>
         `;
         
+        // Determine display state for expandable cells
+        const paymentsExpanded = columnGroups.payments;
+        const attendanceExpanded = columnGroups.attendance;
+        const additionalExpanded = columnGroups.additional;
+        
         return `
             <tr class="payroll-row" data-entry-id="${entry.id}">
-                <td style="text-align: center; cursor: pointer;" onclick="toggleRowDetails('${entry.id}')">
-                    <i class="fas fa-chevron-down row-toggle-icon" id="toggle-${entry.id}"></i>
-                </td>
                 <td>${index + 1}</td>
                 <td>
                     <div style="display: flex; flex-direction: column;">
@@ -610,148 +610,97 @@ function renderPayrollTable() {
                 </td>
                 <td>${entry.position || entry.type || '-'}</td>
                 <td>${entry.dept}</td>
-                <td>
-                    <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <strong style="color: #10b981; font-size: 15px;">${formatCurrency(totalSalary)}</strong>
-                        <small style="color: #6b7280; font-size: 11px; cursor: pointer;" onclick="event.stopPropagation(); toggleRowDetails('${entry.id}')">
-                            <i class="fas fa-info-circle"></i> View breakdown
-                        </small>
-                    </div>
+                <!-- Payments Group Columns -->
+                <td class="col-payments expandable" data-group="payments" style="display: ${paymentsExpanded ? '' : 'none'};">${formatCurrency(basicSalary)}</td>
+                <td class="col-payments expandable" data-group="payments" style="display: ${paymentsExpanded ? '' : 'none'};">${formatCurrency(attendanceAllowance)}</td>
+                <td class="col-payments expandable" data-group="payments" style="display: ${paymentsExpanded ? '' : 'none'};">${formatCurrency(loyaltyBonus)}</td>
+                <td class="col-payments expandable" data-group="payments" style="display: ${paymentsExpanded ? '' : 'none'};">${formatCurrency(otherBonus)}</td>
+                <td class="col-payments summary-col" data-group="payments">
+                    <strong style="color: #10b981;">${formatCurrency(totalSalary)}</strong>
+                    ${!paymentsExpanded ? `<small style="display: block; color: #6b7280; font-size: 11px; margin-top: 2px; font-weight: normal;">Total</small>` : ''}
                 </td>
-                <td>
-                    <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <span style="color: #10b981; font-weight: 600;">${daysPresent}</span>
-                            <span style="color: #6b7280; font-size: 12px;">/ ${workingDays} days</span>
-                        </div>
-                        <small style="color: #6b7280; font-size: 11px; cursor: pointer;" onclick="event.stopPropagation(); toggleRowDetails('${entry.id}')">
-                            <i class="fas fa-info-circle"></i> View details
-                        </small>
-                    </div>
+                <!-- Attendance Group Columns -->
+                <td class="col-attendance expandable" data-group="attendance" style="display: ${attendanceExpanded ? '' : 'none'};">${workingDays}</td>
+                <td class="col-attendance expandable" data-group="attendance" style="display: ${attendanceExpanded ? '' : 'none'};">
+                    <span style="color: #10b981; font-weight: 600;">${daysPresent}</span>
                 </td>
+                <td class="col-attendance expandable" data-group="attendance" style="display: ${attendanceExpanded ? '' : 'none'};">
+                    <span style="color: #f59e0b;">${leaveDays}</span>
+                </td>
+                <td class="col-attendance expandable" data-group="attendance" style="display: ${attendanceExpanded ? '' : 'none'};">${annualLeave}</td>
+                <td class="col-attendance summary-col" data-group="attendance">
+                    <span style="color: #ef4444;">${daysAbsent}</span>
+                    ${!attendanceExpanded ? `<small style="display: block; color: #6b7280; font-size: 11px; margin-top: 2px;">${daysPresent}/${workingDays} present</small>` : ''}
+                </td>
+                <!-- Additional Info Group Columns -->
+                <td class="col-additional expandable" data-group="additional" style="display: ${additionalExpanded ? '' : 'none'};">${dateOfJoining}</td>
+                <td class="col-additional expandable" data-group="additional" style="display: ${additionalExpanded ? '' : 'none'};">${paymentType}</td>
+                <td class="col-additional summary-col" data-group="additional">${paymentDate}</td>
                 <td>
                     <span class="status-badge ${statusClass}">${statusText}</span>
                 </td>
-                <td>${actions}</td>
-            </tr>
-            <tr class="payroll-details-row" id="details-${entry.id}" style="display: none;">
-                <td colspan="9" style="background: #f9fafb; padding: 20px;">
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
-                        <!-- Salary Package Details -->
-                        <div style="background: white; padding: 16px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <h4 style="margin: 0 0 12px 0; font-size: 14px; font-weight: 600; color: #374151; display: flex; align-items: center; gap: 8px;">
-                                <i class="fas fa-wallet" style="color: #10b981;"></i> Salary Package
-                            </h4>
-                            <div style="display: flex; flex-direction: column; gap: 8px;">
-                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
-                                    <span style="color: #6b7280; font-size: 13px;">Basic Salary</span>
-                                    <span style="font-weight: 500; color: #111827;">${formatCurrency(basicSalary)}</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
-                                    <span style="color: #6b7280; font-size: 13px;">Attendance Allowance</span>
-                                    <span style="font-weight: 500; color: #111827;">${formatCurrency(attendanceAllowance)}</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
-                                    <span style="color: #6b7280; font-size: 13px;">Loyalty Bonus</span>
-                                    <span style="font-weight: 500; color: #111827;">${formatCurrency(loyaltyBonus)}</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
-                                    <span style="color: #6b7280; font-size: 13px;">Other Bonus</span>
-                                    <span style="font-weight: 500; color: #111827;">${formatCurrency(otherBonus)}</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; padding: 8px 0; margin-top: 4px; border-top: 2px solid #e5e7eb;">
-                                    <span style="font-weight: 600; color: #111827; font-size: 14px;">Total Salary</span>
-                                    <span style="font-weight: 700; color: #10b981; font-size: 15px;">${formatCurrency(totalSalary)}</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Attendance Summary Details -->
-                        <div style="background: white; padding: 16px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <h4 style="margin: 0 0 12px 0; font-size: 14px; font-weight: 600; color: #374151; display: flex; align-items: center; gap: 8px;">
-                                <i class="fas fa-calendar-check" style="color: #3b82f6;"></i> Attendance Summary
-                            </h4>
-                            <div style="display: flex; flex-direction: column; gap: 8px;">
-                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
-                                    <span style="color: #6b7280; font-size: 13px;">Working Days</span>
-                                    <span style="font-weight: 500; color: #111827;">${workingDays}</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
-                                    <span style="color: #6b7280; font-size: 13px;">Days Present</span>
-                                    <span style="font-weight: 500; color: #10b981;">${daysPresent}</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
-                                    <span style="color: #6b7280; font-size: 13px;">Leave Days</span>
-                                    <span style="font-weight: 500; color: #f59e0b;">${leaveDays}</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
-                                    <span style="color: #6b7280; font-size: 13px;">Annual Leave</span>
-                                    <span style="font-weight: 500; color: #111827;">${annualLeave}</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
-                                    <span style="color: #6b7280; font-size: 13px;">Days Absent</span>
-                                    <span style="font-weight: 500; color: #ef4444;">${daysAbsent}</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Payment & Additional Info -->
-                        <div style="background: white; padding: 16px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <h4 style="margin: 0 0 12px 0; font-size: 14px; font-weight: 600; color: #374151; display: flex; align-items: center; gap: 8px;">
-                                <i class="fas fa-info-circle" style="color: #8b5cf6;"></i> Additional Information
-                            </h4>
-                            <div style="display: flex; flex-direction: column; gap: 8px;">
-                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
-                                    <span style="color: #6b7280; font-size: 13px;">Date of Joining</span>
-                                    <span style="font-weight: 500; color: #111827;">${dateOfJoining}</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
-                                    <span style="color: #6b7280; font-size: 13px;">Payment Method</span>
-                                    <span style="font-weight: 500; color: #111827;">${paymentType}</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
-                                    <span style="color: #6b7280; font-size: 13px;">Payment Date</span>
-                                    <span style="font-weight: 500; color: #111827;">${paymentDate}</span>
-                                </div>
-                                ${remark !== '-' ? `
-                                <div style="padding: 8px 0; margin-top: 4px; border-top: 1px solid #f3f4f6;">
-                                    <span style="color: #6b7280; font-size: 13px; display: block; margin-bottom: 4px;">Remark</span>
-                                    <span style="font-weight: 500; color: #111827; font-size: 13px;">${remark}</span>
-                                </div>
-                                ` : ''}
-                            </div>
-                        </div>
-                    </div>
-                </td>
+                <td onclick="event.stopPropagation();">${actions}</td>
             </tr>
         `;
     }).join('');
     
-    // Add click handlers for row expansion
-    attachRowToggleHandlers();
+    // Apply current collapse state after rendering
+    Object.keys(columnGroups).forEach(groupName => {
+        if (!columnGroups[groupName]) {
+            toggleColumnGroup(groupName);
+        }
+    });
 }
 
-function toggleRowDetails(entryId) {
-    const detailsRow = document.getElementById(`details-${entryId}`);
-    const toggleIcon = document.getElementById(`toggle-${entryId}`);
+function toggleColumnGroup(groupName) {
+    // Toggle state
+    columnGroups[groupName] = !columnGroups[groupName];
     
-    if (!detailsRow || !toggleIcon) return;
+    const isExpanded = columnGroups[groupName];
+    const icon = document.getElementById(`icon-${groupName}`);
     
-    const isVisible = detailsRow.style.display !== 'none';
-    
-    if (isVisible) {
-        detailsRow.style.display = 'none';
-        toggleIcon.classList.remove('fa-chevron-up');
-        toggleIcon.classList.add('fa-chevron-down');
-    } else {
-        detailsRow.style.display = 'table-row';
-        toggleIcon.classList.remove('fa-chevron-down');
-        toggleIcon.classList.add('fa-chevron-up');
+    // Update icon
+    if (icon) {
+        if (isExpanded) {
+            icon.classList.remove('fa-chevron-right');
+            icon.classList.add('fa-chevron-down');
+        } else {
+            icon.classList.remove('fa-chevron-down');
+            icon.classList.add('fa-chevron-right');
+        }
     }
-}
-
-function attachRowToggleHandlers() {
-    // Handlers are already attached via onclick in the HTML
+    
+    // Show/hide expandable columns
+    const expandableCols = document.querySelectorAll(`.expandable[data-group="${groupName}"]`);
+    expandableCols.forEach(col => {
+        if (isExpanded) {
+            col.style.display = '';
+        } else {
+            col.style.display = 'none';
+        }
+    });
+    
+    // Show/hide expandable cells in tbody
+    const expandableCells = document.querySelectorAll(`td.expandable[data-group="${groupName}"]`);
+    expandableCells.forEach(cell => {
+        if (isExpanded) {
+            cell.style.display = '';
+        } else {
+            cell.style.display = 'none';
+        }
+    });
+    
+    // Update group header colspan
+    const groupHeader = document.getElementById(`group-header-${groupName}`);
+    if (groupHeader) {
+        if (groupName === 'payments') {
+            groupHeader.colSpan = isExpanded ? 5 : 1;
+        } else if (groupName === 'attendance') {
+            groupHeader.colSpan = isExpanded ? 5 : 1;
+        } else if (groupName === 'additional') {
+            groupHeader.colSpan = isExpanded ? 3 : 1;
+        }
+    }
 }
 
 function formatCurrency(amount) {
@@ -1371,33 +1320,11 @@ function loadPayrollHistory() {
     const selectedMonth = monthFilter.value;
     const monthName = monthFilter.options[monthFilter.selectedIndex].text;
     
-    const selectedMonthDisplay = document.getElementById('selectedMonthDisplay');
-    if (selectedMonthDisplay) {
-        selectedMonthDisplay.textContent = monthName;
-    }
-    
     // Filter by month
     filteredHistory = allPayrollHistory.filter(entry => entry.month === selectedMonth);
     
-    // Update stats
-    updatePayrollMonthStats();
-    
     // Apply other filters and render
     applyPayrollHistoryFilters();
-}
-
-function updatePayrollMonthStats() {
-    const totalEntries = filteredHistory.length;
-    const withdrawnEntries = filteredHistory.filter(entry => entry.status === 'withdrawn');
-    const totalAmount = withdrawnEntries.reduce((sum, entry) => sum + entry.netPay, 0);
-    
-    const monthTotalEntries = document.getElementById('monthTotalEntries');
-    const monthWithdrawnCount = document.getElementById('monthWithdrawnCount');
-    const monthTotalAmount = document.getElementById('monthTotalAmount');
-    
-    if (monthTotalEntries) monthTotalEntries.textContent = totalEntries;
-    if (monthWithdrawnCount) monthWithdrawnCount.textContent = `${withdrawnEntries.length} / ${totalEntries}`;
-    if (monthTotalAmount) monthTotalAmount.textContent = `$${totalAmount.toFixed(2)}`;
 }
 
 function applyPayrollHistoryFilters() {
@@ -1673,9 +1600,134 @@ function printHistoryReceipt(payrollId) {
     color: #64748b;
 }
 
-/* Payroll Table Enhancements */
-.payroll-row {
+/* Clean Payroll Grouped Table */
+.payroll-grouped-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+}
+
+.group-header-row {
+    background: #f8f9fa;
+}
+
+.group-header {
+    background: #f8f9fa;
+    border: 1px solid #e0e7ff;
+    border-bottom: 2px solid #c7d2fe;
+    padding: 10px 16px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 13px;
+    color: #374151;
     cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.group-header.toggleable {
+    cursor: pointer;
+    user-select: none;
+}
+
+.group-header.toggleable:hover {
+    background: #f1f5f9;
+    border-color: #a5b4fc;
+}
+
+.group-header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.group-icon {
+    font-size: 12px;
+    transition: transform 0.2s ease;
+    color: #6b7280;
+}
+
+.group-header.toggleable:hover .group-icon {
+    color: #4A90E2;
+}
+
+.group-header span {
+    display: inline-block;
+}
+
+/* Expandable columns - hidden when collapsed */
+.expandable {
+    transition: all 0.2s ease;
+}
+
+/* Summary column - always visible */
+.summary-col {
+    font-weight: 600;
+}
+
+.column-header-row th {
+    background: #ffffff;
+    border: 1px solid #e0e7ff;
+    border-top: none;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    color: #6b7280;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.column-header-row th[data-group].selected {
+    background: #eff6ff;
+    border-color: #4A90E2;
+    color: #1e40af;
+}
+
+/* Column width classes */
+.col-no {
+    width: 50px;
+    text-align: center;
+}
+
+.col-employee {
+    min-width: 200px;
+}
+
+.col-position {
+    min-width: 120px;
+}
+
+.col-department {
+    min-width: 120px;
+}
+
+.col-status {
+    min-width: 100px;
+    text-align: center;
+}
+
+.col-actions {
+    min-width: 120px;
+    text-align: center;
+}
+
+.col-payments,
+.col-attendance,
+.col-additional {
+    min-width: 120px;
+    transition: all 0.2s ease;
+}
+
+.col-payments.selected,
+.col-attendance.selected,
+.col-additional.selected {
+    background: #eff6ff;
+}
+
+/* Payroll Table Row Styling */
+.payroll-row {
     transition: background-color 0.2s ease;
 }
 
@@ -1685,21 +1737,23 @@ function printHistoryReceipt(payrollId) {
 
 .payroll-row td {
     vertical-align: middle;
-    padding: 12px 16px;
+    padding: 12px 14px;
+    border: 1px solid #e0e7ff;
+    font-size: 13px;
+    color: #374151;
 }
 
-.row-toggle-icon {
-    transition: transform 0.2s ease;
+.payroll-row td[data-group].selected {
+    background: #eff6ff;
+}
+
+.payroll-row td.col-no {
+    text-align: center;
     color: #6b7280;
-    font-size: 12px;
 }
 
-.row-toggle-icon:hover {
-    color: #4A90E2;
-}
-
-.payroll-details-row td {
-    padding: 0 !important;
+.payroll-row td.col-status {
+    text-align: center;
 }
 
 .payroll-action-btn {

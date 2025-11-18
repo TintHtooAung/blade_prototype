@@ -62,21 +62,6 @@ ob_start();
     </div>
 </div>
 
-<!-- Month Selector -->
-<div class="simple-section" style="margin-top: 20px;">
-    <div class="simple-header">
-        <h3>Select Month</h3>
-        <select class="filter-select" id="monthYearFilter" onchange="loadFinanceData()" style="min-width: 200px;">
-            <option value="2025-01">January 2025</option>
-            <option value="2024-12">December 2024</option>
-            <option value="2024-11">November 2024</option>
-            <option value="2024-10">October 2024</option>
-            <option value="2024-09">September 2024</option>
-            <option value="2024-08">August 2024</option>
-        </select>
-    </div>
-</div>
-
 <!-- Finance Tabs Navigation -->
 <div style="margin-top: 24px;">
     <div class="attendance-view-tabs">
@@ -138,8 +123,16 @@ ob_start();
 
             <!-- Monthly Income Table (Combined Income - No Invoices) -->
             <div class="income-table-view" style="margin-top: 24px;">
-                <div class="simple-header" style="margin-top: 16px; margin-bottom: 12px;">
+                <div class="simple-header" style="margin-top: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
                     <h4 style="margin: 0; font-size: 16px; font-weight: 600; color: #374151;">Monthly Income - Combined Income</h4>
+                    <select class="filter-select" id="monthYearFilter" onchange="loadFinanceData()" style="min-width: 200px;">
+                        <option value="2025-01">January 2025</option>
+                        <option value="2024-12">December 2024</option>
+                        <option value="2024-11">November 2024</option>
+                        <option value="2024-10">October 2024</option>
+                        <option value="2024-09">September 2024</option>
+                        <option value="2024-08">August 2024</option>
+                    </select>
                 </div>
                 <div class="simple-table-container" style="margin-top: 16px;">
                     <table class="basic-table">
@@ -207,8 +200,16 @@ ob_start();
 
             <!-- Monthly Expenses Table (Combined Expenses) -->
             <div class="expense-table-view" style="margin-top: 24px;">
-                <div class="simple-header" style="margin-top: 16px; margin-bottom: 12px;">
+                <div class="simple-header" style="margin-top: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
                     <h4 style="margin: 0; font-size: 16px; font-weight: 600; color: #374151;">Monthly Expenses - Combined Expenses</h4>
+                    <select class="filter-select" id="monthYearFilterExpenses" onchange="loadFinanceData()" style="min-width: 200px;">
+                        <option value="2025-01">January 2025</option>
+                        <option value="2024-12">December 2024</option>
+                        <option value="2024-11">November 2024</option>
+                        <option value="2024-10">October 2024</option>
+                        <option value="2024-09">September 2024</option>
+                        <option value="2024-08">August 2024</option>
+                    </select>
                 </div>
                 <div class="simple-table-container" style="margin-top: 16px;">
                     <table class="basic-table">
@@ -272,8 +273,16 @@ ob_start();
             </div>
 
             <!-- Monthly Profit & Loss Table -->
-            <div class="simple-header" style="margin-top: 24px; margin-bottom: 12px;">
+            <div class="simple-header" style="margin-top: 24px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
                 <h4 style="margin: 0; font-size: 16px; font-weight: 600; color: #374151;">Monthly Profit & Loss</h4>
+                <select class="filter-select" id="monthYearFilterProfitLoss" onchange="loadFinanceData()" style="min-width: 200px;">
+                    <option value="2025-01">January 2025</option>
+                    <option value="2024-12">December 2024</option>
+                    <option value="2024-11">November 2024</option>
+                    <option value="2024-10">October 2024</option>
+                    <option value="2024-09">September 2024</option>
+                    <option value="2024-08">August 2024</option>
+                </select>
             </div>
             <div class="simple-table-container" style="margin-top: 16px;">
                 <table class="basic-table">
@@ -440,6 +449,19 @@ let selectedMonth = '2025-01';
 document.addEventListener('DOMContentLoaded', function() {
     loadExpenses();
     loadCustomIncome();
+    
+    // Sync all month selectors on page load
+    const monthFilter = document.getElementById('monthYearFilter');
+    const monthFilterExpenses = document.getElementById('monthYearFilterExpenses');
+    const monthFilterProfitLoss = document.getElementById('monthYearFilterProfitLoss');
+    
+    if (monthFilter && monthFilterExpenses) {
+        monthFilterExpenses.value = monthFilter.value;
+    }
+    if (monthFilter && monthFilterProfitLoss) {
+        monthFilterProfitLoss.value = monthFilter.value;
+    }
+    
     loadFinanceData();
     
     // Initialize view from localStorage or default to income
@@ -641,8 +663,35 @@ function saveCustomIncome() {
 
 // Load finance data for selected month
 function loadFinanceData() {
-    selectedMonth = document.getElementById('monthYearFilter').value;
-    const monthName = document.getElementById('monthYearFilter').options[document.getElementById('monthYearFilter').selectedIndex].text;
+    // Get the value from whichever selector triggered the change
+    const monthFilter = document.getElementById('monthYearFilter');
+    const monthFilterExpenses = document.getElementById('monthYearFilterExpenses');
+    const monthFilterProfitLoss = document.getElementById('monthYearFilterProfitLoss');
+    
+    // Determine which selector was used (or use the first available one)
+    let selectedValue = selectedMonth;
+    if (monthFilter && monthFilter.value) {
+        selectedValue = monthFilter.value;
+    } else if (monthFilterExpenses && monthFilterExpenses.value) {
+        selectedValue = monthFilterExpenses.value;
+    } else if (monthFilterProfitLoss && monthFilterProfitLoss.value) {
+        selectedValue = monthFilterProfitLoss.value;
+    }
+    
+    // Sync all selectors to the same value
+    if (monthFilter) {
+        monthFilter.value = selectedValue;
+        selectedMonth = selectedValue;
+    }
+    if (monthFilterExpenses) {
+        monthFilterExpenses.value = selectedValue;
+    }
+    if (monthFilterProfitLoss) {
+        monthFilterProfitLoss.value = selectedValue;
+    }
+    
+    // Get month name from the first selector
+    const monthName = monthFilter ? monthFilter.options[monthFilter.selectedIndex].text : 'January 2025';
     
     document.getElementById('selectedMonthDisplay').textContent = monthName;
     document.getElementById('incomePeriod').textContent = monthName;
@@ -1305,6 +1354,18 @@ function switchFinanceView(view) {
     const selectedTab = document.querySelector(`.view-tab[data-view="${view}"]`);
     if (selectedTab) {
         selectedTab.classList.add('active');
+    }
+    
+    // Sync all month selectors when switching views
+    const monthFilter = document.getElementById('monthYearFilter');
+    const monthFilterExpenses = document.getElementById('monthYearFilterExpenses');
+    const monthFilterProfitLoss = document.getElementById('monthYearFilterProfitLoss');
+    
+    if (monthFilter && monthFilterExpenses) {
+        monthFilterExpenses.value = monthFilter.value;
+    }
+    if (monthFilter && monthFilterProfitLoss) {
+        monthFilterProfitLoss.value = monthFilter.value;
     }
     
     // Load profit-loss data if switching to profit-loss view

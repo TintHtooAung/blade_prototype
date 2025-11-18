@@ -164,11 +164,27 @@ function generateInvoices() {
     showActionStatus(`${invoiceData.length} invoices generated successfully for ${monthName} ${currentYear} based on configured fee structures`, 'success');
 }
 
+// Column group expand/collapse state - must be defined before renderInvoiceTable
+const feeColumnGroups = {
+    student: true,    // true = expanded, false = collapsed
+    invoice: true,
+    payment: true,
+    additional: true
+};
+
 function renderInvoiceTable() {
     const tbody = document.getElementById('invoiceTableBody');
     
     if (invoiceData.length === 0) {
-        tbody.innerHTML = '<tr class="no-data-row"><td colspan="12" style="text-align:center; padding:40px; color:#999;"><i class="fas fa-inbox" style="font-size:48px; margin-bottom:12px; display:block;"></i>No invoices generated yet. Click "Generate Invoices" to create invoices for all students this month.</td></tr>';
+        // Calculate colspan based on collapsed state
+        let colspan = 1; // No.
+        colspan += feeColumnGroups.student ? 3 : 1;
+        colspan += feeColumnGroups.invoice ? 2 : 1;
+        colspan += feeColumnGroups.payment ? 2 : 1;
+        colspan += feeColumnGroups.additional ? 2 : 1;
+        colspan += 2; // Status, Actions
+        
+        tbody.innerHTML = `<tr class="no-data-row"><td colspan="${colspan}" style="text-align:center; padding:40px; color:#999;"><i class="fas fa-inbox" style="font-size:48px; margin-bottom:12px; display:block;"></i>No invoices generated yet. Click "Generate Invoices" to create invoices for all students this month.</td></tr>`;
         return;
     }
 
@@ -179,40 +195,150 @@ function renderInvoiceTable() {
     
     tbody.innerHTML = filteredData.map((invoice, index) => {
         const isDraft = invoice.status === 'draft';
-        const monthName = invoice.month ? monthNames[parseInt(invoice.month) - 1] : '-';
+        const statusText = invoice.status === 'draft' ? 'Draft' : invoice.status === 'paid' ? 'Paid' : invoice.status;
+        const statusClass = invoice.status === 'draft' ? 'warning' : invoice.status === 'paid' ? 'active' : '';
+        let monthName = '-';
+        if (invoice.month) {
+            const monthParts = invoice.month.split('-');
+            if (monthParts.length >= 2) {
+                const monthNum = parseInt(monthParts[1]);
+                monthName = monthNames[monthNum - 1] || '-';
+            }
+        }
         const academicYear = invoice.academicYear || (invoice.year ? `${invoice.year}-${invoice.year + 1}` : '-');
         const paidAmount = invoice.paidAmount || (invoice.status === 'paid' ? invoice.amount : 0);
         const paymentDate = invoice.paymentDate || (invoice.paidTime ? invoice.paidTime.split(' ')[0] : '-');
-        const remark = invoice.remark || '-';
+        const paymentMethod = invoice.paymentType || '-';
         
-        const actions = `
-            <button class="simple-btn-icon" onclick="viewInvoiceDetails('${invoice.id}')" title="View Details">
-                <i class="fas fa-eye"></i>
-            </button>
-            ${isDraft ? `
-            <button class="simple-btn-icon" onclick="processPayment('${invoice.id}')" title="Process Payment">
-                <i class="fas fa-money-check-alt"></i>
-            </button>
-            ` : ''}
+        // Determine display state for expandable cells
+        const studentExpanded = feeColumnGroups.student;
+        const invoiceExpanded = feeColumnGroups.invoice;
+        const paymentExpanded = feeColumnGroups.payment;
+        const additionalExpanded = feeColumnGroups.additional;
+        
+        const actions = isDraft ? `
+            <div style="display: flex; gap: 6px; justify-content: center;">
+                <button class="fee-action-btn view-btn" onclick="viewInvoiceDetails('${invoice.id}')" title="View Details">
+                    <i class="fas fa-eye"></i> View
+                </button>
+                <button class="fee-action-btn process-btn" onclick="processPayment('${invoice.id}')" title="Process Payment">
+                    <i class="fas fa-money-check-alt"></i> Pay
+                </button>
+            </div>
+        ` : `
+            <div style="display: flex; gap: 6px; justify-content: center;">
+                <button class="fee-action-btn view-btn" onclick="viewInvoiceDetails('${invoice.id}')" title="View Invoice">
+                    <i class="fas fa-file-invoice-dollar"></i> View
+                </button>
+                <button class="fee-action-btn receipt-btn" onclick="viewInvoiceReceipt('${invoice.id}')" title="View Receipt">
+                    <i class="fas fa-receipt"></i> Receipt
+                </button>
+            </div>
         `;
 
         return `
-            <tr>
+            <tr class="fee-row" data-invoice-id="${invoice.id}">
                 <td>${index + 1}</td>
-                <td>${invoice.name}</td>
-                <td>${invoice.studentId}</td>
-                <td>Grade ${invoice.grade}-${invoice.class}</td>
-                <td>${monthName}</td>
-                <td>${academicYear}</td>
-                <td><strong>$${(invoice.amount || 0).toFixed(2)}</strong></td>
-                <td><strong style="color: ${paidAmount > 0 ? '#10b981' : '#999'}">$${paidAmount.toFixed(2)}</strong></td>
-                <td>${paymentDate}</td>
-                <td><span class="payment-type-badge" data-type="${invoice.paymentType || 'Not Set'}">${invoice.paymentType || 'Not Set'}</span></td>
-                <td>${remark}</td>
-                <td>${actions}</td>
+                <!-- Student Info Group Columns -->
+                <td class="col-student expandable" data-group="student" style="display: ${studentExpanded ? '' : 'none'};">
+                    <div style="display: flex; flex-direction: column;">
+                        <strong style="font-size: 14px; color: #111827; margin-bottom: 2px;">${invoice.name}</strong>
+                    </div>
+                </td>
+                <td class="col-student expandable" data-group="student" style="display: ${studentExpanded ? '' : 'none'};">
+                    <small style="color: #6b7280; font-size: 12px;">${invoice.studentId}</small>
+                </td>
+                <td class="col-student summary-col" data-group="student">
+                    Grade ${invoice.grade}-${invoice.class}
+                    ${!studentExpanded ? `<small style="display: block; color: #6b7280; font-size: 11px; margin-top: 2px; font-weight: normal;">${invoice.name}</small>` : ''}
+                </td>
+                <!-- Invoice Info Group Columns -->
+                <td class="col-invoice expandable" data-group="invoice" style="display: ${invoiceExpanded ? '' : 'none'};">${monthName}</td>
+                <td class="col-invoice summary-col" data-group="invoice">
+                    ${academicYear}
+                    ${!invoiceExpanded ? `<small style="display: block; color: #6b7280; font-size: 11px; margin-top: 2px;">${monthName}</small>` : ''}
+                </td>
+                <!-- Payment Info Group Columns -->
+                <td class="col-payment expandable" data-group="payment" style="display: ${paymentExpanded ? '' : 'none'};">
+                    <strong>$${(invoice.amount || 0).toFixed(2)}</strong>
+                </td>
+                <td class="col-payment summary-col" data-group="payment">
+                    <strong style="color: ${paidAmount > 0 ? '#10b981' : '#999'}">$${paidAmount.toFixed(2)}</strong>
+                    ${!paymentExpanded ? `<small style="display: block; color: #6b7280; font-size: 11px; margin-top: 2px; font-weight: normal;">Fee: $${(invoice.amount || 0).toFixed(2)}</small>` : ''}
+                </td>
+                <!-- Additional Info Group Columns -->
+                <td class="col-additional expandable" data-group="additional" style="display: ${additionalExpanded ? '' : 'none'};">${paymentDate}</td>
+                <td class="col-additional summary-col" data-group="additional">
+                    ${paymentMethod !== '-' ? `<span class="payment-type-badge" data-type="${paymentMethod}">${paymentMethod}</span>` : '<span style="color: #999;">-</span>'}
+                    ${!additionalExpanded ? `<small style="display: block; color: #6b7280; font-size: 11px; margin-top: 2px;">${paymentDate}</small>` : ''}
+                </td>
+                <td>
+                    <span class="status-badge ${statusClass}">${statusText}</span>
+                </td>
+                <td onclick="event.stopPropagation();">${actions}</td>
             </tr>
         `;
     }).join('');
+    
+    // Apply current collapse state after rendering
+    Object.keys(feeColumnGroups).forEach(groupName => {
+        if (!feeColumnGroups[groupName]) {
+            toggleColumnGroup(groupName);
+        }
+    });
+}
+
+function toggleColumnGroup(groupName) {
+    // Toggle state
+    feeColumnGroups[groupName] = !feeColumnGroups[groupName];
+    
+    const isExpanded = feeColumnGroups[groupName];
+    const icon = document.getElementById(`icon-${groupName}`);
+    
+    // Update icon
+    if (icon) {
+        if (isExpanded) {
+            icon.classList.remove('fa-chevron-right');
+            icon.classList.add('fa-chevron-down');
+        } else {
+            icon.classList.remove('fa-chevron-down');
+            icon.classList.add('fa-chevron-right');
+        }
+    }
+    
+    // Show/hide expandable columns
+    const expandableCols = document.querySelectorAll(`.expandable[data-group="${groupName}"]`);
+    expandableCols.forEach(col => {
+        if (isExpanded) {
+            col.style.display = '';
+        } else {
+            col.style.display = 'none';
+        }
+    });
+    
+    // Show/hide expandable cells in tbody
+    const expandableCells = document.querySelectorAll(`td.expandable[data-group="${groupName}"]`);
+    expandableCells.forEach(cell => {
+        if (isExpanded) {
+            cell.style.display = '';
+        } else {
+            cell.style.display = 'none';
+        }
+    });
+    
+    // Update group header colspan
+    const groupHeader = document.getElementById(`group-header-${groupName}`);
+    if (groupHeader) {
+        if (groupName === 'student') {
+            groupHeader.colSpan = isExpanded ? 3 : 1;
+        } else if (groupName === 'invoice') {
+            groupHeader.colSpan = isExpanded ? 2 : 1;
+        } else if (groupName === 'payment') {
+            groupHeader.colSpan = isExpanded ? 2 : 1;
+        } else if (groupName === 'additional') {
+            groupHeader.colSpan = isExpanded ? 2 : 1;
+        }
+    }
 }
 
 function applyDataFilters() {
@@ -370,6 +496,161 @@ function closePaymentModal() {
 // Placeholder functions for invoice actions
 function viewInvoiceDetails(invoiceId) {
     window.location.href = `/admin/invoice-details?id=${invoiceId}`;
+}
+
+function viewInvoiceReceipt(invoiceId) {
+    const invoice = invoiceData.find(inv => inv.id === invoiceId);
+    if (!invoice || invoice.status !== 'paid') {
+        showActionStatus('Receipt is only available for paid invoices', 'warning');
+        return;
+    }
+    
+    // Create receipt dialog similar to payment history
+    const dialog = document.createElement('div');
+    dialog.className = 'receipt-dialog-overlay';
+    dialog.style.display = 'flex';
+    
+    const paidAmount = invoice.paidAmount || invoice.amount || 0;
+    const paymentDate = invoice.paymentDate || (invoice.paidTime ? invoice.paidTime.split(' ')[0] : '-');
+    const paymentTime = invoice.paidTime || '-';
+    const paidBy = invoice.paidBy || '-';
+    
+    dialog.innerHTML = `
+        <div class="receipt-dialog-content">
+            <div class="receipt-dialog-header">
+                <h3><i class="fas fa-receipt"></i> Payment Receipt</h3>
+                <button class="receipt-close" onclick="this.closest('.receipt-dialog-overlay').remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="receipt-dialog-body">
+                <div class="receipt-info">
+                    <div class="receipt-row">
+                        <span class="receipt-label">Invoice Number:</span>
+                        <span class="receipt-value">${invoice.id}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Student Name:</span>
+                        <span class="receipt-value">${invoice.name}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Student ID:</span>
+                        <span class="receipt-value">${invoice.studentId}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Grade/Class:</span>
+                        <span class="receipt-value">Grade ${invoice.grade}-${invoice.class}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Amount:</span>
+                        <span class="receipt-value"><strong>$${paidAmount.toFixed(2)}</strong></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Payment Type:</span>
+                        <span class="receipt-value">${invoice.paymentType || '-'}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Payment Date:</span>
+                        <span class="receipt-value">${paymentDate}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Payment Time:</span>
+                        <span class="receipt-value">${paymentTime}</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Processed By:</span>
+                        <span class="receipt-value">${paidBy}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="receipt-dialog-actions">
+                <button class="simple-btn secondary" onclick="this.closest('.receipt-dialog-overlay').remove()">
+                    <i class="fas fa-times"></i> Close
+                </button>
+                <button class="simple-btn primary" onclick="printInvoiceReceipt('${invoiceId}')">
+                    <i class="fas fa-print"></i> Print Receipt
+                </button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(dialog);
+    dialog.addEventListener('click', function(e) {
+        if (e.target === dialog) dialog.remove();
+    });
+}
+
+function printInvoiceReceipt(invoiceId) {
+    const invoice = invoiceData.find(inv => inv.id === invoiceId);
+    if (!invoice) return;
+    
+    const paidAmount = invoice.paidAmount || invoice.amount || 0;
+    const paymentDate = invoice.paymentDate || (invoice.paidTime ? invoice.paidTime.split(' ')[0] : '-');
+    const paymentTime = invoice.paidTime || '-';
+    const paidBy = invoice.paidBy || '-';
+    
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+        <html>
+        <head>
+            <title>Payment Receipt - ${invoice.id}</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                .receipt-header { text-align: center; margin-bottom: 30px; }
+                .receipt-details { margin: 20px 0; }
+                .receipt-row { display: flex; justify-content: space-between; margin: 10px 0; padding: 5px 0; border-bottom: 1px solid #eee; }
+                .receipt-label { font-weight: bold; }
+                .receipt-value { color: #333; }
+            </style>
+        </head>
+        <body>
+            <div class="receipt-header">
+                <h2>Payment Receipt</h2>
+                <p>Smart Campus Nova Hub</p>
+            </div>
+            <div class="receipt-details">
+                <div class="receipt-row">
+                    <span class="receipt-label">Invoice Number:</span>
+                    <span class="receipt-value">${invoice.id}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Student Name:</span>
+                    <span class="receipt-value">${invoice.name}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Student ID:</span>
+                    <span class="receipt-value">${invoice.studentId}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Grade/Class:</span>
+                    <span class="receipt-value">Grade ${invoice.grade}-${invoice.class}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Amount:</span>
+                    <span class="receipt-value"><strong>$${paidAmount.toFixed(2)}</strong></span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Payment Type:</span>
+                    <span class="receipt-value">${invoice.paymentType || '-'}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Payment Date:</span>
+                    <span class="receipt-value">${paymentDate}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Payment Time:</span>
+                    <span class="receipt-value">${paymentTime}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Processed By:</span>
+                    <span class="receipt-value">${paidBy}</span>
+                </div>
+            </div>
+        </body>
+        </html>
+    `);
+    printWindow.document.close();
+    printWindow.print();
 }
 
 // Helper functions
