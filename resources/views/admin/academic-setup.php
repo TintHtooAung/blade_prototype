@@ -32,18 +32,14 @@ ob_start();
             </div>
             <div class="wizard-step-item" data-step="2" onclick="goToSetupStep(2)">
                 <div class="step-indicator">2</div>
-                <span class="step-label">Grades</span>
+                <span class="step-label">Grades & Classes</span>
             </div>
             <div class="wizard-step-item" data-step="3" onclick="goToSetupStep(3)">
                 <div class="step-indicator">3</div>
-                <span class="step-label">Classes</span>
+                <span class="step-label">Rooms</span>
             </div>
             <div class="wizard-step-item" data-step="4" onclick="goToSetupStep(4)">
                 <div class="step-indicator">4</div>
-                <span class="step-label">Rooms</span>
-            </div>
-            <div class="wizard-step-item" data-step="5" onclick="goToSetupStep(5)">
-                <div class="step-indicator">5</div>
                 <span class="step-label">Subjects</span>
             </div>
         </div>
@@ -51,62 +47,38 @@ ob_start();
 
     <div class="wizard-content-wrapper" style="display: flex; min-height: 600px;">
         <div class="wizard-main-content" style="flex: 1; overflow-y: auto; padding: 32px;">
-            <div style="margin-bottom: 24px;">
-                <h2 style="margin: 0; font-size: 28px; font-weight: 700; color: #111827;">Academic Setup Wizard</h2>
-                <p style="margin: 8px 0 0 0; color: #6b7280; font-size: 14px;">Let's set up your academic structure step by step</p>
-            </div>
             <div class="form-section" style="padding:0;">
                 <!-- Step 1: Batch Setup -->
                 <div class="wizard-step" id="setup-step-1" style="display:block;">
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
+                    <div style="display:flex; align-items:center; margin-bottom:20px;">
                         <div style="display:flex; align-items:center;">
                             <i class="fas fa-calendar-alt" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
                             <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Create Academic Batch</h4>
                         </div>
-                        <button type="button" class="add-item-btn" onclick="toggleAddForm('addBatchForm')">
-                            <i class="fas fa-plus"></i> Add Batch
-                        </button>
                     </div>
                     
-                    <!-- Add Batch Form -->
-                    <div id="addBatchForm" class="add-item-form" style="display:none; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
-                        <h5 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600; color: #374151;">Add New Batch</h5>
-                        <div class="form-row">
-                            <div class="form-group" style="flex:1;">
-                                <label for="addBatchName">Batch Name <span style="color:red;">*</span></label>
-                                <input type="text" id="addBatchName" class="form-input" placeholder="e.g., 2025-2026">
-                            </div>
-                            <div class="form-group" style="flex:1;">
-                                <label for="addBatchStart">Start Date <span style="color:red;">*</span></label>
-                                <input type="date" id="addBatchStart" class="form-input">
-                            </div>
-                            <div class="form-group" style="flex:1;">
-                                <label for="addBatchEnd">End Date <span style="color:red;">*</span></label>
-                                <input type="date" id="addBatchEnd" class="form-input">
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 8px; margin-top: 12px;">
-                            <button type="button" class="form-btn-primary" onclick="addBatchItem()">
-                                <i class="fas fa-check"></i> Add Batch
-                            </button>
-                            <button type="button" class="form-btn-secondary" onclick="toggleAddForm('addBatchForm')">
-                                Cancel
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
+                    <div class="form-row" style="align-items: flex-start;">
                         <div class="form-group" style="flex:1;">
                             <label for="setupBatchName">Batch Name <span style="color:red;">*</span></label>
                             <input type="text" id="setupBatchName" class="form-input" placeholder="e.g., 2024-2025" required>
+                            <small style="display: block; margin-top: 6px; color: #6b7280; font-size: 12px; min-height: 20px;">
+                                <i class="fas fa-lightbulb" style="margin-right: 4px; color: #f59e0b;"></i>
+                                Format: <strong>*(2025-2026)</strong> - Use year range format
+                            </small>
                         </div>
                         <div class="form-group" style="flex:1;">
                             <label for="setupBatchStart">Start Date <span style="color:red;">*</span></label>
                             <input type="date" id="setupBatchStart" class="form-input" required>
+                            <small style="display: block; margin-top: 6px; min-height: 20px; visibility: hidden;">
+                                &nbsp;
+                            </small>
                         </div>
                         <div class="form-group" style="flex:1;">
                             <label for="setupBatchEnd">End Date <span style="color:red;">*</span></label>
                             <input type="date" id="setupBatchEnd" class="form-input" required>
+                            <small style="display: block; margin-top: 6px; min-height: 20px; visibility: hidden;">
+                                &nbsp;
+                            </small>
                         </div>
                     </div>
                     <div style="background: #eff6ff; border-left: 4px solid #4A90E2; padding: 16px; border-radius: 6px; margin-top: 16px;">
@@ -117,342 +89,81 @@ ob_start();
                     </div>
                 </div>
 
-                <!-- Step 2: Grades Setup -->
+                <!-- Step 2: Grades & Classes Setup -->
                 <div class="wizard-step" id="setup-step-2" style="display:none;">
                     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
                         <div style="display:flex; align-items:center;">
                             <i class="fas fa-layer-group" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
-                            <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Setup Grades</h4>
+                            <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Setup Grades & Classes</h4>
                         </div>
-                        <button type="button" class="add-item-btn" onclick="toggleAddForm('addGradeForm')">
-                            <i class="fas fa-plus"></i> Add Grade
+                        <button class="simple-btn" onclick="toggleGradeClassForm()" style="display:inline-flex; align-items:center; gap:8px;">
+                            <i class="fas fa-plus"></i> Add Grade & Classes
                         </button>
                     </div>
                     
-                    <!-- Add Grade Form -->
-                    <div id="addGradeForm" class="add-item-form" style="display:none; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
-                        <h5 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600; color: #374151;">Add New Grade</h5>
-                        <div class="form-row">
-                            <div class="form-group" style="flex:1;">
-                                <label for="addGradeLevel">Grade Level <span style="color:red;">*</span></label>
-                                <input type="number" id="addGradeLevel" class="form-input" placeholder="e.g., 13" min="1">
-                            </div>
-                            <div class="form-group" style="flex:1;">
-                                <label for="addGradeName">Grade Name</label>
-                                <input type="text" id="addGradeName" class="form-input" placeholder="e.g., Grade 13">
-                            </div>
-                            <div class="form-group" style="flex:1;">
-                                <label for="addGradeCategory">Category</label>
-                                <select id="addGradeCategory" class="form-select">
-                                    <option value="Primary">Primary</option>
-                                    <option value="Middle">Middle</option>
-                                    <option value="High">High</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 8px; margin-top: 12px;">
-                            <button type="button" class="form-btn-primary" onclick="addGradeItem()">
-                                <i class="fas fa-check"></i> Add Grade
-                            </button>
-                            <button type="button" class="form-btn-secondary" onclick="toggleAddForm('addGradeForm')">
-                                Cancel
-                            </button>
+                    <div id="gradesClassesList" style="margin-bottom: 20px;">
+                        <!-- Grades and classes will be dynamically added here -->
+                        <div style="text-align: center; padding: 40px; color: #6b7280; background: #f9fafb; border-radius: 8px; border: 2px dashed #d1d5db;">
+                            <i class="fas fa-layer-group" style="font-size: 48px; margin-bottom: 16px; color: #9ca3af;"></i>
+                            <p style="margin: 0; font-size: 16px; font-weight: 500;">No grades added yet</p>
+                            <p style="margin: 8px 0 0 0; font-size: 14px;">Click "Add Grade & Classes" to get started</p>
                         </div>
                     </div>
                     
-                    <div style="margin-bottom: 20px;">
-                        <label style="display: block; margin-bottom: 12px; font-weight: 600;">Select Grades to Create</label>
-                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;">
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                <input type="checkbox" class="grade-checkbox" value="1" checked>
-                                <span>Grade 1</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                <input type="checkbox" class="grade-checkbox" value="2" checked>
-                                <span>Grade 2</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                <input type="checkbox" class="grade-checkbox" value="3" checked>
-                                <span>Grade 3</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                <input type="checkbox" class="grade-checkbox" value="4" checked>
-                                <span>Grade 4</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                <input type="checkbox" class="grade-checkbox" value="5" checked>
-                                <span>Grade 5</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                <input type="checkbox" class="grade-checkbox" value="6" checked>
-                                <span>Grade 6</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                <input type="checkbox" class="grade-checkbox" value="7" checked>
-                                <span>Grade 7</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                <input type="checkbox" class="grade-checkbox" value="8" checked>
-                                <span>Grade 8</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                <input type="checkbox" class="grade-checkbox" value="9" checked>
-                                <span>Grade 9</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                <input type="checkbox" class="grade-checkbox" value="10" checked>
-                                <span>Grade 10</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                <input type="checkbox" class="grade-checkbox" value="11" checked>
-                                <span>Grade 11</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                <input type="checkbox" class="grade-checkbox" value="12" checked>
-                                <span>Grade 12</span>
-                            </label>
-                        </div>
-                    </div>
                     <div style="background: #eff6ff; border-left: 4px solid #4A90E2; padding: 16px; border-radius: 6px; margin-top: 16px;">
                         <p style="margin: 0; color: #1e40af; font-size: 14px;">
                             <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
-                            Select all grades that your school offers. You can add or remove grades later.
+                            Add grades and specify the number of classes for each grade. Each grade can have a different number of classes.
                         </p>
                     </div>
                 </div>
 
-                <!-- Step 3: Classes Setup -->
+                <!-- Step 3: Rooms Setup -->
                 <div class="wizard-step" id="setup-step-3" style="display:none;">
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
-                        <div style="display:flex; align-items:center;">
-                            <i class="fas fa-chalkboard" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
-                            <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Setup Classes</h4>
-                        </div>
-                        <button type="button" class="add-item-btn" onclick="toggleAddForm('addClassForm')">
-                            <i class="fas fa-plus"></i> Add Class
-                        </button>
-                    </div>
-                    
-                    <!-- Add Class Form -->
-                    <div id="addClassForm" class="add-item-form" style="display:none; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
-                        <h5 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600; color: #374151;">Add New Class</h5>
-                        <div class="form-row">
-                            <div class="form-group" style="flex:1;">
-                                <label for="addClassName">Class Name <span style="color:red;">*</span></label>
-                                <input type="text" id="addClassName" class="form-input" placeholder="e.g., 10-A">
-                            </div>
-                            <div class="form-group" style="flex:1;">
-                                <label for="addClassGrade">Grade</label>
-                                <input type="text" id="addClassGrade" class="form-input" placeholder="e.g., Grade 10">
-                            </div>
-                            <div class="form-group" style="flex:1;">
-                                <label for="addClassRoom">Room</label>
-                                <input type="text" id="addClassRoom" class="form-input" placeholder="e.g., Room 201">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group" style="flex:1;">
-                                <label for="addClassTeacher">Class Teacher</label>
-                                <input type="text" id="addClassTeacher" class="form-input" placeholder="e.g., Ms. Smith">
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 8px; margin-top: 12px;">
-                            <button type="button" class="form-btn-primary" onclick="addClassItem()">
-                                <i class="fas fa-check"></i> Add Class
-                            </button>
-                            <button type="button" class="form-btn-secondary" onclick="toggleAddForm('addClassForm')">
-                                Cancel
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group" style="flex:1;">
-                            <label for="setupClassesPerGrade">Classes per Grade <span style="color:red;">*</span></label>
-                            <select id="setupClassesPerGrade" class="form-select" required>
-                                <option value="1">1 Class</option>
-                                <option value="2">2 Classes</option>
-                                <option value="3" selected>3 Classes</option>
-                                <option value="4">4 Classes</option>
-                                <option value="5">5 Classes</option>
-                                <option value="6">6 Classes</option>
-                            </select>
-                        </div>
-                        <div class="form-group" style="flex:1;">
-                            <label for="setupClassNaming">Class Naming</label>
-                            <select id="setupClassNaming" class="form-select">
-                                <option value="A,B,C">A, B, C (Alphabetic)</option>
-                                <option value="1,2,3" selected>1, 2, 3 (Numeric)</option>
-                                <option value="Alpha,Beta,Gamma">Alpha, Beta, Gamma</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div style="background: #eff6ff; border-left: 4px solid #4A90E2; padding: 16px; border-radius: 6px; margin-top: 16px;">
-                        <p style="margin: 0; color: #1e40af; font-size: 14px;">
-                            <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
-                            Classes will be automatically created for each selected grade. You can customize class names later.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Step 4: Rooms Setup -->
-                <div class="wizard-step" id="setup-step-4" style="display:none;">
                     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
                         <div style="display:flex; align-items:center;">
                             <i class="fas fa-door-open" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
                             <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Setup Rooms</h4>
                         </div>
-                        <button type="button" class="add-item-btn" onclick="toggleAddForm('addRoomForm')">
+                        <button class="simple-btn" onclick="toggleRoomForm()" style="display:inline-flex; align-items:center; gap:8px;">
                             <i class="fas fa-plus"></i> Add Room
                         </button>
                     </div>
                     
-                    <!-- Add Room Form -->
-                    <div id="addRoomForm" class="add-item-form" style="display:none; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
-                        <h5 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600; color: #374151;">Add New Room</h5>
-                        <div class="form-row">
-                            <div class="form-group" style="flex:1;">
-                                <label for="addRoomNumber">Room Number <span style="color:red;">*</span></label>
-                                <input type="text" id="addRoomNumber" class="form-input" placeholder="e.g., 201">
-                            </div>
-                            <div class="form-group" style="flex:1;">
-                                <label for="addRoomName">Room Name</label>
-                                <input type="text" id="addRoomName" class="form-input" placeholder="e.g., Classroom A">
-                            </div>
-                            <div class="form-group" style="flex:1;">
-                                <label for="addRoomFloor">Floor</label>
-                                <input type="text" id="addRoomFloor" class="form-input" placeholder="e.g., 2nd Floor">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group" style="flex:1;">
-                                <label for="addRoomCapacity">Seating Capacity</label>
-                                <input type="number" id="addRoomCapacity" class="form-input" placeholder="e.g., 35" min="1">
-                            </div>
-                            <div class="form-group" style="flex:1;">
-                                <label for="addRoomStatus">Status</label>
-                                <select id="addRoomStatus" class="form-select">
-                                    <option value="Available">Available</option>
-                                    <option value="Occupied">Occupied</option>
-                                    <option value="Maintenance">Maintenance</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 8px; margin-top: 12px;">
-                            <button type="button" class="form-btn-primary" onclick="addRoomItem()">
-                                <i class="fas fa-check"></i> Add Room
-                            </button>
-                            <button type="button" class="form-btn-secondary" onclick="toggleAddForm('addRoomForm')">
-                                Cancel
-                            </button>
+                    <div id="roomsList" style="margin-bottom: 20px;">
+                        <!-- Rooms will be dynamically added here -->
+                        <div style="text-align: center; padding: 40px; color: #6b7280; background: #f9fafb; border-radius: 8px; border: 2px dashed #d1d5db;">
+                            <i class="fas fa-door-open" style="font-size: 48px; margin-bottom: 16px; color: #9ca3af;"></i>
+                            <p style="margin: 0; font-size: 16px; font-weight: 500;">No rooms added yet</p>
+                            <p style="margin: 8px 0 0 0; font-size: 14px;">Click "Add Room" to get started</p>
                         </div>
                     </div>
                     
-                    <div class="form-row">
-                        <div class="form-group" style="flex:1;">
-                            <label for="setupTotalRooms">Total Rooms <span style="color:red;">*</span></label>
-                            <input type="number" id="setupTotalRooms" class="form-input" placeholder="e.g., 20" value="20" min="1" required>
-                        </div>
-                        <div class="form-group" style="flex:1;">
-                            <label for="setupRoomStart">Starting Room Number</label>
-                            <input type="text" id="setupRoomStart" class="form-input" placeholder="e.g., 101" value="101">
-                        </div>
-                        <div class="form-group" style="flex:1;">
-                            <label for="setupRoomCapacity">Default Capacity</label>
-                            <input type="number" id="setupRoomCapacity" class="form-input" placeholder="e.g., 30" value="30" min="1">
-                        </div>
-                    </div>
                     <div style="background: #eff6ff; border-left: 4px solid #4A90E2; padding: 16px; border-radius: 6px; margin-top: 16px;">
                         <p style="margin: 0; color: #1e40af; font-size: 14px;">
                             <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
-                            Rooms will be numbered sequentially starting from the starting room number.
+                            Add rooms with custom names. You can use any naming convention you prefer (e.g., "Room 101", "Lab A", "Library", etc.).
                         </p>
                     </div>
                 </div>
 
-                <!-- Step 5: Subjects Setup -->
-                <div class="wizard-step" id="setup-step-5" style="display:none;">
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
+                <!-- Step 4: Subjects Setup -->
+                <div class="wizard-step" id="setup-step-4" style="display:none;">
+                    <div style="display:flex; align-items:center; margin-bottom:20px;">
                         <div style="display:flex; align-items:center;">
                             <i class="fas fa-book" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
-                            <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Setup Core Subjects</h4>
-                        </div>
-                        <button type="button" class="add-item-btn" onclick="toggleAddForm('addSubjectForm')">
-                            <i class="fas fa-plus"></i> Add Subject
-                        </button>
-                    </div>
-                    
-                    <!-- Add Subject Form -->
-                    <div id="addSubjectForm" class="add-item-form" style="display:none; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
-                        <h5 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600; color: #374151;">Add New Subject</h5>
-                        <div class="form-row">
-                            <div class="form-group" style="flex:1;">
-                                <label for="addSubjectCode">Subject Code <span style="color:red;">*</span></label>
-                                <input type="text" id="addSubjectCode" class="form-input" placeholder="e.g., CHEM">
-                            </div>
-                            <div class="form-group" style="flex:1;">
-                                <label for="addSubjectName">Subject Name <span style="color:red;">*</span></label>
-                                <input type="text" id="addSubjectName" class="form-input" placeholder="e.g., Chemistry">
-                            </div>
-                            <div class="form-group" style="flex:1;">
-                                <label for="addSubjectCategory">Category</label>
-                                <select id="addSubjectCategory" class="form-select">
-                                    <option value="Core">Core</option>
-                                    <option value="Elective">Elective</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 8px; margin-top: 12px;">
-                            <button type="button" class="form-btn-primary" onclick="addSubjectItem()">
-                                <i class="fas fa-check"></i> Add Subject
-                            </button>
-                            <button type="button" class="form-btn-secondary" onclick="toggleAddForm('addSubjectForm')">
-                                Cancel
-                            </button>
+                            <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Setup Subjects</h4>
                         </div>
                     </div>
                     
-                    <div style="margin-bottom: 20px;">
-                        <label style="display: block; margin-bottom: 12px; font-weight: 600;">Select Core Subjects</label>
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                <input type="checkbox" class="subject-checkbox" value="Mathematics" data-code="MATH" checked>
-                                <span>Mathematics</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                <input type="checkbox" class="subject-checkbox" value="English" data-code="ENG" checked>
-                                <span>English</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                <input type="checkbox" class="subject-checkbox" value="Science" data-code="SCI" checked>
-                                <span>Science</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                <input type="checkbox" class="subject-checkbox" value="History" data-code="HIS" checked>
-                                <span>History</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                <input type="checkbox" class="subject-checkbox" value="Geography" data-code="GEO" checked>
-                                <span>Geography</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                <input type="checkbox" class="subject-checkbox" value="Art" data-code="ART" checked>
-                                <span>Art</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                <input type="checkbox" class="subject-checkbox" value="Physical Education" data-code="PE" checked>
-                                <span>Physical Education</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                <input type="checkbox" class="subject-checkbox" value="Music" data-code="MUS" checked>
-                                <span>Music</span>
-                            </label>
-                        </div>
+                    <div id="subjectsList" style="margin-bottom: 20px;">
+                        <!-- Grade cards with subjects will be dynamically added here -->
                     </div>
+                    
                     <div style="background: #eff6ff; border-left: 4px solid #4A90E2; padding: 16px; border-radius: 6px; margin-top: 16px;">
                         <p style="margin: 0; color: #1e40af; font-size: 14px;">
                             <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
-                            These subjects will be created for all grades. You can add more subjects later.
+                            Add subjects for each grade using the plus button in each grade card. You can create core subjects and elective subjects.
                         </p>
                     </div>
                 </div>
@@ -477,11 +188,8 @@ ob_start();
         </div>
     </div>
     
-    <div class="wizard-footer" style="border-top: 1px solid #e5e7eb; padding: 20px 32px; background: #f9fafb; display: flex; justify-content: space-between; align-items: center; border-radius: 0 0 12px 12px;">
-        <a href="/admin/dashboard" class="wizard-btn-secondary" style="text-decoration: none;">
-            <i class="fas fa-home"></i> Skip for Now
-        </a>
-        <div style="display: flex; gap: 12px; margin-left: auto;">
+    <div class="wizard-footer" style="border-top: 1px solid #e5e7eb; padding: 20px 32px; background: #f9fafb; display: flex; justify-content: flex-end; align-items: center; border-radius: 0 0 12px 12px;">
+        <div style="display: flex; gap: 12px;">
             <button id="setupBackBtn" class="wizard-btn-secondary" onclick="goToPreviousSetupStep()" style="display:none;">
                 <i class="fas fa-arrow-left"></i> Previous
             </button>
@@ -495,9 +203,20 @@ ob_start();
     </div>
 </div>
 
+
+<!-- Room Creation Modal -->
+
 <script>
 let currentSetupStep = 1;
-const totalSetupSteps = 5;
+const totalSetupSteps = 4;
+let gradesClassesData = [];
+let editingGradeIndex = null;
+let classCounter = 0;
+let roomsData = [];
+let editingRoomIndex = null;
+let subjectsData = [];
+let editingSubjectIndex = null;
+let editingGradeId = null;
 
 // Storage for added items
 let addedBatches = [];
@@ -592,7 +311,330 @@ function addBatchItem() {
     toggleAddForm('addBatchForm');
 }
 
-// Add Grade Item
+// Grade & Class Card Functions
+function toggleGradeClassForm(gradeIndex = null) {
+    const container = document.getElementById('gradesClassesList');
+    if (!container) return;
+    
+    editingGradeIndex = gradeIndex;
+    
+    if (gradeIndex !== null) {
+        // Editing existing grade - create editable card
+        const gradeData = gradesClassesData[gradeIndex];
+        createEditableGradeCard(gradeIndex, gradeData);
+    } else {
+        // Adding new grade - create new editable card
+        createEditableGradeCard(null, null);
+    }
+}
+
+function createEditableGradeCard(gradeIndex, gradeData) {
+    const container = document.getElementById('gradesClassesList');
+    if (!container) return;
+    
+    // Remove empty state if exists
+    const emptyState = container.querySelector('div[style*="text-align: center"]');
+    if (emptyState) emptyState.remove();
+    
+    // Create new editable card
+    const cardId = gradeIndex !== null ? `edit-grade-${gradeIndex}` : `new-grade-${Date.now()}`;
+    const card = document.createElement('div');
+    card.id = cardId;
+    card.className = 'grade-class-card editable-grade-card';
+    card.style.cssText = 'background: #fff; border: 1px solid #4A90E2; border-radius: 8px; padding: 16px; margin-bottom: 12px;';
+    
+    const gradeName = gradeData ? gradeData.gradeName : '';
+    const gradeLevel = gradeData ? gradeData.gradeLevel : '';
+    const category = gradeData ? gradeData.category : 'Primary';
+    const classes = gradeData ? [...gradeData.classes] : [];
+    
+    card.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap;">
+                    <input type="text" class="grade-name-input" placeholder="Grade Name" value="${gradeName}" style="padding: 6px 10px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 16px; font-weight: 600; width: 150px; background: #fff;">
+                    <input type="number" class="grade-level-input" placeholder="Level" value="${gradeLevel}" min="1" max="12" style="padding: 6px 10px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 16px; font-weight: 600; width: 150px; background: #f3f4f6; color: #6b7280;">
+                    <select class="grade-category-input" style="padding: 6px 10px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 16px; font-weight: 600; width: 150px; background: #eff6ff; color: #1e40af;">
+                        <option value="Primary" ${category === 'Primary' ? 'selected' : ''}>Primary</option>
+                        <option value="Secondary" ${category === 'Secondary' ? 'selected' : ''}>Secondary</option>
+                        <option value="High School" ${category === 'High School' ? 'selected' : ''}>High School</option>
+                    </select>
+                </div>
+                <div>
+                    <div style="font-size: 13px; color: #6b7280; margin-bottom: 8px; font-weight: 500;">Classes:</div>
+                    <div class="classes-container" style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+                        ${classes.map(cls => `
+                            <span class="class-badge" style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background: #e3f2fd; color: #1976d2; border-radius: 4px; font-size: 13px;">
+                                ${cls}
+                                <button type="button" onclick="removeClassFromCard(this)" style="background: none; border: none; color: #1976d2; cursor: pointer; padding: 0; font-size: 10px; line-height: 1; display: flex; align-items: center;">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </span>
+                        `).join('')}
+                        <button type="button" class="add-class-btn" onclick="showClassLetterInput(this)" style="display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; padding: 0; background: #e3f2fd; color: #1976d2; border: 1px dashed #1976d2; border-radius: 4px; cursor: pointer; font-size: 13px; transition: all 0.2s;">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <button class="simple-btn-icon" onclick="saveGradeFromCard('${cardId}', ${gradeIndex !== null ? gradeIndex : 'null'})" title="Save" style="color: #10b981;">
+                    <i class="fas fa-check"></i>
+                </button>
+                <button class="simple-btn-icon" onclick="cancelGradeCard('${cardId}', ${gradeIndex !== null ? gradeIndex : 'null'})" title="Cancel" style="color: #ef4444;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    `;
+    
+    // Insert at the beginning if new, or replace existing if editing
+    if (gradeIndex !== null) {
+        const existingCard = container.querySelector(`.grade-class-card[data-grade-index="${gradeIndex}"]`);
+        if (existingCard) {
+            existingCard.replaceWith(card);
+        } else {
+            container.insertBefore(card, container.firstChild);
+        }
+    } else {
+        container.insertBefore(card, container.firstChild);
+    }
+    
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function showClassLetterInput(btn) {
+    const container = btn.closest('.classes-container');
+    if (!container) return;
+    
+    // Get existing letters to show available options
+    const existingClasses = Array.from(container.querySelectorAll('.class-badge')).map(badge => {
+        const text = badge.textContent.trim();
+        return text.replace(/[^A-Z]/gi, '').toUpperCase();
+    }).filter(c => c.length === 1 && /^[A-Z]$/i.test(c));
+    
+    // Create a select dropdown with available letters
+    const select = document.createElement('select');
+    select.className = 'class-letter-select';
+    select.style.cssText = 'width: 50px; height: 28px; padding: 4px; border: 1px solid #1976d2; border-radius: 4px; font-size: 13px; background: #fff; color: #1976d2; font-weight: 600; text-align: center; cursor: pointer;';
+    
+    // Add all letters A-Z, marking used ones
+    for (let i = 65; i <= 90; i++) {
+        const letter = String.fromCharCode(i);
+        const option = document.createElement('option');
+        option.value = letter;
+        option.textContent = letter;
+        if (existingClasses.includes(letter)) {
+            option.disabled = true;
+            option.textContent = letter + ' (used)';
+        }
+        select.appendChild(option);
+    }
+    
+    // Replace the button with the select
+    btn.style.display = 'none';
+    container.insertBefore(select, btn);
+    select.focus();
+    
+    // Handle selection
+    select.addEventListener('change', function() {
+        const selectedLetter = this.value.toUpperCase();
+        if (selectedLetter && !existingClasses.includes(selectedLetter)) {
+            addClassLetterToCard(container, selectedLetter, btn);
+            this.remove();
+            btn.style.display = 'inline-flex';
+        }
+    });
+    
+    // Handle blur (clicking outside) - cancel
+    select.addEventListener('blur', function() {
+        setTimeout(() => {
+            if (this.parentNode) {
+                this.remove();
+                btn.style.display = 'inline-flex';
+            }
+        }, 200);
+    });
+    
+    // Handle Escape key
+    select.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            this.remove();
+            btn.style.display = 'inline-flex';
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            const selectedLetter = this.value.toUpperCase();
+            if (selectedLetter && !existingClasses.includes(selectedLetter)) {
+                addClassLetterToCard(container, selectedLetter, btn);
+                this.remove();
+                btn.style.display = 'inline-flex';
+            }
+        }
+    });
+}
+
+function addClassLetterToCard(container, letter, plusBtn) {
+    // Check if letter already exists
+    const existingClasses = Array.from(container.querySelectorAll('.class-badge')).map(badge => {
+        const text = badge.textContent.trim();
+        return text.replace(/[^A-Z]/gi, '').toUpperCase();
+    });
+    
+    if (existingClasses.includes(letter)) {
+        alert(`Class ${letter} already exists`);
+        return;
+    }
+    
+    const classBadge = document.createElement('span');
+    classBadge.className = 'class-badge';
+    classBadge.style.cssText = 'display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background: #e3f2fd; color: #1976d2; border-radius: 4px; font-size: 13px;';
+    classBadge.innerHTML = `
+        ${letter}
+        <button type="button" onclick="removeClassFromCard(this)" style="background: none; border: none; color: #1976d2; cursor: pointer; padding: 0; font-size: 10px; line-height: 1; display: flex; align-items: center;">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    container.insertBefore(classBadge, plusBtn);
+}
+
+function removeClassFromCard(btn) {
+    const badge = btn.closest('.class-badge');
+    if (badge) {
+        badge.remove();
+    }
+}
+
+function saveGradeFromCard(cardId, gradeIndex) {
+    const card = document.getElementById(cardId);
+    if (!card) return;
+    
+    const gradeNameInput = card.querySelector('.grade-name-input');
+    const gradeLevelInput = card.querySelector('.grade-level-input');
+    const categoryInput = card.querySelector('.grade-category-input');
+    const classBadges = card.querySelectorAll('.class-badge');
+    
+    const gradeName = gradeNameInput.value.trim();
+    const gradeLevel = gradeLevelInput.value.trim();
+    const category = categoryInput.value;
+    const classes = Array.from(classBadges).map(badge => {
+        const text = badge.textContent.trim();
+        return text.replace(/[^A-Z]/gi, '').toUpperCase();
+    }).filter(c => c.length > 0);
+    
+    if (!gradeName || !gradeLevel) {
+        alert('Please enter grade name and level');
+        return;
+    }
+    
+    if (classes.length === 0) {
+        alert('Please add at least one class');
+        return;
+    }
+    
+    const gradeData = {
+        id: gradeIndex !== null ? gradesClassesData[gradeIndex].id : 'GRADE-' + Date.now(),
+        gradeName: gradeName,
+        gradeLevel: parseInt(gradeLevel),
+        category: category,
+        classes: classes
+    };
+    
+    if (gradeIndex !== null) {
+        // Update existing
+        gradesClassesData[gradeIndex] = gradeData;
+    } else {
+        // Add new
+        gradesClassesData.push(gradeData);
+    }
+    
+    renderGradesClassesList();
+    saveCurrentStepData();
+}
+
+function cancelGradeCard(cardId, gradeIndex) {
+    const card = document.getElementById(cardId);
+    if (card) {
+        card.remove();
+    }
+    
+    if (gradeIndex === null) {
+        // If it was a new card, check if we need to show empty state
+        const container = document.getElementById('gradesClassesList');
+        if (container && container.children.length === 0) {
+            renderGradesClassesList();
+        }
+    } else {
+        // If editing, re-render the list to show the original card
+        renderGradesClassesList();
+    }
+    
+    editingGradeIndex = null;
+}
+
+function renderGradesClassesList() {
+    const container = document.getElementById('gradesClassesList');
+    if (!container) return;
+    
+    if (gradesClassesData.length === 0) {
+        container.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: #6b7280; background: #f9fafb; border-radius: 8px; border: 2px dashed #d1d5db;">
+                <i class="fas fa-layer-group" style="font-size: 48px; margin-bottom: 16px; color: #9ca3af;"></i>
+                <p style="margin: 0; font-size: 16px; font-weight: 500;">No grades added yet</p>
+                <p style="margin: 8px 0 0 0; font-size: 14px;">Click "Add Grade & Classes" to get started</p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Sort by grade level
+    const sorted = [...gradesClassesData].sort((a, b) => a.gradeLevel - b.gradeLevel);
+    
+    container.innerHTML = sorted.map((gradeData, index) => {
+        const actualIndex = gradesClassesData.findIndex(g => g.id === gradeData.id);
+        const classesList = gradeData.classes.map((cls, idx) => 
+            `<span style="display: inline-block; padding: 4px 10px; background: #e3f2fd; color: #1976d2; border-radius: 4px; font-size: 13px;">${cls}</span>`
+        ).join('');
+        
+        return `
+            <div class="grade-class-card" data-grade-index="${actualIndex}" style="background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div style="flex: 1;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <h5 style="margin: 0; font-size: 16px; font-weight: 600; color: #111827;">${gradeData.gradeName}</h5>
+                            <span style="padding: 4px 10px; background: #f3f4f6; color: #6b7280; border-radius: 4px; font-size: 12px; font-weight: 500;">Level ${gradeData.gradeLevel}</span>
+                            <span style="padding: 4px 10px; background: #eff6ff; color: #1e40af; border-radius: 4px; font-size: 12px; font-weight: 500;">${gradeData.category}</span>
+                        </div>
+                        <div>
+                            <div style="font-size: 13px; color: #6b7280; margin-bottom: 8px; font-weight: 500;">Classes (${gradeData.classes.length}):</div>
+                            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                                ${classesList}
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="simple-btn-icon" onclick="toggleGradeClassForm(${actualIndex})" title="Edit" style="color: #4A90E2;">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="simple-btn-icon" onclick="deleteGradeClass(${actualIndex})" title="Delete" style="color: #ef4444;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function deleteGradeClass(index) {
+    if (confirm('Are you sure you want to delete this grade and all its classes?')) {
+        gradesClassesData.splice(index, 1);
+        renderGradesClassesList();
+        saveCurrentStepData();
+    }
+}
+
+// Add Grade Item (legacy function - kept for compatibility)
 function addGradeItem() {
     const level = document.getElementById('addGradeLevel').value.trim();
     const name = document.getElementById('addGradeName').value.trim();
@@ -741,64 +783,575 @@ function addRoomItem() {
     toggleAddForm('addRoomForm');
 }
 
-// Add Subject Item
-function addSubjectItem() {
-    const code = document.getElementById('addSubjectCode').value.trim();
-    const name = document.getElementById('addSubjectName').value.trim();
-    const category = document.getElementById('addSubjectCategory').value;
+// Room Modal Functions
+// Room Card Functions
+function toggleRoomForm(roomIndex = null) {
+    const container = document.getElementById('roomsList');
+    if (!container) return;
     
-    if (!code || !name) {
-        alert('Please fill in all required fields');
+    editingRoomIndex = roomIndex;
+    
+    if (roomIndex !== null) {
+        // Editing existing room - create editable card
+        const roomData = roomsData[roomIndex];
+        createEditableRoomCard(roomIndex, roomData);
+    } else {
+        // Adding new room - create new editable card
+        createEditableRoomCard(null, null);
+    }
+}
+
+function createEditableRoomCard(roomIndex, roomData) {
+    const container = document.getElementById('roomsList');
+    if (!container) return;
+    
+    // Remove empty state if exists
+    const emptyState = container.querySelector('div[style*="text-align: center"]');
+    if (emptyState) emptyState.remove();
+    
+    // Create new editable card
+    const cardId = roomIndex !== null ? `edit-room-${roomIndex}` : `new-room-${Date.now()}`;
+    const card = document.createElement('div');
+    card.id = cardId;
+    card.className = 'grade-class-card editable-room-card';
+    card.style.cssText = 'background: #fff; border: 1px solid #4A90E2; border-radius: 8px; padding: 16px; margin-bottom: 12px;';
+    
+    const roomName = roomData ? roomData.name : '';
+    const building = roomData ? roomData.building : '';
+    const floor = roomData ? roomData.floor : '';
+    const capacity = roomData ? roomData.capacity : '';
+    const facilities = roomData ? (roomData.facilities || []) : [];
+    
+    card.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap;">
+                    <input type="text" class="room-name-input" placeholder="Room Name" value="${roomName}" style="padding: 6px 10px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 16px; font-weight: 600; width: 150px; background: #fff;">
+                    <input type="text" class="room-building-input" placeholder="Building" value="${building}" style="padding: 6px 10px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 16px; font-weight: 600; width: 150px; background: #fff;">
+                    <input type="text" class="room-floor-input" placeholder="Floor" value="${floor}" style="padding: 6px 10px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 16px; font-weight: 600; width: 150px; background: #fff;">
+                    <input type="number" class="room-capacity-input" placeholder="Capacity" value="${capacity}" min="1" style="padding: 6px 10px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 16px; font-weight: 600; width: 150px; background: #f3f4f6; color: #6b7280;">
+                </div>
+                <div>
+                    <div style="font-size: 13px; color: #6b7280; margin-bottom: 8px; font-weight: 500;">Facilities:</div>
+                    <div class="facilities-container" style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+                        ${facilities.map(facility => `
+                            <span class="facility-badge" style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background: #e3f2fd; color: #1976d2; border-radius: 4px; font-size: 13px;">
+                                ${facility}
+                                <button type="button" onclick="removeFacilityFromCard(this)" style="background: none; border: none; color: #1976d2; cursor: pointer; padding: 0; font-size: 10px; line-height: 1; display: flex; align-items: center;">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </span>
+                        `).join('')}
+                        <button type="button" class="add-facility-btn" onclick="showFacilityInput(this)" style="display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; padding: 0; background: #e3f2fd; color: #1976d2; border: 1px dashed #1976d2; border-radius: 4px; cursor: pointer; font-size: 13px; transition: all 0.2s;">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <button class="simple-btn-icon" onclick="saveRoomFromCard('${cardId}', ${roomIndex !== null ? roomIndex : 'null'})" title="Save" style="color: #10b981;">
+                    <i class="fas fa-check"></i>
+                </button>
+                <button class="simple-btn-icon" onclick="cancelRoomCard('${cardId}', ${roomIndex !== null ? roomIndex : 'null'})" title="Cancel" style="color: #ef4444;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    `;
+    
+    // Insert at the beginning if new, or replace existing if editing
+    if (roomIndex !== null) {
+        const existingCard = container.querySelector(`.grade-class-card[data-room-index="${roomIndex}"]`);
+        if (existingCard) {
+            existingCard.replaceWith(card);
+        } else {
+            container.insertBefore(card, container.firstChild);
+        }
+    } else {
+        container.insertBefore(card, container.firstChild);
+    }
+    
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function showFacilityInput(btn) {
+    const container = btn.closest('.facilities-container');
+    if (!container) return;
+    
+    // Common facilities list
+    const commonFacilities = ['Projector', 'Whiteboard', 'Computer Lab', 'Air Conditioning', 'WiFi', 'Sound System', 'Smart Board', 'Printer', 'Scanner', 'Microphone', 'Camera', 'Lab Equipment'];
+    
+    // Get existing facilities
+    const existingFacilities = Array.from(container.querySelectorAll('.facility-badge')).map(badge => {
+        return badge.textContent.trim().replace(/[×✕]/g, '').trim();
+    });
+    
+    // Create a select dropdown with available facilities
+    const select = document.createElement('select');
+    select.className = 'facility-select';
+    select.style.cssText = 'width: 150px; height: 28px; padding: 4px; border: 1px solid #1976d2; border-radius: 4px; font-size: 13px; background: #fff; color: #1976d2; font-weight: 500; cursor: pointer;';
+    
+    // Add option for custom input
+    const customOption = document.createElement('option');
+    customOption.value = '';
+    customOption.textContent = 'Custom...';
+    select.appendChild(customOption);
+    
+    // Add common facilities
+    commonFacilities.forEach(facility => {
+        const option = document.createElement('option');
+        option.value = facility;
+        option.textContent = facility;
+        if (existingFacilities.includes(facility)) {
+            option.disabled = true;
+            option.textContent = facility + ' (added)';
+        }
+        select.appendChild(option);
+    });
+    
+    // Replace the button with the select
+    btn.style.display = 'none';
+    container.insertBefore(select, btn);
+    select.focus();
+    
+    // Handle selection
+    select.addEventListener('change', function() {
+        if (this.value === '') {
+            // Show input for custom facility
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'facility-custom-input';
+            input.placeholder = 'Enter facility name';
+            input.style.cssText = 'width: 150px; height: 28px; padding: 4px 8px; border: 1px solid #1976d2; border-radius: 4px; font-size: 13px;';
+            this.replaceWith(input);
+            input.focus();
+            
+            input.addEventListener('blur', function() {
+                const facilityName = this.value.trim();
+                if (facilityName && !existingFacilities.includes(facilityName)) {
+                    addFacilityToCard(container, facilityName, btn);
+                } else {
+                    btn.style.display = 'inline-flex';
+                }
+            });
+            
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const facilityName = this.value.trim();
+                    if (facilityName && !existingFacilities.includes(facilityName)) {
+                        addFacilityToCard(container, facilityName, btn);
+                    } else {
+                        this.remove();
+                        btn.style.display = 'inline-flex';
+                    }
+                } else if (e.key === 'Escape') {
+                    this.remove();
+                    btn.style.display = 'inline-flex';
+                }
+            });
+        } else {
+            const selectedFacility = this.value;
+            if (selectedFacility && !existingFacilities.includes(selectedFacility)) {
+                addFacilityToCard(container, selectedFacility, btn);
+                this.remove();
+                btn.style.display = 'inline-flex';
+            }
+        }
+    });
+    
+    // Handle blur (clicking outside) - cancel
+    select.addEventListener('blur', function() {
+        setTimeout(() => {
+            if (this.parentNode && this.tagName === 'SELECT') {
+                this.remove();
+                btn.style.display = 'inline-flex';
+            }
+        }, 200);
+    });
+    
+    // Handle Escape key
+    select.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            this.remove();
+            btn.style.display = 'inline-flex';
+        }
+    });
+}
+
+function addFacilityToCard(container, facilityName, plusBtn) {
+    // Check if facility already exists
+    const existingFacilities = Array.from(container.querySelectorAll('.facility-badge')).map(badge => {
+        return badge.textContent.trim().replace(/[×✕]/g, '').trim();
+    });
+    
+    if (existingFacilities.includes(facilityName)) {
+        alert(`Facility "${facilityName}" already exists`);
+        return;
+    }
+    
+    const facilityBadge = document.createElement('span');
+    facilityBadge.className = 'facility-badge';
+    facilityBadge.style.cssText = 'display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background: #e3f2fd; color: #1976d2; border-radius: 4px; font-size: 13px;';
+    facilityBadge.innerHTML = `
+        ${facilityName}
+        <button type="button" onclick="removeFacilityFromCard(this)" style="background: none; border: none; color: #1976d2; cursor: pointer; padding: 0; font-size: 10px; line-height: 1; display: flex; align-items: center;">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    container.insertBefore(facilityBadge, plusBtn);
+}
+
+function removeFacilityFromCard(btn) {
+    const badge = btn.closest('.facility-badge');
+    if (badge) {
+        badge.remove();
+    }
+}
+
+function saveRoomFromCard(cardId, roomIndex) {
+    const card = document.getElementById(cardId);
+    if (!card) return;
+    
+    const roomNameInput = card.querySelector('.room-name-input');
+    const buildingInput = card.querySelector('.room-building-input');
+    const floorInput = card.querySelector('.room-floor-input');
+    const capacityInput = card.querySelector('.room-capacity-input');
+    const facilityBadges = card.querySelectorAll('.facility-badge');
+    
+    const roomName = roomNameInput.value.trim();
+    const building = buildingInput.value.trim();
+    const floor = floorInput.value.trim();
+    const capacity = capacityInput.value.trim();
+    const facilities = Array.from(facilityBadges).map(badge => {
+        const text = badge.textContent.trim();
+        return text.replace(/[×✕]/g, '').trim();
+    }).filter(f => f.length > 0);
+    
+    if (!roomName) {
+        alert('Please enter room name');
+        return;
+    }
+    
+    const room = {
+        id: roomIndex !== null ? roomsData[roomIndex].id : 'ROOM-' + Date.now(),
+        name: roomName,
+        building: building || '',
+        floor: floor || '',
+        capacity: capacity ? parseInt(capacity) : null,
+        facilities: facilities
+    };
+    
+    if (roomIndex !== null) {
+        // Update existing
+        roomsData[roomIndex] = room;
+    } else {
+        // Add new
+        roomsData.push(room);
+    }
+    
+    renderRoomsList();
+    saveCurrentStepData();
+}
+
+function cancelRoomCard(cardId, roomIndex) {
+    const card = document.getElementById(cardId);
+    if (card) {
+        card.remove();
+    }
+    
+    if (roomIndex === null) {
+        // If it was a new card, check if we need to show empty state
+        const container = document.getElementById('roomsList');
+        if (container && container.children.length === 0) {
+            renderRoomsList();
+        }
+    } else {
+        // If editing, re-render the list to show the original card
+        renderRoomsList();
+    }
+    
+    editingRoomIndex = null;
+}
+
+function renderRoomsList() {
+    const roomsListContainer = document.getElementById('roomsList');
+    if (!roomsListContainer) return;
+    
+    if (roomsData.length === 0) {
+        roomsListContainer.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: #6b7280; background: #f9fafb; border-radius: 8px; border: 2px dashed #d1d5db;">
+                <i class="fas fa-door-open" style="font-size: 48px; margin-bottom: 16px; color: #9ca3af;"></i>
+                <p style="margin: 0; font-size: 16px; font-weight: 500;">No rooms added yet</p>
+                <p style="margin: 8px 0 0 0; font-size: 14px;">Click "Add Room" to get started</p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Sort rooms by name
+    const sorted = [...roomsData].sort((a, b) => a.name.localeCompare(b.name));
+    
+    roomsListContainer.innerHTML = sorted.map((room, index) => {
+        const actualIndex = roomsData.findIndex(r => r.id === room.id);
+        const locationInfo = [room.building, room.floor].filter(Boolean).join(' · ') || '—';
+        const capacityInfo = room.capacity ? `${room.capacity} seats` : '—';
+        const facilitiesList = (room.facilities || []).map(facility => 
+            `<span style="display: inline-block; padding: 4px 10px; background: #e3f2fd; color: #1976d2; border-radius: 4px; font-size: 13px;">${facility}</span>`
+        ).join('');
+        
+        return `
+            <div class="grade-class-card" data-room-index="${actualIndex}" style="background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div style="flex: 1;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <h5 style="margin: 0; font-size: 16px; font-weight: 600; color: #111827;">${room.name}</h5>
+                            ${locationInfo !== '—' ? `<span style="padding: 4px 10px; background: #f3f4f6; color: #6b7280; border-radius: 4px; font-size: 12px; font-weight: 500;">${locationInfo}</span>` : ''}
+                        </div>
+                        ${capacityInfo !== '—' ? `
+                        <div style="margin-bottom: 12px;">
+                            <span style="font-size: 13px; color: #6b7280; font-weight: 500;">Capacity: </span>
+                            <span style="font-size: 13px; color: #111827; font-weight: 500;">${capacityInfo}</span>
+                        </div>
+                        ` : ''}
+                        ${facilitiesList ? `
+                        <div>
+                            <div style="font-size: 13px; color: #6b7280; margin-bottom: 8px; font-weight: 500;">Facilities (${(room.facilities || []).length}):</div>
+                            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                                ${facilitiesList}
+                            </div>
+                        </div>
+                        ` : ''}
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="simple-btn-icon" onclick="toggleRoomForm(${actualIndex})" title="Edit" style="color: #4A90E2;">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="simple-btn-icon" onclick="deleteRoom(${actualIndex})" title="Delete" style="color: #ef4444;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function deleteRoom(index) {
+    if (confirm('Are you sure you want to delete this room?')) {
+        roomsData.splice(index, 1);
+        renderRoomsList();
+        saveCurrentStepData();
+        showItemAddedNotification('Room deleted successfully!');
+    }
+}
+
+// Subject Card Functions
+function editSubject(gradeId, subjectIndex) {
+    const subjectData = subjectsData[subjectIndex];
+    if (!subjectData) return;
+    
+    // Find the subject badge
+    const subjectBadge = document.querySelector(`.subject-badge[data-subject-index="${subjectIndex}"]`);
+    if (!subjectBadge) return;
+    
+    // Replace badge with edit form
+    createEditableSubjectCard(gradeId, subjectIndex, subjectData, subjectBadge);
+}
+
+function showSubjectInput(gradeId) {
+    // Use the same function as edit, but with null subject data
+    createEditableSubjectCard(gradeId, null, null);
+}
+
+function createEditableSubjectCard(gradeId, subjectIndex, subjectData, replaceElement = null) {
+    const subjectCode = subjectData ? subjectData.code : '';
+    const subjectName = subjectData ? subjectData.name : '';
+    const category = subjectData ? subjectData.category : 'Core';
+    
+    const formId = subjectIndex !== null ? `edit-subject-${subjectIndex}` : `new-subject-${gradeId}-${Date.now()}`;
+    const formCard = document.createElement('div');
+    formCard.id = formId;
+    formCard.className = 'subject-input-form';
+    formCard.style.cssText = 'display: inline-flex; align-items: center; gap: 8px; background: #f9fafb; border: 1px solid #4A90E2; border-radius: 6px; padding: 8px; margin-bottom: 6px; margin-right: 6px;';
+    
+    formCard.innerHTML = `
+        <input type="text" class="subject-code-input" placeholder="Code" value="${subjectCode}" style="padding: 4px 8px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 13px; font-weight: 600; width: 80px; background: #fff;">
+        <input type="text" class="subject-name-input" placeholder="Subject Name" value="${subjectName}" style="padding: 4px 8px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 13px; font-weight: 600; width: 140px; background: #fff;">
+        <select class="subject-category-input" style="padding: 4px 8px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 13px; font-weight: 600; width: 90px; background: #eff6ff; color: #1e40af;">
+            <option value="Core" ${category === 'Core' ? 'selected' : ''}>Core</option>
+            <option value="Elective" ${category === 'Elective' ? 'selected' : ''}>Elective</option>
+        </select>
+        <button type="button" onclick="saveSubjectFromCard('${formId}', '${gradeId}', ${subjectIndex !== null ? subjectIndex : 'null'})" style="background: #10b981; color: #fff; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 12px;">
+            <i class="fas fa-check"></i>
+        </button>
+        <button type="button" onclick="cancelSubjectCard('${formId}', ${subjectIndex !== null ? subjectIndex : 'null'})" style="background: #ef4444; color: #fff; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 12px;">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    if (replaceElement) {
+        // Replace existing badge with form
+        replaceElement.replaceWith(formCard);
+    } else {
+        // New subject - add before plus button
+        const gradeCard = document.querySelector(`.grade-subject-card[data-grade-id="${gradeId}"]`);
+        if (!gradeCard) return;
+        
+        const subjectsContainer = gradeCard.querySelector('.grade-subjects-list');
+        if (!subjectsContainer) return;
+        
+        const plusBtn = subjectsContainer.querySelector('.add-subject-btn');
+        if (plusBtn) {
+            plusBtn.style.display = 'none';
+            subjectsContainer.insertBefore(formCard, plusBtn);
+        } else {
+            subjectsContainer.appendChild(formCard);
+        }
+    }
+    
+    formCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function saveSubjectFromCard(formId, gradeId, subjectIndex) {
+    const formCard = document.getElementById(formId);
+    if (!formCard) return;
+    
+    const subjectCodeInput = formCard.querySelector('.subject-code-input');
+    const subjectNameInput = formCard.querySelector('.subject-name-input');
+    const categoryInput = formCard.querySelector('.subject-category-input');
+    
+    const subjectCode = subjectCodeInput.value.trim().toUpperCase();
+    const subjectName = subjectNameInput.value.trim();
+    const category = categoryInput.value;
+    
+    if (!subjectCode || !subjectName) {
+        alert('Please enter subject code and name');
+        return;
+    }
+    
+    // Check for duplicate code in same grade (excluding current subject if editing)
+    const existingSubject = subjectsData.find(s => 
+        s.gradeId === gradeId && 
+        s.code === subjectCode && 
+        (subjectIndex === null || s.id !== subjectsData[subjectIndex].id)
+    );
+    if (existingSubject) {
+        alert(`Subject code ${subjectCode} already exists for this grade`);
         return;
     }
     
     const subject = {
-        id: 'SUBJECT' + Date.now(),
-        code: code,
-        name: name,
-        category: category
+        id: subjectIndex !== null ? subjectsData[subjectIndex].id : 'SUBJECT-' + Date.now(),
+        code: subjectCode,
+        name: subjectName,
+        category: category,
+        gradeId: gradeId
     };
     
-    addedSubjects.push(subject);
+    if (subjectIndex !== null) {
+        // Update existing
+        subjectsData[subjectIndex] = subject;
+    } else {
+        // Add new
+        subjectsData.push(subject);
+    }
     
-    // Add new checkbox to the subjects grid
-    addSubjectCheckbox(name, code);
-    
-    // Save to localStorage
-    saveAddedItems();
-    
-    // Show success message
-    showItemAddedNotification('Subject added successfully!');
-    
-    // Clear and hide form
-    clearAddForm('addSubjectForm');
-    toggleAddForm('addSubjectForm');
+    renderSubjectsList();
+    saveCurrentStepData();
 }
 
-// Add Subject Checkbox dynamically
-function addSubjectCheckbox(name, code) {
-    const subjectsContainer = document.querySelector('#setup-step-5 .form-row').nextElementSibling;
-    if (subjectsContainer) {
-        const label = document.createElement('label');
-        label.style.cssText = 'display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;';
+function cancelSubjectCard(formId, subjectIndex = null) {
+    const formCard = document.getElementById(formId);
+    if (formCard) {
+        const gradeCard = formCard.closest('.grade-subject-card');
+        formCard.remove();
         
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.className = 'subject-checkbox';
-        checkbox.value = name;
-        checkbox.setAttribute('data-code', code);
-        checkbox.checked = true;
-        
-        const span = document.createElement('span');
-        span.textContent = name;
-        
-        label.appendChild(checkbox);
-        label.appendChild(span);
-        
-        const grid = subjectsContainer.querySelector('div[style*="grid-template-columns"]');
-        if (grid) {
-            grid.appendChild(label);
+        if (subjectIndex !== null) {
+            // If editing, re-render to show the badge again
+            renderSubjectsList();
+        } else {
+            // If new, show plus button again
+            if (gradeCard) {
+                const plusBtn = gradeCard.querySelector('.add-subject-btn');
+                if (plusBtn) plusBtn.style.display = 'inline-flex';
+            }
         }
+    }
+    editingSubjectIndex = null;
+    editingGradeId = null;
+}
+
+function renderSubjectsList() {
+    const container = document.getElementById('subjectsList');
+    if (!container) return;
+    
+    if (gradesClassesData.length === 0) {
+        container.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: #6b7280; background: #f9fafb; border-radius: 8px; border: 2px dashed #d1d5db;">
+                <i class="fas fa-info-circle" style="font-size: 48px; margin-bottom: 16px; color: #9ca3af;"></i>
+                <p style="margin: 0; font-size: 16px; font-weight: 500;">No grades configured yet</p>
+                <p style="margin: 8px 0 0 0; font-size: 14px;">Please configure grades first in the previous step</p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Sort grades by level
+    const sortedGrades = [...gradesClassesData].sort((a, b) => a.gradeLevel - b.gradeLevel);
+    
+    container.innerHTML = sortedGrades.map(grade => {
+        const gradeSubjects = subjectsData.filter(s => s.gradeId === grade.id).sort((a, b) => a.code.localeCompare(b.code));
+        
+        const subjectsList = gradeSubjects.map(subject => {
+            const actualIndex = subjectsData.findIndex(s => s.id === subject.id);
+            const categoryColor = subject.category === 'Core' ? '#1e40af' : '#7c3aed';
+            const categoryBg = subject.category === 'Core' ? '#eff6ff' : '#f3e8ff';
+            
+            return `
+                <div class="subject-badge" data-subject-index="${actualIndex}" data-grade-id="${grade.id}" style="display: inline-flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #e5e7eb; border-radius: 6px; padding: 8px 12px; margin-bottom: 6px; margin-right: 6px;">
+                    <div style="padding: 4px 8px; background: ${categoryBg}; color: ${categoryColor}; border-radius: 4px; font-size: 12px; font-weight: 600;">
+                        ${subject.code}
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 13px; font-weight: 600; color: #111827;">${subject.name}</div>
+                        <div style="font-size: 11px; color: #6b7280;">${subject.category}</div>
+                    </div>
+                    <button class="simple-btn-icon" onclick="editSubject('${grade.id}', ${actualIndex})" title="Edit" style="color: #4A90E2; padding: 4px;">
+                        <i class="fas fa-edit" style="font-size: 12px;"></i>
+                    </button>
+                    <button class="simple-btn-icon" onclick="deleteSubject(${actualIndex})" title="Delete" style="color: #ef4444; padding: 4px;">
+                        <i class="fas fa-trash" style="font-size: 12px;"></i>
+                    </button>
+                </div>
+            `;
+        }).join('');
+        
+        return `
+            <div class="grade-subject-card" data-grade-id="${grade.id}" style="background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                    <h5 style="margin: 0; font-size: 16px; font-weight: 600; color: #111827;">${grade.gradeName}</h5>
+                    <span style="padding: 4px 10px; background: #f3f4f6; color: #6b7280; border-radius: 4px; font-size: 12px; font-weight: 500;">Level ${grade.gradeLevel}</span>
+                    <span style="padding: 4px 10px; background: #eff6ff; color: #1e40af; border-radius: 4px; font-size: 12px; font-weight: 500;">${grade.category}</span>
+                    <span style="padding: 2px 8px; background: #f3f4f6; color: #6b7280; border-radius: 4px; font-size: 12px; font-weight: 500;">${gradeSubjects.length} ${gradeSubjects.length === 1 ? 'subject' : 'subjects'}</span>
+                </div>
+                <div class="grade-subjects-list" style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+                    ${subjectsList}
+                    <button type="button" class="add-subject-btn" onclick="showSubjectInput('${grade.id}')" style="display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; padding: 0; background: #e3f2fd; color: #1976d2; border: 1px dashed #1976d2; border-radius: 4px; cursor: pointer; font-size: 13px; transition: all 0.2s;">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function deleteSubject(index) {
+    if (confirm('Are you sure you want to delete this subject?')) {
+        subjectsData.splice(index, 1);
+        renderSubjectsList();
+        saveCurrentStepData();
     }
 }
 
@@ -873,68 +1426,29 @@ function loadExistingSetupData() {
             }
         }
         
-        // Load grades data
-        if (setupData.grades && Array.isArray(setupData.grades)) {
-            // Uncheck all grade checkboxes first
-            document.querySelectorAll('.grade-checkbox').forEach(cb => {
-                cb.checked = false;
-            });
-            // Check the saved grades
-            setupData.grades.forEach(grade => {
-                const checkbox = document.querySelector(`.grade-checkbox[value="${grade}"]`);
-                if (checkbox) {
-                    checkbox.checked = true;
-                }
-            });
-        }
-        
-        // Load classes data
-        if (setupData.classes) {
-            if (setupData.classes.perGrade) {
-                document.getElementById('setupClassesPerGrade').value = setupData.classes.perGrade;
-            }
-            if (setupData.classes.naming) {
-                let namingValue;
-                if (Array.isArray(setupData.classes.naming)) {
-                    namingValue = setupData.classes.naming.join(',');
-                } else {
-                    namingValue = setupData.classes.naming;
-                }
-                // Check if the value exists in the select options
-                const select = document.getElementById('setupClassNaming');
-                const optionExists = Array.from(select.options).some(opt => opt.value === namingValue);
-                if (optionExists) {
-                    select.value = namingValue;
-                }
-            }
+        // Load grades & classes data
+        if (setupData.gradesClasses && Array.isArray(setupData.gradesClasses)) {
+            gradesClassesData = setupData.gradesClasses;
+            renderGradesClassesList();
         }
         
         // Load rooms data
         if (setupData.rooms) {
-            if (setupData.rooms.total) {
-                document.getElementById('setupTotalRooms').value = setupData.rooms.total;
-            }
-            if (setupData.rooms.start) {
-                document.getElementById('setupRoomStart').value = setupData.rooms.start;
-            }
-            if (setupData.rooms.capacity) {
-                document.getElementById('setupRoomCapacity').value = setupData.rooms.capacity;
+            // Check if it's the new array format or old object format
+            if (Array.isArray(setupData.rooms)) {
+                roomsData = setupData.rooms;
+                renderRoomsList();
+            } else {
+                // Legacy format - convert if needed (for backward compatibility)
+                roomsData = [];
+                renderRoomsList();
             }
         }
         
         // Load subjects data
         if (setupData.subjects && Array.isArray(setupData.subjects)) {
-            // Uncheck all subject checkboxes first
-            document.querySelectorAll('.subject-checkbox').forEach(cb => {
-                cb.checked = false;
-            });
-            // Check the saved subjects
-            setupData.subjects.forEach(subject => {
-                const checkbox = document.querySelector(`.subject-checkbox[value="${subject.name}"]`);
-                if (checkbox) {
-                    checkbox.checked = true;
-                }
-            });
+            subjectsData = setupData.subjects;
+            renderSubjectsList();
         }
         
         return true; // Data loaded successfully
@@ -982,6 +1496,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     goToSetupStep(1);
     
+    // Initialize grades & classes list
+    renderGradesClassesList();
+    
+    // Initialize rooms list
+    renderRoomsList();
+    
     // Add event listeners to auto-save data when form fields change
     // Batch fields
     const batchFields = ['setupBatchName', 'setupBatchStart', 'setupBatchEnd'];
@@ -996,45 +1516,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Grade checkboxes
-    document.querySelectorAll('.grade-checkbox').forEach(checkbox => {
-        checkbox.addEventListener('change', () => {
-            if (currentSetupStep === 2) {
-                saveCurrentStepData();
-            }
-        });
-    });
-    
-    // Class fields
-    const classFields = ['setupClassesPerGrade', 'setupClassNaming'];
-    classFields.forEach(fieldId => {
-        const field = document.getElementById(fieldId);
-        if (field) {
-            field.addEventListener('change', () => {
-                if (currentSetupStep === 3) {
-                    saveCurrentStepData();
-                }
-            });
-        }
-    });
-    
-    // Room fields
-    const roomFields = ['setupTotalRooms', 'setupRoomStart', 'setupRoomCapacity'];
-    roomFields.forEach(fieldId => {
-        const field = document.getElementById(fieldId);
-        if (field) {
-            field.addEventListener('change', () => {
-                if (currentSetupStep === 4) {
-                    saveCurrentStepData();
-                }
-            });
-        }
-    });
-    
     // Subject checkboxes
     document.querySelectorAll('.subject-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', () => {
-            if (currentSetupStep === 5) {
+            if (currentSetupStep === 4) {
                 saveCurrentStepData();
             }
         });
@@ -1084,6 +1569,15 @@ function goToSetupStep(step) {
     if (step === 1 && nextBtn) {
         nextBtn.style.display = 'inline-flex';
     }
+    
+    // Render lists when entering specific steps
+    if (step === 2) {
+        renderGradesClassesList();
+    } else if (step === 3) {
+        renderRoomsList();
+    } else if (step === 4) {
+        renderSubjectsList();
+    }
 }
 
 function goToPreviousSetupStep() {
@@ -1109,23 +1603,11 @@ function saveCurrentStepData() {
                 end: document.getElementById('setupBatchEnd').value
             };
         } else if (currentSetupStep === 2) {
-            setupData.grades = Array.from(document.querySelectorAll('.grade-checkbox:checked')).map(cb => parseInt(cb.value));
+            setupData.gradesClasses = gradesClassesData;
         } else if (currentSetupStep === 3) {
-            setupData.classes = {
-                perGrade: parseInt(document.getElementById('setupClassesPerGrade').value),
-                naming: document.getElementById('setupClassNaming').value.split(',')
-            };
+            setupData.rooms = roomsData;
         } else if (currentSetupStep === 4) {
-            setupData.rooms = {
-                total: parseInt(document.getElementById('setupTotalRooms').value),
-                start: document.getElementById('setupRoomStart').value,
-                capacity: parseInt(document.getElementById('setupRoomCapacity').value)
-            };
-        } else if (currentSetupStep === 5) {
-            setupData.subjects = Array.from(document.querySelectorAll('.subject-checkbox:checked')).map(cb => ({
-                name: cb.value,
-                code: cb.getAttribute('data-code')
-            }));
+            setupData.subjects = subjectsData;
         }
         
         // Save to localStorage
@@ -1155,27 +1637,19 @@ function handleNextSetupStep() {
             return;
         }
     } else if (currentSetupStep === 2) {
-        const selectedGrades = Array.from(document.querySelectorAll('.grade-checkbox:checked'));
-        if (selectedGrades.length === 0) {
-            alert('Please select at least one grade');
+        if (gradesClassesData.length === 0) {
+            alert('Please add at least one grade with classes');
             return;
         }
     } else if (currentSetupStep === 3) {
-        const classesPerGrade = document.getElementById('setupClassesPerGrade').value;
-        if (!classesPerGrade) {
-            alert('Please select classes per grade');
+        if (roomsData.length === 0) {
+            alert('Please add at least one room');
             return;
         }
     } else if (currentSetupStep === 4) {
-        const totalRooms = document.getElementById('setupTotalRooms').value;
-        if (!totalRooms || parseInt(totalRooms) < 1) {
-            alert('Please enter a valid number of rooms');
-            return;
-        }
-    } else if (currentSetupStep === 5) {
         const selectedSubjects = Array.from(document.querySelectorAll('.subject-checkbox:checked'));
-        if (selectedSubjects.length === 0) {
-            alert('Please select at least one subject');
+        if (subjectsData.length === 0) {
+            alert('Please add at least one subject');
             return;
         }
     }
@@ -1212,9 +1686,8 @@ function showSuccessNotification(message) {
 
 function completeSetup() {
     // Validate final step
-    const selectedSubjects = Array.from(document.querySelectorAll('.subject-checkbox:checked'));
-    if (selectedSubjects.length === 0) {
-        alert('Please select at least one subject');
+    if (subjectsData.length === 0) {
+        alert('Please add at least one subject');
         return;
     }
     
@@ -1225,20 +1698,9 @@ function completeSetup() {
             start: document.getElementById('setupBatchStart').value,
             end: document.getElementById('setupBatchEnd').value
         },
-        grades: Array.from(document.querySelectorAll('.grade-checkbox:checked')).map(cb => parseInt(cb.value)),
-        classes: {
-            perGrade: parseInt(document.getElementById('setupClassesPerGrade').value),
-            naming: document.getElementById('setupClassNaming').value.split(',')
-        },
-        rooms: {
-            total: parseInt(document.getElementById('setupTotalRooms').value),
-            start: document.getElementById('setupRoomStart').value,
-            capacity: parseInt(document.getElementById('setupRoomCapacity').value)
-        },
-        subjects: Array.from(document.querySelectorAll('.subject-checkbox:checked')).map(cb => ({
-            name: cb.value,
-            code: cb.getAttribute('data-code')
-        })),
+        gradesClasses: gradesClassesData,
+        rooms: roomsData,
+        subjects: subjectsData,
         // Include added items
         addedItems: {
             batches: addedBatches,
@@ -1259,9 +1721,9 @@ function completeSetup() {
     }
     
     // Calculate totals including added items
-    const totalGrades = setupData.grades.length + addedGrades.length;
-    const totalClasses = (setupData.grades.length * setupData.classes.perGrade) + addedClasses.length;
-    const totalRooms = setupData.rooms.total + addedRooms.length;
+    const totalGrades = setupData.gradesClasses.length + addedGrades.length;
+    const totalClasses = setupData.gradesClasses.reduce((sum, g) => sum + (g.classes ? g.classes.length : 0), 0) + addedClasses.length;
+    const totalRooms = (Array.isArray(setupData.rooms) ? setupData.rooms.length : 0) + addedRooms.length;
     const totalSubjects = setupData.subjects.length + addedSubjects.length;
     
     // Show success notification
@@ -1743,6 +2205,121 @@ label:has(.subject-checkbox:hover) {
     }
 }
 
+/* Grade & Class Card Styles */
+.grade-class-card {
+    transition: all 0.2s ease;
+}
+
+.grade-class-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+.class-input-row {
+    animation: slideDown 0.2s ease-out;
+}
+
+/* Modal Styles */
+.receipt-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.receipt-dialog-content {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.receipt-dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f8f9fa;
+    border-radius: 12px 12px 0 0;
+}
+
+.receipt-dialog-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.receipt-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.receipt-close:hover {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+.receipt-dialog-body {
+    padding: 24px;
+}
+
+.receipt-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 16px 24px;
+    border-top: 1px solid #e5e7eb;
+    background: #f9fafb;
+    border-radius: 0 0 12px 12px;
+}
+
+.simple-btn-icon {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.simple-btn-icon:hover {
+    background: #f3f4f6;
+}
+
 @media (max-width: 992px) {
     .setup-welcome-header {
         padding: 24px;
@@ -1783,6 +2360,117 @@ label:has(.subject-checkbox:hover) {
     .wizard-footer .wizard-btn-primary {
         flex: 1;
     }
+    
+    .receipt-dialog-content {
+        width: 95%;
+        max-width: 95%;
+    }
+}
+
+/* Add Item Card Styles */
+.add-item-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.card-form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f9fafb;
+}
+
+.card-form-header h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1d1d1f;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.card-form-header h4 i {
+    color: #4A90E2;
+}
+
+.card-form-header .icon-btn {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    color: #86868b;
+    cursor: pointer;
+    padding: 0.4rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-form-header .icon-btn:hover {
+    background: #e5e7eb;
+    color: #1d1d1f;
+}
+
+.card-form-body {
+    padding: 1.5rem;
+}
+
+.card-form-body .form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.card-form-body .form-row:last-child {
+    margin-bottom: 0;
+}
+
+.card-form-body .form-group {
+    flex: 1;
+}
+
+.card-form-body .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #1d1d1f;
+    font-size: 0.9rem;
+}
+
+.card-form-body .form-input,
+.card-form-body .form-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e0e7ff;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #1d1d1f;
+    transition: all 0.2s ease;
+}
+
+.card-form-body .form-input:focus,
+.card-form-body .form-select:focus {
+    outline: none;
+    border-color: #4A90E2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.card-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid #e5e7eb;
+    background: #f9fafb;
 }
 </style>
 

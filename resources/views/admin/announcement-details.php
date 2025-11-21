@@ -33,8 +33,8 @@ ob_start();
                 <span class="exam-id" id="announcementId">ANN001</span>
             </div>
             <div class="exam-badges" id="announcementBadges">
-                <span class="badge tutorial-badge" id="announcementType">Event</span>
                 <span class="badge active-badge" id="announcementPriority">Medium</span>
+                <span class="badge tutorial-badge" id="announcementEventBadge" style="display:none;">Event Linked</span>
             </div>
         </div>
     </div>
@@ -51,24 +51,20 @@ ob_start();
                 <span id="detailTitle">Annual Science Fair 2024 - Call for Participation</span>
             </div>
             <div class="detail-row">
-                <label>Type:</label>
-                <span id="detailType">Event</span>
-            </div>
-            <div class="detail-row">
                 <label>Priority:</label>
                 <span id="detailPriority">Medium</span>
             </div>
             <div class="detail-row">
-                <label>Published Date:</label>
-                <span id="detailDate">January 8, 2024</span>
+                <label>Publish Schedule:</label>
+                <span id="detailDate">January 8, 2024 · 8:00 AM</span>
             </div>
             <div class="detail-row">
-                <label>Target Audience:</label>
-                <span id="detailAudience">All Users</span>
+                <label>Location:</label>
+                <span id="detailLocation">Main, North</span>
             </div>
             <div class="detail-row">
-                <label>Campuses:</label>
-                <span id="detailCampuses">Main, North</span>
+                <label>Linked Event:</label>
+                <span id="detailLinkedEvent">Annual Science Fair 2024</span>
             </div>
         </div>
     </div>
@@ -96,36 +92,44 @@ const sampleAnnouncements = {
         id: 'ANN001',
         title: 'Annual Science Fair 2024 - Call for Participation',
         message: 'We are excited to announce our Annual Science Fair 2024! This year\'s theme is "Innovation for Tomorrow".',
-        type: 'Event',
         priority: 'Medium',
-        date: '2024-01-08',
-        audience: 'All Users',
-        campuses: 'Main, North'
+        location: 'Main, North',
+        publishDate: '2024-01-08',
+        publishTime: '08:00',
+        linkedEvent: { title: 'Annual Science Fair 2024', date: '2024-01-15' }
     },
     'ANN002': {
         id: 'ANN002',
         title: 'Q1 Academic Performance Reports Available',
         message: 'Quarter 1 academic performance reports are now available. Parents can access them through the parent portal, and teachers should review class summaries.',
-        type: 'Academic',
         priority: 'Medium',
-        date: '2024-01-07',
-        audience: 'Parents & Teachers',
-        campuses: 'All'
+        location: 'Campus-wide',
+        publishDate: '2024-01-07',
+        publishTime: '10:00'
     }
 };
 
-function formatDate(dateString) {
-    if (!dateString) return 'N/A';
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+function formatSchedule(dateString, timeString, fallback) {
+    const datePart = dateString || null;
+    const timePart = timeString || '';
+    if (!datePart && !fallback) return 'Immediate';
+    const composed = datePart ? `${datePart} ${timePart}`.trim() : fallback;
+    if (!composed) return 'Immediate';
+    const dateObj = new Date(composed);
+    if (isNaN(dateObj)) return composed;
+    return dateObj.toLocaleString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit'
+    });
 }
 
 function formatPriority(priority) {
-    return priority ? priority.charAt(0).toUpperCase() + priority.slice(1).toLowerCase() : 'N/A';
-}
-
-function formatType(type) {
-    return type ? type.charAt(0).toUpperCase() + type.slice(1).toLowerCase() : 'N/A';
+    if (!priority) return 'N/A';
+    const text = priority.toString();
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
 }
 
 function loadAnnouncementDetails() {
@@ -142,15 +146,23 @@ function loadAnnouncementDetails() {
         // Update page content
         document.getElementById('announcementTitle').textContent = announcement.title || 'Untitled Announcement';
         document.getElementById('announcementId').textContent = announcement.id || 'N/A';
-        document.getElementById('announcementType').textContent = formatType(announcement.type);
         document.getElementById('announcementPriority').textContent = formatPriority(announcement.priority);
+        const eventBadge = document.getElementById('announcementEventBadge');
+        if (eventBadge) {
+            if (announcement.linkedEvent && announcement.linkedEvent.title) {
+                eventBadge.style.display = 'inline-flex';
+                eventBadge.textContent = announcement.linkedEvent.title;
+            } else {
+                eventBadge.style.display = 'none';
+            }
+        }
         
         document.getElementById('detailTitle').textContent = announcement.title || 'Untitled Announcement';
-        document.getElementById('detailType').textContent = formatType(announcement.type);
         document.getElementById('detailPriority').textContent = formatPriority(announcement.priority);
-        document.getElementById('detailDate').textContent = formatDate(announcement.date);
-        document.getElementById('detailAudience').textContent = announcement.audience || 'All Users';
-        document.getElementById('detailCampuses').textContent = announcement.campuses || 'All';
+        const scheduleText = formatSchedule(announcement.publishDate, announcement.publishTime, announcement.publishDateTime || announcement.date);
+        document.getElementById('detailDate').textContent = scheduleText;
+        document.getElementById('detailLocation').textContent = announcement.location || 'Campus-wide';
+        document.getElementById('detailLinkedEvent').textContent = (announcement.linkedEvent && announcement.linkedEvent.title) ? announcement.linkedEvent.title : 'None';
         document.getElementById('announcementMessage').textContent = announcement.message || 'No message available.';
     } else {
         // Show error message if announcement not found

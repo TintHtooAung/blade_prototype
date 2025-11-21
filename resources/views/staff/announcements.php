@@ -155,7 +155,6 @@ ob_start();
                     <p>${escapeHtml(a.message||'')}</p>
                 </div>
                 <div class="announcement-actions">
-                    <button class="action-icon pin" title="Pin"><i class="fas fa-thumbtack"></i></button>
                     <button class="action-icon edit" title="Edit" onclick="event.stopPropagation(); window.location.href='/staff/create-announcement?id=${encodeURIComponent(a.id||'')}'"><i class="fas fa-edit"></i></button>
                     <button class="action-icon delete" title="Delete"><i class="fas fa-trash"></i></button>
                 </div>

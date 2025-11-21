@@ -1,7 +1,7 @@
 <?php
-$pageTitle = 'Smart Campus Nova Hub - Schedule Planner';
+$pageTitle = 'Smart Campus Nova Hub - Time-table Planner';
 $pageIcon = 'fas fa-clock';
-$pageHeading = 'Schedule Planner';
+$pageHeading = 'Time-table Planner';
 $activePage = 'schedule';
 
 ob_start();
@@ -16,10 +16,10 @@ ob_start();
     </div>
 </div>
 
-<!-- Create Schedule Section -->
+<!-- Create Time-table Section -->
 <div class="simple-section">
     <div class="simple-header">
-            <h3>Create New Schedule</h3>
+            <h3>Create New Time-table</h3>
         </div>
         
     <div class="form-section">
@@ -41,17 +41,17 @@ ob_start();
             <div class="form-group">
                 <label>&nbsp;</label>
                 <button class="simple-btn primary" onclick="createSchedule()">
-                    <i class="fas fa-plus"></i> Create Schedule
+                    <i class="fas fa-plus"></i> Create Time-table
                 </button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Schedules List -->
+<!-- Time-tables List -->
 <div class="simple-section" style="margin-top:12px;">
     <div class="simple-header">
-        <h4>Schedules</h4>
+        <h4>Time-tables</h4>
     </div>
     <div class="simple-table-container">
         <table class="basic-table">
@@ -65,7 +65,7 @@ ob_start();
                 </tr>
             </thead>
             <tbody id="scheduleListBody">
-                <tr class="no-schedule-row"><td colspan="3">No schedules yet</td></tr>
+                <tr class="no-schedule-row"><td colspan="3">No time-tables yet</td></tr>
             </tbody>
         </table>
     </div>
@@ -86,6 +86,11 @@ ob_start();
             <div class="subject-cards-grid" id="subjectCardsGrid">
                 <!-- Subject cards will be populated here -->
             </div>
+        </div>
+        <div class="subject-modal-footer">
+            <button class="simple-btn secondary" onclick="closeSubjectModal()">
+                <i class="fas fa-times"></i> Cancel
+            </button>
         </div>
     </div>
 </div>
@@ -248,6 +253,12 @@ ob_start();
     background: #cce5ff;
     color: #004085;
     border: 1px solid #b3d7ff;
+}
+
+.status-badge.unpublished {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
 }
 
 /* Schedule Modal */
@@ -505,6 +516,43 @@ ob_start();
     color: #333;
 }
 
+.simple-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.simple-btn.secondary {
+    background: #f5f5f5;
+    color: #333;
+    border-color: #e0e0e0;
+}
+
+.simple-btn.secondary:hover {
+    background: #e8e8e8;
+    border-color: #d0d0d0;
+}
+
+.simple-btn.primary {
+    background: #1976d2;
+    color: white;
+    border-color: #1976d2;
+}
+
+.simple-btn.primary:hover {
+    background: #1565c0;
+    border-color: #1565c0;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(25, 118, 210, 0.3);
+}
+
 /* Steps */
 .schedule-step {
     padding: 24px;
@@ -754,6 +802,16 @@ ob_start();
 .subject-modal-body {
     padding: 20px;
     overflow-y: auto;
+    flex: 1;
+}
+
+.subject-modal-footer {
+    padding: 16px 20px;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    background: #f8f9fa;
 }
 
 .search-input {
@@ -946,8 +1004,8 @@ const mockSchedules = [
     {
         id: 'SCH002', 
         className: 'Grade 10-B',
-        status: 'draft',
-        statusText: 'Draft',
+        status: 'unpublished',
+        statusText: 'Unpublished',
         createdAt: '2025-01-14',
         lastEditedAt: '2025-01-14T10:00:00Z',
         lastPublishedAt: null,
@@ -996,8 +1054,8 @@ const mockSchedules = [
     {
         id: 'SCH004',
         className: 'Grade 8-C',
-        status: 'draft',
-        statusText: 'Draft',
+        status: 'unpublished',
+        statusText: 'Unpublished',
         createdAt: '2025-01-12',
         lastEditedAt: '2025-01-12T07:00:00Z',
         lastPublishedAt: null,
@@ -1019,8 +1077,8 @@ const mockSchedules = [
     {
         id: 'SCH005',
         className: 'Grade 12-A',
-        status: 'draft',
-        statusText: 'Draft',
+        status: 'unpublished',
+        statusText: 'Unpublished',
         createdAt: '2025-01-11',
         lastEditedAt: '2025-01-11T11:00:00Z',
         lastPublishedAt: null,
@@ -1092,15 +1150,25 @@ function populateScheduleList() {
     mockSchedules.forEach(schedule => {
         const tr = document.createElement('tr');
         tr.dataset.scheduleId = schedule.id;
+        let statusBadgeClass = 'draft';
+        let statusBadgeText = 'Draft';
+        if (schedule.status === 'published') {
+            statusBadgeClass = 'published';
+            statusBadgeText = 'Published';
+        } else if (schedule.status === 'unpublished') {
+            statusBadgeClass = 'unpublished';
+            statusBadgeText = 'Unpublished';
+        }
+        
         tr.innerHTML = `
             <td><strong>${schedule.className}</strong></td>
-            <td><span class="status-badge ${schedule.status === 'published' ? 'published' : 'draft'}">${schedule.status === 'published' ? 'Published' : 'Draft'}</span></td>
+            <td><span class="status-badge ${statusBadgeClass}">${statusBadgeText}</span></td>
             <td class="changes-cell">${formatChangesPill(schedule)}</td>
             <td class="last-change-cell">${formatLastChange(schedule)}</td>
             <td></td>
         `;
         body.appendChild(tr);
-        updateRowActionsForStatus(tr, schedule.status === 'published' ? 'published' : 'draft');
+        updateRowActionsForStatus(tr, schedule.status);
     });
 }
 
@@ -1122,6 +1190,7 @@ function createSchedule() {
                     <h3>${className}</h3>
                 <div class="simple-actions">
                     <button class="simple-btn" onclick="openSettingsDialog('${scheduleId}')"><i class="fas fa-cog"></i> Settings</button>
+                    <button class="simple-btn secondary" onclick="cancelScheduleEditor('${scheduleId}')"><i class="fas fa-times"></i> Cancel</button>
                     <button class="simple-btn secondary" onclick="confirmSaveDraft('${scheduleId}')" style="background: #6b7280; color: white; border-color: #6b7280;"><i class="fas fa-save"></i> Save as Draft</button>
                     <button class="simple-btn primary" onclick="confirmPublish('${scheduleId}')" style="background: #1976d2; color: white; border-color: #1976d2;"><i class="fas fa-bullhorn"></i> Publish</button>
                 </div>
@@ -1220,17 +1289,37 @@ function createSchedule() {
     const noRow = body.querySelector('.no-schedule-row');
     if (noRow) noRow.remove();
     
+    // Add to mockSchedules with unpublished status
+    const newSchedule = {
+        id: scheduleId,
+        className: className,
+        status: 'unpublished',
+        statusText: 'Unpublished',
+        createdAt: new Date().toISOString().split('T')[0],
+        lastEditedAt: new Date().toISOString(),
+        lastPublishedAt: null,
+        hasUnpublishedChanges: false,
+        periods: [
+            { label: 'Period 1', time: '08:00-09:00', type: 'period' },
+            { label: 'Period 2', time: '09:00-10:00', type: 'period' },
+            { label: 'Period 3', time: '10:00-11:00', type: 'period' },
+            { label: 'Period 4', time: '11:00-12:00', type: 'period' }
+        ],
+        schedule: {}
+    };
+    mockSchedules.push(newSchedule);
+    
     const tr = document.createElement('tr');
     tr.dataset.scheduleId = scheduleId;
     tr.innerHTML = `
         <td><strong>${className}</strong></td>
-        <td><span class="status-badge draft">Draft</span></td>
+        <td><span class="status-badge unpublished">Unpublished</span></td>
         <td class="changes-cell">—</td>
         <td class="last-change-cell">Just now</td>
         <td></td>
     `;
     body.appendChild(tr);
-    updateRowActionsForStatus(tr, 'draft');
+    updateRowActionsForStatus(tr, 'unpublished');
     
     classSelect.value = '';
     document.getElementById(scheduleId).scrollIntoView({behavior: 'smooth'});
@@ -1642,6 +1731,7 @@ function viewSchedule(scheduleId) {
                     <h3>${schedule.className}</h3>
                 <div class="simple-actions">
                     <button class="simple-btn" onclick="openSettingsDialog('${scheduleId}')"><i class="fas fa-cog"></i> Settings</button>
+                    <button class="simple-btn secondary" onclick="cancelScheduleEditor('${scheduleId}')"><i class="fas fa-times"></i> Cancel</button>
                     <button class="simple-btn secondary" onclick="confirmSaveDraft('${scheduleId}')" style="background: #6b7280; color: white; border-color: #6b7280;"><i class="fas fa-save"></i> Save as Draft</button>
                     <button class="simple-btn primary" onclick="confirmPublish('${scheduleId}')" style="background: #1976d2; color: white; border-color: #1976d2;"><i class="fas fa-bullhorn"></i> Publish</button>
                 </div>
@@ -1855,7 +1945,7 @@ function primaryActionFromView() {
             // Replace action button text if needed in table
             updateRowActionsForStatus(row, schedule.status);
         }
-        showActionStatus('Schedule published', 'success');
+        showActionStatus('Time-table published', 'success');
     }
 }
 
@@ -1866,8 +1956,8 @@ function updateRowActionsForStatus(row, status) {
     if (!actionsCell) return;
     // Only show view and delete buttons
         actionsCell.innerHTML = `
-            <button class="simple-btn-icon" onclick="viewSchedule('${scheduleId}')" title="View Schedule"><i class="fas fa-eye"></i></button>
-            <button class="simple-btn-icon" onclick="removeSchedule('${scheduleId}')" title="Remove Schedule"><i class="fas fa-trash"></i></button>
+            <button class="simple-btn-icon" onclick="viewSchedule('${scheduleId}')" title="View Time-table"><i class="fas fa-eye"></i></button>
+            <button class="simple-btn-icon" onclick="removeSchedule('${scheduleId}')" title="Remove Time-table"><i class="fas fa-trash"></i></button>
         `;
 }
 
@@ -1902,7 +1992,7 @@ function publishOrUpdate(scheduleId) {
             const changesCell = row.querySelector('.changes-cell');
             if (changesCell) changesCell.innerHTML = formatChangesPill(schedule);
         }
-        showActionStatus('Schedule published', 'success');
+        showActionStatus('Time-table published', 'success');
     }
 }
 
@@ -1965,7 +2055,7 @@ function saveScheduleModal() {
 function confirmSaveDraft(scheduleId) {
     showConfirmDialog({
         title: 'Save as Draft',
-        message: 'Schedule changes will be saved but not published. Changes will only be visible to you.',
+        message: 'Time-table changes will be saved but not published. Changes will only be visible to you.',
         confirmText: 'OK',
         confirmIcon: 'fas fa-save',
         buttonStyle: 'primary',
@@ -1979,8 +2069,8 @@ function confirmSaveDraft(scheduleId) {
 
 function confirmPublish(scheduleId) {
     showConfirmDialog({
-        title: 'Publish Schedule',
-        message: 'Changes will be committed to the whole portal. All users will see the updated schedule.',
+        title: 'Publish Time-table',
+        message: 'Changes will be committed to the whole portal. All users will see the updated time-table.',
         confirmText: 'OK',
         confirmIcon: 'fas fa-bullhorn',
         buttonStyle: 'primary',
@@ -2016,18 +2106,18 @@ function saveSchedule(scheduleId, action) {
             const changesCell = row.querySelector('.changes-cell');
             if (changesCell) changesCell.innerHTML = formatChangesPill(schedule);
         }
-        showActionStatus('Schedule published successfully', 'success');
+        showActionStatus('Time-table published successfully', 'success');
     } else {
-        // Save as draft
-        schedule.status = 'draft';
-        schedule.statusText = 'Draft';
+        // Save as draft - mark as unpublished
+        schedule.status = 'unpublished';
+        schedule.statusText = 'Unpublished';
         schedule.lastEditedAt = new Date().toISOString();
         
     if (row) {
             const badge = row.querySelector('.status-badge');
-            badge.textContent = 'Draft';
-            badge.className = 'status-badge draft';
-            updateRowActionsForStatus(row, 'draft');
+            badge.textContent = 'Unpublished';
+            badge.className = 'status-badge unpublished';
+            updateRowActionsForStatus(row, 'unpublished');
         const lastCell = row.querySelector('.last-change-cell');
         if (lastCell) lastCell.textContent = formatLastChange(schedule);
         const changesCell = row.querySelector('.changes-cell');
@@ -2043,6 +2133,13 @@ function saveSchedule(scheduleId, action) {
     }
 }
 
+function cancelScheduleEditor(scheduleId) {
+    const section = document.getElementById(scheduleId);
+    if (section) {
+        section.remove();
+    }
+}
+
 function removeSchedule(scheduleId) {
     // Check if schedule is saved or draft
     const row = document.querySelector(`tr[data-schedule-id="${scheduleId}"]`);
@@ -2052,8 +2149,8 @@ function removeSchedule(scheduleId) {
     if (isSaved) {
         // For saved schedules: Just hide from board, keep in table
         showConfirmDialog({
-            title: 'Hide Schedule',
-            message: 'This will hide the schedule from the board. You can view it again from the table.',
+            title: 'Hide Time-table',
+            message: 'This will hide the time-table from the board. You can view it again from the table.',
             confirmText: 'Hide',
             confirmIcon: 'fas fa-eye-slash',
             onConfirm: () => {
@@ -2067,8 +2164,8 @@ function removeSchedule(scheduleId) {
     } else {
         // For draft schedules: Delete completely
         showConfirmDialog({
-            title: 'Delete Draft Schedule',
-            message: 'This schedule is not saved yet. Do you want to delete it permanently?',
+            title: 'Delete Draft Time-table',
+            message: 'This time-table is not saved yet. Do you want to delete it permanently?',
             confirmText: 'Delete',
             confirmIcon: 'fas fa-trash',
             onConfirm: () => {
@@ -2077,7 +2174,7 @@ function removeSchedule(scheduleId) {
                 
                 const body = document.getElementById('scheduleListBody');
                 if (!body.querySelector('tr')) {
-                    body.innerHTML = '<tr class="no-schedule-row"><td colspan="3">No schedules yet</td></tr>';
+                    body.innerHTML = '<tr class="no-schedule-row"><td colspan="3">No time-tables yet</td></tr>';
                 }
             }
         });

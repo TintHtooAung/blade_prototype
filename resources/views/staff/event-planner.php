@@ -76,6 +76,42 @@ ob_start();
                     </select>
                 </div>
             </div>
+            <div class="form-row participant-selector-row">
+                <div class="form-group disabled-selector">
+                    <div class="selector-header">
+                        <label>Student Groups</label>
+                        <small>Managed by Admin</small>
+                    </div>
+                    <div class="selector-chip-group">
+                        <label class="grade-chip"><input type="checkbox" disabled> Grade 1</label>
+                        <label class="grade-chip"><input type="checkbox" disabled> Grade 2</label>
+                        <label class="grade-chip"><input type="checkbox" disabled> Grade 3</label>
+                        <label class="grade-chip"><input type="checkbox" disabled> Grade 4</label>
+                        <label class="grade-chip"><input type="checkbox" disabled> Grade 5</label>
+                        <label class="grade-chip"><input type="checkbox" disabled> Grade 6</label>
+                        <label class="grade-chip"><input type="checkbox" disabled> Grade 7</label>
+                        <label class="grade-chip"><input type="checkbox" disabled> Grade 8</label>
+                        <label class="grade-chip"><input type="checkbox" disabled> Grade 9</label>
+                        <label class="grade-chip"><input type="checkbox" disabled> Grade 10</label>
+                        <label class="grade-chip"><input type="checkbox" disabled> Grade 11</label>
+                        <label class="grade-chip"><input type="checkbox" disabled> Grade 12</label>
+                    </div>
+                </div>
+                <div class="form-group disabled-selector">
+                    <div class="selector-header">
+                        <label>Teacher Selection</label>
+                        <small>Managed by Admin</small>
+                    </div>
+                    <div class="selector-chip-group">
+                        <label class="grade-chip"><input type="checkbox" disabled> Ms. Sarah Johnson</label>
+                        <label class="grade-chip"><input type="checkbox" disabled> Mr. David Lee</label>
+                        <label class="grade-chip"><input type="checkbox" disabled> Ms. Emily Chen</label>
+                        <label class="grade-chip"><input type="checkbox" disabled> Mr. Robert Kim</label>
+                        <label class="grade-chip"><input type="checkbox" disabled> Ms. Alicia Gomez</label>
+                        <label class="grade-chip"><input type="checkbox" disabled> Dr. Helen Murray</label>
+                    </div>
+                </div>
+            </div>
             <div class="form-row">
                 <div class="form-group" style="flex:1;">
                     <label>Description</label>
@@ -102,6 +138,96 @@ ob_start();
                 <button id="cancelEvent" class="simple-btn secondary"><i class="fas fa-times"></i> Cancel</button>
                 <button id="saveEvent" class="simple-btn primary"><i class="fas fa-check"></i> Save Event</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Event Modal -->
+<div id="editEventModal" class="confirm-dialog-overlay" style="display:none;">
+    <div class="confirm-dialog-content" style="max-width: 800px; max-height: 90vh; overflow-y: auto;">
+        <div class="confirm-dialog-header">
+            <h4><i class="fas fa-calendar-edit"></i> Edit Event</h4>
+            <button class="icon-btn" onclick="closeEditEventModal()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="confirm-dialog-body" style="padding: 20px;">
+            <div class="form-section" style="padding:0;">
+                <div class="form-row">
+                    <div class="form-group" style="flex:2;">
+                        <label>Event Title *</label>
+                        <input type="text" class="form-input" id="editEventTitle" placeholder="e.g., Annual Science Fair">
+                    </div>
+                    <div class="form-group">
+                        <label>Category *</label>
+                        <select class="form-select" id="editEventCategory">
+                            <option value="academic">Academic</option>
+                            <option value="sports">Sports</option>
+                            <option value="cultural">Cultural</option>
+                            <option value="meeting">Meeting</option>
+                            <option value="holiday">Holiday</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Event Date *</label>
+                        <input type="date" class="form-input" id="editEventDate">
+                    </div>
+                    <div class="form-group">
+                        <label>Start Time *</label>
+                        <input type="time" class="form-input" id="editEventStart">
+                    </div>
+                    <div class="form-group">
+                        <label>End Time</label>
+                        <input type="time" class="form-input" id="editEventEnd">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Location *</label>
+                        <input type="text" class="form-input" id="editEventLocation" placeholder="e.g., Main Hall">
+                    </div>
+                    <div class="form-group">
+                        <label>Participants</label>
+                        <select class="form-select" id="editEventAudience">
+                            <option value="all">All School</option>
+                            <option value="students">Students</option>
+                            <option value="teachers">Teachers</option>
+                            <option value="staff">Staff</option>
+                            <option value="parents">Parents</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:1;">
+                        <label>Description</label>
+                        <textarea class="form-input" id="editEventDesc" rows="3" placeholder="Event description..."></textarea>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:1;">
+                        <label>Attach Files</label>
+                        <input type="file" class="form-input" id="editEventAttachments" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.jpg,.jpeg,.png,.gif">
+                        <small style="color: #666; margin-top: 4px; display: block;">
+                            Supported formats: PDF, DOC, XLS, PPT, TXT, JPG, PNG (Max 10MB each)
+                        </small>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:1;">
+                        <div id="editAttachedFilesList" class="attached-files-list">
+                            <!-- Attached files will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="confirm-dialog-actions">
+            <button class="simple-btn secondary" onclick="closeEditEventModal()">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+            <button class="simple-btn primary" onclick="saveEditedEvent()">
+                <i class="fas fa-check"></i> Update Event
+            </button>
         </div>
     </div>
 </div>
@@ -172,9 +298,6 @@ ob_start();
                         <button class="simple-btn-icon" onclick="viewEventDetails('EVT001')" title="View Details">
                             <i class="fas fa-eye"></i>
                         </button>
-                        <button class="simple-btn-icon" onclick="editEvent('EVT001')" title="Edit">
-                            <i class="fas fa-edit"></i>
-                        </button>
                         <button class="simple-btn-icon" onclick="deleteEvent('EVT001', this)" title="Delete">
                             <i class="fas fa-trash"></i>
                         </button>
@@ -201,9 +324,6 @@ ob_start();
                     <td data-label="Actions" class="actions-cell">
                         <button class="simple-btn-icon" onclick="viewEventDetails('EVT002')" title="View Details">
                             <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="simple-btn-icon" onclick="editEvent('EVT002')" title="Edit">
-                            <i class="fas fa-edit"></i>
                         </button>
                         <button class="simple-btn-icon" onclick="deleteEvent('EVT002', this)" title="Delete">
                             <i class="fas fa-trash"></i>
@@ -232,9 +352,6 @@ ob_start();
                         <button class="simple-btn-icon" onclick="viewEventDetails('EVT003')" title="View Details">
                             <i class="fas fa-eye"></i>
                         </button>
-                        <button class="simple-btn-icon" onclick="editEvent('EVT003')" title="Edit">
-                            <i class="fas fa-edit"></i>
-                        </button>
                         <button class="simple-btn-icon" onclick="deleteEvent('EVT003', this)" title="Delete">
                             <i class="fas fa-trash"></i>
                         </button>
@@ -261,9 +378,6 @@ ob_start();
                     <td data-label="Actions" class="actions-cell">
                         <button class="simple-btn-icon" onclick="viewEventDetails('EVT004')" title="View Details">
                             <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="simple-btn-icon" onclick="editEvent('EVT004')" title="Edit">
-                            <i class="fas fa-edit"></i>
                         </button>
                         <button class="simple-btn-icon" onclick="deleteEvent('EVT004', this)" title="Delete">
                             <i class="fas fa-trash"></i>
@@ -328,6 +442,47 @@ ob_start();
     border-radius: 12px;
     font-size: 0.8rem;
     color: #666;
+}
+
+.participant-selector-row {
+    gap: 20px;
+}
+
+.selector-chip-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.grade-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    background: #fff;
+}
+
+.grade-chip input {
+    margin: 0;
+}
+
+.disabled-selector {
+    opacity: 0.6;
+}
+
+.selector-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.selector-header small {
+    font-size: 0.75rem;
+    color: #888;
 }
 
 /* Responsive table */
@@ -439,6 +594,7 @@ ob_start();
 
 <script>
 let editingEventId = null;
+let editCurrentAttachments = [];
 
 // Toggle form
 document.getElementById('toggleEventForm').addEventListener('click', function() {
@@ -532,8 +688,91 @@ function viewEventDetails(eventId) {
 }
 
 function editEvent(eventId) {
-    // Navigate to edit event page (same pattern as exam section)
-    window.location.href = `/staff/event-edit?id=${eventId}`;
+    // Get event data
+    const events = JSON.parse(localStorage.getItem('staffEvents') || '[]');
+    const eventData = events.find(e => e.id === eventId);
+    
+    if (!eventData) {
+        alert('Event not found');
+        return;
+    }
+    
+    editingEventId = eventId;
+    
+    // Load event data into modal form
+    document.getElementById('editEventTitle').value = eventData.title || '';
+    document.getElementById('editEventCategory').value = eventData.category || 'academic';
+    document.getElementById('editEventDate').value = eventData.date || '';
+    document.getElementById('editEventStart').value = eventData.start || '';
+    document.getElementById('editEventEnd').value = eventData.end || '';
+    document.getElementById('editEventLocation').value = eventData.location || '';
+    document.getElementById('editEventAudience').value = eventData.audience || 'all';
+    document.getElementById('editEventDesc').value = eventData.desc || eventData.description || '';
+    
+    // Load attachments
+    if (eventData.attachments && eventData.attachments.length > 0) {
+        editCurrentAttachments = eventData.attachments;
+        displayEditAttachedFiles(editCurrentAttachments);
+    } else {
+        editCurrentAttachments = [];
+        displayEditAttachedFiles([]);
+    }
+    
+    // Show modal
+    document.getElementById('editEventModal').style.display = 'flex';
+}
+
+function closeEditEventModal() {
+    document.getElementById('editEventModal').style.display = 'none';
+    editingEventId = null;
+    editCurrentAttachments = [];
+    displayEditAttachedFiles([]);
+}
+
+function saveEditedEvent() {
+    const title = document.getElementById('editEventTitle').value.trim();
+    const category = document.getElementById('editEventCategory').value;
+    const date = document.getElementById('editEventDate').value;
+    const start = document.getElementById('editEventStart').value;
+    const end = document.getElementById('editEventEnd').value;
+    const location = document.getElementById('editEventLocation').value.trim();
+    const audience = document.getElementById('editEventAudience').value;
+    const desc = document.getElementById('editEventDesc').value.trim();
+    
+    if (!title || !date || !start || !location) {
+        showToast('Please fill all required fields (Title, Date, Start Time, Location)', 'warning');
+        return;
+    }
+    
+    const eventData = {
+        id: editingEventId,
+        title,
+        category,
+        date,
+        start,
+        end,
+        location,
+        audience,
+        desc,
+        attachments: editCurrentAttachments
+    };
+    
+    // Save to localStorage
+    let events = JSON.parse(localStorage.getItem('staffEvents') || '[]');
+    const index = events.findIndex(e => e.id === editingEventId);
+    
+    if (index > -1) {
+        events[index] = eventData;
+    } else {
+        events.push(eventData);
+    }
+    
+    localStorage.setItem('staffEvents', JSON.stringify(events));
+    
+    showToast(`Event "${eventData.title}" (${eventData.id}) updated successfully`, 'success');
+    
+    closeEditEventModal();
+    loadEvents();
 }
 
 function deleteEvent(eventId, btn) {
@@ -698,9 +937,6 @@ function loadEvents() {
                 <button class="simple-btn-icon" onclick="viewEventDetails('${event.id}')" title="View Details">
                     <i class="fas fa-eye"></i>
                 </button>
-                <button class="simple-btn-icon" onclick="editEvent('${event.id}')" title="Edit">
-                    <i class="fas fa-edit"></i>
-                </button>
                 <button class="simple-btn-icon" onclick="deleteEvent('${event.id}', this)" title="Delete">
                     <i class="fas fa-trash"></i>
                 </button>
@@ -831,8 +1067,106 @@ function getCurrentAttachments() {
     }));
 }
 
-// Load events on page load
-document.addEventListener('DOMContentLoaded', loadEvents);
+function displayEditAttachedFiles(attachments) {
+    const container = document.getElementById('editAttachedFilesList');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    if (attachments.length === 0) {
+        container.innerHTML = '<p style="color: #666; font-style: italic; margin: 0;">No files attached</p>';
+        return;
+    }
+    
+    attachments.forEach(attachment => {
+        const fileItem = document.createElement('div');
+        fileItem.className = 'attached-file-item';
+        fileItem.innerHTML = `
+            <div class="attached-file-info">
+                <div class="attached-file-icon">
+                    <i class="fas fa-file"></i>
+                </div>
+                <div class="attached-file-details">
+                    <div class="attached-file-name">${attachment.name}</div>
+                    <div class="attached-file-size">${formatFileSize(attachment.size)}</div>
+                </div>
+            </div>
+            <div class="attached-file-actions">
+                <button class="remove-file-btn" onclick="removeEditFile('${attachment.id}')" title="Remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+        container.appendChild(fileItem);
+    });
+}
+
+function removeEditFile(attachmentId) {
+    editCurrentAttachments = editCurrentAttachments.filter(att => att.id != attachmentId);
+    displayEditAttachedFiles(editCurrentAttachments);
+}
+
+// Handle file uploads in edit modal
+document.addEventListener('DOMContentLoaded', function() {
+    const editFileInput = document.getElementById('editEventAttachments');
+    if (editFileInput) {
+        editFileInput.addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            
+            files.forEach(file => {
+                if (file.size > 10 * 1024 * 1024) {
+                    showToast(`File "${file.name}" exceeds 10MB limit.`, 'warning');
+                    return;
+                }
+                
+                const allowedTypes = [
+                    'application/pdf',
+                    'application/msword',
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                    'application/vnd.ms-excel',
+                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    'application/vnd.ms-powerpoint',
+                    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                    'text/plain',
+                    'image/jpeg',
+                    'image/jpg',
+                    'image/png',
+                    'image/gif'
+                ];
+                
+                if (!allowedTypes.includes(file.type)) {
+                    showToast(`File "${file.name}" is not a supported format.`, 'warning');
+                    return;
+                }
+                
+                const attachment = {
+                    id: Date.now() + Math.random(),
+                    name: file.name,
+                    size: file.size,
+                    type: file.type,
+                    file: file
+                };
+                
+                editCurrentAttachments.push(attachment);
+            });
+            
+            e.target.value = '';
+            displayEditAttachedFiles(editCurrentAttachments);
+        });
+    }
+    
+    // Close modal when clicking outside
+    const editModal = document.getElementById('editEventModal');
+    if (editModal) {
+        editModal.addEventListener('click', function(e) {
+            if (e.target === editModal) {
+                closeEditEventModal();
+            }
+        });
+    }
+    
+    loadEvents();
+});
 </script>
 
 <?php

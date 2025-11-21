@@ -122,14 +122,6 @@ $activePage = $activePage ?? 'dashboard';
             </a>
         </li>
         <li>
-            <a href="/admin/event-calendar" 
-               class="<?php echo ($activePage === 'event-calendar') ? 'active' : ''; ?>"
-               title="Event Calendar">
-                <i class="fas fa-calendar-alt"></i> 
-                <span class="sidebar-nav-label">Event Calendar</span>
-            </a>
-        </li>
-        <li>
             <a href="/admin/announcements" 
                class="<?php echo ($activePage === 'announcements') ? 'active' : ''; ?>"
                title="Announcements">
@@ -138,8 +130,8 @@ $activePage = $activePage ?? 'dashboard';
             </a>
         </li>
         
-        <!-- Group 4: Schedule Planner, Attendance, Leave -->
-        <li class="sidebar-section-header" style="margin: 1rem 0 0.5rem 0; color: #a0aec0; font-size: 0.75rem; text-transform: uppercase; padding: 0 1.5rem;">SCHEDULE & ATTENDANCE</li>
+        <!-- Group 4: Time-table Planner, Attendance, Leave -->
+        <li class="sidebar-section-header" style="margin: 1rem 0 0.5rem 0; color: #a0aec0; font-size: 0.75rem; text-transform: uppercase; padding: 0 1.5rem;">TIME-TABLE & ATTENDANCE</li>
         <li>
             <a href="/admin/schedule-attendance-setup" 
                class="<?php echo ($activePage === 'schedule-attendance-setup') ? 'active' : ''; ?>"
@@ -151,9 +143,9 @@ $activePage = $activePage ?? 'dashboard';
         <li>
             <a href="/admin/schedule-planner" 
                class="<?php echo ($activePage === 'schedule') ? 'active' : ''; ?>"
-               title="Schedule Planner">
+               title="Time-table Planner">
                 <i class="fas fa-clock"></i> 
-                <span class="sidebar-nav-label">Schedule Planner</span>
+                <span class="sidebar-nav-label">Time-table Planner</span>
             </a>
         </li>
         <li>

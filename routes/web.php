@@ -68,10 +68,6 @@ Route::prefix('admin')->group(function () {
         include resource_path('views/admin/event-planner.php'); 
     })->name('admin.event-planner');
     
-    Route::get('/event-calendar', function() { 
-        include resource_path('views/admin/event-calendar.php'); 
-    })->name('admin.event-calendar');
-    
     Route::get('/schedule-planner', function() { 
         include resource_path('views/admin/schedule-planner.php'); 
     })->name('admin.schedule-planner');

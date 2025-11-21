@@ -209,7 +209,7 @@ ob_start();
                 </button>
                 <button class="report-item" onclick="generateReport('class-schedules')">
                     <i class="fas fa-calendar-alt"></i>
-                    <span>Class Schedules</span>
+                    <span>Class Time-tables</span>
                     <i class="fas fa-arrow-right"></i>
                 </button>
                 <button class="report-item" onclick="generateReport('facility-usage')">
@@ -587,7 +587,7 @@ function getReportTitle(reportType) {
         'revenue-summary': 'Revenue Summary Report',
         'staff-directory': 'Staff Directory Report',
         'student-directory': 'Student Directory Report',
-        'class-schedules': 'Class Schedules Report',
+        'class-schedules': 'Class Time-tables Report',
         'facility-usage': 'Facility Usage Report'
     };
     return titles[reportType] || 'Generate Report';

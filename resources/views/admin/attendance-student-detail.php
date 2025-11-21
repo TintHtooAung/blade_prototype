@@ -51,40 +51,28 @@ ob_start();
     <div class="simple-table-container">
         <table class="basic-table">
             <tbody>
-                <tr><th style="width:220px;">Overall Attendance %</th><td><span id="overallPercentage" class="percentage-badge high">-</span></td></tr>
+                <tr><th style="width:220px;">This Month Attendance %</th><td><span id="overallPercentage" class="percentage-badge high">-</span></td></tr>
                 <tr><th>Total Days</th><td id="totalDays">-</td></tr>
                 <tr><th>Days Present</th><td id="daysPresent">-</td></tr>
                 <tr><th>Days Absent</th><td id="daysAbsent">-</td></tr>
-                <tr><th>Days Late</th><td id="daysLate">-</td></tr>
                 <tr><th>Days on Leave</th><td id="daysLeave">-</td></tr>
-                <tr><th>Leaves Allowed</th><td id="leavesAllowed">-</td></tr>
-                <tr><th>Leave Remaining</th><td id="leaveRemaining">-</td></tr>
             </tbody>
         </table>
     </div>
 </div>
 
-<!-- Monthly Attendance Breakdown -->
+<!-- Monthly Attendance Register -->
 <div class="simple-section">
     <div class="simple-header">
-        <h4><i class="fas fa-calendar-alt"></i> Monthly Attendance Breakdown</h4>
+        <h4><i class="fas fa-calendar-alt"></i> Monthly Attendance Register</h4>
     </div>
-    <div class="simple-table-container">
-        <table class="basic-table responsive-table">
-            <thead>
-                <tr>
-                    <th>Month</th>
-                    <th>Total Days</th>
-                    <th>Attendance %</th>
-                    <th>Present</th>
-                    <th>Absent</th>
-                    <th>Late</th>
-                    <th>Leave</th>
-                    <th>Status</th>
-                </tr>
+    <div class="simple-table-container" style="overflow-x: auto;">
+        <table class="basic-table monthly-register-table">
+            <thead id="monthlyRegisterHeader">
+                <!-- Header will be populated by JavaScript -->
             </thead>
-            <tbody id="monthlyAttendanceTable">
-                <!-- Monthly attendance data will be populated by JavaScript -->
+            <tbody id="monthlyRegisterBody">
+                <!-- Register data will be populated by JavaScript -->
             </tbody>
         </table>
     </div>
@@ -157,9 +145,12 @@ const studentData = {
     'S016': { name: 'Sophia Walker', grade: '12', class: 'B', leavesAllowed: 10 }
 };
 
-// Monthly attendance data
+// Monthly attendance data (Academic Year: June to February)
 const monthlyAttendanceData = {
     'S001': [
+        { month: 'June 2024', totalDays: 22, present: 22, absent: 0, late: 0, leave: 0, percentage: 100, status: 'Excellent' },
+        { month: 'July 2024', totalDays: 22, present: 22, absent: 0, late: 0, leave: 0, percentage: 100, status: 'Excellent' },
+        { month: 'August 2024', totalDays: 19, present: 18, absent: 1, late: 0, leave: 0, percentage: 95, status: 'Good' },
         { month: 'September 2024', totalDays: 22, present: 22, absent: 0, late: 0, leave: 0, percentage: 100, status: 'Excellent' },
         { month: 'October 2024', totalDays: 23, present: 22, absent: 1, late: 0, leave: 0, percentage: 96, status: 'Good' },
         { month: 'November 2024', totalDays: 20, present: 20, absent: 0, late: 1, leave: 0, percentage: 100, status: 'Excellent' },
@@ -168,6 +159,9 @@ const monthlyAttendanceData = {
         { month: 'February 2025', totalDays: 19, present: 18, absent: 1, late: 0, leave: 0, percentage: 95, status: 'Good' }
     ],
     'S002': [
+        { month: 'June 2024', totalDays: 22, present: 20, absent: 2, late: 0, leave: 0, percentage: 91, status: 'Good' },
+        { month: 'July 2024', totalDays: 22, present: 21, absent: 1, late: 0, leave: 0, percentage: 95, status: 'Good' },
+        { month: 'August 2024', totalDays: 19, present: 18, absent: 1, late: 0, leave: 0, percentage: 95, status: 'Good' },
         { month: 'September 2024', totalDays: 22, present: 20, absent: 2, late: 0, leave: 0, percentage: 91, status: 'Good' },
         { month: 'October 2024', totalDays: 23, present: 21, absent: 2, late: 1, leave: 0, percentage: 91, status: 'Good' },
         { month: 'November 2024', totalDays: 20, present: 19, absent: 1, late: 0, leave: 0, percentage: 95, status: 'Good' },
@@ -283,12 +277,6 @@ function calculateSummary(monthlyData, dailyRecords) {
     };
 }
 
-// Calculate leave remaining
-function calculateLeaveRemaining(leavesAllowed, totalLeave) {
-    const remaining = leavesAllowed - totalLeave;
-    return Math.max(0, remaining); // Ensure it doesn't go negative
-}
-
 // Load student data
 function loadStudentData() {
     const student = studentData[studentId] || { name: 'Unknown Student', grade: '-', class: '-', leavesAllowed: 15 };
@@ -297,34 +285,159 @@ function loadStudentData() {
     document.getElementById('studentGrade').textContent = `Grade ${student.grade}`;
     document.getElementById('studentClass').textContent = student.class;
     
-    // Initialize leaves allowed
-    const leavesAllowed = student.leavesAllowed || 15;
-    document.getElementById('leavesAllowed').textContent = leavesAllowed;
-    
-    // Load monthly attendance
-    const monthlyData = monthlyAttendanceData[studentId] || monthlyAttendanceData['S001'];
-    const monthlyTable = document.getElementById('monthlyAttendanceTable');
-    monthlyTable.innerHTML = '';
-    
-    monthlyData.forEach(month => {
-        const percentageClass = month.percentage >= 95 ? 'high' : month.percentage >= 90 ? 'medium' : 'low';
-        const statusClass = month.status === 'Excellent' ? 'paid' : 'active';
-        
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td data-label="Month"><strong>${month.month}</strong></td>
-            <td data-label="Total Days">${month.totalDays}</td>
-            <td data-label="Attendance %"><span class="percentage-badge ${percentageClass}">${month.percentage}%</span></td>
-            <td data-label="Present"><span class="stat-badge present">${month.present}</span></td>
-            <td data-label="Absent"><span class="stat-badge absent">${month.absent}</span></td>
-            <td data-label="Late"><span class="stat-badge late">${month.late}</span></td>
-            <td data-label="Leave">${month.leave}</td>
-            <td data-label="Status"><span class="status-badge ${statusClass}">${month.status}</span></td>
-        `;
-        monthlyTable.appendChild(row);
-    });
+    // Load monthly attendance register
+    loadMonthlyRegister();
     
     // Summary will be updated when daily records are loaded
+}
+
+// Load monthly attendance register
+function loadMonthlyRegister() {
+    const monthlyData = monthlyAttendanceData[studentId] || monthlyAttendanceData['S001'];
+    const header = document.getElementById('monthlyRegisterHeader');
+    const body = document.getElementById('monthlyRegisterBody');
+    
+    if (!header || !body) return;
+    
+    // Academic year month order: June to February
+    const academicMonthOrder = ['June', 'July', 'August', 'September', 'October', 'November', 'December', 'January', 'February'];
+    
+    // Create header row
+    let headerHTML = '<tr>';
+    headerHTML += '<th rowspan="2" style="min-width: 120px;">Month</th>';
+    
+    // Group months by academic year (June to February)
+    const academicMonths = [];
+    monthlyData.forEach(month => {
+        const monthName = month.month.split(' ')[0];
+        const year = month.month.split(' ')[1];
+        academicMonths.push({ name: monthName, year: year, data: month });
+    });
+    
+    // Sort months according to academic year order (June to February)
+    academicMonths.sort((a, b) => {
+        const indexA = academicMonthOrder.indexOf(a.name);
+        const indexB = academicMonthOrder.indexOf(b.name);
+        const yearA = parseInt(a.year);
+        const yearB = parseInt(b.year);
+        
+        // If same year, sort by month order
+        if (yearA === yearB) {
+            return indexA - indexB;
+        }
+        
+        // Academic year spans two calendar years
+        // June-Dec of first year should come before Jan-Feb of next year
+        // So: June 2024, July 2024... Dec 2024, Jan 2025, Feb 2025
+        
+        // If a is June-Dec (2024) and b is Jan-Feb (2025), a comes first
+        if (indexA <= 6 && yearA === 2024 && indexB >= 7 && yearB === 2025) {
+            return -1;
+        }
+        // If a is Jan-Feb (2025) and b is June-Dec (2024), b comes first
+        if (indexA >= 7 && yearA === 2025 && indexB <= 6 && yearB === 2024) {
+            return 1;
+        }
+        
+        // Otherwise sort by year
+        return yearA - yearB;
+    });
+    
+    // Create month headers with sub-columns
+    academicMonths.forEach(month => {
+        headerHTML += `<th colspan="2" class="month-header">${month.name} ${month.year}</th>`;
+    });
+    
+    headerHTML += '</tr>';
+    
+    // Create sub-header row
+    headerHTML += '<tr>';
+    academicMonths.forEach(() => {
+        headerHTML += '<th class="sub-header">Available</th>';
+        headerHTML += '<th class="sub-header">Attended</th>';
+    });
+    headerHTML += '</tr>';
+    
+    header.innerHTML = headerHTML;
+    
+    // Create body rows
+    body.innerHTML = '';
+    
+    // Previous Month row (all months except the last one)
+    const prevRow = document.createElement('tr');
+    let prevRowHTML = '<td><strong>Previous Month</strong></td>';
+    academicMonths.forEach((month, index) => {
+        if (index < academicMonths.length - 1) {
+            // Show data for all months before the current month
+            const available = month.data.totalDays * 2;
+            const attended = month.data.present * 2;
+            prevRowHTML += `<td>${available}</td>`;
+            prevRowHTML += `<td>${attended}</td>`;
+        } else {
+            // Empty for current month
+            prevRowHTML += '<td>-</td><td>-</td>';
+        }
+    });
+    prevRow.innerHTML = prevRowHTML;
+    body.appendChild(prevRow);
+    
+    // Current Month row
+    const currRow = document.createElement('tr');
+    let currRowHTML = '<td><strong>Current Month</strong></td>';
+    academicMonths.forEach((month, index) => {
+        if (index === academicMonths.length - 1) {
+            const available = month.data.totalDays * 2;
+            const attended = month.data.present * 2;
+            currRowHTML += `<td>${available}</td>`;
+            currRowHTML += `<td>${attended}</td>`;
+        } else {
+            currRowHTML += '<td>-</td><td>-</td>';
+        }
+    });
+    currRow.innerHTML = currRowHTML;
+    body.appendChild(currRow);
+    
+    // Total row
+    const totalRow = document.createElement('tr');
+    let totalRowHTML = '<td><strong>Total</strong></td>';
+    academicMonths.forEach((month, index) => {
+        let monthTotalAvailable = 0;
+        let monthTotalAttended = 0;
+        
+        // Sum up to this month
+        for (let i = 0; i <= index; i++) {
+            monthTotalAvailable += academicMonths[i].data.totalDays * 2;
+            monthTotalAttended += academicMonths[i].data.present * 2;
+        }
+        
+        totalRowHTML += `<td>${monthTotalAvailable}</td>`;
+        totalRowHTML += `<td>${monthTotalAttended}</td>`;
+    });
+    totalRow.innerHTML = totalRowHTML;
+    body.appendChild(totalRow);
+    
+    // Percentage row
+    const percentRow = document.createElement('tr');
+    let percentRowHTML = '<td><strong>Percentage</strong></td>';
+    academicMonths.forEach((month, index) => {
+        let monthTotalAvailable = 0;
+        let monthTotalAttended = 0;
+        
+        // Sum up to this month
+        for (let i = 0; i <= index; i++) {
+            monthTotalAvailable += academicMonths[i].data.totalDays * 2;
+            monthTotalAttended += academicMonths[i].data.present * 2;
+        }
+        
+        const percentage = monthTotalAvailable > 0 
+            ? ((monthTotalAttended / monthTotalAvailable) * 100).toFixed(2) 
+            : '0.00';
+        const percentageClass = percentage >= 95 ? 'high' : percentage >= 90 ? 'medium' : 'low';
+        
+        percentRowHTML += `<td colspan="2"><span class="percentage-badge ${percentageClass}">${percentage}%</span></td>`;
+    });
+    percentRow.innerHTML = percentRowHTML;
+    body.appendChild(percentRow);
 }
 
 // Get period badge HTML
@@ -393,30 +506,12 @@ function updateSummaryWithRecords(records) {
     const summary = calculateSummary(monthlyAttendanceData[studentId] || monthlyAttendanceData['S001'], records);
     const percentageClass = summary.overallPercentage >= 95 ? 'high' : summary.overallPercentage >= 90 ? 'medium' : 'low';
     
-    // Get student data for leaves allowed
-    const student = studentData[studentId] || { leavesAllowed: 15 };
-    const leavesAllowed = student.leavesAllowed || 15;
-    const leaveRemaining = calculateLeaveRemaining(leavesAllowed, summary.totalLeave);
-    
     document.getElementById('overallPercentage').textContent = `${summary.overallPercentage}%`;
     document.getElementById('overallPercentage').className = `percentage-badge ${percentageClass}`;
     document.getElementById('totalDays').textContent = summary.totalDays;
     document.getElementById('daysPresent').textContent = summary.totalPresent;
     document.getElementById('daysAbsent').textContent = summary.totalAbsent;
-    document.getElementById('daysLate').textContent = summary.totalLate;
     document.getElementById('daysLeave').textContent = summary.totalLeave;
-    document.getElementById('leavesAllowed').textContent = leavesAllowed;
-    
-    // Display leave remaining with appropriate styling
-    const leaveRemainingEl = document.getElementById('leaveRemaining');
-    leaveRemainingEl.textContent = leaveRemaining;
-    if (leaveRemaining <= 3) {
-        leaveRemainingEl.className = 'leave-remaining low';
-    } else if (leaveRemaining <= 5) {
-        leaveRemainingEl.className = 'leave-remaining medium';
-    } else {
-        leaveRemainingEl.className = 'leave-remaining high';
-    }
 }
 
 // Filter attendance records
@@ -618,6 +713,63 @@ document.addEventListener('DOMContentLoaded', function() {
 .leave-remaining.low {
     background: #fef2f2;
     color: #ef4444;
+}
+
+/* Monthly Attendance Register Styles */
+.monthly-register-table {
+    min-width: 800px;
+    border-collapse: collapse;
+}
+
+.monthly-register-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+    text-align: center;
+    padding: 12px 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.monthly-register-table th.month-header {
+    background: #e3f2fd;
+    color: #1976d2;
+    font-weight: 700;
+    padding: 10px;
+}
+
+.monthly-register-table th.sub-header {
+    background: #f0f9ff;
+    color: #1e40af;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 8px;
+}
+
+.monthly-register-table td {
+    text-align: center;
+    padding: 10px 8px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+}
+
+.monthly-register-table tr:nth-child(even) td {
+    background: #f9fafb;
+}
+
+.monthly-register-table tr:hover td {
+    background: #f3f4f6;
+}
+
+.monthly-register-table td:first-child {
+    text-align: left;
+    font-weight: 600;
+    background: #f8f9fa;
+    position: sticky;
+    left: 0;
+    z-index: 10;
+}
+
+.monthly-register-table tr:hover td:first-child {
+    background: #e9ecef;
 }
 
 @media (max-width: 768px) {

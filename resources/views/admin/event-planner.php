@@ -26,7 +26,7 @@ ob_start();
 <div id="createEventModal" class="confirm-dialog-overlay" style="display:none;">
     <div class="confirm-dialog-content" style="max-width: 800px; max-height: 90vh; overflow-y: auto;">
         <div class="confirm-dialog-header">
-            <h4><i class="fas fa-calendar-plus"></i> Create New Event</h4>
+            <h4><i class="fas fa-calendar-plus"></i> <span id="eventModalTitle">Create New Event</span></h4>
             <button class="icon-btn" onclick="closeCreateEventModal()"><i class="fas fa-times"></i></button>
         </div>
         <div class="confirm-dialog-body" style="padding: 20px;">
@@ -49,16 +49,18 @@ ob_start();
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Event Date *</label>
-                        <input type="date" class="form-input" id="eventDate">
+                        <label>Start Date & Time *</label>
+                        <div class="dual-input">
+                            <input type="date" class="form-input" id="eventStartDate">
+                            <input type="time" class="form-input" id="eventStart">
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label>Start Time *</label>
-                        <input type="time" class="form-input" id="eventStart">
-                    </div>
-                    <div class="form-group">
-                        <label>End Time</label>
-                        <input type="time" class="form-input" id="eventEnd">
+                        <label>End Date & Time</label>
+                        <div class="dual-input">
+                            <input type="date" class="form-input" id="eventEndDate">
+                            <input type="time" class="form-input" id="eventEnd">
+                        </div>
                     </div>
                 </div>
                 <div class="form-row">
@@ -73,30 +75,52 @@ ob_start();
                             <option value="students">Students</option>
                             <option value="teachers">Teachers</option>
                             <option value="staff">Staff</option>
-                            <option value="parents">Parents</option>
                         </select>
+                    </div>
+                </div>
+                <div class="form-row" id="studentGradeRow" style="display:none;">
+                    <div class="form-group" style="flex:1;">
+                        <label>Select Grades</label>
+                        <div id="studentGradeSelector" class="participant-chip-grid">
+                            <label class="grade-chip"><input type="checkbox" class="grade-checkbox" value="Grade 1"> Grade 1</label>
+                            <label class="grade-chip"><input type="checkbox" class="grade-checkbox" value="Grade 2"> Grade 2</label>
+                            <label class="grade-chip"><input type="checkbox" class="grade-checkbox" value="Grade 3"> Grade 3</label>
+                            <label class="grade-chip"><input type="checkbox" class="grade-checkbox" value="Grade 4"> Grade 4</label>
+                            <label class="grade-chip"><input type="checkbox" class="grade-checkbox" value="Grade 5"> Grade 5</label>
+                            <label class="grade-chip"><input type="checkbox" class="grade-checkbox" value="Grade 6"> Grade 6</label>
+                            <label class="grade-chip"><input type="checkbox" class="grade-checkbox" value="Grade 7"> Grade 7</label>
+                            <label class="grade-chip"><input type="checkbox" class="grade-checkbox" value="Grade 8"> Grade 8</label>
+                            <label class="grade-chip"><input type="checkbox" class="grade-checkbox" value="Grade 9"> Grade 9</label>
+                            <label class="grade-chip"><input type="checkbox" class="grade-checkbox" value="Grade 10"> Grade 10</label>
+                            <label class="grade-chip"><input type="checkbox" class="grade-checkbox" value="Grade 11"> Grade 11</label>
+                            <label class="grade-chip"><input type="checkbox" class="grade-checkbox" value="Grade 12"> Grade 12</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row" id="teacherGradeRow" style="display:none;">
+                    <div class="form-group" style="flex:1;">
+                        <label>Select Teacher Grades</label>
+                        <div id="teacherGradeSelector" class="participant-chip-grid">
+                            <label class="grade-chip"><input type="checkbox" class="teacher-grade-checkbox" value="Grade 1"> Grade 1</label>
+                            <label class="grade-chip"><input type="checkbox" class="teacher-grade-checkbox" value="Grade 2"> Grade 2</label>
+                            <label class="grade-chip"><input type="checkbox" class="teacher-grade-checkbox" value="Grade 3"> Grade 3</label>
+                            <label class="grade-chip"><input type="checkbox" class="teacher-grade-checkbox" value="Grade 4"> Grade 4</label>
+                            <label class="grade-chip"><input type="checkbox" class="teacher-grade-checkbox" value="Grade 5"> Grade 5</label>
+                            <label class="grade-chip"><input type="checkbox" class="teacher-grade-checkbox" value="Grade 6"> Grade 6</label>
+                            <label class="grade-chip"><input type="checkbox" class="teacher-grade-checkbox" value="Grade 7"> Grade 7</label>
+                            <label class="grade-chip"><input type="checkbox" class="teacher-grade-checkbox" value="Grade 8"> Grade 8</label>
+                            <label class="grade-chip"><input type="checkbox" class="teacher-grade-checkbox" value="Grade 9"> Grade 9</label>
+                            <label class="grade-chip"><input type="checkbox" class="teacher-grade-checkbox" value="Grade 10"> Grade 10</label>
+                            <label class="grade-chip"><input type="checkbox" class="teacher-grade-checkbox" value="Grade 11"> Grade 11</label>
+                            <label class="grade-chip"><input type="checkbox" class="teacher-grade-checkbox" value="Grade 12"> Grade 12</label>
+                        </div>
+                        <small class="helper-text">Choose the grade levels whose teachers should be notified.</small>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group" style="flex:1;">
                         <label>Description</label>
                         <textarea class="form-input" id="eventDesc" rows="3" placeholder="Event description..."></textarea>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group" style="flex:1;">
-                        <label>Attach Files</label>
-                        <input type="file" class="form-input" id="eventAttachments" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.jpg,.jpeg,.png,.gif">
-                        <small style="color: #666; margin-top: 4px; display: block;">
-                            Supported formats: PDF, DOC, XLS, PPT, TXT, JPG, PNG (Max 10MB each)
-                        </small>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group" style="flex:1;">
-                        <div id="attachedFilesList" class="attached-files-list">
-                            <!-- Attached files will be displayed here -->
-                        </div>
                     </div>
                 </div>
             </div>
@@ -106,7 +130,7 @@ ob_start();
                 <i class="fas fa-times"></i> Cancel
             </button>
             <button class="simple-btn primary" onclick="saveNewEvent()">
-                <i class="fas fa-check"></i> Save Event
+                <i class="fas fa-check"></i> <span id="eventModalSaveBtn">Save Event</span>
             </button>
         </div>
     </div>
@@ -114,9 +138,14 @@ ob_start();
 
 <!-- Events List -->
 <div class="simple-section" style="margin-top: 16px;">
-    <div class="simple-header">
-        <h4>All Events</h4>
-        <div style="display:flex; gap:12px;">
+    <div class="simple-header" style="flex-wrap:wrap; gap:16px;">
+        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+            <h4 style="margin:0;">All Events</h4>
+        </div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+            <select class="form-select" id="monthSelector" style="width:auto; min-width:160px;">
+                <option value="">Select Month</option>
+            </select>
             <select class="form-select" id="filterCategory" style="width:auto;">
                 <option value="all">All Categories</option>
                 <option value="academic">Academic</option>
@@ -196,18 +225,19 @@ ob_start();
 
 <!-- Calendar Section -->
 <div class="simple-section" style="margin-top: 16px;">
-    <div class="calendar-header">
-        <div class="calendar-nav">
+    <div class="calendar-header" style="gap:16px; flex-wrap:wrap;">
+        <div class="calendar-nav inline-nav" id="calendarNavControls" style="gap:8px;">
             <button class="mini-nav-btn" id="prevPeriod">
                 <i class="fas fa-chevron-left"></i>
             </button>
-            <h3 id="currentPeriod">October 2025</h3>
             <button class="mini-nav-btn" id="nextPeriod">
                 <i class="fas fa-chevron-right"></i>
             </button>
         </div>
-
-        <div class="calendar-view-options">
+        <div class="calendar-period-display" style="font-weight:600; color:#111827;">
+            <span id="currentPeriod">October 2025</span>
+        </div>
+        <div class="calendar-view-options" style="margin-left:auto;">
             <div class="view-toggle-group">
                 <button class="view-toggle-btn" data-view="day">Day</button>
                 <button class="view-toggle-btn" data-view="week">Week</button>
@@ -284,8 +314,8 @@ ob_start();
                 <span id="eventModalDescription"></span>
             </div>
             <div class="event-detail-row" style="border-bottom:none; padding-top: 4px;">
-                <button class="simple-btn" onclick="viewEventDetailFromModal()">
-                    <i class="fas fa-external-link-alt"></i> View Event Detail
+                <button class="simple-btn-icon" onclick="viewEventDetailFromModal()" title="View Event Details">
+                    <i class="fas fa-eye"></i>
                 </button>
             </div>
         </div>
@@ -484,6 +514,18 @@ ob_start();
 
 .calendar-nav .mini-nav-btn {
     flex-shrink: 0;
+}
+
+.calendar-nav.inline-nav {
+    max-width: none;
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+.calendar-nav.inline-nav h5 {
+    font-size: 1rem;
+    padding: 0 8px;
 }
 
 .mini-nav-btn {
@@ -882,6 +924,45 @@ ob_start();
     gap: 8px;
 }
 
+.participant-chip-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.helper-text {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-top: 6px;
+    display: block;
+}
+
+.grade-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    background: #fff;
+    cursor: pointer;
+}
+
+.grade-chip input {
+    margin: 0;
+}
+
+.dual-input {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+}
+
+.dual-input input {
+    flex: 1;
+}
+
 .remove-file-btn {
     background: #ffebee;
     color: #d32f2f;
@@ -916,6 +997,46 @@ const categoryColors = {
     meeting: '#ea4335', 
     holiday: '#9e9e9e'
 };
+
+function getMonthValueFromDate(dateObj) {
+    if (!dateObj) return '';
+    return `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}`;
+}
+
+function populateMonthSelector(centerDate = currentDate) {
+    const selector = document.getElementById('monthSelector');
+    if (!selector) return;
+    selector.innerHTML = '';
+    const totalOptions = 13;
+    const half = Math.floor(totalOptions / 2);
+    const startDate = new Date(centerDate.getFullYear(), centerDate.getMonth() - half, 1);
+    for (let i = 0; i < totalOptions; i++) {
+        const optionDate = new Date(startDate.getFullYear(), startDate.getMonth() + i, 1);
+        const option = document.createElement('option');
+        option.value = getMonthValueFromDate(optionDate);
+        option.textContent = optionDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+        selector.appendChild(option);
+    }
+    selector.value = getMonthValueFromDate(centerDate);
+}
+
+function syncMonthSelectorWithCurrentDate() {
+    const selector = document.getElementById('monthSelector');
+    if (!selector) return;
+    const value = getMonthValueFromDate(currentDate);
+    const hasOption = Array.from(selector.options).some(opt => opt.value === value);
+    if (!hasOption) {
+        populateMonthSelector(currentDate);
+    } else {
+        selector.value = value;
+    }
+}
+
+function updatePeriodNavigationVisibility() {
+    const nav = document.getElementById('calendarNavControls');
+    if (!nav) return;
+    nav.style.display = currentView === 'month' ? 'none' : 'flex';
+}
 
 // Sample events
 const sampleEvents = [
@@ -981,12 +1102,114 @@ const sampleEvents = [
     }
 ];
 
+function getSelectedGrades(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return [];
+    return Array.from(container.querySelectorAll('input.grade-checkbox:checked')).map(cb => cb.value);
+}
+
+function setSelectedGrades(containerId, grades = []) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.querySelectorAll('input.grade-checkbox').forEach(cb => {
+        cb.checked = grades.includes(cb.value);
+    });
+}
+
+function resetGradeSelector(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.querySelectorAll('input.grade-checkbox').forEach(cb => cb.checked = false);
+}
+
+function getSelectedTeacherGrades(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return [];
+    return Array.from(container.querySelectorAll('input.teacher-grade-checkbox:checked')).map(cb => cb.value);
+}
+
+function setSelectedTeacherGrades(containerId, grades = []) {
+    const container = document.getElementById(containerId);
+    if (!container) return [];
+    container.querySelectorAll('input.teacher-grade-checkbox').forEach(cb => {
+        cb.checked = grades.includes(cb.value);
+    });
+}
+
+function resetTeacherGradeSelector(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.querySelectorAll('input.teacher-grade-checkbox').forEach(cb => cb.checked = false);
+}
+
+function toggleGradeSelector(selectEl, studentRowId, studentContainerId, teacherGradeRowId = null, teacherGradeContainerId = null) {
+    const studentRow = document.getElementById(studentRowId);
+    const teacherRow = teacherGradeRowId ? document.getElementById(teacherGradeRowId) : null;
+    const value = selectEl ? selectEl.value : 'all';
+    
+    if (studentRow) {
+        if (value === 'students') {
+            studentRow.style.display = 'block';
+        } else {
+            studentRow.style.display = 'none';
+            resetGradeSelector(studentContainerId);
+        }
+    }
+    
+    if (teacherRow) {
+        if (value === 'teachers') {
+            teacherRow.style.display = 'block';
+        } else {
+            teacherRow.style.display = 'none';
+            resetTeacherGradeSelector(teacherGradeContainerId);
+        }
+    }
+}
+
+function parseDateTime(dateStr, timeStr, defaultTime = '00:00') {
+    if (!dateStr) return new Date();
+    return new Date(`${dateStr}T${timeStr || defaultTime}`);
+}
+
+function getEventStartDate(event) {
+    return event.startDate || event.date;
+}
+
+function getEventEndDate(event) {
+    return event.endDate || event.startDate || event.date;
+}
+
+function formatDateRange(startDate, endDate) {
+    if (!startDate) return '—';
+    const start = new Date(startDate);
+    const end = endDate ? new Date(endDate) : start;
+    const startText = start.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    if (!endDate || startDate === endDate) return startText;
+    const sameYear = start.getFullYear() === end.getFullYear();
+    const sameMonth = start.getMonth() === end.getMonth() && sameYear;
+    if (sameMonth) {
+        return `${start.toLocaleDateString('en-US', { month: 'short' })} ${start.getDate()} - ${end.getDate()}, ${start.getFullYear()}`;
+    }
+    if (sameYear) {
+        return `${start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${end.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}, ${start.getFullYear()}`;
+    }
+    return `${startText} - ${end.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+}
+
+function formatTimeRange(start, end) {
+    if (!start) return 'All Day';
+    if (!end) return formatTime(start);
+    return `${formatTime(start)} - ${formatTime(end)}`;
+}
+
 // Get all events (sample + stored)
 function getAllEvents() {
     const storedEvents = JSON.parse(localStorage.getItem('adminEvents') || '[]');
     // Convert stored events to calendar format
     const convertedEvents = storedEvents.map(e => ({
         ...e,
+    startDate: e.startDate || e.date,
+    endDate: e.endDate || e.startDate || e.date,
         startTime: e.start || '00:00',
         endTime: e.end || '23:59',
         time: e.start && e.end ? 
@@ -1018,6 +1241,8 @@ function getFilteredEvents() {
 function openCreateEventModal() {
     editingEventId = null;
     clearForm();
+    document.getElementById('eventModalTitle').textContent = 'Create New Event';
+    document.getElementById('eventModalSaveBtn').textContent = 'Save Event';
     document.getElementById('createEventModal').style.display = 'flex';
 }
 
@@ -1027,21 +1252,90 @@ function closeCreateEventModal() {
     clearForm();
 }
 
+function openEditEventModal(eventId) {
+    const events = JSON.parse(localStorage.getItem('adminEvents') || '[]');
+    const eventData = events.find(e => e.id === eventId);
+    
+    if (!eventData) {
+        alert('Event not found');
+        return;
+    }
+    
+    editingEventId = eventId;
+    
+    // Update modal title
+    document.getElementById('eventModalTitle').textContent = 'Edit Event';
+    document.getElementById('eventModalSaveBtn').textContent = 'Update Event';
+    
+    // Load event data into form
+    const startDate = eventData.startDate || eventData.date || '';
+    const endDate = eventData.endDate || startDate;
+    document.getElementById('eventTitle').value = eventData.title || '';
+    document.getElementById('eventCategory').value = eventData.category || 'academic';
+    document.getElementById('eventStartDate').value = startDate;
+    document.getElementById('eventEndDate').value = endDate;
+    document.getElementById('eventStart').value = eventData.start || '';
+    document.getElementById('eventEnd').value = eventData.end || '';
+    document.getElementById('eventLocation').value = eventData.location || '';
+    document.getElementById('eventAudience').value = eventData.audience || 'all';
+    document.getElementById('eventDesc').value = eventData.desc || eventData.description || '';
+    
+    // Handle student grade selection visibility
+    const audienceSelect = document.getElementById('eventAudience');
+    if (audienceSelect) {
+        toggleGradeSelector(audienceSelect, 'studentGradeRow', 'studentGradeSelector', 'teacherGradeRow', 'teacherGradeSelector');
+        if (eventData.audience === 'students' && eventData.audienceGrades) {
+            setSelectedGrades('studentGradeSelector', eventData.audienceGrades);
+        } else {
+            resetGradeSelector('studentGradeSelector');
+        }
+        if (eventData.audience === 'teachers' && eventData.teacherGrades) {
+            setSelectedTeacherGrades('teacherGradeSelector', eventData.teacherGrades);
+        } else {
+            resetTeacherGradeSelector('teacherGradeSelector');
+        }
+    }
+    
+    // Show modal
+    document.getElementById('createEventModal').style.display = 'flex';
+}
+
 function saveNewEvent() {
     const title = document.getElementById('eventTitle').value.trim();
     const category = document.getElementById('eventCategory').value;
-    const date = document.getElementById('eventDate').value;
+    const startDate = document.getElementById('eventStartDate').value;
+    const endDate = document.getElementById('eventEndDate').value || startDate;
     const start = document.getElementById('eventStart').value;
     const end = document.getElementById('eventEnd').value;
     const location = document.getElementById('eventLocation').value.trim();
     const audience = document.getElementById('eventAudience').value;
     const desc = document.getElementById('eventDesc').value.trim();
+    const audienceGrades = audience === 'students' ? getSelectedGrades('studentGradeSelector') : [];
+    const teacherGrades = audience === 'teachers' ? getSelectedTeacherGrades('teacherGradeSelector') : [];
     
-    if (!title || !date || !start || !location) {
+    if (!title || !startDate || !start || !location) {
         if (typeof showToast === 'function') {
-            showToast('Please fill all required fields (Title, Date, Start Time, Location)', 'warning');
+            showToast('Please fill all required fields (Title, Start Date, Start Time, Location)', 'warning');
         } else {
-            alert('Please fill all required fields (Title, Date, Start Time, Location)');
+            alert('Please fill all required fields (Title, Start Date, Start Time, Location)');
+        }
+        return;
+    }
+    
+    if (audience === 'students' && audienceGrades.length === 0) {
+        if (typeof showToast === 'function') {
+            showToast('Please select at least one grade for student events', 'warning');
+        } else {
+            alert('Please select at least one grade for student events');
+        }
+        return;
+    }
+    
+    if (audience === 'teachers' && teacherGrades.length === 0) {
+        if (typeof showToast === 'function') {
+            showToast('Please select at least one grade for teacher events', 'warning');
+        } else {
+            alert('Please select at least one grade for teacher events');
         }
         return;
     }
@@ -1050,13 +1344,16 @@ function saveNewEvent() {
         id: editingEventId || 'EVT' + Date.now(),
         title,
         category,
-        date,
+        date: startDate,
+        startDate,
+        endDate,
         start,
         end,
         location,
         audience,
+        audienceGrades,
         desc,
-        attachments: getCurrentAttachments()
+        teacherGrades
     };
     
     // Save to localStorage
@@ -1099,20 +1396,29 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    
+    const audienceSelect = document.getElementById('eventAudience');
+    if (audienceSelect) {
+        audienceSelect.addEventListener('change', function() {
+            toggleGradeSelector(this, 'studentGradeRow', 'studentGradeSelector', 'teacherGradeRow', 'teacherGradeSelector');
+        });
+        toggleGradeSelector(audienceSelect, 'studentGradeRow', 'studentGradeSelector', 'teacherGradeRow', 'teacherGradeSelector');
+    }
 });
 
 function clearForm() {
     document.getElementById('eventTitle').value = '';
     document.getElementById('eventCategory').value = 'academic';
-    document.getElementById('eventDate').value = '';
+    document.getElementById('eventStartDate').value = '';
+    document.getElementById('eventEndDate').value = '';
     document.getElementById('eventStart').value = '';
     document.getElementById('eventEnd').value = '';
     document.getElementById('eventLocation').value = '';
     document.getElementById('eventAudience').value = 'all';
     document.getElementById('eventDesc').value = '';
-    document.getElementById('eventAttachments').value = '';
-    currentAttachments = [];
-    displayAttachedFiles(currentAttachments);
+    resetGradeSelector('studentGradeSelector');
+    resetTeacherGradeSelector('teacherGradeSelector');
+    toggleGradeSelector(document.getElementById('eventAudience'), 'studentGradeRow', 'studentGradeSelector', 'teacherGradeRow', 'teacherGradeSelector');
 }
 
 function viewEventDetails(eventId) {
@@ -1120,7 +1426,7 @@ function viewEventDetails(eventId) {
 }
 
 function editEvent(eventId) {
-    window.location.href = `/admin/event-edit?id=${eventId}`;
+    openEditEventModal(eventId);
 }
 
 function deleteEvent(eventId, btn) {
@@ -1150,11 +1456,11 @@ function deleteEvent(eventId, btn) {
 
 function getEventStatus(event) {
     const now = new Date();
-    const eventDate = new Date(event.date + 'T' + (event.start || '00:00'));
-    const eventEnd = new Date(event.date + 'T' + (event.end || '23:59'));
+    const eventStart = parseDateTime(getEventStartDate(event), event.start || '00:00');
+    const eventEnd = parseDateTime(getEventEndDate(event), event.end || '23:59');
     
-    if (now < eventDate) return { label: 'Upcoming', class: 'pending' };
-    if (now >= eventDate && now <= eventEnd) return { label: 'Active', class: 'paid' };
+    if (now < eventStart) return { label: 'Upcoming', class: 'pending' };
+    if (now >= eventStart && now <= eventEnd) return { label: 'Active', class: 'paid' };
     return { label: 'Completed', class: 'completed' };
 }
 
@@ -1176,7 +1482,7 @@ function loadEvents() {
         
         // Period filtering logic
         if (filterPeriod !== 'all') {
-            const eventDate = new Date(event.date);
+            const eventDate = new Date(getEventStartDate(event));
             const now = new Date();
             const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             const tomorrow = new Date(today);
@@ -1224,12 +1530,21 @@ function loadEvents() {
                 <span class="badge-type ${event.category}">${event.category.charAt(0).toUpperCase() + event.category.slice(1)}</span>
             </td>
             <td data-label="Date & Time">
-                <div>${new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
-                <small style="color:#666;">${event.start || 'N/A'} - ${event.end || 'N/A'}</small>
+                <div>${formatDateRange(getEventStartDate(event), getEventEndDate(event))}</div>
+                <small style="color:#666;">${formatTimeRange(event.start, event.end)}</small>
             </td>
             <td data-label="Location">${event.location}</td>
             <td data-label="Participants">
-                <span class="tag">${event.audience.charAt(0).toUpperCase() + event.audience.slice(1)}</span>
+                <span class="tag">
+                    ${event.audience.charAt(0).toUpperCase() + event.audience.slice(1)}
+                    ${
+                        event.audience === 'students' && event.audienceGrades && event.audienceGrades.length
+                            ? ` (${event.audienceGrades.join(', ')})`
+                            : event.audience === 'teachers' && event.teacherGrades && event.teacherGrades.length
+                                ? ` (${event.teacherGrades.join(', ')})`
+                                : ''
+                    }
+                </span>
             </td>
             <td data-label="Status">
                 <span class="status-badge ${status.class}">${status.label}</span>
@@ -1237,9 +1552,6 @@ function loadEvents() {
             <td data-label="Actions" class="actions-cell">
                 <button class="simple-btn-icon" onclick="viewEventDetails('${event.id}')" title="View Details">
                     <i class="fas fa-eye"></i>
-                </button>
-                <button class="simple-btn-icon" onclick="editEvent('${event.id}')" title="Edit">
-                    <i class="fas fa-edit"></i>
                 </button>
                 <button class="simple-btn-icon" onclick="deleteEvent('${event.id}', this)" title="Delete">
                     <i class="fas fa-trash"></i>
@@ -1264,111 +1576,6 @@ document.addEventListener('DOMContentLoaded', function() {
         loadEvents();
     });
 });
-
-// File attachment handling
-let currentAttachments = [];
-
-document.getElementById('eventAttachments').addEventListener('change', function(e) {
-    const files = Array.from(e.target.files);
-    
-    files.forEach(file => {
-        if (file.size > 10 * 1024 * 1024) {
-            if (typeof showToast === 'function') {
-                showToast(`File "${file.name}" is too large. Maximum size is 10MB.`, 'warning');
-            }
-            return;
-        }
-        
-        const allowedTypes = [
-            'application/pdf',
-            'application/msword',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'application/vnd.ms-excel',
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            'application/vnd.ms-powerpoint',
-            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-            'text/plain',
-            'image/jpeg',
-            'image/jpg',
-            'image/png',
-            'image/gif'
-        ];
-        
-        if (!allowedTypes.includes(file.type)) {
-            if (typeof showToast === 'function') {
-                showToast(`File "${file.name}" is not a supported format.`, 'warning');
-            }
-            return;
-        }
-        
-        const attachment = {
-            id: Date.now() + Math.random(),
-            name: file.name,
-            size: file.size,
-            type: file.type,
-            file: file
-        };
-        
-        currentAttachments.push(attachment);
-    });
-    
-    e.target.value = '';
-    displayAttachedFiles(currentAttachments);
-});
-
-function displayAttachedFiles(attachments) {
-    const container = document.getElementById('attachedFilesList');
-    container.innerHTML = '';
-    
-    if (attachments.length === 0) {
-        container.innerHTML = '<p style="color: #666; font-style: italic; margin: 0;">No files attached</p>';
-        return;
-    }
-    
-    attachments.forEach(attachment => {
-        const fileItem = document.createElement('div');
-        fileItem.className = 'attached-file-item';
-        fileItem.innerHTML = `
-            <div class="attached-file-info">
-                <div class="attached-file-icon">
-                    <i class="fas fa-file"></i>
-                </div>
-                <div class="attached-file-details">
-                    <div class="attached-file-name">${attachment.name}</div>
-                    <div class="attached-file-size">${formatFileSize(attachment.size)}</div>
-                </div>
-            </div>
-            <div class="attached-file-actions">
-                <button class="remove-file-btn" onclick="removeFile('${attachment.id}')" title="Remove">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        `;
-        container.appendChild(fileItem);
-    });
-}
-
-function formatFileSize(bytes) {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-}
-
-function removeFile(attachmentId) {
-    currentAttachments = currentAttachments.filter(att => att.id != attachmentId);
-    displayAttachedFiles(currentAttachments);
-}
-
-function getCurrentAttachments() {
-    return currentAttachments.map(att => ({
-        id: att.id,
-        name: att.name,
-        size: att.size,
-        type: att.type
-    }));
-}
 
 // Calendar Functions
 function renderMonthView() {
@@ -1397,7 +1604,7 @@ function renderMonthView() {
         const isToday = today.getFullYear() === year && today.getMonth() === month && today.getDate() === day;
         if (isToday) cell.classList.add('today');
         const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        const dayEvents = filtered.filter(e => e.date === dateStr);
+        const dayEvents = filtered.filter(e => getEventStartDate(e) === dateStr);
         cell.innerHTML = `<div class="calendar-day-number">${day}</div>`;
         if (dayEvents.length > 0) {
             const container = document.createElement('div');
@@ -1422,6 +1629,8 @@ function renderMonthView() {
         cell.innerHTML = `<div class="calendar-day-number">${day}</div>`;
         grid.appendChild(cell);
     }
+    
+    syncMonthSelectorWithCurrentDate();
 }
 
 function renderWeekView() {
@@ -1453,7 +1662,7 @@ function renderWeekView() {
         col.className = 'week-day-column';
         const isToday = day.toDateString() === today.toDateString();
         const dateStr = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
-        const dayEvents = filtered.filter(e => e.date === dateStr);
+        const dayEvents = filtered.filter(e => getEventStartDate(e) === dateStr);
         
         col.innerHTML = `
             <div class="week-day-header">
@@ -1480,6 +1689,8 @@ function renderWeekView() {
             eventsContainer.appendChild(evt);
         });
     }
+    
+    syncMonthSelectorWithCurrentDate();
 }
 
 function renderDayView() {
@@ -1501,7 +1712,7 @@ function renderDayView() {
     eventsContainer.innerHTML = `<div class="day-header"><div class="day-date-label">${monthNames[month]} ${day}</div></div><div class="day-events-timeline" id="dayTimeline"></div>`;
     const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     const filtered = getFilteredEvents();
-    const dayEvents = filtered.filter(e => e.date === dateStr);
+    const dayEvents = filtered.filter(e => getEventStartDate(e) === dateStr);
     const timeline = document.getElementById('dayTimeline');
     
     dayEvents.forEach(e => {
@@ -1514,16 +1725,19 @@ function renderDayView() {
         evt.style.top = `${top}px`;
         evt.style.height = `${height}px`;
         evt.style.background = categoryColors[e.category];
-        evt.innerHTML = `<strong>${e.title}</strong><br>${e.time || (e.startTime || 'All Day')}`;
+        evt.innerHTML = `<strong>${e.title}</strong><br>${formatTimeRange(e.startTime || e.start, e.endTime || e.end)}`;
         evt.onclick = () => showEventModal(e);
         timeline.appendChild(evt);
     });
+    
+    syncMonthSelectorWithCurrentDate();
 }
 
 function renderCurrentView() {
     if (currentView === 'month') renderMonthView();
     else if (currentView === 'week') renderWeekView();
     else if (currentView === 'day') renderDayView();
+    updatePeriodNavigationVisibility();
 }
 
 let currentModalEvent = null;
@@ -1560,6 +1774,22 @@ document.addEventListener('DOMContentLoaded', function() {
             renderCurrentView();
         });
     });
+    
+    const monthSelector = document.getElementById('monthSelector');
+    if (monthSelector) {
+        populateMonthSelector(currentDate);
+        monthSelector.addEventListener('change', function() {
+            if (!this.value) return;
+            const [yearStr, monthStr] = this.value.split('-');
+            const year = parseInt(yearStr, 10);
+            const month = parseInt(monthStr, 10);
+            if (isNaN(year) || isNaN(month)) return;
+            currentDate.setFullYear(year);
+            currentDate.setMonth(month - 1);
+            currentDate.setDate(1);
+            renderCurrentView();
+        });
+    }
     
     // Navigation
     document.getElementById('prevPeriod').addEventListener('click', function() {
@@ -1600,4 +1830,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <?php
 $content = ob_get_clean();
 include __DIR__ . '/../components/admin-layout.php';
+?>
+
+?>
+
 ?>

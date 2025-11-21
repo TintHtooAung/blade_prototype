@@ -51,10 +51,6 @@ ob_start();
 
     <div class="wizard-content-wrapper" style="display: flex; min-height: 600px;">
         <div class="wizard-main-content" style="flex: 1; overflow-y: auto; padding: 32px;">
-            <div style="margin-bottom: 24px;">
-                <h2 style="margin: 0; font-size: 28px; font-weight: 700; color: #111827;">Events & Announcements Setup Wizard</h2>
-                <p style="margin: 8px 0 0 0; color: #6b7280; font-size: 14px;">Let's set up your events and announcements system step by step</p>
-            </div>
             <div class="form-section" style="padding:0;">
                 <!-- Step 1: Event Categories Setup -->
                 <div class="wizard-step" id="setup-step-1" style="display:block;">
@@ -340,11 +336,8 @@ ob_start();
         </div>
     </div>
     
-    <div class="wizard-footer" style="border-top: 1px solid #e5e7eb; padding: 20px 32px; background: #f9fafb; display: flex; justify-content: space-between; align-items: center; border-radius: 0 0 12px 12px;">
-        <a href="/admin/dashboard" class="wizard-btn-secondary" style="text-decoration: none;">
-            <i class="fas fa-home"></i> Skip for Now
-        </a>
-        <div style="display: flex; gap: 12px; margin-left: auto;">
+    <div class="wizard-footer" style="border-top: 1px solid #e5e7eb; padding: 20px 32px; background: #f9fafb; display: flex; justify-content: flex-end; align-items: center; border-radius: 0 0 12px 12px;">
+        <div style="display: flex; gap: 12px;">
             <button id="setupBackBtn" class="wizard-btn-secondary" onclick="goToPreviousSetupStep()" style="display:none;">
                 <i class="fas fa-arrow-left"></i> Previous
             </button>

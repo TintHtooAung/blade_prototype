@@ -30,12 +30,6 @@ $logoUrl = $logoUrl ?? '/images/smart-campus-logo.svg';
         </div>
     </div>
     <div class="header-right">
-        <!-- Notification Icon -->
-        <div class="header-notification" onclick="toggleNotificationDropdown()" title="System Alerts">
-            <i class="fas fa-bell"></i>
-            <span class="notification-badge" style="display: none;">0</span>
-        </div>
-        
         <!-- Profile Section -->
         <div class="header-profile-section">
             <div class="header-profile-info">
@@ -191,46 +185,6 @@ $logoUrl = $logoUrl ?? '/images/smart-campus-logo.svg';
     flex: 1;
     max-width: 420px;
     padding-right: 20px;
-}
-
-/* Notification Icon */
-.header-notification {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    background: transparent;
-    color: #1d1d1f;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-size: 1.125rem;
-    flex-shrink: 0;
-}
-
-.header-notification:hover {
-    background: #f5f5f5;
-    color: #1976d2;
-}
-
-.notification-badge {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    background: #ef4444;
-    color: #fff;
-    font-size: 0.7rem;
-    font-weight: 600;
-    padding: 2px 6px;
-    border-radius: 10px;
-    min-width: 18px;
-    height: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
 }
 
 /* Profile Section */
@@ -466,12 +420,6 @@ $logoUrl = $logoUrl ?? '/images/smart-campus-logo.svg';
 }
 
 @media (max-width: 768px) {
-    .header-notification {
-        width: 36px;
-        height: 36px;
-        font-size: 1rem;
-    }
-    
     .header-left {
         width: auto;
         min-width: auto;

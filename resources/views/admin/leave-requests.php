@@ -19,168 +19,16 @@ ob_start();
 
 <!-- View Toggle Tabs -->
 <div class="attendance-view-tabs" style="margin-bottom: 24px;">
-    <button class="view-tab active" data-view="student" onclick="switchLeaveSection('student')">
-        <i class="fas fa-user-graduate"></i> Student Leaves
-    </button>
-    <button class="view-tab" data-view="staff" onclick="switchLeaveSection('staff')">
+    <button class="view-tab active" data-view="staff" onclick="switchLeaveSection('staff')">
         <i class="fas fa-users-cog"></i> Staff/Teacher Leaves
     </button>
-</div>
-
-<!-- Student Leaves Section -->
-<div id="student-leaves-section" class="leave-section-content">
-<!-- Pending Leave Requests - Students -->
-<div class="simple-section">
-    <div class="simple-header">
-        <h3>Pending Leave Requests - Students</h3>
-        <div style="display: flex; gap: 12px; align-items: center;">
-            <input type="search" class="simple-search" placeholder="Search..." id="searchPendingStudents" oninput="filterPendingRequests('student')">
-        </div>
-    </div>
-
-    <div class="simple-table-container">
-        <table class="basic-table" id="pendingRequestsTableStudents">
-            <thead>
-                <tr>
-                    <th>Request ID</th>
-                    <th>Requester</th>
-                    <th>Role</th>
-                    <th>Submitted</th>
-                    <th>Type</th>
-                    <th>From</th>
-                    <th>To</th>
-                    <th>Days</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="pendingRequestsBodyStudents">
-                <tr data-role="student" data-requester="Sarah Johnson" data-id="LR-2025-0146">
-                    <td><a href="/admin/attendance/leave-detail/LR-2025-0146">#LR-2025-0146</a></td>
-                    <td><strong>Sarah Johnson</strong><br><small>Grade 9-A</small></td>
-                    <td>Student</td>
-                    <td>Nov 04, 2025</td>
-                    <td>Sick Leave</td>
-                    <td>Nov 05, 2025</td>
-                    <td>Nov 05, 2025</td>
-                    <td>1</td>
-                    <td>
-                        <div style="display: flex; gap: 8px; align-items: center;">
-                            <button class="icon-btn" onclick="approveLeaveRequest(this, 'LR-2025-0146', 'student')" title="Approve">
-                                <i class="fas fa-check"></i>
-                            </button>
-                            <button class="icon-btn" onclick="rejectLeaveRequest(this, 'LR-2025-0146', 'student')" title="Reject" style="color: #dc2626;">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-                <tr data-role="student" data-requester="Michael Johnson" data-id="LR-2025-0147">
-                    <td><a href="/admin/attendance/leave-detail/LR-2025-0147">#LR-2025-0147</a></td>
-                    <td><strong>Michael Johnson</strong><br><small>Grade 7-B</small></td>
-                    <td>Student</td>
-                    <td>Nov 04, 2025</td>
-                    <td>Family Emergency</td>
-                    <td>Nov 08, 2025</td>
-                    <td>Nov 08, 2025</td>
-                    <td>1</td>
-                    <td>
-                        <div style="display: flex; gap: 8px; align-items: center;">
-                            <button class="icon-btn" onclick="approveLeaveRequest(this, 'LR-2025-0147', 'student')" title="Approve">
-                                <i class="fas fa-check"></i>
-                            </button>
-                            <button class="icon-btn" onclick="rejectLeaveRequest(this, 'LR-2025-0147', 'student')" title="Reject" style="color: #dc2626;">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-    <!-- Leave History - Students -->
-<div class="simple-section" style="margin-top: 24px;">
-        <div class="simple-header">
-            <h3>Leave History - Students</h3>
-            <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-                <div class="filter-group" style="display: flex; align-items: center; gap: 8px; flex-direction: row;">
-                    <label for="leaveHistoryDateFilterStudents" style="margin: 0; white-space: nowrap;">Select Date:</label>
-                    <input type="date" id="leaveHistoryDateFilterStudents" class="filter-select" value="<?php echo date('Y-m-d'); ?>" onchange="filterHistoryByDate('student', this.value)" style="height: 36px; padding: 8px 12px; margin: 0;">
-                </div>
-                <button class="simple-btn secondary" onclick="setTodayLeaveHistory('student')" title="Today" style="height: 36px; padding: 8px 16px; margin: 0;">
-                    <i class="fas fa-calendar-day"></i> Today
-                </button>
-                <select id="statusFilterHistoryStudents" class="filter-select" onchange="filterHistory('student')">
-                    <option value="all">All Status</option>
-                    <option value="approved">Approved</option>
-                    <option value="rejected">Rejected</option>
-                </select>
-                <input type="search" class="simple-search" placeholder="Search..." id="searchHistoryStudents" oninput="filterHistory('student')">
-            </div>
-        </div>
-
-        <div class="simple-table-container">
-            <table class="basic-table" id="historyTableStudents">
-                <thead>
-                    <tr>
-                        <th>Request ID</th>
-                        <th>Requester</th>
-                        <th>Role</th>
-                        <th>Submitted</th>
-                        <th>Type</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Days</th>
-                        <th>Status</th>
-                        <th>Approved By</th>
-                    </tr>
-                </thead>
-                <tbody id="historyBodyStudents">
-                    <tr data-status="approved" data-role="student" data-processed-date="2025-10-29">
-                        <td><a href="/admin/attendance/leave-detail/LR-2025-0135">#LR-2025-0135</a></td>
-                        <td><strong>Sarah Johnson</strong><br><small>Grade 9-A</small></td>
-                        <td>Student</td>
-                        <td>Oct 28, 2025</td>
-                        <td>Sick Leave</td>
-                        <td>Oct 29, 2025</td>
-                        <td>Oct 29, 2025</td>
-                        <td>1</td>
-                        <td><span class="status-badge active">Approved</span></td>
-                        <td><strong>John Admin</strong><br><small>Administrator</small></td>
-                    </tr>
-                    <tr data-status="approved" data-role="student" data-processed-date="2025-10-15">
-                        <td><a href="/admin/attendance/leave-detail/LR-2025-0125">#LR-2025-0125</a></td>
-                        <td><strong>Sarah Johnson</strong><br><small>Grade 9-A</small></td>
-                        <td>Student</td>
-                        <td>Oct 14, 2025</td>
-                        <td>Sick Leave</td>
-                        <td>Oct 15, 2025</td>
-                        <td>Oct 16, 2025</td>
-                        <td>2</td>
-                        <td><span class="status-badge active">Approved</span></td>
-                        <td><strong>Jane Principal</strong><br><small>Principal</small></td>
-                    </tr>
-                    <tr data-status="rejected" data-role="student" data-processed-date="2025-09-10">
-                        <td><a href="/admin/attendance/leave-detail/LR-2025-0115">#LR-2025-0115</a></td>
-                        <td><strong>Michael Johnson</strong><br><small>Grade 7-B</small></td>
-                        <td>Student</td>
-                        <td>Sep 10, 2025</td>
-                        <td>Personal</td>
-                        <td>Sep 12, 2025</td>
-                        <td>Sep 12, 2025</td>
-                        <td>1</td>
-                        <td><span class="status-badge cancelled">Rejected</span></td>
-                        <td><strong>John Admin</strong><br><small>Administrator</small></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <button class="view-tab" data-view="student" onclick="switchLeaveSection('student')">
+        <i class="fas fa-user-graduate"></i> Student Leaves
+    </button>
 </div>
 
 <!-- Staff/Teacher Leaves Section -->
-<div id="staff-leaves-section" class="leave-section-content" style="display: none;">
+<div id="staff-leaves-section" class="leave-section-content">
     <!-- Pending Leave Requests - Staff/Teachers -->
     <div class="simple-section">
     <div class="simple-header">
@@ -361,6 +209,188 @@ ob_start();
     </div>
 </div>
 
+<!-- Student Leaves Section -->
+<div id="student-leaves-section" class="leave-section-content" style="display: none;">
+<!-- Pending Leave Requests - Students -->
+<div class="simple-section">
+    <div class="simple-header">
+        <h3>Pending Leave Requests - Students</h3>
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            <select id="classFilterPendingStudents" class="filter-select" onchange="filterPendingRequests('student')">
+                <option value="all">All Classes</option>
+                <option value="Grade 7-A">Grade 7-A</option>
+                <option value="Grade 7-B">Grade 7-B</option>
+                <option value="Grade 8-A">Grade 8-A</option>
+                <option value="Grade 8-B">Grade 8-B</option>
+                <option value="Grade 9-A">Grade 9-A</option>
+                <option value="Grade 9-B">Grade 9-B</option>
+                <option value="Grade 10-A">Grade 10-A</option>
+                <option value="Grade 10-B">Grade 10-B</option>
+                <option value="Grade 11-A">Grade 11-A</option>
+                <option value="Grade 11-B">Grade 11-B</option>
+                <option value="Grade 12-A">Grade 12-A</option>
+                <option value="Grade 12-B">Grade 12-B</option>
+            </select>
+            <input type="search" class="simple-search" placeholder="Search..." id="searchPendingStudents" oninput="filterPendingRequests('student')">
+        </div>
+    </div>
+
+    <div class="simple-table-container">
+        <table class="basic-table" id="pendingRequestsTableStudents">
+            <thead>
+                <tr>
+                    <th>Request ID</th>
+                    <th>Requester</th>
+                    <th>Role</th>
+                    <th>Submitted</th>
+                    <th>Type</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Days</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="pendingRequestsBodyStudents">
+                <tr data-role="student" data-requester="Sarah Johnson" data-id="LR-2025-0146" data-class="Grade 9-A" data-from-date="2025-11-05">
+                    <td><a href="/admin/attendance/leave-detail/LR-2025-0146">#LR-2025-0146</a></td>
+                    <td><strong>Sarah Johnson</strong><br><small>Grade 9-A</small></td>
+                    <td>Student</td>
+                    <td>Nov 04, 2025</td>
+                    <td>Sick Leave</td>
+                    <td>Nov 05, 2025</td>
+                    <td>Nov 05, 2025</td>
+                    <td>1</td>
+                    <td>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <button class="icon-btn" onclick="approveLeaveRequest(this, 'LR-2025-0146', 'student')" title="Approve">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="icon-btn" onclick="rejectLeaveRequest(this, 'LR-2025-0146', 'student')" title="Reject" style="color: #dc2626;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <tr data-role="student" data-requester="Michael Johnson" data-id="LR-2025-0147" data-class="Grade 7-B" data-from-date="2025-11-08">
+                    <td><a href="/admin/attendance/leave-detail/LR-2025-0147">#LR-2025-0147</a></td>
+                    <td><strong>Michael Johnson</strong><br><small>Grade 7-B</small></td>
+                    <td>Student</td>
+                    <td>Nov 04, 2025</td>
+                    <td>Family Emergency</td>
+                    <td>Nov 08, 2025</td>
+                    <td>Nov 08, 2025</td>
+                    <td>1</td>
+                    <td>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <button class="icon-btn" onclick="approveLeaveRequest(this, 'LR-2025-0147', 'student')" title="Approve">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="icon-btn" onclick="rejectLeaveRequest(this, 'LR-2025-0147', 'student')" title="Reject" style="color: #dc2626;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+    <!-- Leave History - Students -->
+<div class="simple-section" style="margin-top: 24px;">
+        <div class="simple-header">
+            <h3>Leave History - Students</h3>
+            <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                <div class="filter-group" style="display: flex; align-items: center; gap: 8px; flex-direction: row;">
+                    <label for="leaveHistoryDateFilterStudents" style="margin: 0; white-space: nowrap;">Select Date:</label>
+                    <input type="date" id="leaveHistoryDateFilterStudents" class="filter-select" value="<?php echo date('Y-m-d'); ?>" onchange="filterHistoryByDate('student', this.value)" style="height: 36px; padding: 8px 12px; margin: 0;">
+                </div>
+                <button class="simple-btn secondary" onclick="setTodayLeaveHistory('student')" title="Today" style="height: 36px; padding: 8px 16px; margin: 0;">
+                    <i class="fas fa-calendar-day"></i> Today
+                </button>
+                <select id="classFilterHistoryStudents" class="filter-select" onchange="filterHistory('student')">
+                    <option value="all">All Classes</option>
+                    <option value="Grade 7-A">Grade 7-A</option>
+                    <option value="Grade 7-B">Grade 7-B</option>
+                    <option value="Grade 8-A">Grade 8-A</option>
+                    <option value="Grade 8-B">Grade 8-B</option>
+                    <option value="Grade 9-A">Grade 9-A</option>
+                    <option value="Grade 9-B">Grade 9-B</option>
+                    <option value="Grade 10-A">Grade 10-A</option>
+                    <option value="Grade 10-B">Grade 10-B</option>
+                    <option value="Grade 11-A">Grade 11-A</option>
+                    <option value="Grade 11-B">Grade 11-B</option>
+                    <option value="Grade 12-A">Grade 12-A</option>
+                    <option value="Grade 12-B">Grade 12-B</option>
+                </select>
+                <select id="statusFilterHistoryStudents" class="filter-select" onchange="filterHistory('student')">
+                    <option value="all">All Status</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                </select>
+                <input type="search" class="simple-search" placeholder="Search..." id="searchHistoryStudents" oninput="filterHistory('student')">
+            </div>
+        </div>
+
+        <div class="simple-table-container">
+            <table class="basic-table" id="historyTableStudents">
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Requester</th>
+                        <th>Role</th>
+                        <th>Submitted</th>
+                        <th>Type</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Days</th>
+                        <th>Status</th>
+                        <th>Approved By</th>
+                    </tr>
+                </thead>
+                <tbody id="historyBodyStudents">
+                    <tr data-status="approved" data-role="student" data-processed-date="2025-10-29" data-class="Grade 9-A" data-from-date="2025-10-29">
+                        <td><a href="/admin/attendance/leave-detail/LR-2025-0135">#LR-2025-0135</a></td>
+                        <td><strong>Sarah Johnson</strong><br><small>Grade 9-A</small></td>
+                        <td>Student</td>
+                        <td>Oct 28, 2025</td>
+                        <td>Sick Leave</td>
+                        <td>Oct 29, 2025</td>
+                        <td>Oct 29, 2025</td>
+                        <td>1</td>
+                        <td><span class="status-badge active">Approved</span></td>
+                        <td><strong>John Admin</strong><br><small>Administrator</small></td>
+                    </tr>
+                    <tr data-status="approved" data-role="student" data-processed-date="2025-10-15" data-class="Grade 9-A" data-from-date="2025-10-15">
+                        <td><a href="/admin/attendance/leave-detail/LR-2025-0125">#LR-2025-0125</a></td>
+                        <td><strong>Sarah Johnson</strong><br><small>Grade 9-A</small></td>
+                        <td>Student</td>
+                        <td>Oct 14, 2025</td>
+                        <td>Sick Leave</td>
+                        <td>Oct 15, 2025</td>
+                        <td>Oct 16, 2025</td>
+                        <td>2</td>
+                        <td><span class="status-badge active">Approved</span></td>
+                        <td><strong>Jane Principal</strong><br><small>Principal</small></td>
+                    </tr>
+                    <tr data-status="rejected" data-role="student" data-processed-date="2025-09-10" data-class="Grade 7-B" data-from-date="2025-09-12">
+                        <td><a href="/admin/attendance/leave-detail/LR-2025-0115">#LR-2025-0115</a></td>
+                        <td><strong>Michael Johnson</strong><br><small>Grade 7-B</small></td>
+                        <td>Student</td>
+                        <td>Sep 10, 2025</td>
+                        <td>Personal</td>
+                        <td>Sep 12, 2025</td>
+                        <td>Sep 12, 2025</td>
+                        <td>1</td>
+                        <td><span class="status-badge cancelled">Rejected</span></td>
+                        <td><strong>John Admin</strong><br><small>Administrator</small></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 <script>
 // Switch between Student and Staff/Teacher sections
 function switchLeaveSection(section) {
@@ -423,6 +453,8 @@ function processApproval(row, requestId, section) {
     const toDate = cells[6].textContent;
     const days = cells[7].textContent;
     const dataRole = row.getAttribute('data-role');
+    const dataClass = row.getAttribute('data-class');
+    const dataFromDate = row.getAttribute('data-from-date');
     
     // Get current user info (approver)
     const approverInfo = getCurrentUserInfo();
@@ -438,6 +470,8 @@ function processApproval(row, requestId, section) {
     historyRow.setAttribute('data-status', 'approved');
     historyRow.setAttribute('data-role', dataRole);
     historyRow.setAttribute('data-processed-date', todayDateString);
+    if (dataClass) historyRow.setAttribute('data-class', dataClass);
+    if (dataFromDate) historyRow.setAttribute('data-from-date', dataFromDate);
     historyRow.innerHTML = `
         <td>${requestIdLink}</td>
         <td>${requester}</td>
@@ -498,6 +532,8 @@ function processRejection(row, requestId, section) {
     const toDate = cells[6].textContent;
     const days = cells[7].textContent;
     const dataRole = row.getAttribute('data-role');
+    const dataClass = row.getAttribute('data-class');
+    const dataFromDate = row.getAttribute('data-from-date');
     
     // Get current user info (approver/rejector)
     const approverInfo = getCurrentUserInfo();
@@ -513,6 +549,8 @@ function processRejection(row, requestId, section) {
     historyRow.setAttribute('data-status', 'rejected');
     historyRow.setAttribute('data-role', dataRole);
     historyRow.setAttribute('data-processed-date', todayDateString);
+    if (dataClass) historyRow.setAttribute('data-class', dataClass);
+    if (dataFromDate) historyRow.setAttribute('data-from-date', dataFromDate);
     historyRow.innerHTML = `
         <td>${requestIdLink}</td>
         <td>${requester}</td>
@@ -567,13 +605,17 @@ function getCurrentUserInfo() {
 function filterPendingRequests(section) {
     if (section === 'student') {
         const searchInput = document.getElementById('searchPendingStudents').value.toLowerCase();
+        const classFilter = document.getElementById('classFilterPendingStudents').value;
         const rows = document.querySelectorAll('#pendingRequestsBodyStudents tr');
         
         rows.forEach(row => {
             const text = row.textContent.toLowerCase();
-            const searchMatch = searchInput === '' || text.includes(searchInput);
+            const studentClass = row.getAttribute('data-class');
             
-            if (searchMatch) {
+            const searchMatch = searchInput === '' || text.includes(searchInput);
+            const classMatch = classFilter === 'all' || studentClass === classFilter;
+            
+            if (searchMatch && classMatch) {
                 row.style.display = '';
             } else {
                 row.style.display = 'none';
@@ -605,18 +647,21 @@ function filterHistory(section) {
         const statusFilter = document.getElementById('statusFilterHistoryStudents').value.toLowerCase();
         const searchInput = document.getElementById('searchHistoryStudents').value.toLowerCase();
         const dateFilter = document.getElementById('leaveHistoryDateFilterStudents').value;
+        const classFilter = document.getElementById('classFilterHistoryStudents').value;
         const rows = document.querySelectorAll('#historyBodyStudents tr');
         
         rows.forEach(row => {
             const status = row.getAttribute('data-status');
             const text = row.textContent.toLowerCase();
             const processedDate = row.getAttribute('data-processed-date');
+            const studentClass = row.getAttribute('data-class');
             
             const statusMatch = statusFilter === 'all' || status === statusFilter;
             const searchMatch = searchInput === '' || text.includes(searchInput);
             const dateMatch = !dateFilter || processedDate === dateFilter || (processedDate && processedDate.startsWith(dateFilter));
+            const classMatch = classFilter === 'all' || studentClass === classFilter;
             
-            if (statusMatch && searchMatch && dateMatch) {
+            if (statusMatch && searchMatch && dateMatch && classMatch) {
                 row.style.display = '';
             } else {
                 row.style.display = 'none';
@@ -665,8 +710,8 @@ function setTodayLeaveHistory(section) {
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize leave section from localStorage or default to student
-    const savedSection = localStorage.getItem('selectedLeaveSection') || 'student';
+    // Initialize leave section from localStorage or default to staff
+    const savedSection = localStorage.getItem('selectedLeaveSection') || 'staff';
     switchLeaveSection(savedSection);
 });
 </script>

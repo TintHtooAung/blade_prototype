@@ -18,20 +18,20 @@ ob_start();
 </div>
 
 <!-- Academic Stats Cards -->
-<div class="stats-grid-secondary vertical-stats">
-    <!-- Active Batch -->
+<div class="stats-grid-secondary vertical-stats tab-aligned-stats">
+    <!-- Batches -->
     <div class="stat-card">
         <div class="stat-icon">
             <i class="fas fa-calendar-alt"></i>
         </div>
         <div class="stat-content">
-            <h3>Active Batch</h3>
-            <div class="stat-number">2024-2025</div>
-            <div class="stat-change">Current Year</div>
+            <h3>Active Batches</h3>
+            <div class="stat-number">2</div>
+            <div class="stat-change">2024-2026 cycles</div>
         </div>
     </div>
 
-    <!-- Total Grades -->
+    <!-- Grades -->
     <div class="stat-card">
         <div class="stat-icon">
             <i class="fas fa-layer-group"></i>
@@ -43,7 +43,7 @@ ob_start();
         </div>
     </div>
 
-    <!-- Total Classes -->
+    <!-- Classes -->
     <div class="stat-card">
         <div class="stat-icon">
             <i class="fas fa-chalkboard"></i>
@@ -51,11 +51,23 @@ ob_start();
         <div class="stat-content">
             <h3>Total Classes</h3>
             <div class="stat-number">48</div>
-            <div class="stat-change">Active</div>
+            <div class="stat-change">Active schedules</div>
         </div>
     </div>
 
-    <!-- Total Subjects -->
+    <!-- Rooms -->
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-door-open"></i>
+        </div>
+        <div class="stat-content">
+            <h3>Total Rooms</h3>
+            <div class="stat-number">32</div>
+            <div class="stat-change">Across all blocks</div>
+        </div>
+    </div>
+
+    <!-- Subjects -->
     <div class="stat-card">
         <div class="stat-icon">
             <i class="fas fa-book"></i>
@@ -63,7 +75,7 @@ ob_start();
         <div class="stat-content">
             <h3>Total Subjects</h3>
             <div class="stat-number">24</div>
-            <div class="stat-change">All Grades</div>
+            <div class="stat-change">All departments</div>
         </div>
     </div>
 </div>
@@ -112,13 +124,6 @@ ob_start();
                             <label for="batchEnd">End Date</label>
                             <input type="date" id="batchEnd" class="form-input">
                         </div>
-                        <div class="form-group">
-                            <label for="batchStatus">Status</label>
-                            <select id="batchStatus" class="form-select">
-                                <option value="Active">Active</option>
-                                <option value="Completed">Completed</option>
-                            </select>
-                        </div>
                     </div>
                     <div class="simple-modal-actions">
                         <button id="cancelBatch" class="simple-btn secondary" onclick="closeModal('batchModal')">Cancel</button>
@@ -131,7 +136,6 @@ ob_start();
                 <table class="academic-table">
                     <thead>
                         <tr>
-                            <th></th>
                             <th>Batch Name</th>
                             <th>Status</th>
                             <th>Students</th>
@@ -141,12 +145,9 @@ ob_start();
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="expandable-row" onclick="toggleExpand(this)">
-                            <td class="expand-cell">
-                                <i class="fas fa-chevron-right expand-icon"></i>
-                            </td>
+                        <tr>
                             <td class="batch-name">
-                                <a href="/admin/academic/batch-detail/2024-2025" class="batch-link" onclick="event.stopPropagation()">2024-2025</a>
+                                <a href="/admin/academic/batch-detail/2024-2025" class="batch-link">2024-2025</a>
                             </td>
                             <td>
                                 <span class="status-badge active">Active</span>
@@ -154,7 +155,7 @@ ob_start();
                             <td class="student-count">450</td>
                             <td class="date-cell">2024-04-01</td>
                             <td class="date-cell">2025-03-31</td>
-                            <td class="actions-cell" onclick="event.stopPropagation()">
+                            <td class="actions-cell">
                                 <button class="action-icon view" title="View" onclick="viewBatch('2024-2025')">
                                     <i class="fas fa-eye"></i>
                                 </button>
@@ -163,64 +164,8 @@ ob_start();
                                 </button>
                             </td>
                         </tr>
-                        <tr class="expandable-content" style="display: none;">
-                            <td colspan="7">
-                                <div class="expand-content">
-                                    <h4>Grades in 2024-2025 Batch</h4>
-                                    <div class="grade-cards">
-                                        <div class="grade-card">
-                                            <div class="grade-header">
-                                                <a href="/admin/academic/grade-detail/1" class="grade-link">Grade 1</a>
-                                                <span class="category-badge primary">Primary</span>
-                                            </div>
-                                            <div class="grade-stats">
-                                                <span>8 subjects</span>
-                                                <span>4 classes</span>
-                                                <span>120 students</span>
-                                            </div>
-                                        </div>
-                                        <div class="grade-card">
-                                            <div class="grade-header">
-                                                <a href="/admin/academic/grade-detail/2" class="grade-link">Grade 2</a>
-                                                <span class="category-badge primary">Primary</span>
-                                            </div>
-                                            <div class="grade-stats">
-                                                <span>8 subjects</span>
-                                                <span>4 classes</span>
-                                                <span>115 students</span>
-                                            </div>
-                                        </div>
-                                        <div class="grade-card">
-                                            <div class="grade-header">
-                                                <a href="/admin/academic/grade-detail/6" class="grade-link">Grade 6</a>
-                                                <span class="category-badge secondary">Middle</span>
-                                            </div>
-                                            <div class="grade-stats">
-                                                <span>12 subjects</span>
-                                                <span>3 classes</span>
-                                                <span>90 students</span>
-                                            </div>
-                                        </div>
-                                        <div class="grade-card">
-                                            <div class="grade-header">
-                                                <a href="/admin/academic/grade-detail/10" class="grade-link">Grade 10</a>
-                                                <span class="category-badge upcoming">High</span>
-                                            </div>
-                                            <div class="grade-stats">
-                                                <span>15 subjects</span>
-                                                <span>2 classes</span>
-                                                <span>125 students</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
                         
-                        <tr class="expandable-row">
-                            <td class="expand-cell">
-                                <i class="fas fa-chevron-right expand-icon"></i>
-                            </td>
+                        <tr>
                             <td class="batch-name">
                                 <a href="/admin/academic/batches/2023-2024" class="batch-link">2023-2024</a>
                             </td>
@@ -250,28 +195,24 @@ ob_start();
         <div class="detail-management-section">
             <div class="section-header">
                 <h3 class="section-title">Grade Management</h3>
-                <button class="simple-btn" id="toggleGradeForm" onclick="openModal('gradeModal')"><i class="fas fa-plus"></i> Add Grade</button>
+                <button class="simple-btn" id="toggleGradeForm"><i class="fas fa-plus"></i> Add Grade</button>
             </div>
 
-            <!-- Add Grade Modal -->
-            <div id="gradeModal" class="simple-modal-overlay" style="display:none;">
-                <div class="simple-modal-content">
-                    <div class="simple-modal-header">
-                        <h3><i class="fas fa-layer-group"></i> Create Grade</h3>
-                        <button class="simple-modal-close" onclick="closeModal('gradeModal')">
+            <!-- Add Grade Card Form -->
+            <div id="gradeFormCard" class="add-item-card" style="display:none; margin-bottom: 20px;">
+                <div class="card-form-header">
+                    <h4><i class="fas fa-layer-group"></i> Create Grade</h4>
+                    <button class="icon-btn" onclick="closeGradeForm()" title="Close">
                             <i class="fas fa-times"></i>
                         </button>
                 </div>
-                    <div class="simple-modal-body">
-                        <div class="form-group">
-                            <label for="gradeLevel">Grade Level</label>
+                <div class="card-form-body">
+                    <div class="form-row">
+                        <div class="form-group" style="flex:1;">
+                            <label for="gradeLevel">Grade</label>
                             <input type="number" id="gradeLevel" class="form-input" placeholder="e.g., 10">
                         </div>
-                        <div class="form-group">
-                            <label for="gradeName">Grade Name</label>
-                            <input type="text" id="gradeName" class="form-input" placeholder="e.g., Grade 10">
-                        </div>
-                        <div class="form-group">
+                        <div class="form-group" style="flex:1;">
                             <label for="gradeCategory">Category</label>
                             <select id="gradeCategory" class="form-select">
                                 <option value="Primary">Primary</option>
@@ -280,10 +221,10 @@ ob_start();
                             </select>
                         </div>
                     </div>
-                    <div class="simple-modal-actions">
-                        <button id="cancelGrade" class="simple-btn secondary" onclick="closeModal('gradeModal')">Cancel</button>
+                </div>
+                <div class="card-form-actions">
+                    <button id="cancelGrade" class="simple-btn secondary" onclick="closeGradeForm()">Cancel</button>
                         <button id="saveGrade" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
-                    </div>
                 </div>
             </div>
             
@@ -291,8 +232,7 @@ ob_start();
                 <table class="academic-table">
                     <thead>
                         <tr>
-                            <th></th>
-                            <th>Grade Level</th>
+                            <th>Grade</th>
                             <th>Category</th>
                             <th>Classes</th>
                             <th>Students</th>
@@ -300,15 +240,12 @@ ob_start();
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="expandable-row" onclick="toggleExpand(this)">
-                            <td class="expand-cell">
-                                <i class="fas fa-chevron-right expand-icon"></i>
-                            </td>
+                        <tr>
                             <td class="grade-level">
                                 <a href="/admin/academic/grade-detail/1" class="grade-link" onclick="event.stopPropagation()"><strong>Grade 1</strong></a>
                             </td>
                             <td><span class="category-badge primary">Primary</span></td>
-                            <td class="class-count">3</td>
+                            <td class="class-count">1A, 1B, 1C</td>
                             <td class="student-count">90</td>
                             <td class="actions-cell" onclick="event.stopPropagation()">
                                 <button class="action-icon view" title="View Details" onclick="viewGrade('1')">
@@ -319,54 +256,12 @@ ob_start();
                                 </button>
                             </td>
                         </tr>
-                        <tr class="expandable-content" style="display: none;">
-                            <td colspan="6">
-                                <div class="expand-content">
-                                    <h4>Classes in Grade 1</h4>
-                                    <div class="class-cards">
-                                        <div class="class-card">
-                                            <div class="class-header">
-                                                <a href="/admin/academic/class-detail/1A" class="class-link">Class 1A</a>
-                                                <span class="room-info">Room 101</span>
-                                            </div>
-                                            <div class="class-stats">
-                                                <span>30 students</span>
-                                                <span>Ms. Sarah Johnson</span>
-                                            </div>
-                                        </div>
-                                        <div class="class-card">
-                                            <div class="class-header">
-                                                <a href="/admin/academic/class-detail/1B" class="class-link">Class 1B</a>
-                                                <span class="room-info">Room 102</span>
-                                            </div>
-                                            <div class="class-stats">
-                                                <span>30 students</span>
-                                                <span>Mr. David Chen</span>
-                                            </div>
-                                        </div>
-                                        <div class="class-card">
-                                            <div class="class-header">
-                                                <a href="/admin/academic/class-detail/1C" class="class-link">Class 1C</a>
-                                                <span class="room-info">Room 103</span>
-                                            </div>
-                                            <div class="class-stats">
-                                                <span>30 students</span>
-                                                <span>Ms. Emily Rodriguez</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="expandable-row" onclick="toggleExpand(this)">
-                            <td class="expand-cell">
-                                <i class="fas fa-chevron-right expand-icon"></i>
-                            </td>
+                        <tr>
                             <td class="grade-level">
                                 <a href="/admin/academic/grade-detail/2" class="grade-link" onclick="event.stopPropagation()"><strong>Grade 2</strong></a>
                             </td>
                             <td><span class="category-badge primary">Primary</span></td>
-                            <td class="class-count">3</td>
+                            <td class="class-count">2A, 2B, 2C</td>
                             <td class="student-count">85</td>
                             <td class="actions-cell" onclick="event.stopPropagation()">
                                 <button class="action-icon view" title="View Details" onclick="viewGrade('2')">
@@ -375,35 +270,6 @@ ob_start();
                                 <button class="action-icon delete" title="Delete Grade" onclick="deleteGrade('2')">
                                     <i class="fas fa-trash"></i>
                                 </button>
-                            </td>
-                        </tr>
-                        <tr class="expandable-content" style="display: none;">
-                            <td colspan="6">
-                                <div class="expand-content">
-                                    <h4>Classes in Grade 2</h4>
-                                    <div class="class-cards">
-                                        <div class="class-card">
-                                            <div class="class-header">
-                                                <a href="/admin/academic/class-detail/2A" class="class-link">Class 2A</a>
-                                                <span class="room-info">Room 201</span>
-                                            </div>
-                                            <div class="class-stats">
-                                                <span>28 students</span>
-                                                <span>Dr. James Wilson</span>
-                                            </div>
-                                        </div>
-                                        <div class="class-card">
-                                            <div class="class-header">
-                                                <a href="/admin/academic/class-detail/2B" class="class-link">Class 2B</a>
-                                                <span class="room-info">Room 202</span>
-                                            </div>
-                                            <div class="class-stats">
-                                                <span>27 students</span>
-                                                <span>Ms. Jennifer Lee</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -417,40 +283,71 @@ ob_start();
         <div class="detail-management-section">
             <div class="section-header">
                 <h3 class="section-title">Class Management</h3>
-                <button class="simple-btn" id="toggleClassForm" onclick="openModal('classModal')"><i class="fas fa-plus"></i> Add Class</button>
+                <button class="simple-btn" id="toggleClassForm"><i class="fas fa-plus"></i> Add Class</button>
             </div>
 
-            <!-- Add Class Modal -->
-            <div id="classModal" class="simple-modal-overlay" style="display:none;">
-                <div class="simple-modal-content">
-                    <div class="simple-modal-header">
-                        <h3><i class="fas fa-door-open"></i> Create Class</h3>
-                        <button class="simple-modal-close" onclick="closeModal('classModal')">
+            <!-- Add Class Card Form -->
+            <div id="classFormCard" class="add-item-card" style="display:none; margin-bottom: 20px;">
+                <div class="card-form-header">
+                    <h4><i class="fas fa-door-open"></i> Create Class</h4>
+                    <button class="icon-btn" onclick="closeClassForm()" title="Close">
                             <i class="fas fa-times"></i>
                         </button>
                 </div>
-                    <div class="simple-modal-body">
-                        <div class="form-group">
+                <div class="card-form-body">
+                    <div class="form-row">
+                        <div class="form-group" style="flex:1;">
                             <label for="className">Class Name</label>
                             <input type="text" id="className" class="form-input" placeholder="e.g., 10-A">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="flex:1;">
                             <label for="classGrade">Grade</label>
-                            <input type="text" id="classGrade" class="form-input" placeholder="e.g., Grade 10">
+                            <select id="classGrade" class="form-select">
+                                <option value="">Select Grade</option>
+                                <option value="Grade 1">Grade 1</option>
+                                <option value="Grade 2">Grade 2</option>
+                                <option value="Grade 3">Grade 3</option>
+                                <option value="Grade 4">Grade 4</option>
+                                <option value="Grade 5">Grade 5</option>
+                                <option value="Grade 6">Grade 6</option>
+                                <option value="Grade 7">Grade 7</option>
+                                <option value="Grade 8">Grade 8</option>
+                                <option value="Grade 9">Grade 9</option>
+                                <option value="Grade 10">Grade 10</option>
+                                <option value="Grade 11">Grade 11</option>
+                                <option value="Grade 12">Grade 12</option>
+                            </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="flex:1;">
                             <label for="classRoom">Room</label>
-                            <input type="text" id="classRoom" class="form-input" placeholder="e.g., Room 201">
+                            <select id="classRoom" class="form-select">
+                                <option value="">Select Room</option>
+                                <option value="Room 101">Room 101</option>
+                                <option value="Room 102">Room 102</option>
+                                <option value="Room 201">Room 201</option>
+                                <option value="Room 202">Room 202</option>
+                                <option value="Room 301">Room 301</option>
+                                <option value="Room 302">Room 302</option>
+                                <option value="Room 401">Room 401</option>
+                                <option value="Room 402">Room 402</option>
+                            </select>
                         </div>
-                        <div class="form-group">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group" style="flex:1;">
                             <label for="classTeacher">Class Teacher</label>
-                            <input type="text" id="classTeacher" class="form-input" placeholder="e.g., Ms. Smith">
+                            <div class="autocomplete-wrapper">
+                                <input type="text" id="classTeacher" class="form-input" placeholder="Start typing teacher name or ID" autocomplete="off">
+                                <input type="hidden" id="classTeacherId">
+                                <div class="autocomplete-suggestions" id="classTeacherSuggestions"></div>
                         </div>
+                            <small class="helper-text">Suggestions will appear as you type.</small>
                     </div>
-                    <div class="simple-modal-actions">
-                        <button id="cancelClass" class="simple-btn secondary" onclick="closeModal('classModal')">Cancel</button>
-                        <button id="saveClass" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
                     </div>
+                </div>
+                <div class="card-form-actions">
+                    <button id="cancelClass" class="simple-btn secondary" onclick="closeClassForm()">Cancel</button>
+                    <button id="saveClass" class="simple-btn primary"><i class="fas fa-check"></i> Save</button>
                 </div>
             </div>
             
@@ -458,7 +355,6 @@ ob_start();
                 <table class="academic-table">
                     <thead>
                         <tr>
-                            <th></th>
                             <th>Class Name</th>
                             <th>Grade</th>
                             <th>Room</th>
@@ -468,10 +364,7 @@ ob_start();
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="expandable-row" onclick="toggleExpand(this)">
-                            <td class="expand-cell">
-                                <i class="fas fa-chevron-right expand-icon"></i>
-                            </td>
+                        <tr>
                             <td class="class-name">
                                 <a href="/admin/academic/class-detail/1A" class="class-link" onclick="event.stopPropagation()"><strong>1A</strong></a>
                             </td>
@@ -488,46 +381,7 @@ ob_start();
                                 </button>
                             </td>
                         </tr>
-                        <tr class="expandable-content" style="display: none;">
-                            <td colspan="7">
-                                <div class="expand-content">
-                                    <h4>Subjects in Class 1A</h4>
-                                    <div class="subject-cards">
-                                        <div class="subject-card">
-                                            <div class="subject-header">
-                                                <a href="/admin/academic/subject-detail/MATH" class="subject-link">Mathematics</a>
-                                                <span class="category-badge core">Core</span>
-                                            </div>
-                                            <div class="subject-stats">
-                                                <span>Mr. John Smith</span>
-                                            </div>
-                                        </div>
-                                        <div class="subject-card">
-                                            <div class="subject-header">
-                                                <a href="/admin/academic/subject-detail/ENG" class="subject-link">English</a>
-                                                <span class="category-badge core">Core</span>
-                                            </div>
-                                            <div class="subject-stats">
-                                                <span>Ms. Sarah Johnson</span>
-                                            </div>
-                                        </div>
-                                        <div class="subject-card">
-                                            <div class="subject-header">
-                                                <a href="/admin/academic/subject-detail/SCI" class="subject-link">Science</a>
-                                                <span class="category-badge core">Core</span>
-                                            </div>
-                                            <div class="subject-stats">
-                                                <span>Dr. Wilson</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="expandable-row" onclick="toggleExpand(this)">
-                            <td class="expand-cell">
-                                <i class="fas fa-chevron-right expand-icon"></i>
-                            </td>
+                        <tr>
                             <td class="class-name">
                                 <a href="/admin/academic/class-detail/1B" class="class-link" onclick="event.stopPropagation()"><strong>1B</strong></a>
                             </td>
@@ -542,35 +396,6 @@ ob_start();
                                 <button class="action-icon delete" title="Delete Class" onclick="deleteClass('1B')">
                                     <i class="fas fa-trash"></i>
                                 </button>
-                            </td>
-                        </tr>
-                        <tr class="expandable-content" style="display: none;">
-                            <td colspan="8">
-                                <div class="expand-content">
-                                    <h4>Subjects in Class 1B</h4>
-                                    <div class="subject-cards">
-                                        <div class="subject-card">
-                                            <div class="subject-header">
-                                                <a href="/admin/academic/subject-detail/MATH" class="subject-link">Mathematics</a>
-                                                <span class="category-badge core">Core</span>
-                                            </div>
-                                            <div class="subject-stats">
-                                                <span>5 hours/week</span>
-                                                <span>Mr. David Chen</span>
-                                            </div>
-                                        </div>
-                                        <div class="subject-card">
-                                            <div class="subject-header">
-                                                <a href="/admin/academic/subject-detail/ENG" class="subject-link">English</a>
-                                                <span class="category-badge core">Core</span>
-                                            </div>
-                                            <div class="subject-stats">
-                                                <span>4 hours/week</span>
-                                                <span>Ms. Jennifer Lee</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -644,20 +469,16 @@ ob_start();
                 <table class="academic-table">
                     <thead>
                         <tr>
-                            <th></th>
                             <th>Room Number</th>
                             <th>Room Name</th>
                             <th>Location</th>
-                            <th>Current Class</th>
+                            <th>Class</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="expandable-row" onclick="toggleExpand(this)">
-                            <td class="expand-cell">
-                                <i class="fas fa-chevron-right expand-icon"></i>
-                            </td>
+                        <tr>
                             <td class="room-number">
                                 <a href="/admin/academic/room-detail/101" class="room-link" onclick="event.stopPropagation()"><strong>101</strong></a>
                             </td>
@@ -674,30 +495,7 @@ ob_start();
                                 </button>
                             </td>
                         </tr>
-                        <tr class="expandable-content" style="display: none;">
-                            <td colspan="8">
-                                <div class="expand-content">
-                                    <h4>Schedule for Room 101</h4>
-                                    <div class="schedule-cards">
-                                        <div class="schedule-card">
-                                            <div class="schedule-header">
-                                                <a href="/admin/academic/class-detail/1A" class="class-link">Class 1A</a>
-                                                <span class="time-slot">8:00 AM - 2:00 PM</span>
-                                            </div>
-                                            <div class="schedule-stats">
-                                                <span>30 students</span>
-                                                <span>Ms. Sarah Johnson</span>
-                                                <span>Grade 1</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="expandable-row" onclick="toggleExpand(this)">
-                            <td class="expand-cell">
-                                <i class="fas fa-chevron-right expand-icon"></i>
-                            </td>
+                        <tr>
                             <td class="room-number">
                                 <a href="/admin/academic/room-detail/102" class="room-link" onclick="event.stopPropagation()"><strong>102</strong></a>
                             </td>
@@ -712,26 +510,6 @@ ob_start();
                                 <button class="action-icon delete" title="Delete Room" onclick="deleteRoom('102')">
                                     <i class="fas fa-trash"></i>
                                 </button>
-                            </td>
-                        </tr>
-                        <tr class="expandable-content" style="display: none;">
-                            <td colspan="8">
-                                <div class="expand-content">
-                                    <h4>Schedule for Room 102</h4>
-                                    <div class="schedule-cards">
-                                        <div class="schedule-card">
-                                            <div class="schedule-header">
-                                                <a href="/admin/academic/class-detail/1B" class="class-link">Class 1B</a>
-                                                <span class="time-slot">8:00 AM - 2:00 PM</span>
-                                            </div>
-                                            <div class="schedule-stats">
-                                                <span>30 students</span>
-                                                <span>Mr. David Chen</span>
-                                                <span>Grade 1</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -775,19 +553,14 @@ ob_start();
                         </div>
                         <div class="form-group">
                             <label for="subjectGrade">Grade</label>
-                            <input type="text" id="subjectGrade" class="form-input" placeholder="e.g., Grade 1">
-                        </div>
-                        <div class="form-group">
-                            <label for="subjectTeachersSearch">Assign Teachers</label>
-                            <input type="text" id="subjectTeachersSearch" class="form-input" placeholder="Search by name or ID">
-                        </div>
-                        <div class="form-group">
-                            <div id="subjectTeachersList" style="max-height:220px; overflow:auto; border:1px solid #e2e8f0; border-radius:6px;">
-                                <table class="basic-table" style="margin:0;">
-                                    <thead><tr><th style="width:40px;"></th><th>Name</th><th>ID</th></tr></thead>
-                                    <tbody id="subjectTeachersBody"></tbody>
-                                </table>
-                            </div>
+                            <select id="subjectGrade" class="form-select">
+                                <option value="">Select Grade</option>
+                                <option value="Grade 1">Grade 1</option>
+                                <option value="Grade 2">Grade 2</option>
+                                <option value="Grade 3">Grade 3</option>
+                                <option value="Grade 4">Grade 4</option>
+                                <option value="Grade 5">Grade 5</option>
+                            </select>
                         </div>
                     </div>
                     <div class="simple-modal-actions">
@@ -801,7 +574,6 @@ ob_start();
                 <table class="academic-table">
                     <thead>
                         <tr>
-                            <th></th>
                             <th>Subject Code</th>
                             <th>Subject Name</th>
                             <th>Category</th>
@@ -811,10 +583,7 @@ ob_start();
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="expandable-row" onclick="toggleExpand(this)">
-                            <td class="expand-cell">
-                                <i class="fas fa-chevron-right expand-icon"></i>
-                            </td>
+                        <tr>
                             <td class="subject-code">
                                 <a href="/admin/academic/subject-detail/MATH" class="subject-link" onclick="event.stopPropagation()"><strong>MATH</strong></a>
                             </td>
@@ -831,41 +600,7 @@ ob_start();
                                 </button>
                             </td>
                         </tr>
-                        <tr class="expandable-content" style="display: none;">
-                            <td colspan="8">
-                                <div class="expand-content">
-                                    <h4>Classes Teaching Mathematics</h4>
-                                    <div class="teaching-cards">
-                                        <div class="teaching-card">
-                                            <div class="teaching-header">
-                                                <a href="/admin/academic/class-detail/1A" class="class-link">Class 1A</a>
-                                                <span class="grade-info">Grade 1</span>
-                                            </div>
-                                            <div class="teaching-stats">
-                                                <span>5 hours/week</span>
-                                                <span>Mr. John Smith</span>
-                                                <span>Room 101</span>
-                                            </div>
-                                        </div>
-                                        <div class="teaching-card">
-                                            <div class="teaching-header">
-                                                <a href="/admin/academic/class-detail/1B" class="class-link">Class 1B</a>
-                                                <span class="grade-info">Grade 1</span>
-                                            </div>
-                                            <div class="teaching-stats">
-                                                <span>5 hours/week</span>
-                                                <span>Mr. David Chen</span>
-                                                <span>Room 102</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="expandable-row" onclick="toggleExpand(this)">
-                            <td class="expand-cell">
-                                <i class="fas fa-chevron-right expand-icon"></i>
-                            </td>
+                        <tr>
                             <td class="subject-code">
                                 <a href="/admin/academic/subject-detail/ENG" class="subject-link" onclick="event.stopPropagation()"><strong>ENG</strong></a>
                             </td>
@@ -882,37 +617,6 @@ ob_start();
                                 </button>
                             </td>
                         </tr>
-                        <tr class="expandable-content" style="display: none;">
-                            <td colspan="8">
-                                <div class="expand-content">
-                                    <h4>Classes Teaching English Language</h4>
-                                    <div class="teaching-cards">
-                                        <div class="teaching-card">
-                                            <div class="teaching-header">
-                                                <a href="/admin/academic/class-detail/1A" class="class-link">Class 1A</a>
-                                                <span class="grade-info">Grade 1</span>
-                                            </div>
-                                            <div class="teaching-stats">
-                                                <span>4 hours/week</span>
-                                                <span>Ms. Sarah Johnson</span>
-                                                <span>Room 101</span>
-                                            </div>
-                                        </div>
-                                        <div class="teaching-card">
-                                            <div class="teaching-header">
-                                                <a href="/admin/academic/class-detail/1B" class="class-link">Class 1B</a>
-                                                <span class="grade-info">Grade 1</span>
-                                            </div>
-                                            <div class="teaching-stats">
-                                                <span>4 hours/week</span>
-                                                <span>Ms. Jennifer Lee</span>
-                                                <span>Room 102</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -923,6 +627,120 @@ ob_start();
 </div>
 
 <script>
+const teacherDirectory = [
+    { id: 'T-001', name: 'Ms. Sarah Johnson', subject: 'Mathematics' },
+    { id: 'T-002', name: 'Mr. David Chen', subject: 'Science' },
+    { id: 'T-003', name: 'Ms. Priya Patel', subject: 'English' },
+    { id: 'T-004', name: 'Mr. Liam O\'Connor', subject: 'Social Studies' },
+    { id: 'T-005', name: 'Ms. Sophia Martinez', subject: 'Physics' },
+    { id: 'T-006', name: 'Mr. Ethan Williams', subject: 'Chemistry' },
+    { id: 'T-007', name: 'Ms. Chloe Kim', subject: 'Biology' },
+    { id: 'T-008', name: 'Mr. Noah Thompson', subject: 'Computer Science' },
+    { id: 'T-009', name: 'Ms. Isabella Rossi', subject: 'History' },
+    { id: 'T-010', name: 'Mr. Lucas Silva', subject: 'Geography' }
+];
+
+function initTeacherAutocomplete() {
+    const teacherInput = document.getElementById('classTeacher');
+    const teacherIdInput = document.getElementById('classTeacherId');
+    const suggestionsEl = document.getElementById('classTeacherSuggestions');
+    if (!teacherInput || !suggestionsEl) return;
+
+    let matches = [];
+    let activeIndex = -1;
+
+    const hideSuggestions = () => {
+        suggestionsEl.classList.remove('visible');
+        suggestionsEl.innerHTML = '';
+        activeIndex = -1;
+    };
+
+    const renderSuggestions = (query = '') => {
+        const normalized = query.trim().toLowerCase();
+        matches = normalized
+            ? teacherDirectory.filter(t =>
+                t.name.toLowerCase().includes(normalized) ||
+                t.id.toLowerCase().includes(normalized)
+            )
+            : teacherDirectory.slice(0, 5);
+
+        if (!matches.length) {
+            hideSuggestions();
+            return;
+        }
+
+        suggestionsEl.innerHTML = matches.map((teacher, index) => `
+            <div class="suggestion-item" data-index="${index}">
+                <strong>${teacher.name}</strong>
+                <span class="suggestion-meta">ID: ${teacher.id}${teacher.subject ? ' • ' + teacher.subject : ''}</span>
+            </div>
+        `).join('');
+
+        suggestionsEl.classList.add('visible');
+        activeIndex = -1;
+    };
+
+    const selectTeacher = (teacher) => {
+        teacherInput.value = teacher.name;
+        if (teacherIdInput) teacherIdInput.value = teacher.id;
+        hideSuggestions();
+    };
+
+    const setActive = (index) => {
+        const items = suggestionsEl.querySelectorAll('.suggestion-item');
+        items.forEach(item => item.classList.remove('active'));
+        if (index >= 0 && items[index]) {
+            items[index].classList.add('active');
+        }
+        activeIndex = index;
+    };
+
+    teacherInput.addEventListener('input', (e) => {
+        if (teacherIdInput) teacherIdInput.value = '';
+        renderSuggestions(e.target.value);
+    });
+
+    teacherInput.addEventListener('focus', () => {
+        renderSuggestions(teacherInput.value);
+    });
+
+    teacherInput.addEventListener('keydown', (e) => {
+        if (!suggestionsEl.classList.contains('visible')) return;
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            const nextIndex = activeIndex + 1 >= matches.length ? 0 : activeIndex + 1;
+            setActive(nextIndex);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            const prevIndex = activeIndex - 1 < 0 ? matches.length - 1 : activeIndex - 1;
+            setActive(prevIndex);
+        } else if (e.key === 'Enter') {
+            if (activeIndex >= 0 && matches[activeIndex]) {
+                e.preventDefault();
+                selectTeacher(matches[activeIndex]);
+            }
+        } else if (e.key === 'Escape') {
+            hideSuggestions();
+        }
+    });
+
+    suggestionsEl.addEventListener('click', (e) => {
+        const item = e.target.closest('.suggestion-item');
+        if (!item) return;
+        const index = Number(item.dataset.index);
+        if (!Number.isNaN(index) && matches[index]) {
+            selectTeacher(matches[index]);
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!suggestionsEl.contains(e.target) && e.target !== teacherInput) {
+            hideSuggestions();
+        }
+    });
+}
+
 // Simple Tab Management
 document.addEventListener('DOMContentLoaded', function() {
     const tabs = document.querySelectorAll('.academic-tab');
@@ -943,21 +761,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Expandable Row Functionality
-function toggleExpand(row) {
-    const expandContent = row.nextElementSibling;
-    const expandIcon = row.querySelector('.expand-icon');
-    
-    if (expandContent && expandContent.classList.contains('expandable-content')) {
-        if (expandContent.style.display === 'none' || !expandContent.style.display) {
-            expandContent.style.display = 'table-row';
-            expandIcon.style.transform = 'rotate(90deg)';
-        } else {
-            expandContent.style.display = 'none';
-            expandIcon.style.transform = 'rotate(0deg)';
-        }
-    }
-}
 
 // Toggle and Save handlers for inline forms
 document.addEventListener('DOMContentLoaded', function(){
@@ -1003,11 +806,9 @@ document.addEventListener('DOMContentLoaded', function(){
         const name=(document.getElementById('batchName').value||'').trim(); if(!name){ alert('Enter batch name'); return; }
         const tbody=document.querySelector('#batches-content .academic-table tbody');
         const tr=document.createElement('tr');
-        tr.className='expandable-row';
         tr.innerHTML=`
-            <td class="expand-cell"><i class="fas fa-chevron-right expand-icon"></i></td>
-            <td class="batch-name"><a href="#" class="batch-link" onclick="event.stopPropagation()">${name}</a></td>
-            <td><span class="status-badge active">${(document.getElementById('batchStatus').value||'Active')}</span></td>
+            <td class="batch-name"><a href="#" class="batch-link">${name}</a></td>
+            <td><span class="status-badge active">Active</span></td>
             <td class="student-count">0</td>
             <td class="date-cell">${document.getElementById('batchStart').value||''}</td>
             <td class="date-cell">${document.getElementById('batchEnd').value||''}</td>
@@ -1020,50 +821,86 @@ document.addEventListener('DOMContentLoaded', function(){
         alert('Saved (draft). Final fields after onboarding.');
     });
 
+    // Grade form toggle
+    const toggleGradeForm = document.getElementById('toggleGradeForm');
+    const gradeFormCard = document.getElementById('gradeFormCard');
+    if (toggleGradeForm && gradeFormCard) {
+        toggleGradeForm.addEventListener('click', function() {
+            gradeFormCard.style.display = gradeFormCard.style.display === 'none' ? 'block' : 'none';
+        });
+    }
+    
+    window.closeGradeForm = function() {
+        if (gradeFormCard) {
+            gradeFormCard.style.display = 'none';
+            document.getElementById('gradeLevel').value = '';
+            document.getElementById('gradeCategory').value = 'Primary';
+        }
+    };
+
     // Save grade handler
     document.getElementById('saveGrade') && document.getElementById('saveGrade').addEventListener('click', function(){
-        const name=(document.getElementById('gradeName').value||'').trim(); if(!name){ alert('Enter grade name'); return; }
+        const gradeLevel=(document.getElementById('gradeLevel').value||'').trim(); if(!gradeLevel){ alert('Enter grade'); return; }
         const tbody=document.querySelector('#grades-content .academic-table tbody');
         const tr=document.createElement('tr');
-        tr.className='expandable-row';
-        tr.setAttribute('onclick','toggleExpand(this)');
         tr.innerHTML=`
-            <td class="expand-cell"><i class="fas fa-chevron-right expand-icon"></i></td>
-            <td class="grade-level"><a href="#" class="grade-link" onclick="event.stopPropagation()"><strong>${(document.getElementById('gradeLevel').value||'')}</strong></a></td>
+            <td class="grade-level"><a href="#" class="grade-link"><strong>Grade ${gradeLevel}</strong></a></td>
             <td><span class="category-badge">${(document.getElementById('gradeCategory').value||'')}</span></td>
-            <td class="class-count">0</td>
+            <td class="class-count">—</td>
             <td class="student-count">0</td>
             <td class="actions-cell" onclick="event.stopPropagation()">
                 <button class="action-icon view" title="View Details"><i class="fas fa-eye"></i></button>
                 <button class="action-icon delete" title="Delete Grade"><i class="fas fa-trash"></i></button>
             </td>`;
         tbody.prepend(tr);
-        closeModal('gradeModal');
-        alert('Saved (draft). Final fields after onboarding.');
+        closeGradeForm();
+        showActionStatus('Grade saved successfully!', 'success');
     });
+
+    // Class form toggle
+    const toggleClassForm = document.getElementById('toggleClassForm');
+    const classFormCard = document.getElementById('classFormCard');
+    if (toggleClassForm && classFormCard) {
+        toggleClassForm.addEventListener('click', function() {
+            classFormCard.style.display = classFormCard.style.display === 'none' ? 'block' : 'none';
+        });
+    }
+    
+    window.closeClassForm = function() {
+        if (classFormCard) {
+            classFormCard.style.display = 'none';
+            document.getElementById('className').value = '';
+            document.getElementById('classGrade').value = '';
+            document.getElementById('classRoom').value = '';
+            document.getElementById('classTeacher').value = '';
+            document.getElementById('classTeacherId').value = '';
+        }
+    };
 
     // Save class handler
     document.getElementById('saveClass') && document.getElementById('saveClass').addEventListener('click', function(){
         const name=(document.getElementById('className').value||'').trim(); if(!name){ alert('Enter class name'); return; }
+        const teacherName=(document.getElementById('classTeacher').value||'').trim();
+        const teacherId=(document.getElementById('classTeacherId').value||'').trim();
+        const teacherDisplay = teacherName ? (teacherId ? `${teacherName} (${teacherId})` : teacherName) : '—';
         const tbody=document.querySelector('#classes-content .academic-table tbody');
         const tr=document.createElement('tr');
-        tr.className='expandable-row';
-        tr.setAttribute('onclick','toggleExpand(this)');
         tr.innerHTML=`
-            <td class="expand-cell"><i class="fas fa-chevron-right expand-icon"></i></td>
-            <td class="class-name"><a href="#" class="class-link" onclick="event.stopPropagation()"><strong>${name}</strong></a></td>
+            <td class="class-name"><a href="#" class="class-link"><strong>${name}</strong></a></td>
             <td>${(document.getElementById('classGrade').value||'')}</td>
             <td>${(document.getElementById('classRoom').value||'')}</td>
             <td class="student-count">0</td>
-            <td>${(document.getElementById('classTeacher').value||'')}</td>
+            <td>${teacherDisplay}</td>
             <td class="actions-cell" onclick="event.stopPropagation()">
                 <button class="action-icon view" title="View Details"><i class="fas fa-eye"></i></button>
                 <button class="action-icon delete" title="Delete Class"><i class="fas fa-trash"></i></button>
             </td>`;
         tbody.prepend(tr);
-        closeModal('classModal');
-        alert('Saved (draft). Final fields after onboarding.');
+        closeClassForm();
+        showActionStatus('Class saved successfully!', 'success');
     });
+    
+    initTeacherAutocomplete();
 
     // Save room handler
     document.getElementById('saveRoom') && document.getElementById('saveRoom').addEventListener('click', function(){
@@ -1090,7 +927,6 @@ document.addEventListener('DOMContentLoaded', function(){
     // Save subject handler
     document.getElementById('saveSubject') && document.getElementById('saveSubject').addEventListener('click', function(){
         const code=(document.getElementById('subCode').value||'').trim(); if(!code){ alert('Enter subject code'); return; }
-        const teacherIds = Array.from(document.querySelectorAll('#subjectTeachersBody input[type="checkbox"]:checked')).map(cb => cb.getAttribute('data-id'));
         const tbody=document.querySelector('#subjects-content .academic-table tbody');
         const tr=document.createElement('tr');
         tr.className='expandable-row'; tr.setAttribute('onclick','toggleExpand(this)');
@@ -1100,7 +936,7 @@ document.addEventListener('DOMContentLoaded', function(){
             <td><a href="#" class="subject-link" onclick="event.stopPropagation()">${(document.getElementById('subName').value||'')}</a></td>
             <td><span class="category-badge">${(document.getElementById('subCat').value||'')}</span></td>
             <td>${(document.getElementById('subjectGrade').value||'')}</td>
-            <td class="teacher-count">${teacherIds.length}</td>
+            <td class="teacher-count">0</td>
             <td class="actions-cell" onclick="event.stopPropagation()">
                 <button class="action-icon view" title="View Details"><i class="fas fa-eye"></i></button>
                 <button class="action-icon delete" title="Delete Subject"><i class="fas fa-trash"></i></button>
@@ -1360,6 +1196,196 @@ function deleteDepartment(deptId) {
     outline: none;
     border-color: #4A90E2;
     box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.academic-table .teacher-count {
+    text-align: center;
+}
+
+.autocomplete-wrapper {
+    position: relative;
+}
+
+.autocomplete-suggestions {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #e0e7ff;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    max-height: 210px;
+    overflow-y: auto;
+    z-index: 10000;
+    display: none;
+}
+
+.autocomplete-suggestions.visible {
+    display: block;
+}
+
+.suggestion-item {
+    padding: 0.65rem 0.85rem;
+    border-bottom: 1px solid #f1f3ff;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.suggestion-item strong {
+    color: #1d1d1f;
+    font-size: 0.95rem;
+}
+
+.suggestion-meta {
+    font-size: 0.8rem;
+    color: #555;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover,
+.suggestion-item.active {
+    background: #f5f8ff;
+}
+
+.helper-text {
+    display: block;
+    margin-top: 0.35rem;
+    color: #6b6f80;
+    font-size: 0.82rem;
+}
+
+.tab-aligned-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.class-modal-content {
+    max-width: 580px;
+    min-height: 520px;
+}
+
+.class-modal-content {
+    max-width: 580px;
+    min-height: 520px;
+}
+
+.class-modal-content .simple-modal-body {
+    max-height: none;
+}
+
+/* Add Item Card Styles */
+.add-item-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.card-form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f9fafb;
+}
+
+.card-form-header h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1d1d1f;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.card-form-header h4 i {
+    color: #4A90E2;
+}
+
+.card-form-header .icon-btn {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    color: #86868b;
+    cursor: pointer;
+    padding: 0.4rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-form-header .icon-btn:hover {
+    background: #e5e7eb;
+    color: #1d1d1f;
+}
+
+.card-form-body {
+    padding: 1.5rem;
+}
+
+.card-form-body .form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.card-form-body .form-row:last-child {
+    margin-bottom: 0;
+}
+
+.card-form-body .form-group {
+    flex: 1;
+}
+
+.card-form-body .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #1d1d1f;
+    font-size: 0.9rem;
+}
+
+.card-form-body .form-input,
+.card-form-body .form-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e0e7ff;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #1d1d1f;
+    transition: all 0.2s ease;
+}
+
+.card-form-body .form-input:focus,
+.card-form-body .form-select:focus {
+    outline: none;
+    border-color: #4A90E2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.card-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid #e5e7eb;
+    background: #f9fafb;
 }
 
 .simple-modal-actions {

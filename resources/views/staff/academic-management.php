@@ -169,12 +169,8 @@ ob_start();
                 <div class="form-section">
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="gradeLevel">Grade Level</label>
+                            <label for="gradeLevel">Grade</label>
                             <input type="number" id="gradeLevel" class="form-input" placeholder="e.g., 10">
-                        </div>
-                        <div class="form-group" style="flex:2;">
-                            <label for="gradeName">Grade Name</label>
-                            <input type="text" id="gradeName" class="form-input" placeholder="e.g., Grade 10">
                         </div>
                         <div class="form-group">
                             <label for="gradeCategory">Category</label>
@@ -196,7 +192,7 @@ ob_start();
                 <table class="academic-table">
                     <thead>
                         <tr>
-                            <th>Grade Level</th>
+                            <th>Grade</th>
                             <th>Category</th>
                             <th>Classes</th>
                             <th>Students</th>
@@ -209,7 +205,7 @@ ob_start();
                                 <a href="/staff/academic/grade-detail/1" class="grade-link"><strong>Grade 1</strong></a>
                             </td>
                             <td><span class="category-badge primary">Primary</span></td>
-                            <td class="class-count">3</td>
+                            <td class="class-count">1A, 1B, 1C</td>
                             <td class="student-count">90</td>
                             <td class="actions-cell">
                                 <button class="action-icon view" title="View Details" onclick="viewGrade('1')">
@@ -225,7 +221,7 @@ ob_start();
                                 <a href="/staff/academic/grade-detail/2" class="grade-link"><strong>Grade 2</strong></a>
                             </td>
                             <td><span class="category-badge primary">Primary</span></td>
-                            <td class="class-count">3</td>
+                            <td class="class-count">2A, 2B, 2C</td>
                             <td class="student-count">85</td>
                             <td class="actions-cell">
                                 <button class="action-icon view" title="View Details" onclick="viewGrade('2')">
@@ -407,7 +403,7 @@ ob_start();
                             <th>Room Number</th>
                             <th>Room Name</th>
                             <th>Location</th>
-                            <th>Current Class</th>
+                            <th>Class</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -684,13 +680,13 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 
     bindToggle('toggleGradeForm','gradeForm','cancelGrade','saveGrade', function(){
-        const name=(document.getElementById('gradeName').value||'').trim(); if(!name){ alert('Enter grade name'); return; }
+        const gradeLevel=(document.getElementById('gradeLevel').value||'').trim(); if(!gradeLevel){ alert('Enter grade'); return; }
         const tbody=document.querySelector('#grades-content .academic-table tbody');
         const tr=document.createElement('tr');
         tr.innerHTML=`
-            <td class="grade-level"><a href="#" class="grade-link"><strong>${(document.getElementById('gradeLevel').value||'')}</strong></a></td>
+            <td class="grade-level"><a href="#" class="grade-link"><strong>Grade ${gradeLevel}</strong></a></td>
             <td><span class="category-badge">${(document.getElementById('gradeCategory').value||'')}</span></td>
-            <td class="class-count">0</td>
+            <td class="class-count">—</td>
             <td class="student-count">0</td>
             <td class="actions-cell">
                 <button class="action-icon view" title="View Details"><i class="fas fa-eye"></i></button>

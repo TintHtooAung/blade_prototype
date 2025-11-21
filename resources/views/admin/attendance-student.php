@@ -28,12 +28,43 @@ ob_start();
             <i class="fas fa-user"></i> Individual Student Attendance
         </button>
         <button type="button" class="view-tab" data-view="collect">
-            <i class="fas fa-clipboard-check"></i> Collect Attendance
+            <i class="fas fa-clipboard-check"></i> Attendance Register
         </button>
     </div>
 
     <!-- Class Attendance View -->
     <div id="class-attendance-view" class="attendance-view-content">
+        <!-- Summary Cards -->
+        <div class="stats-grid-secondary vertical-stats" style="margin-bottom: 24px;">
+            <div class="stat-card">
+                <div class="stat-icon blue">
+                    <i class="fas fa-percentage"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Total Attendance %</h3>
+                    <div class="stat-number" id="totalAttendancePercentage">0%</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon red">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Total Absent</h3>
+                    <div class="stat-number" id="totalAbsentCount">0</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon yellow">
+                    <i class="fas fa-calendar-times"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Total Leave</h3>
+                    <div class="stat-number" id="totalLeaveCount">0</div>
+                </div>
+            </div>
+        </div>
+        
         <!-- Date Filter and Table -->
         <div class="simple-section">
             <div class="simple-header">
@@ -61,6 +92,7 @@ ob_start();
                             <th>P5</th>
                             <th>P6</th>
                             <th>P7</th>
+                            <th>Today %</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -81,7 +113,7 @@ ob_start();
                 <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
                     <div style="position: relative;">
                         <i class="fas fa-search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #6b7280; pointer-events: none; z-index: 1;"></i>
-                        <input type="text" id="studentSearchInput" class="simple-search" placeholder="Search by name, ID..." oninput="filterStudents()" style="padding-left: 36px;">
+                        <input type="text" id="studentSearchInput" class="form-input" placeholder="Search by name, ID..." oninput="filterStudents()" style="padding-left: 36px;">
                     </div>
                     <select id="gradeFilter" class="filter-select" onchange="filterStudents()">
                         <option value="">All Grades</option>
@@ -106,7 +138,7 @@ ob_start();
                             <th>Name</th>
                             <th>Grade</th>
                             <th>Class</th>
-                            <th>Current Attendance %</th>
+                            <th>This Month Attendance %</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -146,17 +178,16 @@ ob_start();
             </div>
         </div>
 
-        <!-- Class Schedule Section -->
+        <!-- Class Time-table Section -->
         <div class="simple-section" id="scheduleSection" style="display: none;">
             <div class="simple-header">
-                <h3><i class="fas fa-calendar-week"></i> Class Schedule - <span id="selectedClassName"></span></h3>
+                <h3><i class="fas fa-calendar-week"></i> Class Time-table - <span id="selectedClassName"></span></h3>
             </div>
             
             <div class="simple-table-container">
                 <table class="basic-table">
                     <thead>
                         <tr>
-                            <th>Day</th>
                             <th>Time</th>
                             <th>Subject</th>
                             <th>Teacher</th>
@@ -193,6 +224,9 @@ ob_start();
                         </button>
                         <button class="collector-action-btn secondary" onclick="markAllAbsent()">
                             <i class="fas fa-times"></i> Mark All Absent
+                        </button>
+                        <button class="collector-action-btn secondary" onclick="markAllLeave()">
+                            <i class="fas fa-calendar-times"></i> Mark All Leave
                         </button>
                         <button class="collector-action-btn primary" onclick="saveAttendance()">
                             <i class="fas fa-save"></i> Save Attendance
@@ -252,6 +286,15 @@ ob_start();
                         <div class="summary-card-content">
                             <div class="summary-card-number" id="absentCount">0</div>
                             <div class="summary-card-label">Absent</div>
+                        </div>
+                    </div>
+                    <div class="summary-card leave">
+                        <div class="summary-card-icon">
+                            <i class="fas fa-calendar-times"></i>
+                        </div>
+                        <div class="summary-card-content">
+                            <div class="summary-card-number" id="leaveCount">0</div>
+                            <div class="summary-card-label">Leave</div>
                         </div>
                     </div>
                     <div class="summary-card total">
@@ -458,6 +501,48 @@ function setTodayDate() {
     }
 }
 
+// Calculate and update summary statistics
+function updateAttendanceSummary() {
+    // Mock data for all students attendance
+    const allStudentsData = [
+        { total: 30, present: 29, absent: 1, leave: 0 }, // Grade 9-A
+        { total: 28, present: 26, absent: 1, leave: 1 }, // Grade 9-B
+        { total: 32, present: 32, absent: 0, leave: 0 }, // Grade 10-A
+        { total: 29, present: 25, absent: 3, leave: 1 }, // Grade 10-B
+        { total: 32, present: 32, absent: 0, leave: 0 }, // Grade 11-A
+        { total: 31, present: 30, absent: 0, leave: 1 }, // Grade 11-B
+        { total: 27, present: 27, absent: 0, leave: 0 }, // Grade 12-A
+        { total: 25, present: 24, absent: 0, leave: 1 }  // Grade 12-B
+    ];
+    
+    // Calculate totals
+    let totalStudents = 0;
+    let totalPresent = 0;
+    let totalAbsent = 0;
+    let totalLeave = 0;
+    
+    allStudentsData.forEach(classData => {
+        totalStudents += classData.total;
+        totalPresent += classData.present;
+        totalAbsent += classData.absent;
+        totalLeave += classData.leave;
+    });
+    
+    // Calculate average attendance percentage
+    const avgAttendancePercentage = totalStudents > 0 
+        ? ((totalPresent / totalStudents) * 100).toFixed(1) 
+        : 0;
+    
+    // Update summary cards
+    const percentageEl = document.getElementById('totalAttendancePercentage');
+    const absentEl = document.getElementById('totalAbsentCount');
+    const leaveEl = document.getElementById('totalLeaveCount');
+    
+    if (percentageEl) percentageEl.textContent = avgAttendancePercentage + '%';
+    if (absentEl) absentEl.textContent = totalAbsent;
+    if (leaveEl) leaveEl.textContent = totalLeave;
+}
+
 // Load Class Attendance Table with Periods
 function loadClassAttendanceTable() {
     const tbody = document.getElementById('attendanceTableBody');
@@ -489,6 +574,13 @@ function loadClassAttendanceTable() {
         const row = document.createElement('tr');
         let periodCells = '';
         
+        // Calculate total attendance percentage for today
+        // Filter out null/undefined periods and calculate average
+        const validPeriods = item.periods.filter(p => p !== null && p !== undefined);
+        const totalAttendancePercent = validPeriods.length > 0 
+            ? (validPeriods.reduce((sum, p) => sum + p, 0) / validPeriods.length).toFixed(1)
+            : null;
+        
         // Generate period cells (P1 to P7) - simple horizontal columns
         for (let i = 0; i < maxPeriods; i++) {
             const attendance = item.periods[i];
@@ -501,10 +593,18 @@ function loadClassAttendanceTable() {
             }
         }
         
+        // Generate total attendance cell
+        let totalAttendanceCell = '<td>-</td>';
+        if (totalAttendancePercent !== null) {
+            const totalAttendanceClass = totalAttendancePercent >= 95 ? 'high' : totalAttendancePercent >= 90 ? 'medium' : 'low';
+            totalAttendanceCell = `<td><span class="percentage-badge ${totalAttendanceClass}" style="font-size: 14px; padding: 6px 14px;">${totalAttendancePercent}%</span></td>`;
+        }
+        
         row.innerHTML = `
             <td><strong>${item.class}</strong></td>
             <td>${item.total}</td>
             ${periodCells}
+            ${totalAttendanceCell}
             <td>
                 <a href="/admin/attendance/class?class=${encodeURIComponent(item.class)}" class="action-btn view-btn" title="View Details">
                     <i class="fas fa-eye"></i> <span>View Details</span>
@@ -697,7 +797,6 @@ function generateSchedule(classValue) {
     schedule.forEach(item => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${item.day}</td>
             <td>${item.time}</td>
             <td>${item.subject}</td>
             <td>${item.teacher}</td>
@@ -794,6 +893,11 @@ function renderStudentList(attendance) {
         const studentItem = document.createElement('div');
         studentItem.className = 'student-item';
         
+        // Ensure status property exists (backward compatibility)
+        if (!student.status) {
+            student.status = student.present ? 'present' : 'absent';
+        }
+        
         const initials = student.name.split(' ').map(n => n[0]).join('') || student.name.charAt(0);
         
         studentItem.innerHTML = `
@@ -803,15 +907,20 @@ function renderStudentList(attendance) {
                 <div class="student-id">${student.rollNumber || student.studentId || `ID: ${student.id}`}</div>
             </div>
             <div class="attendance-toggle">
-                <button class="toggle-btn ${student.present ? 'present' : ''}" 
-                        onclick="toggleStudentAttendance(${student.id}, true)"
+                <button class="toggle-btn ${student.status === 'present' ? 'present' : ''}" 
+                        onclick="toggleStudentAttendance(${student.id}, 'present')"
                         title="Mark Present">
                     <i class="fas fa-check"></i>
                 </button>
-                <button class="toggle-btn ${!student.present ? 'absent' : ''}" 
-                        onclick="toggleStudentAttendance(${student.id}, false)"
+                <button class="toggle-btn ${student.status === 'absent' ? 'absent' : ''}" 
+                        onclick="toggleStudentAttendance(${student.id}, 'absent')"
                         title="Mark Absent">
                     <i class="fas fa-times"></i>
+                </button>
+                <button class="toggle-btn ${student.status === 'leave' ? 'leave' : ''}" 
+                        onclick="toggleStudentAttendance(${student.id}, 'leave')"
+                        title="Mark Leave">
+                    <i class="fas fa-calendar-times"></i>
                 </button>
             </div>
         `;
@@ -821,13 +930,15 @@ function renderStudentList(attendance) {
 }
 
 // Toggle student attendance
-function toggleStudentAttendance(studentId, isPresent) {
+function toggleStudentAttendance(studentId, status) {
     if (!currentAttendanceObj) return;
     
     const student = currentAttendanceObj.students.find(s => s.id === studentId);
     
     if (student) {
-        student.present = isPresent;
+        student.status = status;
+        // Keep backward compatibility
+        student.present = (status === 'present');
         updateAttendanceCounts(currentAttendanceObj);
         renderStudentList(currentAttendanceObj);
     }
@@ -835,15 +946,26 @@ function toggleStudentAttendance(studentId, isPresent) {
 
 // Update attendance counts
 function updateAttendanceCounts(attendance) {
-    const presentCount = attendance.students.filter(s => s.present).length;
-    const absentCount = attendance.students.length - presentCount;
+    // Ensure all students have status property (backward compatibility)
+    attendance.students.forEach(student => {
+        if (!student.status) {
+            student.status = student.present ? 'present' : 'absent';
+        }
+    });
+    
+    const presentCount = attendance.students.filter(s => s.status === 'present').length;
+    const absentCount = attendance.students.filter(s => s.status === 'absent').length;
+    const leaveCount = attendance.students.filter(s => s.status === 'leave').length;
     
     document.getElementById('presentCount').textContent = presentCount;
     document.getElementById('absentCount').textContent = absentCount;
+    document.getElementById('leaveCount').textContent = leaveCount;
     document.getElementById('totalCount').textContent = attendance.students.length;
     
     // Update attendance object
     attendance.present = presentCount;
+    attendance.absent = absentCount;
+    attendance.leave = leaveCount;
 }
 
 // Mark all present
@@ -851,6 +973,7 @@ function markAllPresent() {
     if (!currentAttendanceObj) return;
     
     currentAttendanceObj.students.forEach(student => {
+        student.status = 'present';
         student.present = true;
     });
     
@@ -863,6 +986,20 @@ function markAllAbsent() {
     if (!currentAttendanceObj) return;
     
     currentAttendanceObj.students.forEach(student => {
+        student.status = 'absent';
+        student.present = false;
+    });
+    
+    updateAttendanceCounts(currentAttendanceObj);
+    renderStudentList(currentAttendanceObj);
+}
+
+// Mark all leave
+function markAllLeave() {
+    if (!currentAttendanceObj) return;
+    
+    currentAttendanceObj.students.forEach(student => {
+        student.status = 'leave';
         student.present = false;
     });
     
@@ -906,6 +1043,7 @@ function generateStudentList(className) {
             id: i,
             name: `Student ${i}`,
             rollNumber: `${className}-${i.toString().padStart(2, '0')}`,
+            status: 'absent',
             present: false
         });
     }
@@ -954,6 +1092,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize class attendance table
     loadClassAttendanceTable();
+    
+    // Update summary statistics on page load
+    updateAttendanceSummary();
 });
 </script>
 
@@ -1336,6 +1477,11 @@ document.addEventListener('DOMContentLoaded', function() {
     border: 1px solid #d32f2f20;
 }
 
+.summary-card.leave {
+    background: linear-gradient(135deg, #eff6ff 0%, #fff 100%);
+    border: 1px solid #3b82f620;
+}
+
 .summary-card.total {
     background: linear-gradient(135deg, #e3f2fd 0%, #fff 100%);
     border: 1px solid #1976d220;
@@ -1358,6 +1504,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 .summary-card.absent .summary-card-icon {
     background: #d32f2f;
+    color: #fff;
+}
+
+.summary-card.leave .summary-card-icon {
+    background: #3b82f6;
     color: #fff;
 }
 
@@ -1492,6 +1643,12 @@ document.addEventListener('DOMContentLoaded', function() {
     border-color: #d32f2f;
     background: #ffebee;
     color: #d32f2f;
+}
+
+.toggle-btn.leave {
+    border-color: #3b82f6;
+    background: #eff6ff;
+    color: #3b82f6;
 }
 
 .toggle-btn:hover {

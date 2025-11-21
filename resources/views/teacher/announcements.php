@@ -99,11 +99,6 @@ ob_start();
     color: #1976d2;
 }
 
-.action-icon.pin:hover {
-    color: #f59e0b;
-    border-color: #f59e0b;
-}
-
 .action-icon.edit:hover {
     color: #1976d2;
     border-color: #1976d2;
@@ -283,9 +278,7 @@ ob_start();
                     <h4>${escapeHtml(a.title||'')}</h4>
                     <p>${escapeHtml(a.message||'')}</p>
                 </div>
-                <div class="announcement-actions">
-                    <button class="action-icon pin" title="Pin Announcement"><i class="fas fa-thumbtack"></i></button>
-                </div>
+                <div class="announcement-actions"></div>
             </div>
 
             <div class="announcement-tags">

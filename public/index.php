@@ -65,9 +65,6 @@ switch ($path) {
     case '/admin/event-edit':
         include __DIR__ . '/../resources/views/admin/event-edit.php';
         break;
-    case '/admin/event-calendar':
-        include __DIR__ . '/../resources/views/admin/event-calendar.php';
-        break;
     case '/admin/create-event':
         include __DIR__ . '/../resources/views/admin/create-event.php';
         break;

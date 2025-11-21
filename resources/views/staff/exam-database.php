@@ -17,6 +17,76 @@ ob_start();
     </div>
 </div>
 
+<!-- Exam Overview -->
+<div class="exam-dashboard-overview">
+    <div class="stats-grid-secondary vertical-stats">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <div class="stat-content">
+                <h3>Active Exams</h3>
+                <div class="stat-number" id="activeExamCount">0</div>
+                <div class="stat-change">Currently running assessments</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div class="stat-content">
+                <h3>Upcoming Exams</h3>
+                <div class="stat-number" id="upcomingExamCount">0</div>
+                <div class="stat-change">Scheduled for the next 60 days</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="stat-content">
+                <h3>Completed Exams</h3>
+                <div class="stat-number" id="completedExamCount">0</div>
+                <div class="stat-change">Finished and archived</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="exam-filter-bar">
+        <div class="filter-group">
+            <label for="filterExamType">Exam Type</label>
+            <select id="filterExamType" class="form-select">
+                <option value="all">All Types</option>
+                <option value="tutorial">Tutorial</option>
+                <option value="monthly">Monthly</option>
+                <option value="semester">Semester</option>
+                <option value="final">Final</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="filterExamClass">Class</label>
+            <select id="filterExamClass" class="form-select">
+                <option value="all">All Classes</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="filterExamStatus">Status</label>
+            <select id="filterExamStatus" class="form-select">
+                <option value="all">All Statuses</option>
+                <option value="Active">Active</option>
+                <option value="Upcoming">Upcoming</option>
+                <option value="Completed">Completed</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="filterExamMonth">Month</label>
+            <select id="filterExamMonth" class="form-select">
+                <option value="all">All Months</option>
+            </select>
+        </div>
+    </div>
+</div>
+
 <!-- Exam Management Section -->
 <div class="simple-section">
     <div class="simple-header">
@@ -45,6 +115,45 @@ ob_start();
 </div>
 
 <style>
+/* Exam Overview */
+.exam-dashboard-overview {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+
+.exam-filter-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.filter-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #4b5563;
+}
+
+.filter-group .form-select {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    height: 38px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
 /* Exam Type Badges */
 .badge-type {
     display: inline-block;
@@ -75,14 +184,19 @@ ob_start();
     color: #c62828;
 }
 
-.status-badge.ended {
-    background: #e8f5e9;
-    color: #2e7d32;
-}
-
 .status-badge.active {
     background: #e3f2fd;
     color: #1976d2;
+}
+
+.status-badge.upcoming {
+    background: #fffbeb;
+    color: #b45309;
+}
+
+.status-badge.completed {
+    background: #ecfdf5;
+    color: #059669;
 }
 
 /* Disabled Button */
@@ -156,30 +270,39 @@ ob_start();
 </style>
 
 <script>
-// Exam Database Functions - Ready for Backend Integration
+const portalPrefix = '/staff';
+const statusOrder = { 'Active': 1, 'Upcoming': 2, 'Completed': 3 };
+const monthSequence = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const filterState = { type: 'all', class: 'all', status: 'all', month: 'all' };
+let cachedExams = [];
 
-/**
- * View exam details
- * Backend: GET /api/exams/{examId}
- */
+function initializeFilterListeners() {
+    const mappings = [
+        { id: 'filterExamType', key: 'type' },
+        { id: 'filterExamClass', key: 'class' },
+        { id: 'filterExamStatus', key: 'status' },
+        { id: 'filterExamMonth', key: 'month' }
+    ];
+
+    mappings.forEach(({ id, key }) => {
+        const element = document.getElementById(id);
+        if (!element) return;
+
+        element.addEventListener('change', (event) => {
+            filterState[key] = event.target.value;
+            applyFilters();
+        });
+    });
+}
+
 function viewExam(examId) {
-    // Navigate to exam details page
-    window.location.href = `/staff/exam-details?id=${examId}`;
+    window.location.href = `${portalPrefix}/exam-details?id=${examId}`;
 }
 
-/**
- * Edit exam
- * Backend: GET /api/exams/{examId}/edit
- */
 function editExam(examId) {
-    // Navigate to edit exam page
-    window.location.href = `/staff/exam-edit?id=${examId}`;
+    window.location.href = `${portalPrefix}/exam-edit?id=${examId}`;
 }
 
-/**
- * Delete exam (with confirmation)
- * Backend: DELETE /api/exams/{examId}
- */
 function deleteExam(examId, examName) {
     showConfirmDialog({
         title: 'Delete Exam',
@@ -187,145 +310,121 @@ function deleteExam(examId, examName) {
         confirmText: 'Delete',
         confirmIcon: 'fas fa-trash',
         onConfirm: () => {
-            // TODO: Integrate backend call
-            // fetch(`/api/exams/${examId}`, { method: 'DELETE' })
-            //   .then(() => loadExams());
             showActionStatus('Exam deleted successfully.', 'success');
-            // Remove from table immediately for prototype UX
-            const rowBtn = document.querySelector(`button[onclick*="deleteExam('${examId}'"]`);
-            if (rowBtn) {
-                const tr = rowBtn.closest('tr');
-                if (tr) tr.remove();
-            }
+            cachedExams = cachedExams.filter(exam => exam.id !== examId);
+            updateStatusCards(cachedExams);
+            populateDynamicFilters(cachedExams);
+            applyFilters();
         }
     });
 }
 
-/**
- * View exam results
- * Backend: GET /api/exams/{examId}/results
- */
-function viewResults(examId) {
-    // Navigate to results page
-    // Deprecated: results page removed
-}
-
-/**
- * Load and combine all exams from backend, sorted by status
- * Backend: GET /api/exams
- */
 async function loadExams() {
     try {
-        // For now, use mock data - in real app this would come from backend
         const allExams = [
-            // Active Exams
-            {
-                id: 'EX001',
-                name: 'Mathematics Tutorial 1',
-                type: 'tutorial',
-                class: 'Grade 9-A',
-                subjects: 'Mathematics',
-                status: 'Active'
-            },
-            {
-                id: 'EX002',
-                name: 'Mid-term Exam',
-                type: 'monthly',
-                class: 'Grade 10-B',
-                subjects: '6 subjects',
-                status: 'Active'
-            },
-            {
-                id: 'EX003',
-                name: 'Science Tutorial',
-                type: 'tutorial',
-                class: 'Grade 9-B',
-                subjects: 'Science',
-                status: 'Active'
-            },
-            {
-                id: 'EX004',
-                name: 'Chemistry Lab Test',
-                type: 'tutorial',
-                class: 'Grade 11-A',
-                subjects: 'Chemistry',
-                status: 'Active'
-            },
-            {
-                id: 'EX008',
-                name: 'English Monthly Test',
-                type: 'monthly',
-                class: 'Grade 11-A',
-                subjects: 'English',
-                status: 'Active'
-            },
-            {
-                id: 'EX009',
-                name: 'Physics Semester Exam',
-                type: 'semester',
-                class: 'Grade 12-A',
-                subjects: '5 subjects',
-                status: 'Active'
-            },
-
-            // Ended Exams
-            {
-                id: 'EX005',
-                name: 'Final Exam - Science',
-                type: 'final',
-                class: 'Grade 12-A',
-                subjects: '7 subjects',
-                status: 'Ended'
-            },
-            {
-                id: 'EX006',
-                name: 'Mid-Semester Assessment',
-                type: 'semester',
-                class: 'Grade 11-B',
-                subjects: '6 subjects',
-                status: 'Ended'
-            },
-            {
-                id: 'EX007',
-                name: 'Monthly Test - Math',
-                type: 'monthly',
-                class: 'Grade 9-A',
-                subjects: 'Mathematics',
-                status: 'Ended'
-            }
+            { id: 'EX001', name: 'Mathematics Tutorial 1', type: 'tutorial', class: 'Grade 9-A', subjects: 'Mathematics', status: 'Active', month: 'September' },
+            { id: 'EX002', name: 'Mid-term Exam', type: 'monthly', class: 'Grade 10-B', subjects: '6 subjects', status: 'Active', month: 'September' },
+            { id: 'EX003', name: 'Science Tutorial', type: 'tutorial', class: 'Grade 9-B', subjects: 'Science', status: 'Active', month: 'October' },
+            { id: 'EX004', name: 'Chemistry Lab Test', type: 'tutorial', class: 'Grade 11-A', subjects: 'Chemistry', status: 'Active', month: 'October' },
+            { id: 'EX008', name: 'English Monthly Test', type: 'monthly', class: 'Grade 11-A', subjects: 'English', status: 'Active', month: 'November' },
+            { id: 'EX009', name: 'Physics Semester Exam', type: 'semester', class: 'Grade 12-A', subjects: '5 subjects', status: 'Active', month: 'December' },
+            { id: 'EX010', name: 'Quarterly Assessment', type: 'semester', class: 'Grade 8-A', subjects: '5 subjects', status: 'Upcoming', month: 'December' },
+            { id: 'EX011', name: 'Computer Science Practical', type: 'tutorial', class: 'Grade 12-B', subjects: 'Computer Science', status: 'Upcoming', month: 'January' },
+            { id: 'EX005', name: 'Final Exam - Science', type: 'final', class: 'Grade 12-A', subjects: '7 subjects', status: 'Completed', month: 'March' },
+            { id: 'EX006', name: 'Mid-Semester Assessment', type: 'semester', class: 'Grade 11-B', subjects: '6 subjects', status: 'Completed', month: 'May' },
+            { id: 'EX007', name: 'Monthly Test - Math', type: 'monthly', class: 'Grade 9-A', subjects: 'Mathematics', status: 'Completed', month: 'August' }
         ];
 
-        // Sort exams by status priority: Active -> Ended
-        const statusOrder = { 'Active': 1, 'Ended': 2 };
-        allExams.sort((a, b) => {
-            const statusDiff = statusOrder[a.status] - statusOrder[b.status];
-            if (statusDiff !== 0) return statusDiff;
-
-            // Within same status, sort by exam name alphabetically
-            return a.name.localeCompare(b.name);
-        });
-
-        renderAllExams(allExams);
-
-        // Example backend integration:
-        // const response = await fetch('/api/exams');
-        // const allExams = await response.json();
-        // renderAllExams(allExams);
-
-        console.log('Exam database loaded and sorted by status');
+        cachedExams = sortExams(allExams);
+        populateDynamicFilters(cachedExams);
+        updateStatusCards(cachedExams);
+        applyFilters();
     } catch (error) {
         console.error('Error loading exams:', error);
     }
 }
 
-/**
- * Render all exams to combined table, sorted by status
- * @param {Array} exams - Array of all exam objects
- */
+function populateDynamicFilters(exams) {
+    const classSelect = document.getElementById('filterExamClass');
+    const monthSelect = document.getElementById('filterExamMonth');
+
+    if (classSelect) {
+        const classValues = Array.from(new Set(exams.map(exam => exam.class))).sort();
+        populateSelectOptions(classSelect, classValues, 'All Classes', filterState.class, 'class');
+    }
+
+    if (monthSelect) {
+        const monthValues = Array.from(new Set(exams.map(exam => exam.month))).sort((a, b) => {
+            const indexA = monthSequence.indexOf(a);
+            const indexB = monthSequence.indexOf(b);
+            return (indexA === -1 ? 99 : indexA) - (indexB === -1 ? 99 : indexB);
+        });
+        populateSelectOptions(monthSelect, monthValues, 'All Months', filterState.month, 'month');
+    }
+}
+
+function populateSelectOptions(selectElement, values, defaultLabel, currentValue, filterKey) {
+    const options = [`<option value="all">${defaultLabel}</option>`];
+    values.forEach(value => options.push(`<option value="${value}">${value}</option>`));
+    selectElement.innerHTML = options.join('');
+
+    if (values.includes(currentValue)) {
+        selectElement.value = currentValue;
+    } else {
+        filterState[filterKey] = 'all';
+        selectElement.value = 'all';
+    }
+}
+
+function updateStatusCards(exams) {
+    const counts = { Active: 0, Upcoming: 0, Completed: 0 };
+    exams.forEach(exam => {
+        if (counts[exam.status] !== undefined) {
+            counts[exam.status]++;
+        }
+    });
+
+    const activeCard = document.getElementById('activeExamCount');
+    const upcomingCard = document.getElementById('upcomingExamCount');
+    const completedCard = document.getElementById('completedExamCount');
+
+    if (activeCard) activeCard.textContent = counts.Active;
+    if (upcomingCard) upcomingCard.textContent = counts.Upcoming;
+    if (completedCard) completedCard.textContent = counts.Completed;
+}
+
+function applyFilters() {
+    if (!cachedExams.length) {
+        renderAllExams([]);
+        return;
+    }
+
+    const filtered = cachedExams.filter(exam => {
+        if (filterState.type !== 'all' && exam.type !== filterState.type) return false;
+        if (filterState.class !== 'all' && exam.class !== filterState.class) return false;
+        if (filterState.status !== 'all' && exam.status !== filterState.status) return false;
+        if (filterState.month !== 'all' && exam.month !== filterState.month) return false;
+        return true;
+    });
+
+    renderAllExams(sortExams(filtered));
+}
+
 function renderAllExams(exams) {
     const tbody = document.getElementById('allExamsBody');
     if (!tbody) return;
-    
+
+    if (!exams.length) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align:center; padding: 24px; color: #6b7280;">
+                    No exams match the selected filters.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
     tbody.innerHTML = exams.map(exam => `
         <tr>
             <td data-label="Exam ID"><strong>${exam.id}</strong></td>
@@ -346,8 +445,18 @@ function renderAllExams(exams) {
     `).join('');
 }
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', loadExams);
+function sortExams(exams) {
+    return exams.slice().sort((a, b) => {
+        const statusDiff = (statusOrder[a.status] || 99) - (statusOrder[b.status] || 99);
+        if (statusDiff !== 0) return statusDiff;
+        return a.name.localeCompare(b.name);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initializeFilterListeners();
+    loadExams();
+});
 </script>
 <?php
 $content = ob_get_clean();

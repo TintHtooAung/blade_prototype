@@ -489,22 +489,30 @@ body {
     padding: 1rem 0;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     z-index: 999;
-    /* Invisible scrollbar - seamless scrolling */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
+    /* Visible scrollbar */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent; /* Firefox */
+    -ms-overflow-style: scrollbar; /* IE and Edge */
 }
 
 .sidebar::-webkit-scrollbar {
-    width: 0px;
-    display: none;
+    width: 8px;
+    display: block;
 }
 
 .sidebar::-webkit-scrollbar-track {
-    display: none;
+    background: transparent;
+    display: block;
 }
 
 .sidebar::-webkit-scrollbar-thumb {
-    display: none;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    display: block;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
 }
 
 /* iOS Sidebar Logo - Hidden, using header logo */
@@ -3230,7 +3238,7 @@ body {
 
 .academic-table th {
     background: #f8fafc;
-    padding: 1rem;
+    padding: 0.9rem 1.25rem;
     text-align: left;
     font-size: 0.8rem;
     font-weight: 600;
@@ -3240,14 +3248,18 @@ body {
     border-bottom: 1px solid #e0e7ff;
 }
 
-.academic-table th:first-child {
-    width: 40px;
-}
-
 .academic-table td {
-    padding: 1rem;
+    padding: 0.9rem 1.25rem;
     border-bottom: 1px solid #f1f5f9;
     vertical-align: middle;
+}
+
+.academic-table th.expand-cell,
+.academic-table td.expand-cell {
+    width: 40px;
+    text-align: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 }
 
 .expandable-row {

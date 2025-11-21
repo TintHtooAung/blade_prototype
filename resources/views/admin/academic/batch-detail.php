@@ -65,38 +65,45 @@ ob_start();
     ]); ?>
 </div>
 
-<!-- Edit Batch Form -->
-<div id="editBatchForm" class="simple-section" style="display:none; margin-top:12px;">
-    <div class="simple-header">
-        <h4><i class="fas fa-edit"></i> Edit Batch</h4>
-    </div>
-    <div class="form-section">
-        <div class="form-row">
-            <div class="form-group" style="flex:2;">
-                <label for="editBatchName">Batch Name</label>
-                <input type="text" id="editBatchName" class="form-input" value="<?php echo htmlspecialchars($batchName); ?>">
-            </div>
-            <div class="form-group">
-                <label for="editBatchStart">Start Date</label>
-                <input type="date" id="editBatchStart" class="form-input" value="2024-04-01">
-            </div>
-            <div class="form-group">
-                <label for="editBatchEnd">End Date</label>
-                <input type="date" id="editBatchEnd" class="form-input" value="2025-03-31">
+<!-- Edit Batch Modal -->
+<div id="editBatchModal" class="simple-modal-overlay" style="display:none;">
+    <div class="simple-modal-content" style="max-width: 600px; width: 100%;">
+        <div class="simple-modal-header">
+            <h3><i class="fas fa-edit"></i> Edit Batch</h3>
+            <button class="simple-modal-close" onclick="closeEditBatchModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="simple-modal-body">
+            <div class="form-section" style="padding:0;">
+                <div class="form-row">
+                    <div class="form-group" style="flex:2;">
+                        <label for="modalBatchName">Batch Name</label>
+                        <input type="text" id="modalBatchName" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="modalBatchStart">Start Date</label>
+                        <input type="date" id="modalBatchStart" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="modalBatchEnd">End Date</label>
+                        <input type="date" id="modalBatchEnd" class="form-input">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="modalBatchStatus">Status</label>
+                        <select id="modalBatchStatus" class="form-select">
+                            <option value="Active">Active</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label for="editBatchStatus">Status</label>
-                <select id="editBatchStatus" class="form-select">
-                    <option value="Active" selected>Active</option>
-                    <option value="Completed">Completed</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-actions">
-            <button id="cancelEditBatch" class="simple-btn secondary">Cancel</button>
-            <button id="saveEditBatch" class="simple-btn primary"><i class="fas fa-check"></i> Update Batch</button>
+        <div class="simple-modal-actions">
+            <button id="cancelEditBatchModal" class="simple-btn secondary" onclick="closeEditBatchModal()">Cancel</button>
+            <button id="saveEditBatchModal" class="simple-btn primary"><i class="fas fa-check"></i> Update Batch</button>
         </div>
     </div>
 </div>
@@ -112,11 +119,11 @@ ob_start();
             <tbody>
                 <tr>
                     <td style="width: 200px; font-weight: 600; color: #86868b;">Start Date</td>
-                    <td>2024-04-01</td>
+                    <td><span id="batchStartValue">2024-04-01</span></td>
                 </tr>
                 <tr>
                     <td style="font-weight: 600; color: #86868b;">End Date</td>
-                    <td>2025-03-31</td>
+                    <td><span id="batchEndValue">2025-03-31</span></td>
                 </tr>
                 <tr>
                     <td style="font-weight: 600; color: #86868b;">Duration</td>
@@ -206,46 +213,78 @@ include __DIR__ . '/../../components/admin-layout.php';
 ?>
 
 <script>
+const batchData = <?php echo json_encode([
+    'name' => $batchName,
+    'start' => '2024-04-01',
+    'end' => '2025-03-31',
+    'status' => 'Active'
+]); ?>;
+
 document.addEventListener('DOMContentLoaded', function(){
-    // Edit Batch functionality
     const editBatchBtn = document.getElementById('editBatchBtn');
-    const editBatchForm = document.getElementById('editBatchForm');
-    const cancelEditBatchBtn = document.getElementById('cancelEditBatch');
-    const saveEditBatchBtn = document.getElementById('saveEditBatch');
+    const editBatchModal = document.getElementById('editBatchModal');
+    const modalBatchName = document.getElementById('modalBatchName');
+    const modalBatchStart = document.getElementById('modalBatchStart');
+    const modalBatchEnd = document.getElementById('modalBatchEnd');
+    const modalBatchStatus = document.getElementById('modalBatchStatus');
+    const saveEditBatchBtn = document.getElementById('saveEditBatchModal');
     
-    editBatchBtn.addEventListener('click', function() {
-        editBatchForm.style.display = 'block';
-    });
-    
-    // Check if edit parameter is present in URL and clean it up immediately
-    if (window.location.search.includes('edit=true')) {
-        editBatchForm.style.display = 'block';
-        // Remove edit parameter from URL immediately
-        const cleanUrl = window.location.pathname + window.location.search.replace(/[?&]edit=true/, '').replace(/[?&]$/, '');
-        window.history.replaceState({}, document.title, cleanUrl);
+    function fillBatchModal() {
+        modalBatchName.value = batchData.name;
+        modalBatchStart.value = batchData.start;
+        modalBatchEnd.value = batchData.end;
+        modalBatchStatus.value = batchData.status;
     }
     
-    cancelEditBatchBtn.addEventListener('click', function() {
-        editBatchForm.style.display = 'none';
+    function openEditBatchModal() {
+        fillBatchModal();
+        editBatchModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+    
+    window.closeEditBatchModal = function() {
+        editBatchModal.style.display = 'none';
+        document.body.style.overflow = '';
+    };
+    
+    editBatchModal.addEventListener('click', function(e) {
+        if (e.target === editBatchModal) {
+            closeEditBatchModal();
+        }
     });
     
+    editBatchBtn.addEventListener('click', openEditBatchModal);
+    
     saveEditBatchBtn.addEventListener('click', function() {
-        const newName = document.getElementById('editBatchName').value.trim();
-        const newStart = document.getElementById('editBatchStart').value.trim();
-        const newEnd = document.getElementById('editBatchEnd').value.trim();
-        const newStatus = document.getElementById('editBatchStatus').value.trim();
+        const newName = modalBatchName.value.trim();
+        const newStart = modalBatchStart.value.trim();
+        const newEnd = modalBatchEnd.value.trim();
+        const newStatus = modalBatchStatus.value.trim();
         
         if (!newName || !newStart || !newEnd || !newStatus) {
             alert('Please fill in all fields');
             return;
         }
         
-        // Update page title
-        document.querySelector('.batch-info h1').textContent = newName;
+        batchData.name = newName;
+        batchData.start = newStart;
+        batchData.end = newEnd;
+        batchData.status = newStatus;
         
-        // Hide form
-        editBatchForm.style.display = 'none';
+        document.querySelector('.batch-info h1').textContent = batchData.name;
+        const statusBadge = document.querySelector('.batch-meta .status-badge');
+        if (statusBadge) {
+            statusBadge.textContent = batchData.status;
+            statusBadge.className = `status-badge ${batchData.status.toLowerCase() === 'active' ? 'active' : 'completed'}`;
+        }
+        const statCardTitle = document.querySelector('.detail-stats-grid .stat-card:first-child .stat-number');
+        if (statCardTitle) statCardTitle.textContent = batchData.name;
+        const startValue = document.getElementById('batchStartValue');
+        const endValue = document.getElementById('batchEndValue');
+        if (startValue) startValue.textContent = batchData.start;
+        if (endValue) endValue.textContent = batchData.end;
         
+        closeEditBatchModal();
         showActionStatus('Batch updated successfully!', 'success');
     });
     
@@ -269,3 +308,140 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 });
 </script>
+
+<style>
+/* Simple Modal Styles */
+.simple-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: fadeIn 0.2s ease;
+}
+
+.simple-modal-content {
+    background: #ffffff;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.3s ease;
+    overflow: hidden;
+}
+
+.simple-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #e0e7ff;
+}
+
+.simple-modal-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1d1d1f;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.simple-modal-header h3 i {
+    color: #4A90E2;
+}
+
+.simple-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: #86868b;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.simple-modal-close:hover {
+    background: #f8fafc;
+    color: #1d1d1f;
+}
+
+.simple-modal-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.simple-modal-body .form-group {
+    margin-bottom: 1.25rem;
+}
+
+.simple-modal-body .form-group:last-child {
+    margin-bottom: 0;
+}
+
+.simple-modal-body .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #1d1d1f;
+    font-size: 0.9rem;
+}
+
+.simple-modal-body .form-group .form-input,
+.simple-modal-body .form-group .form-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e0e7ff;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #1d1d1f;
+    transition: all 0.2s ease;
+}
+
+.simple-modal-body .form-group .form-input:focus,
+.simple-modal-body .form-group .form-select:focus {
+    outline: none;
+    border-color: #4A90E2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.simple-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    border-top: 1px solid #e0e7ff;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+</style>

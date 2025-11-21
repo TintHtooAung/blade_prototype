@@ -135,42 +135,54 @@ const classSchedule = {
 const attendanceRecords = {
     '<?php echo date('Y-m-d'); ?>': {
         'Grade 9-A': {
-            'Mathematics': [
-                { id: 'S001', name: 'John Smith', status: 'present', time: '08:05', notes: '' },
-                { id: 'S002', name: 'Sarah Johnson', status: 'present', time: '08:02', notes: '' },
-                { id: 'S003', name: 'Mike Davis', status: 'present', time: '08:03', notes: '' },
-                { id: 'S004', name: 'Emma Wilson', status: 'present', time: '08:01', notes: '' },
-                { id: 'S005', name: 'Alex Brown', status: 'present', time: '08:04', notes: '' },
-                { id: 'S006', name: 'Lisa Anderson', status: 'absent', time: '', notes: 'Sick' },
-                { id: 'S007', name: 'David Lee', status: 'present', time: '08:06', notes: '' },
-                { id: 'S008', name: 'Sophia Martinez', status: 'present', time: '08:02', notes: '' },
-                { id: 'S009', name: 'James Taylor', status: 'leave', time: '', notes: 'Approved leave' },
-                { id: 'S010', name: 'Olivia White', status: 'present', time: '08:03', notes: '' }
-            ],
-            'English': [
-                { id: 'S001', name: 'John Smith', status: 'present', time: '09:05', notes: '' },
-                { id: 'S002', name: 'Sarah Johnson', status: 'present', time: '09:02', notes: '' },
-                { id: 'S003', name: 'Mike Davis', status: 'present', time: '09:03', notes: '' },
-                { id: 'S004', name: 'Emma Wilson', status: 'present', time: '09:01', notes: '' },
-                { id: 'S005', name: 'Alex Brown', status: 'present', time: '09:04', notes: '' },
-                { id: 'S006', name: 'Lisa Anderson', status: 'absent', time: '', notes: 'Sick' },
-                { id: 'S007', name: 'David Lee', status: 'present', time: '09:06', notes: '' },
-                { id: 'S008', name: 'Sophia Martinez', status: 'present', time: '09:02', notes: '' },
-                { id: 'S009', name: 'James Taylor', status: 'leave', time: '', notes: 'Approved leave' },
-                { id: 'S010', name: 'Olivia White', status: 'present', time: '09:03', notes: '' }
-            ],
-            'Physics': [
-                { id: 'S001', name: 'John Smith', status: 'present', time: '10:35', notes: '' },
-                { id: 'S002', name: 'Sarah Johnson', status: 'present', time: '10:32', notes: '' },
-                { id: 'S003', name: 'Mike Davis', status: 'present', time: '10:33', notes: '' },
-                { id: 'S004', name: 'Emma Wilson', status: 'present', time: '10:31', notes: '' },
-                { id: 'S005', name: 'Alex Brown', status: 'present', time: '10:34', notes: '' },
-                { id: 'S006', name: 'Lisa Anderson', status: 'absent', time: '', notes: 'Sick' },
-                { id: 'S007', name: 'David Lee', status: 'present', time: '10:36', notes: '' },
-                { id: 'S008', name: 'Sophia Martinez', status: 'present', time: '10:32', notes: '' },
-                { id: 'S009', name: 'James Taylor', status: 'leave', time: '', notes: 'Approved leave' },
-                { id: 'S010', name: 'Olivia White', status: 'present', time: '10:33', notes: '' }
-            ]
+            'Mathematics': {
+                collectTime: '08:10',
+                collectedBy: 'Daw Khin Khin',
+                records: [
+                    { id: 'S001', name: 'John Smith', status: 'present', time: '08:05', notes: '' },
+                    { id: 'S002', name: 'Sarah Johnson', status: 'present', time: '08:02', notes: '' },
+                    { id: 'S003', name: 'Mike Davis', status: 'present', time: '08:03', notes: '' },
+                    { id: 'S004', name: 'Emma Wilson', status: 'present', time: '08:01', notes: '' },
+                    { id: 'S005', name: 'Alex Brown', status: 'present', time: '08:04', notes: '' },
+                    { id: 'S006', name: 'Lisa Anderson', status: 'absent', time: '', notes: 'Sick' },
+                    { id: 'S007', name: 'David Lee', status: 'present', time: '08:06', notes: '' },
+                    { id: 'S008', name: 'Sophia Martinez', status: 'present', time: '08:02', notes: '' },
+                    { id: 'S009', name: 'James Taylor', status: 'leave', time: '', notes: 'Approved leave' },
+                    { id: 'S010', name: 'Olivia White', status: 'present', time: '08:03', notes: '' }
+                ]
+            },
+            'English': {
+                collectTime: '09:10',
+                collectedBy: 'Ms. Sarah Johnson',
+                records: [
+                    { id: 'S001', name: 'John Smith', status: 'present', time: '09:05', notes: '' },
+                    { id: 'S002', name: 'Sarah Johnson', status: 'present', time: '09:02', notes: '' },
+                    { id: 'S003', name: 'Mike Davis', status: 'present', time: '09:03', notes: '' },
+                    { id: 'S004', name: 'Emma Wilson', status: 'present', time: '09:01', notes: '' },
+                    { id: 'S005', name: 'Alex Brown', status: 'present', time: '09:04', notes: '' },
+                    { id: 'S006', name: 'Lisa Anderson', status: 'absent', time: '', notes: 'Sick' },
+                    { id: 'S007', name: 'David Lee', status: 'present', time: '09:06', notes: '' },
+                    { id: 'S008', name: 'Sophia Martinez', status: 'present', time: '09:02', notes: '' },
+                    { id: 'S009', name: 'James Taylor', status: 'leave', time: '', notes: 'Approved leave' },
+                    { id: 'S010', name: 'Olivia White', status: 'present', time: '09:03', notes: '' }
+                ]
+            },
+            'Physics': {
+                collectTime: '10:40',
+                collectedBy: 'U Aung Myint',
+                records: [
+                    { id: 'S001', name: 'John Smith', status: 'present', time: '10:35', notes: '' },
+                    { id: 'S002', name: 'Sarah Johnson', status: 'present', time: '10:32', notes: '' },
+                    { id: 'S003', name: 'Mike Davis', status: 'present', time: '10:33', notes: '' },
+                    { id: 'S004', name: 'Emma Wilson', status: 'present', time: '10:31', notes: '' },
+                    { id: 'S005', name: 'Alex Brown', status: 'present', time: '10:34', notes: '' },
+                    { id: 'S006', name: 'Lisa Anderson', status: 'absent', time: '', notes: 'Sick' },
+                    { id: 'S007', name: 'David Lee', status: 'present', time: '10:36', notes: '' },
+                    { id: 'S008', name: 'Sophia Martinez', status: 'present', time: '10:32', notes: '' },
+                    { id: 'S009', name: 'James Taylor', status: 'leave', time: '', notes: 'Approved leave' },
+                    { id: 'S010', name: 'Olivia White', status: 'present', time: '10:33', notes: '' }
+                ]
+            }
         }
     }
 };
@@ -188,6 +200,32 @@ function initializeAttendanceRecords() {
     const dateRecords = attendanceRecords[selectedDate] || {};
     const classRecords = dateRecords[className] || {};
     
+    // Calculate overall today's percentages across all subjects
+    let totalTodayPresent = 0;
+    let totalTodayAbsent = 0;
+    let totalTodayLeave = 0;
+    let totalTodayRecords = 0;
+    Object.keys(classRecords).forEach(subject => {
+        const subjectData = classRecords[subject] || {};
+        const subjectRecords = subjectData.records || [];
+        const presentCount = subjectRecords.filter(r => r.status === 'present').length;
+        const absentCount = subjectRecords.filter(r => r.status === 'absent').length;
+        const leaveCount = subjectRecords.filter(r => r.status === 'leave').length;
+        totalTodayPresent += presentCount;
+        totalTodayAbsent += absentCount;
+        totalTodayLeave += leaveCount;
+        totalTodayRecords += subjectRecords.length;
+    });
+    const todayPresentPercent = totalTodayRecords > 0 
+        ? ((totalTodayPresent / totalTodayRecords) * 100).toFixed(1) 
+        : 0;
+    const todayAbsentPercent = totalTodayRecords > 0 
+        ? ((totalTodayAbsent / totalTodayRecords) * 100).toFixed(1) 
+        : 0;
+    const todayLeavePercent = totalTodayRecords > 0 
+        ? ((totalTodayLeave / totalTodayRecords) * 100).toFixed(1) 
+        : 0;
+    
     // Calculate period numbers (P1, P2, etc.) - only count actual subjects
     let periodNumber = 0;
     
@@ -201,7 +239,10 @@ function initializeAttendanceRecords() {
         periodNumber++;
         const periodLabel = `P${periodNumber}`;
         
-        const subjectRecords = classRecords[period.subject] || [];
+        const subjectData = classRecords[period.subject] || {};
+        const subjectRecords = subjectData.records || [];
+        const collectTime = subjectData.collectTime || '-';
+        const collectedBy = subjectData.collectedBy || '-';
         const presentCount = subjectRecords.filter(r => r.status === 'present').length;
         const absentCount = subjectRecords.filter(r => r.status === 'absent').length;
         const leaveCount = subjectRecords.filter(r => r.status === 'leave').length;
@@ -220,13 +261,21 @@ function initializeAttendanceRecords() {
                             <span class="time-badge"><i class="fas fa-clock"></i> ${period.time}</span>
                             <span class="teacher-badge"><i class="fas fa-chalkboard-teacher"></i> ${period.teacher}</span>
                             <span class="room-badge"><i class="fas fa-door-open"></i> ${period.room}</span>
+                            <span class="collect-time-badge"><i class="fas fa-stopwatch"></i> Collect Time: ${collectTime}</span>
+                            <span class="person-badge"><i class="fas fa-user"></i> Collected By: ${collectedBy}</span>
                         </div>
                     </div>
                     <div class="record-stats">
-                        <span class="stat-badge present">Present: ${presentCount}</span>
-                        <span class="stat-badge absent">Absent: ${absentCount}</span>
-                        <span class="stat-badge leave">Leave: ${leaveCount}</span>
-                        <span class="percentage-badge ${getPercentageClass(attendancePercent)}">${attendancePercent}%</span>
+                        <div class="today-present-stat">
+                            <span class="percentage-badge ${getPercentageClass(todayPresentPercent)}" style="font-weight: 700; font-size: 14px; padding: 8px 16px;">Present: ${todayPresentPercent}%</span>
+                            <span class="percentage-badge ${getPercentageClass(todayAbsentPercent)}" style="font-weight: 700; font-size: 14px; padding: 8px 16px; background: #fef2f2; color: #ef4444;">Absent: ${todayAbsentPercent}%</span>
+                            <span class="percentage-badge ${getPercentageClass(todayLeavePercent)}" style="font-weight: 700; font-size: 14px; padding: 8px 16px; background: #eff6ff; color: #3b82f6;">Leave: ${todayLeavePercent}%</span>
+                        </div>
+                        <div class="period-stats">
+                            <span class="stat-badge present">Present: ${presentCount}</span>
+                            <span class="stat-badge absent">Absent: ${absentCount}</span>
+                            <span class="stat-badge leave">Leave: ${leaveCount}</span>
+                        </div>
                     </div>
     </div>
 
@@ -238,23 +287,29 @@ function initializeAttendanceRecords() {
                                     <tr>
                                         <th>Student ID</th>
                                         <th>Name</th>
+                                        <th>Today Present %</th>
                                         <th>Status</th>
-                                        <th>Time</th>
                                         <th>Notes</th>
                                     </tr>
                                 </thead>
             <tbody>
-                                    ${subjectRecords.map(record => `
+                                    ${subjectRecords.map(record => {
+                                        // Calculate today's present percentage for this student across all subjects
+                                        const studentTodayPercent = calculateTodayPresentPercent(record.id, selectedDate, className, classRecords);
+                                        return `
                                         <tr>
                                             <td><strong>${record.id}</strong></td>
                                             <td>${record.name}</td>
                                             <td>
+                                                <span class="percentage-badge ${getPercentageClass(studentTodayPercent)}">${studentTodayPercent}%</span>
+                                            </td>
+                                            <td>
                                                 ${getStatusBadge(record.status)}
                                             </td>
-                                            <td>${record.time || '-'}</td>
                                             <td>${record.notes || '-'}</td>
                                         </tr>
-                                    `).join('')}
+                                    `;
+                                    }).join('')}
             </tbody>
         </table>
     </div>
@@ -301,6 +356,29 @@ function getSubjectIcon(subject) {
         'Economics': 'fa-chart-line'
     };
     return icons[subject] || 'fa-book-open';
+}
+
+// Calculate today's present percentage for a student across all subjects
+function calculateTodayPresentPercent(studentId, date, className, classRecords) {
+    let totalPeriods = 0;
+    let presentPeriods = 0;
+    
+    // Count all subjects/periods for this class
+    Object.keys(classRecords).forEach(subject => {
+        const subjectData = classRecords[subject] || {};
+        const subjectRecords = subjectData.records || [];
+        const studentRecord = subjectRecords.find(r => r.id === studentId);
+        
+        if (studentRecord) {
+            totalPeriods++;
+            if (studentRecord.status === 'present') {
+                presentPeriods++;
+            }
+        }
+    });
+    
+    if (totalPeriods === 0) return 0;
+    return ((presentPeriods / totalPeriods) * 100).toFixed(1);
 }
 
 // Get status badge HTML
@@ -402,7 +480,7 @@ document.addEventListener('DOMContentLoaded', function() {
     flex-wrap: wrap;
 }
 
-.time-badge, .teacher-badge, .room-badge {
+.time-badge, .teacher-badge, .room-badge, .collect-time-badge, .person-badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -414,12 +492,27 @@ document.addEventListener('DOMContentLoaded', function() {
     font-weight: 500;
 }
 
-.time-badge i, .teacher-badge i, .room-badge i {
+.time-badge i, .teacher-badge i, .room-badge i, .collect-time-badge i, .person-badge i {
     font-size: 12px;
     color: #4A90E2;
 }
 
 .record-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-end;
+}
+
+.today-present-stat {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.period-stats {
     display: flex;
     gap: 12px;
     align-items: center;
@@ -523,6 +616,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     .record-stats {
+        width: 100%;
+        align-items: flex-start;
+    }
+    
+    .today-present-stat {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    .period-stats {
         width: 100%;
     }
 }
