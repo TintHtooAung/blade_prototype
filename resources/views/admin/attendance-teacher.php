@@ -37,26 +37,6 @@ ob_start();
 
     <!-- Daily Attendance View -->
     <div id="daily-attendance-view" class="attendance-view-content">
-        <!-- Date Filter -->
-        <div class="simple-section" style="margin-bottom: 24px;">
-            <div class="simple-header">
-                <h3 id="attendanceDateTitle">Teacher Attendance History - <?php echo date('F d, Y'); ?></h3>
-                <div class="simple-actions">
-                    <div class="filter-group" style="display: flex; align-items: center; gap: 8px; flex-direction: row;">
-                        <label for="attendanceDateFilter" style="margin: 0; white-space: nowrap;">Select Date:</label>
-                        <input type="date" id="attendanceDateFilter" class="filter-select" value="<?php echo date('Y-m-d'); ?>" onchange="filterAttendanceByDate(this.value)" style="height: 36px; padding: 8px 12px; margin: 0;">
-                    </div>
-                    <button class="simple-btn secondary" onclick="setTodayDate()" title="Today" style="height: 36px; padding: 8px 16px; margin: 0;">
-                        <i class="fas fa-calendar-day"></i> Today
-                    </button>
-                    <button class="simple-btn primary" onclick="saveAllAttendance()" style="height: 36px; padding: 8px 16px; margin: 0; display: inline-flex; align-items: center; gap: 6px;">
-                        <i class="fas fa-save"></i> Save All
-                    </button>
-                </div>
-            </div>
-        </div>
-
-
         <!-- Attendance Summary Cards -->
         <div class="stats-grid-secondary vertical-stats" style="margin-bottom: 24px;">
             <div class="stat-card">

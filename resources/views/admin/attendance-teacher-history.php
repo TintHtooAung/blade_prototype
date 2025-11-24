@@ -19,25 +19,6 @@ ob_start();
 
 <!-- Main Content -->
 <div style="margin-top: 24px;">
-        <!-- Date Filter -->
-        <div class="simple-section" style="margin-bottom: 24px;">
-            <div class="simple-header">
-                <h3 id="attendanceDateTitle">Teacher Attendance History - <?php echo date('F d, Y'); ?></h3>
-                <div class="simple-actions">
-                    <div class="filter-group" style="display: flex; align-items: center; gap: 8px; flex-direction: row;">
-                        <label for="attendanceDateFilter" style="margin: 0; white-space: nowrap;">Select Date:</label>
-                        <input type="date" id="attendanceDateFilter" class="filter-select" value="<?php echo date('Y-m-d'); ?>" onchange="filterAttendanceByDate(this.value)" style="height: 36px; padding: 8px 12px; margin: 0;">
-                    </div>
-                    <button class="simple-btn secondary" onclick="setTodayDate()" title="Today" style="height: 36px; padding: 8px 16px; margin: 0;">
-                        <i class="fas fa-calendar-day"></i> Today
-                    </button>
-                    <a href="/admin/attendance/teacher" class="simple-btn primary" style="height: 36px; padding: 8px 16px; margin: 0; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
-                        <i class="fas fa-plus"></i> Collect Attendance
-                    </a>
-                </div>
-            </div>
-        </div>
-
         <!-- Teacher Attendance History Table -->
         <div class="simple-section">
             <div class="simple-table-container">
@@ -216,60 +197,6 @@ ob_start();
         </div>
 </div>
 
-<script>
-// Current selected date
-let currentAttendanceDate = new Date();
-
-function formatAttendanceDate(date) {
-    const d = new Date(date);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    d.setHours(0, 0, 0, 0);
-    
-    const options = { 
-        weekday: 'long', 
-        month: 'long', 
-        day: 'numeric', 
-        year: 'numeric' 
-    };
-    
-    const dateString = d.toLocaleDateString('en-US', options);
-    
-    if (d.getTime() === today.getTime()) {
-        return `Teacher Attendance History - ${dateString}`;
-    } else if (d < today) {
-        return `Teacher Attendance History - ${dateString}`;
-    } else {
-        return `Future Teacher Attendance - ${dateString}`;
-    }
-}
-
-function filterAttendanceByDate(dateString) {
-    if (!dateString) return;
-    currentAttendanceDate = new Date(dateString);
-    const titleElement = document.getElementById('attendanceDateTitle');
-    if (titleElement) {
-        titleElement.textContent = formatAttendanceDate(dateString);
-    }
-    console.log('Loading attendance history for date:', dateString);
-}
-
-function setTodayDate() {
-    const today = new Date();
-    const dateString = today.toISOString().split('T')[0];
-    const dateFilter = document.getElementById('attendanceDateFilter');
-    if (dateFilter) {
-        dateFilter.value = dateString;
-        filterAttendanceByDate(dateString);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    const today = new Date();
-    const dateString = today.toISOString().split('T')[0];
-    currentAttendanceDate = new Date(dateString);
-});
-</script>
 
 <style>
 /* Attendance Table Styles */

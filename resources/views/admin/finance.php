@@ -78,23 +78,15 @@ ob_start();
 
     <!-- Income View -->
     <div id="income-finance-view" class="attendance-view-content">
+        <!-- Daily Income Section -->
         <div class="simple-section" style="margin-top: 20px;">
-            <div class="simple-header">
-                <h3><i class="fas fa-arrow-up" style="color: #10b981; margin-right: 8px;"></i> Monthly Income</h3>
-                <div style="display: flex; gap: 12px; align-items: center;">
-                    <div style="color: #666; font-size: 14px;">
-                        <i class="fas fa-info-circle"></i> Calculated from paid invoices
-                    </div>
+            <!-- Daily Income Table (Invoice List) -->
+            <div class="income-table-view">
+                <div class="simple-header" style="margin-top: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+                    <h4 style="margin: 0; font-size: 16px; font-weight: 600; color: #374151;">Daily Income - Invoice List</h4>
                     <button class="simple-btn primary" onclick="openIncomeForm()">
                         <i class="fas fa-plus"></i> Add Income
                     </button>
-                </div>
-            </div>
-            
-            <!-- Daily Income Table (Invoice List) -->
-            <div class="income-table-view">
-                <div class="simple-header" style="margin-top: 16px; margin-bottom: 12px;">
-                    <h4 style="margin: 0; font-size: 16px; font-weight: 600; color: #374151;">Daily Income - Invoice List</h4>
                 </div>
                 <div class="simple-table-container" style="margin-top: 16px;">
                     <table class="basic-table">
@@ -106,12 +98,11 @@ ob_start();
                                 <th>Grade/Class</th>
                                 <th>Amount</th>
                                 <th>Payment Type</th>
-                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="dailyIncomeTableBody">
                             <tr>
-                                <td colspan="7" style="text-align: center; color: #999; padding: 40px;">
+                                <td colspan="6" style="text-align: center; color: #999; padding: 40px;">
                                     <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 12px; display: block;"></i>
                                     No invoice data for selected month
                                 </td>
@@ -120,9 +111,12 @@ ob_start();
                     </table>
                 </div>
             </div>
+        </div>
 
+        <!-- Monthly Income Section -->
+        <div class="simple-section" style="margin-top: 24px;">
             <!-- Monthly Income Table (Combined Income - No Invoices) -->
-            <div class="income-table-view" style="margin-top: 24px;">
+            <div class="income-table-view">
                 <div class="simple-header" style="margin-top: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
                     <h4 style="margin: 0; font-size: 16px; font-weight: 600; color: #374151;">Monthly Income - Combined Income</h4>
                     <select class="filter-select" id="monthYearFilter" onchange="loadFinanceData()" style="min-width: 200px;">
@@ -143,12 +137,11 @@ ob_start();
                                 <th>Description</th>
                                 <th>Source</th>
                                 <th>Amount</th>
-                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="monthlyIncomeTableBody">
                             <tr>
-                                <td colspan="6" style="text-align: center; color: #999; padding: 40px;">
+                                <td colspan="5" style="text-align: center; color: #999; padding: 40px;">
                                     <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 12px; display: block;"></i>
                                     No combined income data for selected month
                                 </td>
@@ -162,18 +155,15 @@ ob_start();
 
     <!-- Expenses View -->
     <div id="expenses-finance-view" class="attendance-view-content" style="display: none;">
+        <!-- Daily Expenses Section -->
         <div class="simple-section" style="margin-top: 20px;">
-            <div class="simple-header">
-                <h3><i class="fas fa-arrow-down" style="color: #ef4444; margin-right: 8px;"></i> Monthly Expenses</h3>
-                <button class="simple-btn primary" onclick="openExpenseForm()">
-                    <i class="fas fa-plus"></i> Add Expense
-                </button>
-            </div>
-            
             <!-- Daily Expenses Table (Expense List) -->
             <div class="expense-table-view">
-                <div class="simple-header" style="margin-top: 16px; margin-bottom: 12px;">
+                <div class="simple-header" style="margin-top: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
                     <h4 style="margin: 0; font-size: 16px; font-weight: 600; color: #374151;">Daily Expenses - Expense List</h4>
+                    <button class="simple-btn primary" onclick="openExpenseForm()">
+                        <i class="fas fa-plus"></i> Add Expense
+                    </button>
                 </div>
                 <div class="simple-table-container" style="margin-top: 16px;">
                     <table class="basic-table">
@@ -183,12 +173,11 @@ ob_start();
                                 <th>Description</th>
                                 <th>Category</th>
                                 <th>Amount</th>
-                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="dailyExpenseTableBody">
                             <tr>
-                                <td colspan="5" style="text-align: center; color: #999; padding: 40px;">
+                                <td colspan="4" style="text-align: center; color: #999; padding: 40px;">
                                     <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 12px; display: block;"></i>
                                     No expenses recorded for selected month. Click "Add Expense" to add one.
                                 </td>
@@ -197,9 +186,12 @@ ob_start();
                     </table>
                 </div>
             </div>
+        </div>
 
+        <!-- Monthly Expenses Section -->
+        <div class="simple-section" style="margin-top: 24px;">
             <!-- Monthly Expenses Table (Combined Expenses) -->
-            <div class="expense-table-view" style="margin-top: 24px;">
+            <div class="expense-table-view">
                 <div class="simple-header" style="margin-top: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
                     <h4 style="margin: 0; font-size: 16px; font-weight: 600; color: #374151;">Monthly Expenses - Combined Expenses</h4>
                     <select class="filter-select" id="monthYearFilterExpenses" onchange="loadFinanceData()" style="min-width: 200px;">
@@ -220,12 +212,11 @@ ob_start();
                                 <th>Description</th>
                                 <th>Category</th>
                                 <th>Amount</th>
-                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="monthlyExpenseTableBody">
                             <tr>
-                                <td colspan="6" style="text-align: center; color: #999; padding: 40px;">
+                                <td colspan="5" style="text-align: center; color: #999; padding: 40px;">
                                     <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 12px; display: block;"></i>
                                     No combined expense data for selected month
                                 </td>
@@ -275,7 +266,7 @@ ob_start();
             <!-- Monthly Profit & Loss Table -->
             <div class="simple-header" style="margin-top: 24px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
                 <h4 style="margin: 0; font-size: 16px; font-weight: 600; color: #374151;">Monthly Profit & Loss</h4>
-                <select class="filter-select" id="monthYearFilterProfitLoss" onchange="loadFinanceData()" style="min-width: 200px;">
+                <select class="filter-select" id="monthYearFilterProfitLoss" onchange="updateMonthlyProfitLossTable()" style="min-width: 200px;">
                     <option value="2025-01">January 2025</option>
                     <option value="2024-12">December 2024</option>
                     <option value="2024-11">November 2024</option>
@@ -307,8 +298,14 @@ ob_start();
             </div>
 
             <!-- Annual Profit & Loss Table -->
-            <div class="simple-header" style="margin-top: 24px; margin-bottom: 12px;">
+            <div class="simple-header" style="margin-top: 24px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
                 <h4 style="margin: 0; font-size: 16px; font-weight: 600; color: #374151;">Annual Profit & Loss</h4>
+                <select class="filter-select" id="yearFilterProfitLoss" onchange="updateAnnualProfitLossTable()" style="min-width: 200px;">
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                </select>
             </div>
             <div class="simple-table-container" style="margin-top: 16px;">
                 <table class="basic-table">
@@ -351,7 +348,7 @@ ob_start();
                     </div>
                     <div class="form-group">
                         <label>Source <span style="color: #ef4444;">*</span></label>
-                        <select class="form-input" id="incomeSource" required>
+                        <select class="form-input" id="incomeSource" required onchange="handleOtherSelect(this, 'incomeSourceOther')">
                             <option value="">Select Source</option>
                             <option value="School Fees">School Fees</option>
                             <option value="Additional Fees">Additional Fees</option>
@@ -359,6 +356,7 @@ ob_start();
                             <option value="Grants">Grants</option>
                             <option value="Other">Other</option>
                         </select>
+                        <input type="text" class="form-input" id="incomeSourceOther" placeholder="Specify source" style="display: none; margin-top: 8px;" oninput="updateOtherSelectValue('incomeSource', this.value)">
                     </div>
                 </div>
                 <div class="form-row">
@@ -402,7 +400,7 @@ ob_start();
                     </div>
                     <div class="form-group">
                         <label>Category <span style="color: #ef4444;">*</span></label>
-                        <select class="form-input" id="expenseCategory" required>
+                        <select class="form-input" id="expenseCategory" required onchange="handleOtherSelect(this, 'expenseCategoryOther')">
                             <option value="">Select Category</option>
                             <option value="Salaries">Salaries</option>
                             <option value="Utilities">Utilities</option>
@@ -411,6 +409,7 @@ ob_start();
                             <option value="Transportation">Transportation</option>
                             <option value="Other">Other</option>
                         </select>
+                        <input type="text" class="form-input" id="expenseCategoryOther" placeholder="Specify category" style="display: none; margin-top: 8px;" oninput="updateOtherSelectValue('expenseCategory', this.value)">
                     </div>
                 </div>
                 <div class="form-row">
@@ -445,6 +444,42 @@ let currentEditingExpenseId = null;
 let currentEditingIncomeId = null;
 let selectedMonth = '2025-01';
 
+// Handle "Other" option in select inputs
+function handleOtherSelect(selectElement, otherInputId) {
+    const otherInput = document.getElementById(otherInputId);
+    if (selectElement.value === 'Other' || selectElement.value === 'other') {
+        otherInput.style.display = 'block';
+        otherInput.required = true;
+        otherInput.focus();
+    } else {
+        otherInput.style.display = 'none';
+        otherInput.required = false;
+        otherInput.value = '';
+    }
+}
+
+// Update select value when user types in "Other" input
+function updateOtherSelectValue(selectId, value) {
+    const select = document.getElementById(selectId);
+    if (select && (select.value === 'Other' || select.value === 'other')) {
+        // Store the custom value in a data attribute
+        select.setAttribute('data-custom-value', value);
+    }
+}
+
+// Get the actual value from select (handles "Other" option)
+function getSelectValue(selectId) {
+    const select = document.getElementById(selectId);
+    if (!select) return '';
+    
+    if (select.value === 'Other' || select.value === 'other') {
+        const otherInputId = selectId + 'Other';
+        const otherInput = document.getElementById(otherInputId);
+        return otherInput && otherInput.value.trim() ? otherInput.value.trim() : select.value;
+    }
+    return select.value;
+}
+
 // Load data on page load
 document.addEventListener('DOMContentLoaded', function() {
     loadExpenses();
@@ -454,12 +489,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const monthFilter = document.getElementById('monthYearFilter');
     const monthFilterExpenses = document.getElementById('monthYearFilterExpenses');
     const monthFilterProfitLoss = document.getElementById('monthYearFilterProfitLoss');
+    const yearFilterProfitLoss = document.getElementById('yearFilterProfitLoss');
     
     if (monthFilter && monthFilterExpenses) {
         monthFilterExpenses.value = monthFilter.value;
     }
     if (monthFilter && monthFilterProfitLoss) {
         monthFilterProfitLoss.value = monthFilter.value;
+    }
+    
+    // Set default year to current year
+    if (yearFilterProfitLoss) {
+        const currentYear = new Date().getFullYear().toString();
+        if (!yearFilterProfitLoss.value) {
+            yearFilterProfitLoss.value = currentYear;
+        }
     }
     
     loadFinanceData();
@@ -919,7 +963,6 @@ function renderIncomeTable(incomeItems) {
                 <td>Grade ${item.grade}-${item.class}</td>
                 <td><strong style="color: #10b981;">$${item.amount.toFixed(2)}</strong></td>
                 <td>${item.paymentType}</td>
-                <td>-</td>
             </tr>
         `).join('');
         
@@ -949,14 +992,6 @@ function renderIncomeTable(incomeItems) {
                 <td>${item.description}</td>
                 <td>${item.source}</td>
                 <td><strong style="color: #10b981;">$${item.amount.toFixed(2)}</strong></td>
-                <td>
-                    <button class="simple-btn-icon" onclick="editIncome('${item.id}')" title="Edit">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="simple-btn-icon" onclick="deleteIncome('${item.id}')" title="Delete" style="color: #ef4444;">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </td>
             </tr>
         `).join('');
         
@@ -1011,14 +1046,6 @@ function renderExpenseTable() {
             <td>${expense.description}</td>
             <td><span class="status-badge" style="background: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 6px; font-size: 12px;">${expense.category}</span></td>
             <td><strong style="color: #ef4444;">$${expense.amount.toFixed(2)}</strong></td>
-            <td>
-                <button class="simple-btn-icon" onclick="editExpense('${expense.id}')" title="Edit">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button class="simple-btn-icon" onclick="deleteExpense('${expense.id}')" title="Delete" style="color: #ef4444;">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </td>
         </tr>
     `).join('');
     
@@ -1032,14 +1059,6 @@ function renderExpenseTable() {
             <td>${expense.description}</td>
             <td><span class="status-badge" style="background: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 6px; font-size: 12px;">${expense.category}</span></td>
             <td><strong style="color: #ef4444;">$${expense.amount.toFixed(2)}</strong></td>
-            <td>
-                <button class="simple-btn-icon" onclick="editExpense('${expense.id}')" title="Edit">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button class="simple-btn-icon" onclick="deleteExpense('${expense.id}')" title="Delete" style="color: #ef4444;">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </td>
         </tr>
     `).join('');
     
@@ -1093,7 +1112,21 @@ function openExpenseForm(expenseId = null) {
         const expense = expenses.find(e => e.id === expenseId);
         if (expense) {
             document.getElementById('expenseDate').value = expense.date;
-            document.getElementById('expenseCategory').value = expense.category;
+            const categorySelect = document.getElementById('expenseCategory');
+            const categoryOtherInput = document.getElementById('expenseCategoryOther');
+            
+            // Check if category is in the predefined options
+            const predefinedCategories = ['Salaries', 'Utilities', 'Maintenance', 'Supplies', 'Transportation'];
+            if (predefinedCategories.includes(expense.category)) {
+                categorySelect.value = expense.category;
+                categoryOtherInput.style.display = 'none';
+                categoryOtherInput.value = '';
+            } else {
+                categorySelect.value = 'Other';
+                categoryOtherInput.style.display = 'block';
+                categoryOtherInput.value = expense.category;
+            }
+            
             document.getElementById('expenseDescription').value = expense.description;
             document.getElementById('expenseAmount').value = expense.amount;
         }
@@ -1103,6 +1136,8 @@ function openExpenseForm(expenseId = null) {
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('expenseDate').value = today;
         document.getElementById('expenseCategory').value = '';
+        document.getElementById('expenseCategoryOther').style.display = 'none';
+        document.getElementById('expenseCategoryOther').value = '';
         document.getElementById('expenseDescription').value = '';
         document.getElementById('expenseAmount').value = '';
     }
@@ -1121,7 +1156,7 @@ function closeExpenseForm() {
 // Save expense
 function saveExpense() {
     const date = document.getElementById('expenseDate').value;
-    const category = document.getElementById('expenseCategory').value;
+    const category = getSelectValue('expenseCategory');
     const description = document.getElementById('expenseDescription').value.trim();
     const amount = parseFloat(document.getElementById('expenseAmount').value);
     
@@ -1224,7 +1259,21 @@ function openIncomeForm(incomeId = null) {
         const income = customIncome.find(i => i.id === incomeId);
         if (income) {
             document.getElementById('incomeDate').value = income.date;
-            document.getElementById('incomeSource').value = income.source;
+            const sourceSelect = document.getElementById('incomeSource');
+            const sourceOtherInput = document.getElementById('incomeSourceOther');
+            
+            // Check if source is in the predefined options
+            const predefinedSources = ['School Fees', 'Additional Fees', 'Donations', 'Grants'];
+            if (predefinedSources.includes(income.source)) {
+                sourceSelect.value = income.source;
+                sourceOtherInput.style.display = 'none';
+                sourceOtherInput.value = '';
+            } else {
+                sourceSelect.value = 'Other';
+                sourceOtherInput.style.display = 'block';
+                sourceOtherInput.value = income.source;
+            }
+            
             document.getElementById('incomeDescription').value = income.description;
             document.getElementById('incomeAmount').value = income.amount;
         }
@@ -1234,6 +1283,8 @@ function openIncomeForm(incomeId = null) {
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('incomeDate').value = today;
         document.getElementById('incomeSource').value = '';
+        document.getElementById('incomeSourceOther').style.display = 'none';
+        document.getElementById('incomeSourceOther').value = '';
         document.getElementById('incomeDescription').value = '';
         document.getElementById('incomeAmount').value = '';
     }
@@ -1252,7 +1303,7 @@ function closeIncomeForm() {
 // Save income
 function saveIncome() {
     const date = document.getElementById('incomeDate').value;
-    const source = document.getElementById('incomeSource').value;
+    const source = getSelectValue('incomeSource');
     const description = document.getElementById('incomeDescription').value.trim();
     const amount = parseFloat(document.getElementById('incomeAmount').value);
     
@@ -1404,19 +1455,29 @@ function renderProfitLossView() {
         netAmount.style.color = '#991b1b';
     }
     
-    // Get income by source
+    // Render both tables
+    updateMonthlyProfitLossTable();
+    updateAnnualProfitLossTable();
+}
+
+// Update Monthly Profit & Loss Table
+function updateMonthlyProfitLossTable() {
+    const monthFilter = document.getElementById('monthYearFilterProfitLoss');
+    const selectedMonthValue = monthFilter ? monthFilter.value : selectedMonth;
+    
+    // Get income by source for selected month
     const invoiceData = JSON.parse(localStorage.getItem('invoiceData') || '[]');
     const invoiceHistory = JSON.parse(localStorage.getItem('invoiceHistory') || '[]');
     const allInvoices = [...invoiceData, ...invoiceHistory];
     
     const monthInvoices = allInvoices.filter(invoice => {
         const invoiceMonth = invoice.month || extractMonthFromInvoiceId(invoice.id);
-        return invoiceMonth === selectedMonth && invoice.status === 'paid';
+        return invoiceMonth === selectedMonthValue && invoice.status === 'paid';
     });
     
     const monthCustomIncome = customIncome.filter(income => {
         const incomeMonth = income.date.substring(0, 7);
-        return incomeMonth === selectedMonth;
+        return incomeMonth === selectedMonthValue;
     });
     
     // Group income by source
@@ -1440,7 +1501,7 @@ function renderProfitLossView() {
     // Group expenses by category
     const monthExpenses = expenses.filter(exp => {
         const expenseMonth = exp.date.substring(0, 7);
-        return expenseMonth === selectedMonth;
+        return expenseMonth === selectedMonthValue;
     });
     
     const expensesByCategory = {};
@@ -1452,15 +1513,18 @@ function renderProfitLossView() {
         expensesByCategory[category] += (exp.amount || 0);
     });
     
+    // Calculate totals
+    const totalIncome = Object.values(incomeBySource).reduce((sum, val) => sum + val, 0);
+    const totalExpenses = Object.values(expensesByCategory).reduce((sum, val) => sum + val, 0);
+    const netProfitLoss = totalIncome - totalExpenses;
+    
     // Combine all categories
     const allCategories = new Set([
         ...Object.keys(incomeBySource),
         ...Object.keys(expensesByCategory)
     ]);
     
-    // Render monthly profit-loss table
     const monthlyTbody = document.getElementById('monthlyProfitLossTableBody');
-    const annualTbody = document.getElementById('annualProfitLossTableBody');
     
     if (allCategories.size === 0 && totalIncome === 0 && totalExpenses === 0) {
         if (monthlyTbody) {
@@ -1469,16 +1533,6 @@ function renderProfitLossView() {
                     <td colspan="5" style="text-align: center; color: #999; padding: 40px;">
                         <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 12px; display: block;"></i>
                         No data available for selected month
-                    </td>
-                </tr>
-            `;
-        }
-        if (annualTbody) {
-            annualTbody.innerHTML = `
-                <tr>
-                    <td colspan="5" style="text-align: center; color: #999; padding: 40px;">
-                        <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 12px; display: block;"></i>
-                        No annual data available
                     </td>
                 </tr>
             `;
@@ -1518,95 +1572,124 @@ function renderProfitLossView() {
     });
     
     if (monthlyTbody) monthlyTbody.innerHTML = monthlyTableRows;
+}
+
+// Update Annual Profit & Loss Table
+function updateAnnualProfitLossTable() {
+    const yearFilter = document.getElementById('yearFilterProfitLoss');
+    const selectedYear = yearFilter ? yearFilter.value : new Date().getFullYear().toString();
     
-    // Render annual profit-loss table (aggregate all months)
-    if (annualTbody) {
-        // Calculate annual totals
-        const allMonths = ['2025-01', '2024-12', '2024-11', '2024-10', '2024-09', '2024-08'];
-        const annualIncomeBySource = {};
-        const annualExpensesByCategory = {};
-        let annualTotalIncome = 0;
-        let annualTotalExpenses = 0;
-        
-        allMonths.forEach(month => {
-            // Get income for this month
-            const monthInvoices = allInvoices.filter(invoice => {
-                const invoiceMonth = invoice.month || extractMonthFromInvoiceId(invoice.id);
-                return invoiceMonth === month && invoice.status === 'paid';
-            });
-            const monthCustomIncome = customIncome.filter(income => {
-                const incomeMonth = income.date.substring(0, 7);
-                return incomeMonth === month;
-            });
-            
-            monthInvoices.forEach(inv => {
-                const source = 'School Fees';
-                if (!annualIncomeBySource[source]) annualIncomeBySource[source] = 0;
-                annualIncomeBySource[source] += (inv.amount || 0);
-                annualTotalIncome += (inv.amount || 0);
-            });
-            
-            monthCustomIncome.forEach(inc => {
-                const source = inc.source || 'Other';
-                if (!annualIncomeBySource[source]) annualIncomeBySource[source] = 0;
-                annualIncomeBySource[source] += (inc.amount || 0);
-                annualTotalIncome += (inc.amount || 0);
-            });
-            
-            // Get expenses for this month
-            const monthExpenses = expenses.filter(exp => {
-                const expenseMonth = exp.date.substring(0, 7);
-                return expenseMonth === month;
-            });
-            
-            monthExpenses.forEach(exp => {
-                const category = exp.category || 'Other';
-                if (!annualExpensesByCategory[category]) annualExpensesByCategory[category] = 0;
-                annualExpensesByCategory[category] += (exp.amount || 0);
-                annualTotalExpenses += (exp.amount || 0);
-            });
+    // Get all invoices and income
+    const invoiceData = JSON.parse(localStorage.getItem('invoiceData') || '[]');
+    const invoiceHistory = JSON.parse(localStorage.getItem('invoiceHistory') || '[]');
+    const allInvoices = [...invoiceData, ...invoiceHistory];
+    
+    // Generate all months for the selected year
+    const allMonths = [];
+    for (let month = 1; month <= 12; month++) {
+        const monthStr = String(month).padStart(2, '0');
+        allMonths.push(`${selectedYear}-${monthStr}`);
+    }
+    
+    const annualIncomeBySource = {};
+    const annualExpensesByCategory = {};
+    let annualTotalIncome = 0;
+    let annualTotalExpenses = 0;
+    
+    allMonths.forEach(month => {
+        // Get income for this month
+        const monthInvoices = allInvoices.filter(invoice => {
+            const invoiceMonth = invoice.month || extractMonthFromInvoiceId(invoice.id);
+            return invoiceMonth === month && invoice.status === 'paid';
+        });
+        const monthCustomIncome = customIncome.filter(income => {
+            const incomeMonth = income.date.substring(0, 7);
+            return incomeMonth === month;
         });
         
-        const annualAllCategories = new Set([
-            ...Object.keys(annualIncomeBySource),
-            ...Object.keys(annualExpensesByCategory)
-        ]);
+        monthInvoices.forEach(inv => {
+            const source = 'School Fees';
+            if (!annualIncomeBySource[source]) annualIncomeBySource[source] = 0;
+            annualIncomeBySource[source] += (inv.amount || 0);
+            annualTotalIncome += (inv.amount || 0);
+        });
         
-        const annualNetProfitLoss = annualTotalIncome - annualTotalExpenses;
+        monthCustomIncome.forEach(inc => {
+            const source = inc.source || 'Other';
+            if (!annualIncomeBySource[source]) annualIncomeBySource[source] = 0;
+            annualIncomeBySource[source] += (inc.amount || 0);
+            annualTotalIncome += (inc.amount || 0);
+        });
         
-        let annualTableRows = '';
+        // Get expenses for this month
+        const monthExpenses = expenses.filter(exp => {
+            const expenseMonth = exp.date.substring(0, 7);
+            return expenseMonth === month;
+        });
         
-        // Add overall summary row
-        annualTableRows += `
-            <tr style="background: #f9fafb; font-weight: 600;">
-                <td><strong>Total</strong></td>
-                <td><strong style="color: #10b981;">$${annualTotalIncome.toFixed(2)}</strong></td>
-                <td><strong style="color: #ef4444;">$${annualTotalExpenses.toFixed(2)}</strong></td>
-                <td><strong style="color: ${annualNetProfitLoss >= 0 ? '#10b981' : '#ef4444'};">$${annualNetProfitLoss.toFixed(2)}</strong></td>
-                <td><strong>${annualTotalIncome > 0 ? ((annualNetProfitLoss / annualTotalIncome) * 100).toFixed(1) : '0.0'}%</strong></td>
-            </tr>
-        `;
-        
-        // Add category rows
-        Array.from(annualAllCategories).sort().forEach(category => {
-            const categoryIncome = annualIncomeBySource[category] || 0;
-            const categoryExpenses = annualExpensesByCategory[category] || 0;
-            const categoryNet = categoryIncome - categoryExpenses;
-            const percentage = annualTotalIncome > 0 ? ((categoryNet / annualTotalIncome) * 100).toFixed(1) : '0.0';
-            
-            annualTableRows += `
+        monthExpenses.forEach(exp => {
+            const category = exp.category || 'Other';
+            if (!annualExpensesByCategory[category]) annualExpensesByCategory[category] = 0;
+            annualExpensesByCategory[category] += (exp.amount || 0);
+            annualTotalExpenses += (exp.amount || 0);
+        });
+    });
+    
+    const annualAllCategories = new Set([
+        ...Object.keys(annualIncomeBySource),
+        ...Object.keys(annualExpensesByCategory)
+    ]);
+    
+    const annualNetProfitLoss = annualTotalIncome - annualTotalExpenses;
+    
+    const annualTbody = document.getElementById('annualProfitLossTableBody');
+    
+    if (annualAllCategories.size === 0 && annualTotalIncome === 0 && annualTotalExpenses === 0) {
+        if (annualTbody) {
+            annualTbody.innerHTML = `
                 <tr>
-                    <td>${category}</td>
-                    <td style="color: #10b981;">${categoryIncome > 0 ? '$' + categoryIncome.toFixed(2) : '-'}</td>
-                    <td style="color: #ef4444;">${categoryExpenses > 0 ? '$' + categoryExpenses.toFixed(2) : '-'}</td>
-                    <td style="color: ${categoryNet >= 0 ? '#10b981' : '#ef4444'}; font-weight: 600;">$${categoryNet.toFixed(2)}</td>
-                    <td>${percentage}%</td>
+                    <td colspan="5" style="text-align: center; color: #999; padding: 40px;">
+                        <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 12px; display: block;"></i>
+                        No annual data available for selected year
+                    </td>
                 </tr>
             `;
-        });
-        
-        annualTbody.innerHTML = annualTableRows;
+        }
+        return;
     }
+    
+    let annualTableRows = '';
+    
+    // Add overall summary row
+    annualTableRows += `
+        <tr style="background: #f9fafb; font-weight: 600;">
+            <td><strong>Total</strong></td>
+            <td><strong style="color: #10b981;">$${annualTotalIncome.toFixed(2)}</strong></td>
+            <td><strong style="color: #ef4444;">$${annualTotalExpenses.toFixed(2)}</strong></td>
+            <td><strong style="color: ${annualNetProfitLoss >= 0 ? '#10b981' : '#ef4444'};">$${annualNetProfitLoss.toFixed(2)}</strong></td>
+            <td><strong>${annualTotalIncome > 0 ? ((annualNetProfitLoss / annualTotalIncome) * 100).toFixed(1) : '0.0'}%</strong></td>
+        </tr>
+    `;
+    
+    // Add category rows
+    Array.from(annualAllCategories).sort().forEach(category => {
+        const categoryIncome = annualIncomeBySource[category] || 0;
+        const categoryExpenses = annualExpensesByCategory[category] || 0;
+        const categoryNet = categoryIncome - categoryExpenses;
+        const percentage = annualTotalIncome > 0 ? ((categoryNet / annualTotalIncome) * 100).toFixed(1) : '0.0';
+        
+        annualTableRows += `
+            <tr>
+                <td>${category}</td>
+                <td style="color: #10b981;">${categoryIncome > 0 ? '$' + categoryIncome.toFixed(2) : '-'}</td>
+                <td style="color: #ef4444;">${categoryExpenses > 0 ? '$' + categoryExpenses.toFixed(2) : '-'}</td>
+                <td style="color: ${categoryNet >= 0 ? '#10b981' : '#ef4444'}; font-weight: 600;">$${categoryNet.toFixed(2)}</td>
+                <td>${percentage}%</td>
+            </tr>
+        `;
+    });
+    
+    if (annualTbody) annualTbody.innerHTML = annualTableRows;
 }
 </script>
 

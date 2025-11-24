@@ -22,45 +22,11 @@ ob_start();
     </div>
 </div>
 
-<!-- Quick Finance KPIs -->
-<div class="stats-grid-secondary vertical-stats">
-    <div class="stat-card">
-        <div class="stat-icon">
-            <i class="fas fa-wallet"></i>
-        </div>
-        <div class="stat-content">
-            <h3>Total Receivable</h3>
-            <div class="stat-number" id="totalReceivable">$125,000</div>
-            <div class="stat-change positive" id="statMonth">All Months</div>
-        </div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-icon">
-            <i class="fas fa-users"></i>
-        </div>
-        <div class="stat-content">
-            <h3>Total Students</h3>
-            <div class="stat-number" id="totalStudents">250</div>
-            <div class="stat-change">Active students</div>
-        </div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-icon">
-            <i class="fas fa-check-circle"></i>
-        </div>
-        <div class="stat-content">
-            <h3>Payments Received</h3>
-            <div class="stat-number" id="paidCount">0 / 250</div>
-            <div class="stat-change">0% collected</div>
-        </div>
-    </div>
-</div>
-
 <!-- Fee Management Tabs Navigation -->
 <div style="margin-top: 24px;">
     <div class="attendance-view-tabs">
         <button class="view-tab active" data-view="invoice" onclick="switchFeeView('invoice')">
-            <i class="fas fa-file-invoice"></i> Invoice Management
+            <i class="fas fa-file-invoice"></i> Fee Management
         </button>
         <button class="view-tab" data-view="fee-structure" onclick="switchFeeView('fee-structure')">
             <i class="fas fa-cog"></i> Fee Structure
@@ -72,9 +38,42 @@ ob_start();
 
     <!-- Invoice Management View -->
     <div id="invoice-fee-view" class="attendance-view-content">
+        <!-- Quick Finance KPIs -->
+        <div class="stats-grid-secondary vertical-stats" style="margin-bottom: 24px;">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Total Receivable</h3>
+                    <div class="stat-number" id="totalReceivable">$125,000</div>
+                    <div class="stat-change positive" id="statMonth">All Months</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Total Students</h3>
+                    <div class="stat-number" id="totalStudents">250</div>
+                    <div class="stat-change">Active students</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Payments Received</h3>
+                    <div class="stat-number" id="paidCount">0 / 250</div>
+                    <div class="stat-change">0% collected</div>
+                </div>
+            </div>
+        </div>
+
         <div class="simple-section">
     <div class="simple-header">
-        <h3>Invoice Management</h3>
         <div style="display: flex; gap: 12px;">
             <button class="simple-btn" onclick="generateInvoices()" id="generateBtn">
                 <i class="fas fa-file-invoice"></i> Generate Invoices (This Month)
@@ -201,7 +200,6 @@ ob_start();
                         <tr>
                             <th>Grade</th>
                             <th>Monthly Fee</th>
-                            <th>Period</th>
                             <th>Collection %</th>
                             <th>Actions</th>
                         </tr>
@@ -210,7 +208,6 @@ ob_start();
                         <tr>
                             <td><strong>Grade 7</strong></td>
                             <td>$150.00</td>
-                            <td>June - May</td>
                             <td><span class="collection-status">88%</span></td>
                             <td class="actions-cell">
                                 <button class="simple-btn-icon edit-btn" onclick="editFee('FEE001')" title="Edit">
@@ -224,7 +221,6 @@ ob_start();
                         <tr>
                             <td><strong>Grade 8</strong></td>
                             <td>$175.00</td>
-                            <td>June - May</td>
                             <td><span class="collection-status">92%</span></td>
                             <td class="actions-cell">
                                 <button class="simple-btn-icon edit-btn" onclick="editFee('FEE002')" title="Edit">
@@ -238,7 +234,6 @@ ob_start();
                         <tr>
                             <td><strong>Grade 9</strong></td>
                             <td>$200.00</td>
-                            <td>June - May</td>
                             <td><span class="collection-status">85%</span></td>
                             <td class="actions-cell">
                                 <button class="simple-btn-icon edit-btn" onclick="editFee('FEE003')" title="Edit">
@@ -252,7 +247,6 @@ ob_start();
                         <tr>
                             <td><strong>Grade 10</strong></td>
                             <td>$225.00</td>
-                            <td>June - May</td>
                             <td><span class="collection-status">79%</span></td>
                             <td class="actions-cell">
                                 <button class="simple-btn-icon edit-btn" onclick="editFee('FEE004')" title="Edit">
@@ -271,52 +265,51 @@ ob_start();
 
     <!-- Payment History View -->
     <div id="payment-history-fee-view" class="attendance-view-content" style="display: none;">
-        <!-- Month Summary Stats -->
-        <div class="stats-grid-secondary vertical-stats">
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-calendar-alt"></i>
-                </div>
-                <div class="stat-content">
-                    <h3>Selected Month</h3>
-                    <div class="stat-number" id="selectedMonthDisplay">January 2025</div>
-                    <div class="stat-change">Current selection</div>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-file-invoice"></i>
-                </div>
-                <div class="stat-content">
-                    <h3>Total Invoices</h3>
-                    <div class="stat-number" id="monthTotalInvoices">0</div>
-                    <div class="stat-change">Generated</div>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <div class="stat-content">
-                    <h3>Payments Collected</h3>
-                    <div class="stat-number" id="monthPaidCount">0</div>
-                    <div class="stat-change">Completed</div>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-dollar-sign"></i>
-                </div>
-                <div class="stat-content">
-                    <h3>Total Amount</h3>
-                    <div class="stat-number" id="monthTotalAmount">$0.00</div>
-                    <div class="stat-change">Collected</div>
-                </div>
-            </div>
-        </div>
-
         <!-- Month Selector and Filters -->
         <div class="simple-section">
+            <!-- Month Summary Stats -->
+            <div class="stats-grid-secondary vertical-stats" style="margin-bottom: 24px;">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Selected Month</h3>
+                        <div class="stat-number" id="selectedMonthDisplay">January 2025</div>
+                        <div class="stat-change">Current selection</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-invoice"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Total Invoices</h3>
+                        <div class="stat-number" id="monthTotalInvoices">0</div>
+                        <div class="stat-change">Generated</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Payments Collected</h3>
+                        <div class="stat-number" id="monthPaidCount">0</div>
+                        <div class="stat-change">Completed</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Total Amount</h3>
+                        <div class="stat-number" id="monthTotalAmount">$0.00</div>
+                        <div class="stat-change">Collected</div>
+                    </div>
+                </div>
+            </div>
             <div class="simple-header">
                 <h3>Browse Payment History</h3>
                 <div style="display: flex; gap: 12px;">
@@ -501,42 +494,6 @@ ob_start();
                             <option value="Grade 11">Grade 11</option>
                             <option value="Grade 12">Grade 12</option>
                         </select>
-                </div>
-                <div class="form-group">
-                        <label>Start Month</label>
-                        <select class="form-select" id="schoolFeeStartMonth">
-                        <option value="1">January</option>
-                        <option value="2">February</option>
-                        <option value="3">March</option>
-                        <option value="4">April</option>
-                        <option value="5">May</option>
-                        <option value="6">June</option>
-                        <option value="7">July</option>
-                        <option value="8">August</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
-                    </select>
-                </div>
-                </div>
-                <div class="form-row">
-                <div class="form-group">
-                        <label>End Month</label>
-                        <select class="form-select" id="schoolFeeEndMonth">
-                        <option value="1">January</option>
-                        <option value="2">February</option>
-                        <option value="3">March</option>
-                        <option value="4">April</option>
-                        <option value="5">May</option>
-                        <option value="6">June</option>
-                        <option value="7">July</option>
-                        <option value="8">August</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
-                    </select>
                 </div>
                 <div class="form-group">
                         <label>Monthly Fee (USD)</label>
@@ -1113,23 +1070,17 @@ function closeSchoolFeeDialog() {
 
 function clearSchoolFeeForm() {
     const gradeSelect = document.getElementById('schoolFeeGrade');
-    const startMonthSelect = document.getElementById('schoolFeeStartMonth');
-    const endMonthSelect = document.getElementById('schoolFeeEndMonth');
     const amountInput = document.getElementById('schoolFeeAmount');
     
     if (gradeSelect) gradeSelect.value = 'Grade 7';
-    if (startMonthSelect) startMonthSelect.value = '6';
-    if (endMonthSelect) endMonthSelect.value = '5';
     if (amountInput) amountInput.value = '';
 }
 
 function saveSchoolFee() {
     const grade = document.getElementById('schoolFeeGrade').value;
-    const startMonth = document.getElementById('schoolFeeStartMonth').value;
-    const endMonth = document.getElementById('schoolFeeEndMonth').value;
     const amount = document.getElementById('schoolFeeAmount').value;
 
-    if (!grade || !startMonth || !endMonth || !amount) {
+    if (!grade || !amount) {
         if (typeof showToast === 'function') {
             showToast('Please fill all required fields', 'warning');
         } else {
@@ -1141,8 +1092,6 @@ function saveSchoolFee() {
     const feeData = {
         id: editingFeeId || 'FEE' + Date.now(),
         grade,
-        startMonth: parseInt(startMonth),
-        endMonth: parseInt(endMonth),
         amount: parseFloat(amount)
     };
 
@@ -1181,15 +1130,12 @@ function addFeeToTable(feeData) {
     const tbody = document.getElementById('schoolFeesTableBody');
     if (!tbody) return;
     
-    const startMonthName = getMonthName(feeData.startMonth);
-    const endMonthName = getMonthName(feeData.endMonth);
     const randomCollection = Math.floor(Math.random() * 30) + 70; // Random between 70-99%
 
     const row = document.createElement('tr');
     row.innerHTML = `
         <td><strong>${feeData.grade}</strong></td>
         <td>$${feeData.amount.toFixed(2)}</td>
-        <td>${startMonthName} - ${endMonthName}</td>
         <td><span class="collection-status">${randomCollection}%</span></td>
         <td class="actions-cell">
             <button class="simple-btn-icon edit-btn" onclick="editFee('${feeData.id}')" title="Edit">

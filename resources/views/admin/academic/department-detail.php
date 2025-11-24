@@ -22,8 +22,8 @@ ob_start();
 ?>
 <!-- Back Navigation -->
 <div class="navigation-breadcrumb">
-    <a href="/admin/academic-management" class="breadcrumb-link">
-        <i class="fas fa-arrow-left"></i> Back to Academic Management
+    <a href="/admin/department-management" class="breadcrumb-link">
+        <i class="fas fa-arrow-left"></i> Back to Department Management
     </a>
 </div>
 
@@ -59,7 +59,7 @@ ob_start();
         'iconColor' => 'blue'
     ]); ?>
     <?php echo renderStatCard([
-        'title' => 'Staff Members',
+        'title' => 'Members',
         'value' => $dept['count'],
         'icon' => 'fas fa-users',
         'iconColor' => 'purple'
@@ -129,7 +129,12 @@ $staff = $staffLists[$deptCode] ?? [];
 <!-- Department Staff Section -->
 <div class="detail-section">
     <div class="section-header">
-        <h3 class="section-title">Department Staff</h3>
+        <h3 class="section-title">Member</h3>
+        <div class="section-actions">
+            <button class="simple-btn primary" onclick="openAddStaffDialog()" style="height: 36px; padding: 8px 16px; display: inline-flex; align-items: center; gap: 6px;">
+                <i class="fas fa-plus"></i> New Member
+            </button>
+        </div>
     </div>
     <div class="simple-table-container">
         <table class="basic-table" id="staffTable">
@@ -152,14 +157,66 @@ $staff = $staffLists[$deptCode] ?? [];
                         <span class="type-badge"><?php echo htmlspecialchars($member['role']); ?></span>
                     </td>
                     <td style="text-align: center;">
-                        <button class="remove-staff-btn" onclick="event.stopPropagation(); removeStaff(<?php echo $index; ?>)" title="Remove from Department" style="display:none;">
-                            <i class="fas fa-times"></i>
+                        <button class="action-icon delete" onclick="event.stopPropagation(); removeStaff(<?php echo $index; ?>)" title="Remove from Department">
+                            <i class="fas fa-trash"></i>
                         </button>
                     </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
+    </div>
+</div>
+
+<!-- Add Staff Dialog -->
+<div id="addStaffDialog" class="receipt-dialog-overlay" style="display: none;">
+    <div class="receipt-dialog-content" style="max-width: 700px;">
+        <div class="receipt-dialog-header">
+            <h3><i class="fas fa-user-plus"></i> Add Member to Department</h3>
+            <button class="receipt-close" onclick="closeAddStaffDialog()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="receipt-dialog-body">
+            <div class="form-section">
+                <div class="form-group">
+                    <label for="staffSearchInput">Search Staff</label>
+                    <div style="position: relative;">
+                        <i class="fas fa-search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #6b7280; pointer-events: none; z-index: 1;"></i>
+                        <input type="text" id="staffSearchInput" class="form-input" placeholder="Search by name, ID, or department..." oninput="searchStaff(this.value)" style="padding-left: 40px;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Select Member</label>
+                    <div id="staffSearchResults" style="max-height: 400px; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 8px; background: #fff;">
+                        <div style="padding: 20px; text-align: center; color: #6b7280;">
+                            <i class="fas fa-search" style="font-size: 24px; margin-bottom: 8px; display: block;"></i>
+                            <p>Start typing to search for members</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="selectedStaffInfo" style="display: none; padding: 16px; background: #f9fafb; border-radius: 8px; margin-top: 16px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div id="selectedStaffAvatar" style="width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #4A90E2 0%, #357abd 100%); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px;"></div>
+                        <div style="flex: 1;">
+                            <div id="selectedStaffName" style="font-weight: 600; font-size: 16px; color: #111827; margin-bottom: 4px;"></div>
+                            <div id="selectedStaffDetails" style="font-size: 14px; color: #6b7280;"></div>
+                        </div>
+                        <button onclick="clearSelectedStaff()" class="simple-btn secondary" style="height: 32px; padding: 6px 12px;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="receipt-dialog-actions">
+            <button class="simple-btn secondary" onclick="closeAddStaffDialog()" style="height: 36px; padding: 8px 16px;">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+            <button class="simple-btn primary" onclick="addSelectedStaff()" id="addStaffBtn" disabled style="height: 36px; padding: 8px 16px;">
+                <i class="fas fa-check"></i> Add Member
+            </button>
+        </div>
     </div>
 </div>
 
@@ -226,10 +283,299 @@ document.addEventListener('DOMContentLoaded', function(){
                 showActionStatus('Department deleted successfully!', 'success');
                 // In a real application, this would redirect or update the UI
                 setTimeout(() => {
-                    window.location.href = '/admin/academic-management';
+                    window.location.href = '/admin/department-management';
                 }, 1500);
             }
         });
+    });
+    
+    // Show delete icons on hover
+    const staffRows = document.querySelectorAll('#staffTable tbody tr');
+    staffRows.forEach(row => {
+        row.addEventListener('mouseenter', function() {
+            const deleteBtn = this.querySelector('.action-icon.delete');
+            if (deleteBtn) {
+                deleteBtn.style.opacity = '1';
+            }
+        });
+        row.addEventListener('mouseleave', function() {
+            const deleteBtn = this.querySelector('.action-icon.delete');
+            if (deleteBtn) {
+                deleteBtn.style.opacity = '0.7';
+            }
+        });
+    });
+});
+
+// Available members (in production, this would come from an API)
+const availableStaff = [
+    // Teachers
+    { id: 'T001', name: 'Dr. Emily Parker', department: 'Mathematics', type: 'teacher', role: 'Teacher', email: 'emily.parker@school.edu' },
+    { id: 'T002', name: 'Mr. David Lee', department: 'History', type: 'teacher', role: 'Teacher', email: 'david.lee@school.edu' },
+    { id: 'T003', name: 'Ms. Sarah Chen', department: 'English', type: 'teacher', role: 'Teacher', email: 'sarah.chen@school.edu' },
+    { id: 'T004', name: 'Prof. James Wilson', department: 'Science', type: 'teacher', role: 'Teacher', email: 'james.wilson@school.edu' },
+    { id: 'T005', name: 'Ms. Lisa Wong', department: 'Art', type: 'teacher', role: 'Teacher', email: 'lisa.wong@school.edu' },
+    { id: 'T006', name: 'Mr. Michael Brown', department: 'Physical Education', type: 'teacher', role: 'Teacher', email: 'michael.brown@school.edu' },
+    { id: 'T007', name: 'Dr. Helen Thompson', department: 'Chemistry', type: 'teacher', role: 'Teacher', email: 'helen.thompson@school.edu' },
+    { id: 'T008', name: 'Mr. Robert Kim', department: 'Music', type: 'teacher', role: 'Teacher', email: 'robert.kim@school.edu' },
+    { id: 'T009', name: 'Daw Khin Khin', department: 'Mathematics', type: 'teacher', role: 'Teacher', email: 'khinkhin@school.edu' },
+    { id: 'T010', name: 'Ms. Sarah Johnson', department: 'English', type: 'teacher', role: 'Teacher', email: 'sarah.johnson@school.edu' },
+    { id: 'T011', name: 'U Aung Myint', department: 'Physics', type: 'teacher', role: 'Teacher', email: 'aungmyint@school.edu' },
+    { id: 'T012', name: 'Daw Mya Mya', department: 'Chemistry', type: 'teacher', role: 'Teacher', email: 'myamya@school.edu' },
+    { id: 'T013', name: 'Ms. Ayesha Khan', department: 'Language', type: 'teacher', role: 'Teacher', email: 'ayesha.khan@school.edu' },
+    { id: 'T014', name: 'Mr. Paolo Rossi', department: 'Language', type: 'teacher', role: 'Teacher', email: 'paolo.rossi@school.edu' },
+    { id: 'T015', name: 'Mr. Alan Brown', department: 'Primary', type: 'teacher', role: 'Teacher', email: 'alan.brown@school.edu' },
+    { id: 'T016', name: 'Ms. Jennifer Lee', department: 'Primary', type: 'teacher', role: 'Teacher', email: 'jennifer.lee@school.edu' },
+    // Staff
+    { id: 'E001', name: 'Mr. David Kumar', department: 'IT Support', type: 'staff', role: 'IT Manager', email: 'david.kumar@school.edu' },
+    { id: 'E002', name: 'Ms. Lisa Park', department: 'Administration', type: 'staff', role: 'Office Manager', email: 'lisa.park@school.edu' },
+    { id: 'E003', name: 'Mr. Robert Jones', department: 'Maintenance', type: 'staff', role: 'Facilities Manager', email: 'robert.jones@school.edu' },
+    { id: 'E004', name: 'Ms. Priya Singh', department: 'IT Support', type: 'staff', role: 'Sysadmin', email: 'priya.singh@school.edu' },
+    { id: 'E005', name: 'Mr. Wei Zhang', department: 'IT Support', type: 'staff', role: 'Support Engineer', email: 'wei.zhang@school.edu' },
+    { id: 'E006', name: 'Mr. Omar Ali', department: 'Administration', type: 'staff', role: 'Clerk', email: 'omar.ali@school.edu' },
+    { id: 'E007', name: 'Ms. Nina Patel', department: 'Administration', type: 'staff', role: 'Receptionist', email: 'nina.patel@school.edu' },
+    { id: 'E008', name: 'Mr. John Doe', department: 'Security', type: 'staff', role: 'Security Lead', email: 'john.doe@school.edu' },
+    { id: 'E009', name: 'Ms. Maria Lopez', department: 'Maintenance', type: 'staff', role: 'Custodian', email: 'maria.lopez@school.edu' },
+    { id: 'E010', name: 'Ms. Priya Singh', department: 'IT Support', type: 'staff', role: 'Sysadmin', email: 'priya.singh@school.edu' },
+    { id: 'E011', name: 'Mr. Wei Zhang', department: 'IT Support', type: 'staff', role: 'Support Engineer', email: 'wei.zhang@school.edu' },
+    { id: 'E012', name: 'Mr. Omar Ali', department: 'Administration', type: 'staff', role: 'Clerk', email: 'omar.ali@school.edu' },
+    { id: 'E013', name: 'Ms. Nina Patel', department: 'Administration', type: 'staff', role: 'Receptionist', email: 'nina.patel@school.edu' },
+    { id: 'E014', name: 'Mr. John Doe', department: 'Security', type: 'staff', role: 'Security Lead', email: 'john.doe@school.edu' },
+    { id: 'E015', name: 'Ms. Maria Lopez', department: 'Maintenance', type: 'staff', role: 'Custodian', email: 'maria.lopez@school.edu' }
+];
+
+let selectedStaffMember = null;
+
+// Open Add Staff Dialog
+function openAddStaffDialog() {
+    const dialog = document.getElementById('addStaffDialog');
+    if (dialog) {
+        dialog.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        // Clear form
+        document.getElementById('staffSearchInput').value = '';
+        clearSelectedStaff();
+        // Show all staff initially
+        displayStaffResults(availableStaff);
+    }
+}
+
+// Close Add Staff Dialog
+function closeAddStaffDialog() {
+    const dialog = document.getElementById('addStaffDialog');
+    if (dialog) {
+        dialog.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+}
+
+// Search Staff
+function searchStaff(query) {
+    const searchTerm = query.toLowerCase().trim();
+    
+    if (!searchTerm) {
+        displayStaffResults(availableStaff);
+        return;
+    }
+    
+    const filtered = availableStaff.filter(staff => {
+        return staff.name.toLowerCase().includes(searchTerm) ||
+               staff.id.toLowerCase().includes(searchTerm) ||
+               staff.department.toLowerCase().includes(searchTerm) ||
+               staff.role.toLowerCase().includes(searchTerm);
+    });
+    
+    displayStaffResults(filtered);
+}
+
+// Display Staff Results
+function displayStaffResults(staffList) {
+    const resultsContainer = document.getElementById('staffSearchResults');
+    
+    if (staffList.length === 0) {
+        resultsContainer.innerHTML = `
+            <div style="padding: 20px; text-align: center; color: #6b7280;">
+                <i class="fas fa-user-slash" style="font-size: 24px; margin-bottom: 8px; display: block;"></i>
+                <p>No members found</p>
+            </div>
+        `;
+        return;
+    }
+    
+    resultsContainer.innerHTML = staffList.map(staff => {
+        const initials = staff.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        const baseUrl = staff.type === 'teacher' ? '/admin/teacher-profile?id=' : '/admin/staff-profile?id=';
+        const isAlreadyAdded = Array.from(document.querySelectorAll('#staffGrid tr')).some(row => {
+            const link = row.querySelector('a');
+            return link && link.href.includes(staff.id);
+        });
+        
+        return `
+            <div class="staff-result-item ${isAlreadyAdded ? 'disabled' : ''}" onclick="${isAlreadyAdded ? '' : `selectStaff('${staff.id}')`}" style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; cursor: ${isAlreadyAdded ? 'not-allowed' : 'pointer'}; display: flex; align-items: center; gap: 12px; transition: background-color 0.2s; ${isAlreadyAdded ? 'opacity: 0.5;' : ''}">
+                <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, ${staff.type === 'teacher' ? '#4A90E2' : '#10b981'} 0%, ${staff.type === 'teacher' ? '#357abd' : '#059669'} 100%); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0;">
+                    ${initials}
+                </div>
+                <div style="flex: 1; min-width: 0;">
+                    <div style="font-weight: 600; color: #111827; margin-bottom: 2px;">${staff.name}</div>
+                    <div style="font-size: 13px; color: #6b7280;">
+                        <span class="type-badge" style="margin-right: 8px;">${staff.role}</span>
+                        <span>${staff.department}</span>
+                    </div>
+                </div>
+                ${isAlreadyAdded ? '<span style="color: #10b981; font-size: 12px;"><i class="fas fa-check-circle"></i> Added</span>' : '<i class="fas fa-chevron-right" style="color: #9ca3af;"></i>'}
+            </div>
+        `;
+    }).join('');
+    
+    // Add hover effect
+    resultsContainer.querySelectorAll('.staff-result-item:not(.disabled)').forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            this.style.backgroundColor = '#f9fafb';
+        });
+        item.addEventListener('mouseleave', function() {
+            this.style.backgroundColor = '';
+        });
+    });
+}
+
+// Select Staff
+function selectStaff(staffId) {
+    const staff = availableStaff.find(s => s.id === staffId);
+    if (!staff) return;
+    
+    selectedStaffMember = staff;
+    
+    const infoDiv = document.getElementById('selectedStaffInfo');
+    const nameDiv = document.getElementById('selectedStaffName');
+    const detailsDiv = document.getElementById('selectedStaffDetails');
+    const avatarDiv = document.getElementById('selectedStaffAvatar');
+    const addBtn = document.getElementById('addStaffBtn');
+    
+    const initials = staff.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+    
+    avatarDiv.textContent = initials;
+    avatarDiv.style.background = `linear-gradient(135deg, ${staff.type === 'teacher' ? '#4A90E2' : '#10b981'} 0%, ${staff.type === 'teacher' ? '#357abd' : '#059669'} 100%)`;
+    nameDiv.textContent = staff.name;
+    detailsDiv.innerHTML = `<span class="type-badge">${staff.role}</span> • ${staff.department} • ${staff.id}`;
+    
+    infoDiv.style.display = 'block';
+    addBtn.disabled = false;
+    
+    // Scroll to selected staff info
+    infoDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// Clear Selected Staff
+function clearSelectedStaff() {
+    selectedStaffMember = null;
+    document.getElementById('selectedStaffInfo').style.display = 'none';
+    document.getElementById('addStaffBtn').disabled = true;
+}
+
+// Add Selected Staff
+function addSelectedStaff() {
+    if (!selectedStaffMember) {
+        alert('Please select a member');
+        return;
+    }
+    
+    const tbody = document.getElementById('staffGrid');
+    const newIndex = tbody.children.length;
+    const baseUrl = selectedStaffMember.type === 'teacher' ? '/admin/teacher-profile?id=' : '/admin/staff-profile?id=';
+    
+    const newRow = document.createElement('tr');
+    newRow.setAttribute('data-staff-id', selectedStaffMember.id);
+    newRow.style.cursor = 'pointer';
+    newRow.onclick = function() {
+        window.location.href = baseUrl + selectedStaffMember.id;
+    };
+    
+    newRow.innerHTML = `
+        <td>
+            <a href="${baseUrl}${selectedStaffMember.id}" class="grade-link" onclick="event.stopPropagation()" style="font-weight: 600; color: #007AFF;">
+                ${selectedStaffMember.name}
+            </a>
+        </td>
+        <td>
+            <span class="type-badge">${selectedStaffMember.role}</span>
+        </td>
+        <td style="text-align: center;">
+            <button class="action-icon delete" onclick="event.stopPropagation(); removeStaff('${selectedStaffMember.id}')" title="Remove from Department">
+                <i class="fas fa-trash"></i>
+            </button>
+        </td>
+    `;
+    
+    tbody.appendChild(newRow);
+    
+    // Update staff count
+    const staffCountElement = document.querySelector('.detail-stats-grid .stat-card:nth-child(2) .stat-value');
+    if (staffCountElement) {
+        const currentCount = parseInt(staffCountElement.textContent) || 0;
+        staffCountElement.textContent = currentCount + 1;
+    }
+    
+    closeAddStaffDialog();
+    showActionStatus(`${selectedStaffMember.name} added to department successfully!`, 'success');
+}
+
+// Remove Staff
+function removeStaff(staffIdOrIndex) {
+    // Try to find by staff ID first, then by index
+    let row = document.querySelector(`#staffTable tbody tr[data-staff-id="${staffIdOrIndex}"]`);
+    
+    if (!row) {
+        // If not found, try as index (for existing PHP-generated rows)
+        const rows = document.querySelectorAll('#staffTable tbody tr');
+        const index = parseInt(staffIdOrIndex);
+        if (!isNaN(index) && rows[index]) {
+            row = rows[index];
+        }
+    }
+    
+    if (!row) return;
+    
+    const staffName = row.querySelector('td:first-child a').textContent.trim();
+    
+    showConfirmDialog({
+        title: 'Remove Staff',
+        message: `Are you sure you want to remove ${staffName} from this department?`,
+        confirmText: 'Remove',
+        confirmIcon: 'fas fa-user-minus',
+        onConfirm: function() {
+            row.remove();
+            
+            // Update staff count
+            const staffCountElement = document.querySelector('.detail-stats-grid .stat-card:nth-child(2) .stat-value');
+            if (staffCountElement) {
+                const currentCount = parseInt(staffCountElement.textContent) || 0;
+                staffCountElement.textContent = Math.max(0, currentCount - 1);
+            }
+            
+            showActionStatus('Member removed successfully!', 'success');
+        }
+    });
+}
+
+// Close dialog when clicking overlay
+document.addEventListener('DOMContentLoaded', function() {
+    const addStaffDialog = document.getElementById('addStaffDialog');
+    if (addStaffDialog) {
+        addStaffDialog.addEventListener('click', function(e) {
+            if (e.target === addStaffDialog) {
+                closeAddStaffDialog();
+            }
+        });
+    }
+    
+    // Close dialog on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const dialog = document.getElementById('addStaffDialog');
+            if (dialog && dialog.style.display === 'flex') {
+                closeAddStaffDialog();
+            }
+        }
     });
 });
 
@@ -261,28 +607,94 @@ document.addEventListener('DOMContentLoaded', function(){
     display: inline-block;
 }
 
-/* Remove Staff Button Styles */
-.remove-staff-btn {
-    background: #ff4757;
-    color: white;
-    border: none;
-    border-radius: 6px;
+/* Action Icon Styles */
+.action-icon {
     width: 32px;
     height: 32px;
+    border: none;
+    border-radius: 6px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     transition: all 0.2s ease;
+    font-size: 14px;
+    opacity: 0.7;
 }
 
-.remove-staff-btn:hover {
-    background: #ff3742;
+.action-icon.delete {
+    background: #FFEBEE;
+    color: #F44336;
+}
+
+.action-icon.delete:hover {
+    background: #FFCDD2;
+    color: #D32F2F;
+    opacity: 1;
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 4px rgba(244, 67, 54, 0.2);
+}
+
+/* Section Header Styles */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.section-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #111827;
+}
+
+/* Staff Search Results Styles */
+#staffSearchResults {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+#staffSearchResults::-webkit-scrollbar {
+    width: 6px;
+}
+
+#staffSearchResults::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+#staffSearchResults::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+#staffSearchResults::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+.staff-result-item:not(.disabled):hover {
+    background-color: #f9fafb !important;
+}
+
+.staff-result-item.disabled {
+    cursor: not-allowed !important;
+}
+
+#selectedStaffInfo {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 </style>

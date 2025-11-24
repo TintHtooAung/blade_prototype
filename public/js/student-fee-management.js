@@ -218,18 +218,12 @@ function renderInvoiceTable() {
         
         const actions = isDraft ? `
             <div style="display: flex; gap: 6px; justify-content: center;">
-                <button class="fee-action-btn view-btn" onclick="viewInvoiceDetails('${invoice.id}')" title="View Details">
-                    <i class="fas fa-eye"></i> View
-                </button>
                 <button class="fee-action-btn process-btn" onclick="processPayment('${invoice.id}')" title="Process Payment">
                     <i class="fas fa-money-check-alt"></i> Pay
                 </button>
             </div>
         ` : `
             <div style="display: flex; gap: 6px; justify-content: center;">
-                <button class="fee-action-btn view-btn" onclick="viewInvoiceDetails('${invoice.id}')" title="View Invoice">
-                    <i class="fas fa-file-invoice-dollar"></i> View
-                </button>
                 <button class="fee-action-btn receipt-btn" onclick="viewInvoiceReceipt('${invoice.id}')" title="View Receipt">
                     <i class="fas fa-receipt"></i> Receipt
                 </button>

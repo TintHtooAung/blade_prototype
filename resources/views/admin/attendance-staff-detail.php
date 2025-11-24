@@ -25,22 +25,6 @@ ob_start();
     </div>
 </div>
 
-<!-- Date Filter -->
-<div class="simple-section" style="margin-bottom: 24px;">
-    <div class="simple-header">
-        <h3>Attendance Records</h3>
-        <div class="simple-actions">
-            <div class="filter-group" style="display: flex; align-items: center; gap: 8px; flex-direction: row;">
-                <label for="attendanceDateFilter" style="margin: 0; white-space: nowrap;">Select Date:</label>
-                <input type="date" id="attendanceDateFilter" class="filter-select" value="<?php echo htmlspecialchars($selectedDate); ?>" onchange="filterAttendanceByDate(this.value)" style="height: 36px; padding: 8px 12px; margin: 0;">
-            </div>
-            <button class="simple-btn secondary" onclick="setTodayDate()" title="Today" style="height: 36px; padding: 8px 16px; margin: 0;">
-                <i class="fas fa-calendar-day"></i> Today
-            </button>
-        </div>
-    </div>
-</div>
-
 <!-- Staff Info and Attendance Records -->
 <div id="staffAttendanceContainer" class="staff-attendance-container">
     <!-- Staff info and records will be dynamically generated -->
@@ -87,7 +71,7 @@ function initializeStaffAttendance() {
     const staffId = '<?php echo htmlspecialchars($staffId); ?>';
     const staff = staffMembers[staffId] || staffMembers['EMP001'];
     const container = document.getElementById('staffAttendanceContainer');
-    const selectedDate = document.getElementById('attendanceDateFilter').value;
+    const selectedDate = '<?php echo htmlspecialchars($selectedDate); ?>';
     
     // Get today's record
     const dateRecords = attendanceRecords[selectedDate] || {};
@@ -297,24 +281,6 @@ function formatDate(dateString) {
     });
 }
 
-// Filter by date
-function filterAttendanceByDate(dateString) {
-    if (!dateString) return;
-    const url = new URL(window.location);
-    url.searchParams.set('date', dateString);
-    window.location.href = url.toString();
-}
-
-// Set today's date
-function setTodayDate() {
-    const today = new Date();
-    const dateString = today.toISOString().split('T')[0];
-    const dateFilter = document.getElementById('attendanceDateFilter');
-    if (dateFilter) {
-        dateFilter.value = dateString;
-        filterAttendanceByDate(dateString);
-    }
-}
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {

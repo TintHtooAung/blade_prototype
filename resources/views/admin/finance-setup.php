@@ -14,7 +14,7 @@ ob_start();
         </div>
         <div style="flex: 1;">
             <h2 style="margin: 0 0 8px 0; font-size: 28px; font-weight: 700; color: #fff;">Welcome to Finance Setup</h2>
-            <p style="margin: 0; font-size: 16px; color: rgba(255, 255, 255, 0.9);">Configure currency settings, payment methods, fee structures, expense categories, and financial year settings for your finance management system.</p>
+            <p style="margin: 0; font-size: 16px; color: rgba(255, 255, 255, 0.9);">Configure fee structures and expense categories for your finance management system.</p>
         </div>
     </div>
 </div>
@@ -25,22 +25,12 @@ ob_start();
     <div class="wizard-progress-bar">
         <div class="wizard-steps-container">
             <div class="wizard-step-item active" data-step="1" onclick="goToSetupStep(1)">
-                <div class="step-indicator">
-                    <i class="fas fa-coins"></i>
-                </div>
-                <span class="step-label">Currency & Payment</span>
+                <div class="step-indicator">1</div>
+                <span class="step-label">Fee Structure</span>
             </div>
             <div class="wizard-step-item" data-step="2" onclick="goToSetupStep(2)">
                 <div class="step-indicator">2</div>
-                <span class="step-label">Fee Structure</span>
-            </div>
-            <div class="wizard-step-item" data-step="3" onclick="goToSetupStep(3)">
-                <div class="step-indicator">3</div>
                 <span class="step-label">Expense Categories</span>
-            </div>
-            <div class="wizard-step-item" data-step="4" onclick="goToSetupStep(4)">
-                <div class="step-indicator">4</div>
-                <span class="step-label">Financial Year</span>
             </div>
         </div>
     </div>
@@ -52,86 +42,8 @@ ob_start();
                 <p style="margin: 8px 0 0 0; color: #6b7280; font-size: 14px;">Configure your finance management system step by step</p>
             </div>
             <div class="form-section" style="padding:0;">
-                <!-- Step 1: Currency & Payment -->
+                <!-- Step 1: Fee Structure -->
                 <div class="wizard-step" id="setup-step-1" style="display:block;">
-                    <div style="display:flex; align-items:center; margin-bottom:20px;">
-                        <i class="fas fa-coins" style="color:#8b5cf6; margin-right:8px; font-size:18px;"></i>
-                        <h4 style="margin:0; font-size:18px; font-weight:600; color:#7c3aed;">Currency & Payment Methods</h4>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group" style="flex:1;">
-                            <label for="currency">Currency <span style="color:red;">*</span></label>
-                            <select id="currency" class="form-select" required>
-                                <option value="USD">USD - US Dollar ($)</option>
-                                <option value="MMK" selected>MMK - Myanmar Kyat (K)</option>
-                                <option value="EUR">EUR - Euro (€)</option>
-                                <option value="GBP">GBP - British Pound (£)</option>
-                                <option value="SGD">SGD - Singapore Dollar (S$)</option>
-                                <option value="THB">THB - Thai Baht (฿)</option>
-                            </select>
-                        </div>
-                        <div class="form-group" style="flex:1;">
-                            <label for="currencySymbol">Currency Symbol</label>
-                            <input type="text" id="currencySymbol" class="form-input" placeholder="e.g., $" value="$" maxlength="5">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group" style="flex:1;">
-                            <label for="currencyPosition">Currency Position</label>
-                            <select id="currencyPosition" class="form-select">
-                                <option value="before" selected>Before amount ($100)</option>
-                                <option value="after">After amount (100$)</option>
-                            </select>
-                        </div>
-                        <div class="form-group" style="flex:1;">
-                            <label for="decimalPlaces">Decimal Places</label>
-                            <select id="decimalPlaces" class="form-select">
-                                <option value="0">0 (No decimals)</option>
-                                <option value="2" selected>2 (e.g., 100.00)</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group" style="flex:1;">
-                            <label>Payment Methods</label>
-                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 8px;">
-                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                    <input type="checkbox" class="payment-method-checkbox" value="cash" checked>
-                                    <span>Cash</span>
-                                </label>
-                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                    <input type="checkbox" class="payment-method-checkbox" value="bank-transfer" checked>
-                                    <span>Bank Transfer</span>
-                                </label>
-                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                    <input type="checkbox" class="payment-method-checkbox" value="check" checked>
-                                    <span>Check</span>
-                                </label>
-                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                    <input type="checkbox" class="payment-method-checkbox" value="card">
-                                    <span>Card Payment</span>
-                                </label>
-                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                    <input type="checkbox" class="payment-method-checkbox" value="mobile-payment">
-                                    <span>Mobile Payment</span>
-                                </label>
-                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; transition: all 0.2s;">
-                                    <input type="checkbox" class="payment-method-checkbox" value="online">
-                                    <span>Online Payment</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="background: #f5f3ff; border-left: 4px solid #8b5cf6; padding: 16px; border-radius: 6px; margin-top: 16px;">
-                        <p style="margin: 0; color: #7c3aed; font-size: 14px;">
-                            <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
-                            Configure the currency and payment methods that will be used for all financial transactions.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Step 2: Fee Structure -->
-                <div class="wizard-step" id="setup-step-2" style="display:none;">
                     <div style="display:flex; align-items:center; margin-bottom:20px;">
                         <i class="fas fa-file-invoice-dollar" style="color:#8b5cf6; margin-right:8px; font-size:18px;"></i>
                         <h4 style="margin:0; font-size:18px; font-weight:600; color:#7c3aed;">Tuition Fee Structure</h4>
@@ -174,35 +86,35 @@ ob_start();
                         </div>
                     </div>
                     
-                    <!-- Tuition Fee Timeline Configuration -->
+                    <!-- Tuition Fee by Grade Configuration -->
                     <div style="margin-top: 32px; padding: 20px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                             <h5 style="margin: 0; font-size: 16px; font-weight: 600; color: #111827;">
-                                <i class="fas fa-calendar-alt" style="margin-right: 8px; color: #8b5cf6;"></i>Tuition Fee Timeline
+                                <i class="fas fa-graduation-cap" style="margin-right: 8px; color: #8b5cf6;"></i>Tuition Fee by Grade
                             </h5>
-                            <button type="button" class="wizard-btn-secondary" onclick="addTuitionFeeTimeline()" style="padding: 6px 12px; font-size: 13px;">
-                                <i class="fas fa-plus"></i> Add Tuition Fee
+                            <button type="button" class="wizard-btn-secondary" onclick="addTuitionFeeGrade()" style="padding: 6px 12px; font-size: 13px;">
+                                <i class="fas fa-plus"></i> Add Grade Fee
                             </button>
                         </div>
                         <p style="margin: 0 0 16px 0; color: #6b7280; font-size: 13px;">
-                            Configure different tuition fees with their active periods (e.g., Main Tuition: June - May, Summer Tuition: June - August)
+                            Configure monthly tuition fees for each grade level
                         </p>
                         
-                        <div id="tuitionFeeTimelineList" style="display: flex; flex-direction: column; gap: 12px;">
-                            <!-- Tuition fee timeline items will be added here -->
+                        <div id="tuitionFeeGradeList" style="display: flex; flex-direction: column; gap: 12px;">
+                            <!-- Tuition fee grade items will be added here -->
                         </div>
                     </div>
                     
                     <div style="background: #f5f3ff; border-left: 4px solid #8b5cf6; padding: 16px; border-radius: 6px; margin-top: 16px;">
                         <p style="margin: 0; color: #7c3aed; font-size: 14px;">
                             <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
-                            Configure tuition fee payment frequency and timeline. Each tuition fee type can have different active periods throughout the year.
+                            Set the monthly tuition fee for each grade. These fees will be used when generating invoices based on the payment frequency you selected above.
                         </p>
                     </div>
                 </div>
 
-                <!-- Step 3: Expense Categories -->
-                <div class="wizard-step" id="setup-step-3" style="display:none;">
+                <!-- Step 2: Expense Categories -->
+                <div class="wizard-step" id="setup-step-2" style="display:none;">
                     <div style="display:flex; align-items:center; margin-bottom:20px;">
                         <i class="fas fa-list" style="color:#8b5cf6; margin-right:8px; font-size:18px;"></i>
                         <h4 style="margin:0; font-size:18px; font-weight:600; color:#7c3aed;">Expense Categories</h4>
@@ -261,82 +173,6 @@ ob_start();
                     </div>
                 </div>
 
-                <!-- Step 4: Financial Year -->
-                <div class="wizard-step" id="setup-step-4" style="display:none;">
-                    <div style="display:flex; align-items:center; margin-bottom:20px;">
-                        <i class="fas fa-calendar-alt" style="color:#8b5cf6; margin-right:8px; font-size:18px;"></i>
-                        <h4 style="margin:0; font-size:18px; font-weight:600; color:#7c3aed;">Financial Year Settings</h4>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group" style="flex:1;">
-                            <label for="financialYearStart">Financial Year Start Month <span style="color:red;">*</span></label>
-                            <select id="financialYearStart" class="form-select" required>
-                                <option value="01">January</option>
-                                <option value="02">February</option>
-                                <option value="03">March</option>
-                                <option value="04">April</option>
-                                <option value="05">May</option>
-                                <option value="06">June</option>
-                                <option value="07">July</option>
-                                <option value="08">August</option>
-                                <option value="09">September</option>
-                                <option value="10">October</option>
-                                <option value="11">November</option>
-                                <option value="12">December</option>
-                            </select>
-                        </div>
-                        <div class="form-group" style="flex:1;">
-                            <label for="financialYearEnd">Financial Year End Month</label>
-                            <select id="financialYearEnd" class="form-select">
-                                <option value="12">December</option>
-                                <option value="01">January</option>
-                                <option value="02">February</option>
-                                <option value="03">March</option>
-                                <option value="04">April</option>
-                                <option value="05">May</option>
-                                <option value="06">June</option>
-                                <option value="07">July</option>
-                                <option value="08">August</option>
-                                <option value="09">September</option>
-                                <option value="10">October</option>
-                                <option value="11">November</option>
-                            </select>
-                            <small style="color: #666; font-size: 12px; margin-top: 4px; display: block;">Usually 11 months after start month</small>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group" style="flex:1;">
-                            <label for="currentFinancialYear">Current Financial Year</label>
-                            <input type="text" id="currentFinancialYear" class="form-input" placeholder="e.g., 2024-2025" value="<?php echo date('Y') . '-' . (date('Y') + 1); ?>">
-                        </div>
-                        <div class="form-group" style="flex:1;">
-                            <label for="taxRate">Tax Rate (%)</label>
-                            <input type="number" id="taxRate" class="form-input" placeholder="e.g., 0" value="0" min="0" max="100" step="0.1">
-                            <small style="color: #666; font-size: 12px; margin-top: 4px; display: block;">Default tax rate for transactions (if applicable)</small>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group" style="flex:1;">
-                            <label>Budget Approval Required</label>
-                            <div style="margin-top: 8px;">
-                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; margin-bottom: 8px;">
-                                    <input type="radio" name="budgetApproval" value="yes" checked>
-                                    <span>Yes, require approval for expenses</span>
-                                </label>
-                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                                    <input type="radio" name="budgetApproval" value="no">
-                                    <span>No, auto-approve expenses</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="background: #f5f3ff; border-left: 4px solid #8b5cf6; padding: 16px; border-radius: 6px; margin-top: 16px;">
-                        <p style="margin: 0; color: #7c3aed; font-size: 14px;">
-                            <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
-                            Configure financial year settings and budget approval workflow for expense management.
-                        </p>
-                    </div>
-                </div>
             </div>
         </div>
         
@@ -378,7 +214,7 @@ ob_start();
 
 <script>
 let currentSetupStep = 1;
-const totalSetupSteps = 4;
+const totalSetupSteps = 2;
 
 // Load existing setup data from localStorage
 function loadExistingSetupData() {
@@ -389,29 +225,6 @@ function loadExistingSetupData() {
         }
         
         const setupData = JSON.parse(setupDataStr);
-        
-        // Load currency settings
-        if (setupData.currency) {
-            if (setupData.currency.code) {
-                document.getElementById('currency').value = setupData.currency.code;
-            }
-            if (setupData.currency.symbol) {
-                document.getElementById('currencySymbol').value = setupData.currency.symbol;
-            }
-            if (setupData.currency.position) {
-                document.getElementById('currencyPosition').value = setupData.currency.position;
-            }
-            if (setupData.currency.decimalPlaces) {
-                document.getElementById('decimalPlaces').value = setupData.currency.decimalPlaces;
-            }
-        }
-        
-        // Load payment methods
-        if (setupData.paymentMethods && Array.isArray(setupData.paymentMethods)) {
-            document.querySelectorAll('.payment-method-checkbox').forEach(cb => {
-                cb.checked = setupData.paymentMethods.includes(cb.value);
-            });
-        }
         
         // Load fee structure
         if (setupData.feeStructure) {
@@ -439,26 +252,6 @@ function loadExistingSetupData() {
         
         if (setupData.customExpenseCategories) {
             document.getElementById('customExpenseCategories').value = setupData.customExpenseCategories;
-        }
-        
-        // Load financial year
-        if (setupData.financialYear) {
-            if (setupData.financialYear.startMonth) {
-                document.getElementById('financialYearStart').value = setupData.financialYear.startMonth;
-            }
-            if (setupData.financialYear.endMonth) {
-                document.getElementById('financialYearEnd').value = setupData.financialYear.endMonth;
-            }
-            if (setupData.financialYear.currentYear) {
-                document.getElementById('currentFinancialYear').value = setupData.financialYear.currentYear;
-            }
-            if (setupData.financialYear.taxRate) {
-                document.getElementById('taxRate').value = setupData.financialYear.taxRate;
-            }
-            if (setupData.financialYear.budgetApproval) {
-                const radio = document.querySelector(`input[name="budgetApproval"][value="${setupData.financialYear.budgetApproval}"]`);
-                if (radio) radio.checked = true;
-            }
         }
         
         return true;
@@ -489,44 +282,53 @@ function goToSetupStep(step) {
         currentStepEl.style.display = 'block';
     }
     
-    // Initialize tuition fee timelines when step 2 is shown
-    if (step === 2) {
-        const container = document.getElementById('tuitionFeeTimelineList');
+    // Initialize tuition fee grades when step 1 (Fee Structure) is shown
+    if (step === 1) {
+        const container = document.getElementById('tuitionFeeGradeList');
         if (container) {
             // Clear existing items first
             container.innerHTML = '';
             
-            // Check if we have saved data, otherwise add default
+            // Check if we have saved data, otherwise add default grades
             const setupDataStr = localStorage.getItem('financeSetup');
             if (setupDataStr) {
                 try {
                     const setupData = JSON.parse(setupDataStr);
-                    if (setupData.feeStructure && setupData.feeStructure.tuitionFeeTimelines && setupData.feeStructure.tuitionFeeTimelines.length > 0) {
-                        setupData.feeStructure.tuitionFeeTimelines.forEach(timeline => {
-                            addTuitionFeeTimelineItem(timeline);
+                    if (setupData.feeStructure && setupData.feeStructure.tuitionFeeGrades && setupData.feeStructure.tuitionFeeGrades.length > 0) {
+                        setupData.feeStructure.tuitionFeeGrades.forEach(grade => {
+                            addTuitionFeeGradeItem(grade);
                         });
                     } else {
-                        addTuitionFeeTimelineItem({
-                            name: 'Main Tuition Fee',
-                            startMonth: '6',
-                            endMonth: '5',
-                            id: 'tuition-' + Date.now()
+                        // Add default grades if no saved data
+                        const defaultGrades = ['Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'];
+                        defaultGrades.forEach(gradeName => {
+                            addTuitionFeeGradeItem({
+                                gradeName: gradeName,
+                                pricePerMonth: '',
+                                id: 'grade-' + Date.now() + '-' + Math.random()
+                            });
                         });
                     }
                 } catch (e) {
-                    addTuitionFeeTimelineItem({
-                        name: 'Main Tuition Fee',
-                        startMonth: '6',
-                        endMonth: '5',
-                        id: 'tuition-' + Date.now()
+                    // Add default grades on error
+                    const defaultGrades = ['Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'];
+                    defaultGrades.forEach(gradeName => {
+                        addTuitionFeeGradeItem({
+                            gradeName: gradeName,
+                            pricePerMonth: '',
+                            id: 'grade-' + Date.now() + '-' + Math.random()
+                        });
                     });
                 }
             } else {
-                addTuitionFeeTimelineItem({
-                    name: 'Main Tuition Fee',
-                    startMonth: '6',
-                    endMonth: '5',
-                    id: 'tuition-' + Date.now()
+                // Add default grades if no saved data
+                const defaultGrades = ['Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'];
+                defaultGrades.forEach(gradeName => {
+                    addTuitionFeeGradeItem({
+                        gradeName: gradeName,
+                        pricePerMonth: '',
+                        id: 'grade-' + Date.now() + '-' + Math.random()
+                    });
                 });
             }
         }
@@ -577,28 +379,17 @@ function saveCurrentStepData() {
         }
         
         if (currentSetupStep === 1) {
-            const paymentMethods = Array.from(document.querySelectorAll('.payment-method-checkbox:checked')).map(cb => cb.value);
-            setupData.currency = {
-                code: document.getElementById('currency').value,
-                symbol: document.getElementById('currencySymbol').value || '$',
-                position: document.getElementById('currencyPosition').value || 'before',
-                decimalPlaces: parseInt(document.getElementById('decimalPlaces').value) || 2
-            };
-            setupData.paymentMethods = paymentMethods;
-        } else if (currentSetupStep === 2) {
-            // Collect tuition fee timelines
-            const tuitionFeeTimelines = [];
-            document.querySelectorAll('.tuition-fee-timeline-item').forEach(item => {
-                const name = item.querySelector('.tuition-fee-name').value;
-                const startMonth = item.querySelector('.tuition-fee-start-month').value;
-                const endMonth = item.querySelector('.tuition-fee-end-month').value;
-                const id = item.dataset.timelineId;
-                if (name && startMonth && endMonth) {
-                    tuitionFeeTimelines.push({
+            // Collect tuition fee grades
+            const tuitionFeeGrades = [];
+            document.querySelectorAll('.tuition-fee-grade-item').forEach(item => {
+                const gradeName = item.querySelector('.tuition-fee-grade-name').value;
+                const pricePerMonth = item.querySelector('.tuition-fee-price').value;
+                const id = item.dataset.gradeId;
+                if (gradeName && pricePerMonth) {
+                    tuitionFeeGrades.push({
                         id: id,
-                        name: name,
-                        startMonth: startMonth,
-                        endMonth: endMonth
+                        gradeName: gradeName,
+                        pricePerMonth: parseFloat(pricePerMonth) || 0
                     });
                 }
             });
@@ -608,21 +399,12 @@ function saveCurrentStepData() {
                 lateFeePercentage: parseFloat(document.getElementById('lateFeePercentage').value) || 5,
                 lateFeeGracePeriod: parseInt(document.getElementById('lateFeeGracePeriod').value) || 7,
                 discountPercentage: parseFloat(document.getElementById('discountPercentage').value) || 0,
-                tuitionFeeTimelines: tuitionFeeTimelines
+                tuitionFeeGrades: tuitionFeeGrades
             };
-        } else if (currentSetupStep === 3) {
+        } else if (currentSetupStep === 2) {
             const expenseCategories = Array.from(document.querySelectorAll('.expense-category-checkbox:checked')).map(cb => cb.value);
             setupData.expenseCategories = expenseCategories;
             setupData.customExpenseCategories = document.getElementById('customExpenseCategories').value;
-        } else if (currentSetupStep === 4) {
-            const budgetApproval = document.querySelector('input[name="budgetApproval"]:checked')?.value || 'yes';
-            setupData.financialYear = {
-                startMonth: document.getElementById('financialYearStart').value || '01',
-                endMonth: document.getElementById('financialYearEnd').value || '12',
-                currentYear: document.getElementById('currentFinancialYear').value || '',
-                taxRate: parseFloat(document.getElementById('taxRate').value) || 0,
-                budgetApproval: budgetApproval
-            };
         }
         
         localStorage.setItem('financeSetup', JSON.stringify(setupData));
@@ -633,39 +415,27 @@ function saveCurrentStepData() {
 
 function handleNextSetupStep() {
     if (currentSetupStep === 1) {
-        const currency = document.getElementById('currency').value;
-        const paymentMethods = Array.from(document.querySelectorAll('.payment-method-checkbox:checked'));
-        if (!currency || paymentMethods.length === 0) {
-            alert('Please select currency and at least one payment method');
-            return;
-        }
-    } else if (currentSetupStep === 2) {
         const paymentFrequency = document.getElementById('feePaymentFrequency').value;
         if (!paymentFrequency) {
             alert('Please select payment frequency');
             return;
         }
-        // Validate tuition fee timelines
-        const timelineItems = document.querySelectorAll('.tuition-fee-timeline-item');
-        if (timelineItems.length === 0) {
-            alert('Please add at least one tuition fee timeline');
+        // Validate tuition fee grades
+        const gradeItems = document.querySelectorAll('.tuition-fee-grade-item');
+        if (gradeItems.length === 0) {
+            alert('Please add at least one grade fee');
             return;
         }
         let hasError = false;
-        timelineItems.forEach(item => {
-            const name = item.querySelector('.tuition-fee-name').value.trim();
-            if (!name) {
+        gradeItems.forEach(item => {
+            const gradeName = item.querySelector('.tuition-fee-grade-name').value.trim();
+            const pricePerMonth = item.querySelector('.tuition-fee-price').value.trim();
+            if (!gradeName || !pricePerMonth) {
                 hasError = true;
             }
         });
         if (hasError) {
-            alert('Please fill in all tuition fee names');
-            return;
-        }
-    } else if (currentSetupStep === 4) {
-        const startMonth = document.getElementById('financialYearStart').value;
-        if (!startMonth) {
-            alert('Please select financial year start month');
+            alert('Please fill in all grade names and prices');
             return;
         }
     }
@@ -702,69 +472,59 @@ function completeSetup() {
     }, 2000);
 }
 
-// Tuition Fee Timeline Functions
-let tuitionFeeTimelineCounter = 0;
+// Tuition Fee by Grade Functions
+let tuitionFeeGradeCounter = 0;
 
-function addTuitionFeeTimeline() {
-    addTuitionFeeTimelineItem({
-        name: '',
-        startMonth: '1',
-        endMonth: '12',
-        id: 'tuition-' + Date.now() + '-' + (++tuitionFeeTimelineCounter)
+function addTuitionFeeGrade() {
+    addTuitionFeeGradeItem({
+        gradeName: '',
+        pricePerMonth: '',
+        id: 'grade-' + Date.now() + '-' + (++tuitionFeeGradeCounter)
     });
 }
 
-function addTuitionFeeTimelineItem(data) {
-    const container = document.getElementById('tuitionFeeTimelineList');
+function addTuitionFeeGradeItem(data) {
+    const container = document.getElementById('tuitionFeeGradeList');
     if (!container) return;
     
     const item = document.createElement('div');
-    item.className = 'tuition-fee-timeline-item';
-    item.dataset.timelineId = data.id || 'tuition-' + Date.now() + '-' + (++tuitionFeeTimelineCounter);
+    item.className = 'tuition-fee-grade-item';
+    item.dataset.gradeId = data.id || 'grade-' + Date.now() + '-' + (++tuitionFeeGradeCounter);
     
-    const monthOptions = [
-        { value: '1', label: 'January' },
-        { value: '2', label: 'February' },
-        { value: '3', label: 'March' },
-        { value: '4', label: 'April' },
-        { value: '5', label: 'May' },
-        { value: '6', label: 'June' },
-        { value: '7', label: 'July' },
-        { value: '8', label: 'August' },
-        { value: '9', label: 'September' },
-        { value: '10', label: 'October' },
-        { value: '11', label: 'November' },
-        { value: '12', label: 'December' }
+    const gradeOptions = [
+        { value: 'Grade 1', label: 'Grade 1' },
+        { value: 'Grade 2', label: 'Grade 2' },
+        { value: 'Grade 3', label: 'Grade 3' },
+        { value: 'Grade 4', label: 'Grade 4' },
+        { value: 'Grade 5', label: 'Grade 5' },
+        { value: 'Grade 6', label: 'Grade 6' },
+        { value: 'Grade 7', label: 'Grade 7' },
+        { value: 'Grade 8', label: 'Grade 8' },
+        { value: 'Grade 9', label: 'Grade 9' },
+        { value: 'Grade 10', label: 'Grade 10' },
+        { value: 'Grade 11', label: 'Grade 11' },
+        { value: 'Grade 12', label: 'Grade 12' }
     ];
     
-    const startMonthOptions = monthOptions.map(m => 
-        `<option value="${m.value}" ${m.value === data.startMonth ? 'selected' : ''}>${m.label}</option>`
-    ).join('');
-    
-    const endMonthOptions = monthOptions.map(m => 
-        `<option value="${m.value}" ${m.value === data.endMonth ? 'selected' : ''}>${m.label}</option>`
+    const gradeSelectOptions = gradeOptions.map(g => 
+        `<option value="${g.value}" ${g.value === data.gradeName ? 'selected' : ''}>${g.label}</option>`
     ).join('');
     
     item.innerHTML = `
         <div style="display: flex; gap: 12px; align-items: flex-start; padding: 16px; background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;">
             <div style="flex: 1;">
-                <label style="display: block; margin-bottom: 6px; font-weight: 500; color: #374151; font-size: 13px;">Tuition Fee Name</label>
-                <input type="text" class="tuition-fee-name form-input" placeholder="e.g., Main Tuition Fee, Summer Tuition" value="${data.name || ''}" style="width: 100%;">
-            </div>
-            <div style="flex: 0 0 140px;">
-                <label style="display: block; margin-bottom: 6px; font-weight: 500; color: #374151; font-size: 13px;">Start Month</label>
-                <select class="tuition-fee-start-month form-select" style="width: 100%;">
-                    ${startMonthOptions}
+                <label style="display: block; margin-bottom: 6px; font-weight: 500; color: #374151; font-size: 13px;">Grade Name</label>
+                <select class="tuition-fee-grade-name form-select" style="width: 100%;">
+                    <option value="">Select Grade</option>
+                    ${gradeSelectOptions}
                 </select>
             </div>
-            <div style="flex: 0 0 140px;">
-                <label style="display: block; margin-bottom: 6px; font-weight: 500; color: #374151; font-size: 13px;">End Month</label>
-                <select class="tuition-fee-end-month form-select" style="width: 100%;">
-                    ${endMonthOptions}
-                </select>
+            <div style="flex: 1;">
+                <label style="display: block; margin-bottom: 6px; font-weight: 500; color: #374151; font-size: 13px;">Price/Month</label>
+                <input type="number" class="tuition-fee-price form-input" placeholder="e.g., 50000" value="${data.pricePerMonth || ''}" min="0" step="0.01" style="width: 100%;">
             </div>
             <div style="flex: 0 0 auto; padding-top: 24px;">
-                <button type="button" class="wizard-btn-secondary" onclick="removeTuitionFeeTimeline(this)" style="padding: 6px 10px; font-size: 13px; background: #fee2e2; color: #dc2626; border-color: #fca5a5;">
+                <button type="button" class="wizard-btn-secondary" onclick="removeTuitionFeeGrade(this)" style="padding: 6px 10px; font-size: 13px; background: #fee2e2; color: #dc2626; border-color: #fca5a5;">
                     <i class="fas fa-trash"></i>
                 </button>
             </div>
@@ -781,13 +541,13 @@ function addTuitionFeeTimelineItem(data) {
     });
 }
 
-function removeTuitionFeeTimeline(btn) {
-    const item = btn.closest('.tuition-fee-timeline-item');
+function removeTuitionFeeGrade(btn) {
+    const item = btn.closest('.tuition-fee-grade-item');
     if (item) {
-        const container = document.getElementById('tuitionFeeTimelineList');
-        const items = container.querySelectorAll('.tuition-fee-timeline-item');
+        const container = document.getElementById('tuitionFeeGradeList');
+        const items = container.querySelectorAll('.tuition-fee-grade-item');
         if (items.length <= 1) {
-            alert('At least one tuition fee timeline is required');
+            alert('At least one grade fee is required');
             return;
         }
         item.remove();

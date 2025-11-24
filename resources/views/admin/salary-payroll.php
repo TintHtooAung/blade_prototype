@@ -22,40 +22,6 @@ ob_start();
     </div>
 </div>
 
-<!-- Quick Payroll KPIs -->
-<div class="stats-grid-secondary vertical-stats">
-    <div class="stat-card">
-        <div class="stat-icon">
-            <i class="fas fa-wallet"></i>
-        </div>
-        <div class="stat-content">
-            <h3>Total Payout</h3>
-            <div class="stat-number" id="totalPayout">$196,450</div>
-            <div class="stat-change positive" id="statMonth">All Months</div>
-        </div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-icon">
-            <i class="fas fa-users"></i>
-        </div>
-        <div class="stat-content">
-            <h3>Total Employees</h3>
-            <div class="stat-number" id="totalEmployees">156</div>
-            <div class="stat-change">111 Teachers, 45 Staff</div>
-        </div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-icon">
-            <i class="fas fa-check-circle"></i>
-        </div>
-        <div class="stat-content">
-            <h3>Withdrawn</h3>
-            <div class="stat-number" id="withdrawnCount">0 / 156</div>
-            <div class="stat-change">0% completed</div>
-        </div>
-    </div>
-</div>
-
 <!-- Payroll Management Tabs Navigation -->
 <div style="margin-top: 24px;">
     <div class="attendance-view-tabs">
@@ -69,6 +35,39 @@ ob_start();
 
     <!-- Payroll Management View -->
     <div id="payroll-payroll-view" class="attendance-view-content">
+        <!-- Quick Payroll KPIs -->
+        <div class="stats-grid-secondary vertical-stats" style="margin-bottom: 24px;">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Total Payout</h3>
+                    <div class="stat-number" id="totalPayout">$196,450</div>
+                    <div class="stat-change positive" id="statMonth">All Months</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Total Employees</h3>
+                    <div class="stat-number" id="totalEmployees">156</div>
+                    <div class="stat-change">111 Teachers, 45 Staff</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Withdrawn</h3>
+                    <div class="stat-number" id="withdrawnCount">0 / 156</div>
+                    <div class="stat-change">0% completed</div>
+                </div>
+            </div>
+        </div>
         <div class="simple-section">
     <div class="simple-header">
         <h3>Payroll Management</h3>
@@ -83,9 +82,6 @@ ob_start();
     <div class="simple-header" style="margin-top:16px; padding: 12px 20px; background: #f8f9fa; border-radius: 6px;">
         <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
             <label style="font-weight: 600; color: #666;">Filters:</label>
-            <select class="filter-select" id="monthFilter" onchange="applyFilters()">
-                <option value="all">All Months</option>
-            </select>
             <select class="filter-select" id="employeeTypeFilter" onchange="applyFilters()">
                 <option value="all">All Employees</option>
                 <option value="teacher">Teachers Only</option>
@@ -101,11 +97,6 @@ ob_start();
                 <option value="library">Library</option>
                 <option value="maintenance">Maintenance</option>
             </select>
-            <select class="filter-select" id="statusFilter" onchange="applyFilters()">
-                <option value="all">All Status</option>
-                <option value="draft">Draft</option>
-                <option value="withdrawn">Withdrawn</option>
-            </select>
             <input type="text" class="simple-search" id="searchEmployee" placeholder="Search by name or ID..." onkeyup="applyFilters()">
         </div>
     </div>
@@ -120,50 +111,69 @@ ob_start();
                     <th rowspan="2" class="col-employee">Employee</th>
                     <th rowspan="2" class="col-position">Position</th>
                     <th rowspan="2" class="col-department">Department</th>
-                    <th colspan="5" class="group-header toggleable" data-group="payments" id="group-header-payments">
-                        <div class="group-header-content" onclick="toggleColumnGroup('payments')">
-                            <i class="fas fa-chevron-down group-icon" id="icon-payments"></i>
-                            <span>Payments</span>
-                        </div>
-                    </th>
-                    <th colspan="5" class="group-header toggleable" data-group="attendance" id="group-header-attendance">
-                        <div class="group-header-content" onclick="toggleColumnGroup('attendance')">
+                    <th colspan="5" class="group-header" data-group="attendance" id="group-header-attendance">
+                        <div class="group-header-content">
                             <i class="fas fa-chevron-down group-icon" id="icon-attendance"></i>
                             <span>Attendance</span>
                         </div>
                     </th>
-                    <th colspan="3" class="group-header toggleable" data-group="additional" id="group-header-additional">
-                        <div class="group-header-content" onclick="toggleColumnGroup('additional')">
+                    <th colspan="5" class="group-header" data-group="payments" id="group-header-payments">
+                        <div class="group-header-content">
+                            <i class="fas fa-chevron-down group-icon" id="icon-payments"></i>
+                            <span>Payments</span>
+                        </div>
+                    </th>
+                    <th colspan="2" class="group-header" data-group="additional" id="group-header-additional">
+                        <div class="group-header-content">
                             <i class="fas fa-chevron-down group-icon" id="icon-additional"></i>
                             <span>Additional Info</span>
                         </div>
                     </th>
-                    <th rowspan="2" class="col-status">Status</th>
                     <th rowspan="2" class="col-actions">Actions</th>
                 </tr>
                 <!-- Column Header Row -->
                 <tr class="column-header-row">
-                    <!-- Payments Sub-columns -->
-                    <th class="col-payments expandable" data-group="payments">Basic Salary</th>
-                    <th class="col-payments expandable" data-group="payments">Attendance Allowance</th>
-                    <th class="col-payments expandable" data-group="payments">Loyalty Bonus</th>
-                    <th class="col-payments expandable" data-group="payments">Other Bonus</th>
-                    <th class="col-payments summary-col" data-group="payments">Total Salary</th>
                     <!-- Attendance Sub-columns -->
                     <th class="col-attendance expandable" data-group="attendance">Working Days</th>
                     <th class="col-attendance expandable" data-group="attendance">Days Present</th>
                     <th class="col-attendance expandable" data-group="attendance">Leave Days</th>
                     <th class="col-attendance expandable" data-group="attendance">Annual Leave</th>
-                    <th class="col-attendance summary-col" data-group="attendance">Days Absent</th>
+                    <th class="col-attendance summary-col" data-group="attendance">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <span>Days Absent</span>
+                            <button class="collapse-btn" onclick="if(event) event.stopPropagation(); toggleColumnGroup('attendance'); return false;" title="Collapse/Expand">
+                                <i class="fas fa-chevron-right collapse-icon" id="collapse-icon-attendance"></i>
+                            </button>
+                        </div>
+                    </th>
+                    <!-- Payments Sub-columns -->
+                    <th class="col-payments expandable" data-group="payments">Basic Salary</th>
+                    <th class="col-payments expandable" data-group="payments">Attendance Allowance</th>
+                    <th class="col-payments expandable" data-group="payments">Loyalty Bonus</th>
+                    <th class="col-payments expandable" data-group="payments">Other Bonus</th>
+                    <th class="col-payments summary-col" data-group="payments">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <span>Total Salary</span>
+                            <button class="collapse-btn" onclick="if(event) event.stopPropagation(); toggleColumnGroup('payments'); return false;" title="Collapse/Expand">
+                                <i class="fas fa-chevron-right collapse-icon" id="collapse-icon-payments"></i>
+                            </button>
+                        </div>
+                    </th>
                     <!-- Additional Info Sub-columns -->
                     <th class="col-additional expandable" data-group="additional">Date of Joining</th>
-                    <th class="col-additional expandable" data-group="additional">Payment Method</th>
-                    <th class="col-additional summary-col" data-group="additional">Payment Date</th>
+                    <th class="col-additional summary-col" data-group="additional">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <span>Payment Method</span>
+                            <button class="collapse-btn" onclick="event.stopPropagation(); toggleColumnGroup('additional');" title="Collapse/Expand">
+                                <i class="fas fa-chevron-right collapse-icon" id="collapse-icon-additional"></i>
+                            </button>
+                        </div>
+                    </th>
                 </tr>
             </thead>
             <tbody id="payrollTableBody">
                 <tr class="no-data-row">
-                    <td colspan="20" style="text-align:center; padding:40px; color:#999;">
+                    <td colspan="18" style="text-align:center; padding:40px; color:#999;">
                         <i class="fas fa-inbox" style="font-size:48px; margin-bottom:12px; display:block;"></i>
                         No payroll generated yet. Click "Generate Payroll" to create payroll for this month.
                     </td>
@@ -177,17 +187,66 @@ ob_start();
 
     <!-- Payroll History View -->
     <div id="payroll-history-payroll-view" class="attendance-view-content" style="display: none;">
+        <!-- Month Summary Stats -->
+        <div class="stats-grid-secondary vertical-stats" style="margin-bottom: 24px;">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Selected Month</h3>
+                    <div class="stat-number" id="historySelectedMonthDisplay">December 2024</div>
+                    <div class="stat-change">Current selection</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-file-invoice"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Total Payroll</h3>
+                    <div class="stat-number" id="historyTotalPayroll">0</div>
+                    <div class="stat-change">Generated</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Withdrawn</h3>
+                    <div class="stat-number" id="historyWithdrawnCount">0</div>
+                    <div class="stat-change">Completed</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Total Amount</h3>
+                    <div class="stat-number" id="historyTotalAmount">$0.00</div>
+                    <div class="stat-change">Withdrawn</div>
+                </div>
+            </div>
+        </div>
+        
         <!-- Payroll History Table -->
         <div class="simple-section">
             <div class="simple-header">
-                <h3><i class="fas fa-history"></i> Payroll History</h3>
-                <select class="filter-select" id="historyMonthFilter" onchange="loadPayrollHistory()" style="min-width: 180px;">
-                    <option value="2025-01">January 2025</option>
-                    <option value="2024-12" selected>December 2024</option>
-                    <option value="2024-11">November 2024</option>
-                    <option value="2024-10">October 2024</option>
-                    <option value="2024-09">September 2024</option>
-                </select>
+                <h3>Browse Payroll History</h3>
+                <div style="display: flex; gap: 12px;">
+                    <select class="filter-select" id="historyMonthFilter" onchange="loadPayrollHistory()" style="min-width: 180px;">
+                        <option value="2025-01">January 2025</option>
+                        <option value="2024-12" selected>December 2024</option>
+                        <option value="2024-11">November 2024</option>
+                        <option value="2024-10">October 2024</option>
+                        <option value="2024-09">September 2024</option>
+                        <option value="2024-08">August 2024</option>
+                        <option value="2024-07">July 2024</option>
+                        <option value="2024-06">June 2024</option>
+                    </select>
+                </div>
             </div>
             
             <!-- Filters -->
@@ -217,25 +276,80 @@ ob_start();
                 </div>
             </div>
 
-            <!-- Payroll Table -->
-            <div class="simple-table-container" style="margin-top:16px;">
-                <table class="basic-table" id="payrollHistoryTable">
+            <!-- Payroll History Table with Selectable Column Groups -->
+            <div class="simple-table-container" style="margin-top:16px; overflow-x: auto;">
+                <table class="payroll-grouped-table" id="payrollHistoryTable">
                     <thead>
-                        <tr>
-                            <th>Employee ID</th>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Department</th>
-                            <th>Net Pay</th>
-                            <th>Payment Type</th>
-                            <th>Status</th>
-                            <th>Withdrawn By</th>
-                            <th>Actions</th>
+                        <!-- Group Header Row -->
+                        <tr class="group-header-row">
+                            <th rowspan="2" class="col-no">No.</th>
+                            <th rowspan="2" class="col-employee">Employee</th>
+                            <th rowspan="2" class="col-position">Position</th>
+                            <th rowspan="2" class="col-department">Department</th>
+                            <th colspan="5" class="group-header" data-group="attendance-history" id="group-header-attendance-history">
+                                <div class="group-header-content">
+                                    <i class="fas fa-chevron-down group-icon" id="icon-attendance-history"></i>
+                                    <span>Attendance</span>
+                                </div>
+                            </th>
+                            <th colspan="5" class="group-header" data-group="payments-history" id="group-header-payments-history">
+                                <div class="group-header-content">
+                                    <i class="fas fa-chevron-down group-icon" id="icon-payments-history"></i>
+                                    <span>Payments</span>
+                                </div>
+                            </th>
+                            <th colspan="3" class="group-header" data-group="payment-info-history" id="group-header-payment-info-history">
+                                <div class="group-header-content">
+                                    <i class="fas fa-chevron-down group-icon" id="icon-payment-info-history"></i>
+                                    <span>Payment Info</span>
+                                </div>
+                            </th>
+                            <th rowspan="2" class="col-actions">Actions</th>
+                        </tr>
+                        <!-- Column Header Row -->
+                        <tr class="column-header-row">
+                            <!-- Attendance Sub-columns -->
+                            <th class="col-attendance expandable" data-group="attendance-history">Working Days</th>
+                            <th class="col-attendance expandable" data-group="attendance-history">Days Present</th>
+                            <th class="col-attendance expandable" data-group="attendance-history">Leave Days</th>
+                            <th class="col-attendance expandable" data-group="attendance-history">Annual Leave</th>
+                            <th class="col-attendance summary-col" data-group="attendance-history">
+                                <div style="display: flex; align-items: center; justify-content: space-between;">
+                                    <span>Days Absent</span>
+                                    <button class="collapse-btn" onclick="event.stopPropagation(); toggleColumnGroup('attendance-history');" title="Collapse/Expand">
+                                        <i class="fas fa-chevron-right collapse-icon" id="collapse-icon-attendance-history"></i>
+                                    </button>
+                                </div>
+                            </th>
+                            <!-- Payments Sub-columns -->
+                            <th class="col-payments expandable" data-group="payments-history">Basic Salary</th>
+                            <th class="col-payments expandable" data-group="payments-history">Attendance Allowance</th>
+                            <th class="col-payments expandable" data-group="payments-history">Loyalty Bonus</th>
+                            <th class="col-payments expandable" data-group="payments-history">Other Bonus</th>
+                            <th class="col-payments summary-col" data-group="payments-history">
+                                <div style="display: flex; align-items: center; justify-content: space-between;">
+                                    <span>Total Salary</span>
+                                    <button class="collapse-btn" onclick="event.stopPropagation(); toggleColumnGroup('payments-history');" title="Collapse/Expand">
+                                        <i class="fas fa-chevron-right collapse-icon" id="collapse-icon-payments-history"></i>
+                                    </button>
+                                </div>
+                            </th>
+                            <!-- Payment Info Sub-columns -->
+                            <th class="col-payment-info expandable" data-group="payment-info-history">Payment Type</th>
+                            <th class="col-payment-info expandable" data-group="payment-info-history">Withdrawal Date</th>
+                            <th class="col-payment-info summary-col" data-group="payment-info-history">
+                                <div style="display: flex; align-items: center; justify-content: space-between;">
+                                    <span>Status</span>
+                                    <button class="collapse-btn" onclick="event.stopPropagation(); toggleColumnGroup('payment-info-history');" title="Collapse/Expand">
+                                        <i class="fas fa-chevron-right collapse-icon" id="collapse-icon-payment-info-history"></i>
+                                    </button>
+                                </div>
+                            </th>
                         </tr>
                     </thead>
                     <tbody id="historyTableBody">
                         <tr>
-                            <td colspan="9" style="text-align: center; color: #999; padding: 40px;">Loading payroll history...</td>
+                            <td colspan="19" style="text-align: center; color: #999; padding: 40px;">Loading payroll history...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -342,56 +456,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Populate month filter dropdown
-    populateMonthFilter();
 });
-
-function populateMonthFilter() {
-    const monthFilter = document.getElementById('monthFilter');
-    if (!monthFilter) return;
-    
-    // Get unique months from payroll data
-    const monthSet = new Set();
-    payrollData.forEach(entry => {
-        if (entry.month) {
-            monthSet.add(entry.month);
-        }
-    });
-    
-    // Sort months (newest first)
-    const sortedMonths = Array.from(monthSet).sort((a, b) => b.localeCompare(a));
-    
-    // Month names for display
-    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
-                       'July', 'August', 'September', 'October', 'November', 'December'];
-    
-    // Clear existing options except "All Months"
-    monthFilter.innerHTML = '<option value="all">All Months</option>';
-    
-    // Add month options
-    sortedMonths.forEach(monthKey => {
-        const [year, month] = monthKey.split('-');
-        const monthIndex = parseInt(month) - 1;
-        const monthName = monthNames[monthIndex];
-        const option = document.createElement('option');
-        option.value = monthKey;
-        option.textContent = `${monthName} ${year}`;
-        monthFilter.appendChild(option);
-    });
-    
-    // If no months in data, add current month and past 6 months as defaults
-    if (sortedMonths.length === 0) {
-        const currentDate = new Date();
-        for (let i = 0; i < 7; i++) {
-            const date = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1);
-            const monthValue = date.toISOString().substring(0, 7); // YYYY-MM format
-            const monthName = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
-            const option = document.createElement('option');
-            option.value = monthValue;
-            option.textContent = monthName;
-            monthFilter.appendChild(option);
-        }
-    }
-}
 
 // Sample employees database
 const employeesDatabase = {
@@ -513,9 +578,6 @@ function generatePayroll() {
             // Save to localStorage
             localStorage.setItem('payrollData', JSON.stringify(payrollData));
             
-            // Update month filter with new month
-            populateMonthFilter();
-            
             renderPayrollTable();
             updateStats();
             showToast(`${payrollData.length} payroll entries generated successfully for ${monthName} ${currentYear}`, 'success');
@@ -525,7 +587,10 @@ function generatePayroll() {
 const columnGroups = {
     payments: true,    // true = expanded, false = collapsed
     attendance: true,
-    additional: true
+    additional: true,
+    'attendance-history': true,
+    'payments-history': true,
+    'payment-info-history': true
 };
 
 function renderPayrollTable() {
@@ -536,7 +601,7 @@ function renderPayrollTable() {
         colspan += columnGroups.payments ? 5 : 1;
         colspan += columnGroups.attendance ? 5 : 1;
         colspan += columnGroups.additional ? 3 : 1;
-        colspan += 2; // Status, Actions
+        colspan += 1; // Actions
         
         tbody.innerHTML = `<tr class="no-data-row">
             <td colspan="${colspan}" style="text-align:center; padding:40px; color:#999;">
@@ -550,9 +615,6 @@ function renderPayrollTable() {
     let filteredData = applyDataFilters();
     
     tbody.innerHTML = filteredData.map((entry, index) => {
-        const statusText = entry.status === 'draft' ? 'Draft' : entry.status === 'withdrawn' ? 'Paid' : entry.status;
-        const statusClass = entry.status === 'draft' ? 'warning' : entry.status === 'withdrawn' ? 'active' : '';
-        
         // Calculate totals
         const basicSalary = entry.basicSalary || 0;
         const attendanceAllowance = entry.attendanceAllowance || 0;
@@ -573,23 +635,11 @@ function renderPayrollTable() {
         const remark = entry.remark || '-';
         const dateOfJoining = entry.dateOfJoining ? new Date(entry.dateOfJoining).toLocaleDateString('en-GB') : '-';
         
-        // Actions
-        const actions = entry.status === 'draft' ? `
-            <div style="display: flex; gap: 6px; justify-content: center;">
-                <button class="payroll-action-btn view-btn" onclick="viewPayrollDetails('${entry.id}')" title="View Details">
-                    <i class="fas fa-eye"></i> View
-                </button>
-                <button class="payroll-action-btn process-btn" onclick="processWithdrawal('${entry.id}')" title="Process Payment">
+        // Actions - Always show Pay button
+        const actions = `
+            <div style="display: flex; gap: 6px; justify-content: center; flex-direction: column; align-items: center;">
+                <button class="payroll-action-btn process-btn" onclick="confirmPayrollPayment('${entry.id}')" title="Process Payment">
                     <i class="fas fa-check-circle"></i> Pay
-                </button>
-            </div>
-        ` : `
-            <div style="display: flex; gap: 6px; justify-content: center;">
-                <button class="payroll-action-btn view-btn" onclick="viewPayrollDetails('${entry.id}')" title="View Payroll">
-                    <i class="fas fa-file-invoice-dollar"></i> View
-                </button>
-                <button class="payroll-action-btn receipt-btn" onclick="viewWithdrawalReceipt('${entry.id}')" title="View Receipt">
-                    <i class="fas fa-receipt"></i> Receipt
                 </button>
             </div>
         `;
@@ -610,15 +660,6 @@ function renderPayrollTable() {
                 </td>
                 <td>${entry.position || entry.type || '-'}</td>
                 <td>${entry.dept}</td>
-                <!-- Payments Group Columns -->
-                <td class="col-payments expandable" data-group="payments" style="display: ${paymentsExpanded ? '' : 'none'};">${formatCurrency(basicSalary)}</td>
-                <td class="col-payments expandable" data-group="payments" style="display: ${paymentsExpanded ? '' : 'none'};">${formatCurrency(attendanceAllowance)}</td>
-                <td class="col-payments expandable" data-group="payments" style="display: ${paymentsExpanded ? '' : 'none'};">${formatCurrency(loyaltyBonus)}</td>
-                <td class="col-payments expandable" data-group="payments" style="display: ${paymentsExpanded ? '' : 'none'};">${formatCurrency(otherBonus)}</td>
-                <td class="col-payments summary-col" data-group="payments">
-                    <strong style="color: #10b981;">${formatCurrency(totalSalary)}</strong>
-                    ${!paymentsExpanded ? `<small style="display: block; color: #6b7280; font-size: 11px; margin-top: 2px; font-weight: normal;">Total</small>` : ''}
-                </td>
                 <!-- Attendance Group Columns -->
                 <td class="col-attendance expandable" data-group="attendance" style="display: ${attendanceExpanded ? '' : 'none'};">${workingDays}</td>
                 <td class="col-attendance expandable" data-group="attendance" style="display: ${attendanceExpanded ? '' : 'none'};">
@@ -632,72 +673,217 @@ function renderPayrollTable() {
                     <span style="color: #ef4444;">${daysAbsent}</span>
                     ${!attendanceExpanded ? `<small style="display: block; color: #6b7280; font-size: 11px; margin-top: 2px;">${daysPresent}/${workingDays} present</small>` : ''}
                 </td>
+                <!-- Payments Group Columns -->
+                <td class="col-payments expandable" data-group="payments" style="display: ${paymentsExpanded ? '' : 'none'};">${formatCurrency(basicSalary)}</td>
+                <td class="col-payments expandable" data-group="payments" style="display: ${paymentsExpanded ? '' : 'none'};" onclick="event.stopPropagation();">
+                    <input type="number" 
+                           style="width: 100%; border: none; background: transparent; padding: 0; font-size: inherit; color: inherit; text-align: right; outline: none; ${entry.status === 'draft' ? 'cursor: text;' : 'cursor: default;'}" 
+                           value="${attendanceAllowance}" 
+                           data-entry-id="${entry.id}"
+                           data-field="attendanceAllowance"
+                           data-display-value="${formatCurrency(attendanceAllowance)}"
+                           onkeydown="if(event.key === 'Enter') { updatePayrollTotal('${entry.id}'); this.blur(); }"
+                           onblur="updatePayrollTotal('${entry.id}'); this.style.background='transparent'; this.style.border='none'; this.style.padding='0'; this.style.width='100%'; this.style.minWidth='auto';"
+                           onfocus="this.style.background='#f9fafb'; this.style.border='1px solid #e5e7eb'; this.style.borderRadius='4px'; this.style.padding='4px 8px'; this.style.width='auto'; this.style.minWidth='100px';"
+                           ${entry.status === 'draft' ? '' : 'readonly'}
+                           step="0.01" 
+                           min="0">
+                </td>
+                <td class="col-payments expandable" data-group="payments" style="display: ${paymentsExpanded ? '' : 'none'};" onclick="event.stopPropagation();">
+                    <input type="number" 
+                           style="width: 100%; border: none; background: transparent; padding: 0; font-size: inherit; color: inherit; text-align: right; outline: none; ${entry.status === 'draft' ? 'cursor: text;' : 'cursor: default;'}" 
+                           value="${loyaltyBonus}" 
+                           data-entry-id="${entry.id}"
+                           data-field="loyaltyBonus"
+                           data-display-value="${formatCurrency(loyaltyBonus)}"
+                           onkeydown="if(event.key === 'Enter') { updatePayrollTotal('${entry.id}'); this.blur(); }"
+                           onblur="updatePayrollTotal('${entry.id}'); this.style.background='transparent'; this.style.border='none'; this.style.padding='0'; this.style.width='100%'; this.style.minWidth='auto';"
+                           onfocus="this.style.background='#f9fafb'; this.style.border='1px solid #e5e7eb'; this.style.borderRadius='4px'; this.style.padding='4px 8px'; this.style.width='auto'; this.style.minWidth='100px';"
+                           ${entry.status === 'draft' ? '' : 'readonly'}
+                           step="0.01" 
+                           min="0">
+                </td>
+                <td class="col-payments expandable" data-group="payments" style="display: ${paymentsExpanded ? '' : 'none'};" onclick="event.stopPropagation();">
+                    <input type="number" 
+                           style="width: 100%; border: none; background: transparent; padding: 0; font-size: inherit; color: inherit; text-align: right; outline: none; ${entry.status === 'draft' ? 'cursor: text;' : 'cursor: default;'}" 
+                           value="${otherBonus}" 
+                           data-entry-id="${entry.id}"
+                           data-field="otherBonus"
+                           data-display-value="${formatCurrency(otherBonus)}"
+                           onkeydown="if(event.key === 'Enter') { updatePayrollTotal('${entry.id}'); this.blur(); }"
+                           onblur="updatePayrollTotal('${entry.id}'); this.style.background='transparent'; this.style.border='none'; this.style.padding='0'; this.style.width='100%'; this.style.minWidth='auto';"
+                           onfocus="this.style.background='#f9fafb'; this.style.border='1px solid #e5e7eb'; this.style.borderRadius='4px'; this.style.padding='4px 8px'; this.style.width='auto'; this.style.minWidth='100px';"
+                           ${entry.status === 'draft' ? '' : 'readonly'}
+                           step="0.01" 
+                           min="0">
+                </td>
+                <td class="col-payments summary-col" data-group="payments">
+                    <strong style="color: #10b981;" id="total-salary-${entry.id}">${formatCurrency(totalSalary)}</strong>
+                    ${!paymentsExpanded ? `<small style="display: block; color: #6b7280; font-size: 11px; margin-top: 2px; font-weight: normal;">Total</small>` : ''}
+                </td>
                 <!-- Additional Info Group Columns -->
                 <td class="col-additional expandable" data-group="additional" style="display: ${additionalExpanded ? '' : 'none'};">${dateOfJoining}</td>
-                <td class="col-additional expandable" data-group="additional" style="display: ${additionalExpanded ? '' : 'none'};">${paymentType}</td>
-                <td class="col-additional summary-col" data-group="additional">${paymentDate}</td>
-                <td>
-                    <span class="status-badge ${statusClass}">${statusText}</span>
+                <td class="col-additional summary-col" data-group="additional" onclick="event.stopPropagation();">
+                    <select class="form-select" 
+                            style="width: 100%; padding: 4px 8px; font-size: 12px; border: 1px solid #e5e7eb; border-radius: 4px; background: #fff;"
+                            data-entry-id="${entry.id}"
+                            data-field="paymentType"
+                            onchange="updatePayrollPaymentMethod('${entry.id}', this.value)"
+                            ${entry.status === 'withdrawn' ? 'disabled' : ''}>
+                        <option value="Cash" ${paymentType === 'Cash' ? 'selected' : ''}>Cash</option>
+                        <option value="Bank Transfer" ${paymentType === 'Bank Transfer' ? 'selected' : ''}>Bank Transfer</option>
+                        <option value="KBZ Pay" ${paymentType === 'KBZ Pay' ? 'selected' : ''}>KBZ Pay</option>
+                        <option value="Wave Pay" ${paymentType === 'Wave Pay' ? 'selected' : ''}>Wave Pay</option>
+                        <option value="Check" ${paymentType === 'Check' ? 'selected' : ''}>Check</option>
+                        <option value="Card Payment" ${paymentType === 'Card Payment' ? 'selected' : ''}>Card Payment</option>
+                        <option value="Mobile Payment" ${paymentType === 'Mobile Payment' ? 'selected' : ''}>Mobile Payment</option>
+                        <option value="Online Payment" ${paymentType === 'Online Payment' ? 'selected' : ''}>Online Payment</option>
+                    </select>
                 </td>
-                <td onclick="event.stopPropagation();">${actions}</td>
+                <td onclick="event.stopPropagation();" style="cursor: default;">${actions}</td>
             </tr>
         `;
     }).join('');
     
-    // Apply current collapse state after rendering
+    // Apply current collapse state after rendering and update collapse button icons
     Object.keys(columnGroups).forEach(groupName => {
+        const collapseIcon = document.getElementById(`collapse-icon-${groupName}`);
+        if (collapseIcon) {
+            collapseIcon.style.transition = 'transform 0.3s ease';
+            if (columnGroups[groupName]) {
+                collapseIcon.style.transform = 'rotate(0deg)';
+            } else {
+                collapseIcon.style.transform = 'rotate(-90deg)';
+            }
+        }
         if (!columnGroups[groupName]) {
             toggleColumnGroup(groupName);
         }
     });
 }
 
-function toggleColumnGroup(groupName) {
-    // Toggle state
-    columnGroups[groupName] = !columnGroups[groupName];
+// Toggle all column groups when clicking on a row
+function toggleAllColumnGroups() {
+    // Determine if we should expand or collapse based on current state
+    const allExpanded = columnGroups.payments && columnGroups.attendance && columnGroups.additional;
+    
+    // Toggle all groups to the opposite state
+    const newState = !allExpanded;
+    
+    // Toggle each group
+    toggleColumnGroup('payments', newState);
+    toggleColumnGroup('attendance', newState);
+    toggleColumnGroup('additional', newState);
+}
+
+// Toggle all column groups for history table when clicking on a row
+function toggleAllColumnGroupsHistory() {
+    // Determine if we should expand or collapse based on current state
+    const allExpanded = columnGroups['payments-history'] && columnGroups['attendance-history'] && columnGroups['payment-info-history'];
+    
+    // Toggle all groups to the opposite state
+    const newState = !allExpanded;
+    
+    // Toggle each group
+    toggleColumnGroup('payments-history', newState);
+    toggleColumnGroup('attendance-history', newState);
+    toggleColumnGroup('payment-info-history', newState);
+}
+
+function toggleColumnGroup(groupName, forceState = null) {
+    // Toggle state or set to forced state
+    if (forceState !== null) {
+        columnGroups[groupName] = forceState;
+    } else {
+        columnGroups[groupName] = !columnGroups[groupName];
+    }
     
     const isExpanded = columnGroups[groupName];
     const icon = document.getElementById(`icon-${groupName}`);
+    const collapseIcon = document.getElementById(`collapse-icon-${groupName}`);
     
-    // Update icon
+    // Update group header icon with animation
     if (icon) {
         if (isExpanded) {
             icon.classList.remove('fa-chevron-right');
             icon.classList.add('fa-chevron-down');
+            icon.style.transform = 'rotate(0deg)';
         } else {
             icon.classList.remove('fa-chevron-down');
             icon.classList.add('fa-chevron-right');
+            icon.style.transform = 'rotate(-90deg)';
         }
     }
     
-    // Show/hide expandable columns
-    const expandableCols = document.querySelectorAll(`.expandable[data-group="${groupName}"]`);
-    expandableCols.forEach(col => {
+    // Update collapse button icon with animation
+    if (collapseIcon) {
+        collapseIcon.style.transition = 'transform 0.3s ease';
+        if (isExpanded) {
+            collapseIcon.style.transform = 'rotate(0deg)';
+        } else {
+            collapseIcon.style.transform = 'rotate(-90deg)';
+        }
+    }
+    
+    // Animate expandable columns in thead
+    const expandableCols = document.querySelectorAll(`thead .expandable[data-group="${groupName}"]`);
+    expandableCols.forEach((col, index) => {
         if (isExpanded) {
             col.style.display = '';
+            col.style.opacity = '0';
+            col.style.transform = 'scaleX(0)';
+            col.style.transformOrigin = 'left';
+            setTimeout(() => {
+                col.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                col.style.opacity = '1';
+                col.style.transform = 'scaleX(1)';
+            }, index * 30);
         } else {
-            col.style.display = 'none';
+            col.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            col.style.opacity = '0';
+            col.style.transform = 'scaleX(0)';
+            setTimeout(() => {
+                col.style.display = 'none';
+                col.style.transform = '';
+            }, 300);
         }
     });
     
-    // Show/hide expandable cells in tbody
-    const expandableCells = document.querySelectorAll(`td.expandable[data-group="${groupName}"]`);
-    expandableCells.forEach(cell => {
+    // Animate expandable cells in tbody
+    const expandableCells = document.querySelectorAll(`tbody td.expandable[data-group="${groupName}"]`);
+    expandableCells.forEach((cell, index) => {
         if (isExpanded) {
             cell.style.display = '';
+            cell.style.opacity = '0';
+            cell.style.transform = 'scaleX(0)';
+            cell.style.transformOrigin = 'left';
+            setTimeout(() => {
+                cell.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                cell.style.opacity = '1';
+                cell.style.transform = 'scaleX(1)';
+            }, index * 20);
         } else {
-            cell.style.display = 'none';
+            cell.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            cell.style.opacity = '0';
+            cell.style.transform = 'scaleX(0)';
+            setTimeout(() => {
+                cell.style.display = 'none';
+                cell.style.transform = '';
+            }, 300);
         }
     });
     
-    // Update group header colspan
+    // Update group header colspan with animation
     const groupHeader = document.getElementById(`group-header-${groupName}`);
     if (groupHeader) {
-        if (groupName === 'payments') {
+        groupHeader.style.transition = 'all 0.3s ease';
+        if (groupName === 'payments' || groupName === 'payments-history') {
             groupHeader.colSpan = isExpanded ? 5 : 1;
-        } else if (groupName === 'attendance') {
+        } else if (groupName === 'attendance' || groupName === 'attendance-history') {
             groupHeader.colSpan = isExpanded ? 5 : 1;
         } else if (groupName === 'additional') {
+            groupHeader.colSpan = isExpanded ? 2 : 1;
+        } else if (groupName === 'payment-info-history') {
             groupHeader.colSpan = isExpanded ? 3 : 1;
         }
     }
@@ -708,26 +894,160 @@ function formatCurrency(amount) {
     return amount.toLocaleString('en-US') + ' MMK';
 }
 
+function confirmPayrollPayment(entryId) {
+    const entry = payrollData.find(e => e.id === entryId);
+    if (!entry) return;
+    
+    // Create custom dialog with remark input
+    const dialog = document.createElement('div');
+    dialog.className = 'confirm-dialog-overlay';
+    dialog.style.display = 'flex';
+    dialog.id = 'payrollConfirmDialog';
+    
+    dialog.innerHTML = `
+        <div class="confirm-dialog-content" style="max-width: 500px;">
+            <div class="confirm-dialog-header">
+                <h4><i class="fas fa-check-circle"></i> Confirm Payroll Payment</h4>
+                <button class="icon-btn" onclick="closePayrollConfirmDialog()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="confirm-dialog-body" style="padding: 20px;">
+                <div style="margin-bottom: 16px;">
+                    <p style="margin: 0 0 12px 0; color: #374151;">
+                        Are you sure you want to process payment for <strong>${entry.name}</strong>?
+                    </p>
+                    <div style="background: #f9fafb; padding: 12px; border-radius: 6px; margin-bottom: 16px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="color: #6b7280; font-size: 13px;">Total Amount:</span>
+                            <span style="font-weight: 600; color: #111827; font-size: 16px;">${formatCurrency(entry.totalSalary || entry.netPay || 0)}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label style="display: block; margin-bottom: 6px; font-weight: 500; color: #374151; font-size: 13px;">Remark (Optional)</label>
+                    <textarea id="payrollRemarkInput" class="form-input" rows="3" placeholder="Add any remarks or notes..." style="width: 100%; resize: vertical;"></textarea>
+                </div>
+            </div>
+            <div class="confirm-dialog-actions">
+                <button class="simple-btn secondary" onclick="closePayrollConfirmDialog()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button class="simple-btn primary" onclick="processPayrollPaymentFromDialog('${entryId}')" style="background: #2563eb; border-color: #2563eb;">
+                    <i class="fas fa-check-circle"></i> Confirm Payment
+                </button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(dialog);
+}
+
+function closePayrollConfirmDialog() {
+    const dialog = document.getElementById('payrollConfirmDialog');
+    if (dialog) {
+        dialog.remove();
+    }
+}
+
+function processPayrollPaymentFromDialog(entryId) {
+    const remarkInput = document.getElementById('payrollRemarkInput');
+    const remark = remarkInput ? remarkInput.value.trim() : '';
+    
+    processPayrollPayment(entryId, remark);
+    closePayrollConfirmDialog();
+}
+
+function processPayrollPayment(entryId, remark) {
+    const allPayrollData = JSON.parse(localStorage.getItem('payrollData') || '[]');
+    const entryIndex = allPayrollData.findIndex(e => e.id === entryId);
+    
+    if (entryIndex > -1) {
+        allPayrollData[entryIndex].status = 'withdrawn';
+        allPayrollData[entryIndex].remark = remark;
+        allPayrollData[entryIndex].withdrawnTime = new Date().toLocaleString('en-GB');
+        localStorage.setItem('payrollData', JSON.stringify(allPayrollData));
+        
+        // Reload data and re-render
+        loadPayrollData();
+        renderPayrollTable();
+        updateStats();
+        
+        if (typeof showToast === 'function') {
+            showToast('Payroll payment processed successfully!', 'success');
+        } else {
+            alert('Payroll payment processed successfully!');
+        }
+    }
+}
+
+function updatePayrollTotal(entryId) {
+    // Get all input values for this row
+    const row = document.querySelector(`tr[data-entry-id="${entryId}"]`);
+    if (!row) return;
+    
+    // Get basic salary from stored data
+    const allPayrollData = JSON.parse(localStorage.getItem('payrollData') || '[]');
+    const entry = allPayrollData.find(e => e.id === entryId);
+    if (!entry) return;
+    
+    const basicSalary = parseFloat(entry.basicSalary || 0) || 0;
+    
+    // Get input values
+    const attendanceAllowanceInput = row.querySelector('input[data-field="attendanceAllowance"]');
+    const loyaltyBonusInput = row.querySelector('input[data-field="loyaltyBonus"]');
+    const otherBonusInput = row.querySelector('input[data-field="otherBonus"]');
+    
+    const attendanceAllowance = parseFloat(attendanceAllowanceInput?.value || 0) || 0;
+    const loyaltyBonus = parseFloat(loyaltyBonusInput?.value || 0) || 0;
+    const otherBonus = parseFloat(otherBonusInput?.value || 0) || 0;
+    
+    // Calculate total
+    const totalSalary = basicSalary + attendanceAllowance + loyaltyBonus + otherBonus;
+    
+    // Update total display
+    const totalElement = document.getElementById(`total-salary-${entryId}`);
+    if (totalElement) {
+        totalElement.textContent = formatCurrency(totalSalary);
+    }
+    
+    // Update the entry data in memory
+    const entryIndex = allPayrollData.findIndex(e => e.id === entryId);
+    if (entryIndex > -1) {
+        allPayrollData[entryIndex].attendanceAllowance = attendanceAllowance;
+        allPayrollData[entryIndex].loyaltyBonus = loyaltyBonus;
+        allPayrollData[entryIndex].otherBonus = otherBonus;
+        allPayrollData[entryIndex].totalSalary = totalSalary;
+        localStorage.setItem('payrollData', JSON.stringify(allPayrollData));
+    }
+}
+
+function updatePayrollPaymentMethod(entryId, paymentMethod) {
+    const allPayrollData = JSON.parse(localStorage.getItem('payrollData') || '[]');
+    const entryIndex = allPayrollData.findIndex(e => e.id === entryId);
+    
+    if (entryIndex > -1) {
+        allPayrollData[entryIndex].paymentType = paymentMethod;
+        localStorage.setItem('payrollData', JSON.stringify(allPayrollData));
+        
+        // Update the entry in payrollData array
+        const entry = payrollData.find(e => e.id === entryId);
+        if (entry) {
+            entry.paymentType = paymentMethod;
+        }
+    }
+}
+
 function applyDataFilters() {
-    const monthFilter = document.getElementById('monthFilter').value;
     const typeFilter = document.getElementById('employeeTypeFilter').value;
     const deptFilter = document.getElementById('departmentFilter').value;
-    const statusFilter = document.getElementById('statusFilter').value;
     const searchTerm = document.getElementById('searchEmployee').value.toLowerCase();
     
     return payrollData.filter(entry => {
-        if (monthFilter !== 'all') {
-            // Extract month from entry
-            const entryMonth = entry.month || extractMonthFromPayrollId(entry.id);
-            if (entryMonth !== monthFilter) return false;
-        }
         if (typeFilter !== 'all') {
             const entryType = (entry.position || entry.type || '').toLowerCase();
             if (typeFilter === 'teacher' && !entryType.includes('teacher')) return false;
             if (typeFilter === 'staff' && entryType.includes('teacher')) return false;
         }
         if (deptFilter !== 'all' && entry.dept.toLowerCase() !== deptFilter.toLowerCase()) return false;
-        if (statusFilter !== 'all' && entry.status !== statusFilter) return false;
         if (searchTerm && !entry.name.toLowerCase().includes(searchTerm) && !entry.employeeId.toLowerCase().includes(searchTerm)) return false;
         return true;
     });
@@ -750,7 +1070,11 @@ function applyFilters() {
 let currentPayrollDetailsId = null;
 
 function viewPayrollDetails(payrollId) {
-    const entry = payrollData.find(e => e.id === payrollId);
+    // Try to find in current payroll data first, then in history
+    let entry = payrollData.find(e => e.id === payrollId);
+    if (!entry) {
+        entry = allPayrollHistory.find(e => e.id === payrollId);
+    }
     if (!entry) return;
     
     currentPayrollDetailsId = payrollId;
@@ -1188,19 +1512,16 @@ function confirmWithdrawal() {
 }
 
 function updateStats() {
-    const monthFilter = document.getElementById('monthFilter').value;
-    
-    // Filter data by selected month
-    let filteredData = payrollData;
-    if (monthFilter !== 'all') {
-        filteredData = payrollData.filter(entry => entry.month === monthFilter);
-    }
+    // Apply filters
+    const filteredData = applyDataFilters();
     
     const total = filteredData.reduce((sum, entry) => sum + (entry.totalSalary || entry.netPay || 0), 0);
     const withdrawn = filteredData.filter(e => e.status === 'withdrawn').length;
+    const pending = filteredData.filter(e => e.status === 'draft').length;
     const teachers = filteredData.filter(e => (e.position || e.type || '').toLowerCase().includes('teacher')).length;
     const staff = filteredData.filter(e => !(e.position || e.type || '').toLowerCase().includes('teacher')).length;
     
+    // Update top stats cards
     document.getElementById('totalPayout').textContent = formatCurrency(total);
     document.getElementById('totalEmployees').textContent = filteredData.length;
     document.getElementById('withdrawnCount').textContent = `${withdrawn} / ${filteredData.length}`;
@@ -1211,15 +1532,7 @@ function updateStats() {
     // Update stat month display
     const statMonth = document.getElementById('statMonth');
     if (statMonth) {
-        if (monthFilter === 'all') {
-            statMonth.textContent = 'All Months';
-        } else {
-            const [year, month] = monthFilter.split('-');
-            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
-                               'July', 'August', 'September', 'October', 'November', 'December'];
-            const monthName = monthNames[parseInt(month) - 1];
-            statMonth.textContent = `${monthName} ${year}`;
-        }
+        statMonth.textContent = 'All Months';
     }
 }
 
@@ -1274,22 +1587,44 @@ function initializeDemoPayrollHistory() {
     const months = [
         { key: '2024-12', name: 'December 2024' },
         { key: '2024-11', name: 'November 2024' },
-        { key: '2024-10', name: 'October 2024' }
+        { key: '2024-10', name: 'October 2024' },
+        { key: '2024-09', name: 'September 2024' },
+        { key: '2024-08', name: 'August 2024' },
+        { key: '2024-07', name: 'July 2024' },
+        { key: '2024-06', name: 'June 2024' }
     ];
     
     const employees = [
-        { name: 'Emma Wilson', type: 'Teacher', dept: 'Mathematics', employeeId: 'T001', netPay: 2500 },
-        { name: 'James Anderson', type: 'Teacher', dept: 'Science', employeeId: 'T002', netPay: 2600 },
-        { name: 'Sophia Davis', type: 'Teacher', dept: 'English', employeeId: 'T003', netPay: 2550 },
-        { name: 'Ava Martinez', type: 'Staff', dept: 'Reception', employeeId: 'E001', netPay: 1800 },
-        { name: 'Ethan Garcia', type: 'Staff', dept: 'IT', employeeId: 'E002', netPay: 2200 }
+        { name: 'Emma Wilson', type: 'Teacher', position: 'Teacher', dept: 'Mathematics', employeeId: 'T001', basicSalary: 350000 },
+        { name: 'James Anderson', type: 'Teacher', position: 'Teacher', dept: 'Science', employeeId: 'T002', basicSalary: 350000 },
+        { name: 'Sophia Davis', type: 'Teacher', position: 'Teacher', dept: 'English', employeeId: 'T003', basicSalary: 350000 },
+        { name: 'Ava Martinez', type: 'Staff', position: 'Administrator', dept: 'Reception', employeeId: 'E001', basicSalary: 250000 },
+        { name: 'Ethan Garcia', type: 'Staff', position: 'IT Support', dept: 'IT', employeeId: 'E002', basicSalary: 280000 }
     ];
     
     let payrollCounter = 1;
     months.forEach(month => {
         employees.forEach((employee, idx) => {
             const isWithdrawn = Math.random() > 0.1; // 90% withdrawal rate
-            const paymentType = isWithdrawn ? ['Bank Transfer', 'Cash', 'K-Pay'][Math.floor(Math.random() * 3)] : 'Bank Transfer';
+            const paymentType = isWithdrawn ? ['Bank Transfer', 'Cash', 'KBZ Pay'][Math.floor(Math.random() * 3)] : 'Bank Transfer';
+            
+            // Generate attendance data
+            const workingDays = 21;
+            const leaveDays = Math.floor(Math.random() * 3);
+            const annualLeave = 0;
+            const daysAbsent = Math.floor(Math.random() * 2);
+            const daysPresent = workingDays - leaveDays - daysAbsent;
+            
+            // Generate payment data
+            const basicSalary = employee.basicSalary || 300000;
+            const attendanceAllowance = daysPresent >= 20 ? (employee.type === 'Teacher' ? 30000 : 20000) : 0;
+            const loyaltyBonus = 0;
+            const otherBonus = 0;
+            const totalSalary = basicSalary + attendanceAllowance + loyaltyBonus + otherBonus;
+            
+            const paymentDate = isWithdrawn ? `${month.key}-${String(20 + idx).padStart(2, '0')}` : null;
+            const withdrawnTime = isWithdrawn ? `${month.key}-${String(20 + idx).padStart(2, '0')} 14:${String(idx * 10).padStart(2, '0')}:00` : '';
+            
             const entry = {
                 id: `PAY-${month.key}-${String(payrollCounter).padStart(3, '0')}`,
                 month: month.key,
@@ -1297,12 +1632,24 @@ function initializeDemoPayrollHistory() {
                 employeeId: employee.employeeId,
                 name: employee.name,
                 type: employee.type,
+                position: employee.position,
                 dept: employee.dept,
-                netPay: employee.netPay,
+                workingDays: workingDays,
+                daysPresent: daysPresent,
+                leaveDays: leaveDays,
+                annualLeave: annualLeave,
+                daysAbsent: daysAbsent,
+                basicSalary: basicSalary,
+                attendanceAllowance: attendanceAllowance,
+                loyaltyBonus: loyaltyBonus,
+                otherBonus: otherBonus,
+                totalSalary: totalSalary,
+                netPay: totalSalary,
                 status: isWithdrawn ? 'withdrawn' : 'draft',
                 paymentType: paymentType,
+                paymentDate: paymentDate,
                 withdrawnBy: isWithdrawn ? 'Reception Staff' : '',
-                withdrawnTime: isWithdrawn ? `${month.key}-${String(20 + idx).padStart(2, '0')} 14:${String(idx * 10).padStart(2, '0')}:00` : ''
+                withdrawnTime: withdrawnTime
             };
             demoHistory.push(entry);
             payrollCounter++;
@@ -1320,11 +1667,34 @@ function loadPayrollHistory() {
     const selectedMonth = monthFilter.value;
     const monthName = monthFilter.options[monthFilter.selectedIndex].text;
     
+    // Update month display
+    const historySelectedMonthDisplay = document.getElementById('historySelectedMonthDisplay');
+    if (historySelectedMonthDisplay) {
+        historySelectedMonthDisplay.textContent = monthName;
+    }
+    
     // Filter by month
     filteredHistory = allPayrollHistory.filter(entry => entry.month === selectedMonth);
     
+    // Update stats
+    updateHistoryMonthStats();
+    
     // Apply other filters and render
     applyPayrollHistoryFilters();
+}
+
+function updateHistoryMonthStats() {
+    const totalPayroll = filteredHistory.length;
+    const withdrawnEntries = filteredHistory.filter(entry => entry.status === 'withdrawn');
+    const totalAmount = withdrawnEntries.reduce((sum, entry) => sum + (entry.totalSalary || entry.netPay || 0), 0);
+    
+    const historyTotalPayroll = document.getElementById('historyTotalPayroll');
+    const historyWithdrawnCount = document.getElementById('historyWithdrawnCount');
+    const historyTotalAmount = document.getElementById('historyTotalAmount');
+    
+    if (historyTotalPayroll) historyTotalPayroll.textContent = totalPayroll;
+    if (historyWithdrawnCount) historyWithdrawnCount.textContent = `${withdrawnEntries.length} / ${totalPayroll}`;
+    if (historyTotalAmount) historyTotalAmount.textContent = formatCurrency(totalAmount);
 }
 
 function applyPayrollHistoryFilters() {
@@ -1369,47 +1739,126 @@ function renderPayrollHistoryTable(data) {
     const tbody = document.getElementById('historyTableBody');
     if (!tbody) return;
     
+    // Calculate colspan based on collapsed state
+    let colspan = 4; // No, Employee, Position, Department
+    colspan += columnGroups['attendance-history'] ? 5 : 1;
+    colspan += columnGroups['payments-history'] ? 5 : 1;
+    colspan += columnGroups['payment-info-history'] ? 3 : 1;
+    colspan += 1; // Actions
+    
     if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #999; padding: 40px;"><i class="fas fa-inbox" style="font-size:48px; margin-bottom:12px; display:block;"></i>No payroll history found for selected filters</td></tr>';
+        tbody.innerHTML = `<tr><td colspan="${colspan}" style="text-align: center; color: #999; padding: 40px;"><i class="fas fa-inbox" style="font-size:48px; margin-bottom:12px; display:block;"></i>No payroll history found for selected filters</td></tr>`;
         return;
     }
     
-    tbody.innerHTML = data.map(entry => {
-        const statusBadge = entry.status === 'withdrawn' 
-            ? '<span class="badge badge-success">Withdrawn</span>' 
-            : '<span class="badge badge-secondary">Draft</span>';
+    // Determine display state for expandable cells
+    const attendanceExpanded = columnGroups['attendance-history'];
+    const paymentsExpanded = columnGroups['payments-history'];
+    const paymentInfoExpanded = columnGroups['payment-info-history'];
+    
+    tbody.innerHTML = data.map((entry, index) => {
+        // Get attendance data (use defaults if not available)
+        const workingDays = entry.workingDays || 21;
+        const daysPresent = entry.daysPresent || workingDays;
+        const leaveDays = entry.leaveDays || 0;
+        const annualLeave = entry.annualLeave || 0;
+        const daysAbsent = entry.daysAbsent || 0;
         
-        const withdrawnInfo = entry.status === 'withdrawn' && entry.withdrawnBy 
-            ? `${entry.withdrawnBy}<br><small style="color: #666;">${entry.withdrawnTime}</small>`
-            : '<span style="color: #999;">-</span>';
+        // Get payment data
+        const basicSalary = entry.basicSalary || entry.netPay || 0;
+        const attendanceAllowance = entry.attendanceAllowance || 0;
+        const loyaltyBonus = entry.loyaltyBonus || 0;
+        const otherBonus = entry.otherBonus || 0;
+        const totalSalary = entry.totalSalary || entry.netPay || 0;
+        
+        // Payment info
+        const paymentType = entry.paymentType || '-';
+        const withdrawalDate = entry.paymentDate || (entry.withdrawnTime ? entry.withdrawnTime.split(' ')[0] : '-');
+        const statusBadge = entry.status === 'withdrawn' 
+            ? '<span class="status-badge active">Withdrawn</span>' 
+            : '<span class="status-badge warning">Draft</span>';
+        
+        // Actions
+        const actions = `
+            <div style="display: flex; gap: 6px; justify-content: center; flex-direction: column; align-items: center;">
+                <button class="payroll-action-btn view-btn" onclick="viewPayrollDetails('${entry.id}')" title="View Details">
+                    <i class="fas fa-eye"></i> View
+                </button>
+                ${entry.status === 'withdrawn' ? `
+                    <button class="payroll-action-btn receipt-btn" onclick="viewHistoryReceipt('${entry.id}')" title="View Receipt">
+                        <i class="fas fa-receipt"></i> Receipt
+                    </button>
+                ` : ''}
+            </div>
+        `;
         
         return `
-            <tr>
-                <td>${entry.employeeId}</td>
-                <td>${entry.name}</td>
-                <td>${entry.type}</td>
-                <td>${entry.dept}</td>
-                <td><strong>$${entry.netPay.toFixed(2)}</strong></td>
-                <td>${entry.paymentType}</td>
-                <td>${statusBadge}</td>
-                <td>${withdrawnInfo}</td>
+            <tr class="payroll-row" data-entry-id="${entry.id}">
+                <td>${index + 1}</td>
                 <td>
-                    <button class="simple-btn secondary small" onclick="window.location.href='/admin/payroll-details?id=${entry.id}'" title="View Details">
-                        <i class="fas fa-eye"></i>
-                    </button>
-                    ${entry.status === 'withdrawn' ? `
-                        <button class="simple-btn primary small" onclick="viewHistoryReceipt('${entry.id}')" title="View Receipt">
-                            <i class="fas fa-receipt"></i>
-                        </button>
-                    ` : ''}
+                    <div style="display: flex; flex-direction: column;">
+                        <strong style="font-size: 14px; color: #111827; margin-bottom: 2px;">${entry.name}</strong>
+                        <small style="color: #6b7280; font-size: 12px;">${entry.employeeId}</small>
+                    </div>
                 </td>
+                <td>${entry.position || entry.type || '-'}</td>
+                <td>${entry.dept}</td>
+                <!-- Attendance Group Columns -->
+                <td class="col-attendance expandable" data-group="attendance-history" style="display: ${attendanceExpanded ? '' : 'none'};">${workingDays}</td>
+                <td class="col-attendance expandable" data-group="attendance-history" style="display: ${attendanceExpanded ? '' : 'none'};">
+                    <span style="color: #10b981; font-weight: 600;">${daysPresent}</span>
+                </td>
+                <td class="col-attendance expandable" data-group="attendance-history" style="display: ${attendanceExpanded ? '' : 'none'};">
+                    <span style="color: #f59e0b;">${leaveDays}</span>
+                </td>
+                <td class="col-attendance expandable" data-group="attendance-history" style="display: ${attendanceExpanded ? '' : 'none'};">${annualLeave}</td>
+                <td class="col-attendance summary-col" data-group="attendance-history">
+                    <span style="color: #ef4444;">${daysAbsent}</span>
+                    ${!attendanceExpanded ? `<small style="display: block; color: #6b7280; font-size: 11px; margin-top: 2px;">${daysPresent}/${workingDays} present</small>` : ''}
+                </td>
+                <!-- Payments Group Columns -->
+                <td class="col-payments expandable" data-group="payments-history" style="display: ${paymentsExpanded ? '' : 'none'};">${formatCurrency(basicSalary)}</td>
+                <td class="col-payments expandable" data-group="payments-history" style="display: ${paymentsExpanded ? '' : 'none'};">${formatCurrency(attendanceAllowance)}</td>
+                <td class="col-payments expandable" data-group="payments-history" style="display: ${paymentsExpanded ? '' : 'none'};">${formatCurrency(loyaltyBonus)}</td>
+                <td class="col-payments expandable" data-group="payments-history" style="display: ${paymentsExpanded ? '' : 'none'};">${formatCurrency(otherBonus)}</td>
+                <td class="col-payments summary-col" data-group="payments-history">
+                    <strong style="color: #10b981;">${formatCurrency(totalSalary)}</strong>
+                    ${!paymentsExpanded ? `<small style="display: block; color: #6b7280; font-size: 11px; margin-top: 2px; font-weight: normal;">Total</small>` : ''}
+                </td>
+                <!-- Payment Info Group Columns -->
+                <td class="col-payment-info expandable" data-group="payment-info-history" style="display: ${paymentInfoExpanded ? '' : 'none'};">${paymentType}</td>
+                <td class="col-payment-info expandable" data-group="payment-info-history" style="display: ${paymentInfoExpanded ? '' : 'none'};">${withdrawalDate}</td>
+                <td class="col-payment-info summary-col" data-group="payment-info-history">${statusBadge}</td>
+                <td onclick="event.stopPropagation();" style="cursor: default;">${actions}</td>
             </tr>
         `;
     }).join('');
+    
+    // Apply current collapse state after rendering and update collapse button icons
+    Object.keys(columnGroups).forEach(groupName => {
+        if (groupName.includes('history')) {
+            const collapseIcon = document.getElementById(`collapse-icon-${groupName}`);
+            if (collapseIcon) {
+                collapseIcon.style.transition = 'transform 0.3s ease';
+                if (columnGroups[groupName]) {
+                    collapseIcon.style.transform = 'rotate(0deg)';
+                } else {
+                    collapseIcon.style.transform = 'rotate(-90deg)';
+                }
+            }
+            if (!columnGroups[groupName]) {
+                toggleColumnGroup(groupName);
+            }
+        }
+    });
 }
 
 function viewHistoryReceipt(payrollId) {
-    const entry = allPayrollHistory.find(e => e.id === payrollId);
+    // Try to find in history first, then in current payroll data
+    let entry = allPayrollHistory.find(e => e.id === payrollId);
+    if (!entry) {
+        entry = payrollData.find(e => e.id === payrollId);
+    }
     if (!entry || entry.status !== 'withdrawn') return;
     
     // Create receipt dialog
@@ -1471,7 +1920,11 @@ function viewHistoryReceipt(payrollId) {
 }
 
 function printHistoryReceipt(payrollId) {
-    const entry = allPayrollHistory.find(e => e.id === payrollId);
+    // Try to find in history first, then in current payroll data
+    let entry = allPayrollHistory.find(e => e.id === payrollId);
+    if (!entry) {
+        entry = payrollData.find(e => e.id === payrollId);
+    }
     if (!entry) return;
     
     const printWindow = window.open('', '_blank');
@@ -1625,14 +2078,12 @@ function printHistoryReceipt(payrollId) {
     user-select: none;
 }
 
-.group-header.toggleable {
-    cursor: pointer;
-    user-select: none;
+.payroll-row {
+    transition: background-color 0.2s ease;
 }
 
-.group-header.toggleable:hover {
-    background: #f1f5f9;
-    border-color: #a5b4fc;
+.payroll-row:hover {
+    background-color: #f9fafb;
 }
 
 .group-header-content {
@@ -1658,12 +2109,46 @@ function printHistoryReceipt(payrollId) {
 
 /* Expandable columns - hidden when collapsed */
 .expandable {
-    transition: all 0.2s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    overflow: hidden;
 }
 
 /* Summary column - always visible */
 .summary-col {
     font-weight: 600;
+}
+
+/* Collapse button - Excel-like collapse/expand button */
+.collapse-btn {
+    background: transparent;
+    border: none;
+    padding: 4px 6px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    transition: background-color 0.2s ease;
+    margin-left: 8px;
+}
+
+.collapse-btn:hover {
+    background-color: #e5e7eb;
+}
+
+.collapse-btn:active {
+    background-color: #d1d5db;
+}
+
+.collapse-icon {
+    font-size: 11px;
+    color: #6b7280;
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.collapse-btn:hover .collapse-icon {
+    color: #4A90E2;
 }
 
 .column-header-row th {
@@ -1715,7 +2200,8 @@ function printHistoryReceipt(payrollId) {
 
 .col-payments,
 .col-attendance,
-.col-additional {
+.col-additional,
+.col-payment-info {
     min-width: 120px;
     transition: all 0.2s ease;
 }
@@ -1817,6 +2303,17 @@ function printHistoryReceipt(payrollId) {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.3px;
+}
+
+/* Hide number input spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
 }
 
 .status-badge.active {

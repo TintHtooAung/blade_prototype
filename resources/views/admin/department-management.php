@@ -22,57 +22,6 @@ ob_start();
     </div>
 </div>
 
-<!-- Department Stats Cards -->
-<div class="stats-grid-horizontal" style="margin-bottom: 24px;">
-    <!-- Primary Teachers -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal blue">
-            <i class="fas fa-chalkboard-teacher"></i>
-        </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">15</div>
-            <div class="stat-label">Primary Teachers</div>
-            <div class="stat-today">PRIMARY</div>
-        </div>
-    </div>
-
-    <!-- Language Teachers -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal purple">
-            <i class="fas fa-language"></i>
-        </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">8</div>
-            <div class="stat-label">Language Teachers</div>
-            <div class="stat-today">LANG</div>
-        </div>
-    </div>
-
-    <!-- ICT Staff -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal teal">
-            <i class="fas fa-laptop-code"></i>
-        </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">5</div>
-            <div class="stat-label">ICT Staff</div>
-            <div class="stat-today">ICT</div>
-        </div>
-    </div>
-
-    <!-- Total Departments -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal green">
-            <i class="fas fa-building"></i>
-        </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">3</div>
-            <div class="stat-label">Total Departments</div>
-            <div class="stat-today">Active</div>
-        </div>
-    </div>
-</div>
-
 <div class="detail-management-section" style="margin-top: 12px;">
     <div class="section-header">
         <h3 class="section-title">Departments</h3>
@@ -167,40 +116,6 @@ const departmentData = {
     'ICT': { name: 'ICT Staff', count: 5, icon: 'fa-laptop-code', color: 'teal' }
 };
 
-// Update department cards
-function updateDepartmentCards() {
-    const cardsContainer = document.querySelector('.stats-grid-horizontal');
-    if (!cardsContainer) return;
-    
-    const departments = Object.keys(departmentData);
-    const totalDepts = departments.length;
-    let totalStaff = 0;
-    
-    // Calculate total staff
-    departments.forEach(code => {
-        totalStaff += departmentData[code].count;
-    });
-    
-    // Update individual department cards
-    departments.forEach((code, index) => {
-        const dept = departmentData[code];
-        const card = cardsContainer.children[index];
-        if (card) {
-            const valueEl = card.querySelector('.stat-value');
-            const labelEl = card.querySelector('.stat-label');
-            if (valueEl) valueEl.textContent = dept.count;
-            if (labelEl) labelEl.textContent = dept.name;
-        }
-    });
-    
-    // Update total departments card
-    const totalCard = cardsContainer.children[cardsContainer.children.length - 1];
-    if (totalCard) {
-        const valueEl = totalCard.querySelector('.stat-value');
-        if (valueEl) valueEl.textContent = totalDepts;
-    }
-}
-
 // Create Department Modal Functions
 function openCreateDepartmentModal() {
     clearDepartmentForm();
@@ -269,9 +184,6 @@ function saveNewDepartment() {
         </td>`;
     tbody.prepend(tr);
     
-    // Update cards
-    updateDepartmentCards();
-    
     if (typeof showToast === 'function') {
         showToast(`Department "${name}" added successfully`, 'success');
     } else {
@@ -291,9 +203,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
-    // Initialize cards
-    updateDepartmentCards();
 });
 
 function deleteDepartment(deptId) {
@@ -312,9 +221,6 @@ function deleteDepartment(deptId) {
             row.remove();
         }
     });
-    
-    // Update cards
-    updateDepartmentCards();
     
     alert(`Department ${deptId} deleted successfully.`);
 }

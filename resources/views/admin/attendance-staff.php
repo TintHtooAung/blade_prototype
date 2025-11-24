@@ -22,7 +22,7 @@ ob_start();
     <!-- View Toggle Tabs -->
     <div class="attendance-view-tabs">
         <button class="view-tab active" data-view="daily" onclick="switchAttendanceView('daily')">
-            <i class="fas fa-calendar-day"></i> Daily Attendance
+            <i class="fas fa-calendar-day"></i> Daily Attd Register
         </button>
         <button class="view-tab" data-view="monthly" onclick="switchAttendanceView('monthly')">
             <i class="fas fa-calendar-alt"></i> Monthly Attendance
@@ -37,28 +37,61 @@ ob_start();
 
     <!-- Daily Attendance View -->
     <div id="daily-attendance-view" class="attendance-view-content">
-        <!-- Date Filter -->
-        <div class="simple-section" style="margin-bottom: 24px;">
-            <div class="simple-header">
-                <h3 id="attendanceDateTitle">Staff Attendance History - <?php echo date('F d, Y'); ?></h3>
-                <div class="simple-actions">
-                    <div class="filter-group" style="display: flex; align-items: center; gap: 8px; flex-direction: row;">
-                        <label for="attendanceDateFilter" style="margin: 0; white-space: nowrap;">Select Date:</label>
-                        <input type="date" id="attendanceDateFilter" class="filter-select" value="<?php echo date('Y-m-d'); ?>" onchange="filterAttendanceByDate(this.value)" style="height: 36px; padding: 8px 12px; margin: 0;">
-                    </div>
-                    <button class="simple-btn secondary" onclick="setTodayDate()" title="Today" style="height: 36px; padding: 8px 16px; margin: 0;">
-                        <i class="fas fa-calendar-day"></i> Today
-                    </button>
-                    <button class="simple-btn primary" onclick="openCollectorForm()" style="height: 36px; padding: 8px 16px; margin: 0; display: inline-flex; align-items: center; gap: 6px;">
-                        <i class="fas fa-plus"></i> Collect Attendance
-                    </button>
+        <!-- Attendance Summary Cards -->
+        <div class="stats-grid-secondary vertical-stats" style="margin-bottom: 24px;">
+            <div class="stat-card">
+                <div class="stat-icon" style="background: #e8f5e9; color: #2e7d32;">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Present</h3>
+                    <div class="stat-number" id="presentCount">0</div>
+                    <div class="stat-change">Today</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: #ffebee; color: #d32f2f;">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Absent</h3>
+                    <div class="stat-number" id="absentCount">0</div>
+                    <div class="stat-change">Today</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: #e3f2fd; color: #1976d2;">
+                    <i class="fas fa-calendar-times"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Leave</h3>
+                    <div class="stat-number" id="leaveCount">0</div>
+                    <div class="stat-change">Today</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: #e3f2fd; color: #1976d2;">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Total Staff</h3>
+                    <div class="stat-number" id="totalCount">0</div>
+                    <div class="stat-change">All Staff</div>
                 </div>
             </div>
         </div>
 
-
         <!-- Staff Attendance History Table -->
         <div id="attendanceHistoryTable" class="simple-section">
+            <div class="simple-header">
+                <h3>Daily Staff Attendance</h3>
+                <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                    <div style="position: relative;">
+                        <i class="fas fa-search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #6b7280; pointer-events: none; z-index: 1;"></i>
+                        <input type="text" id="staffSearchInput" class="form-input" placeholder="Search by name, ID, department..." oninput="filterStaffAttendance()" style="padding-left: 36px; width: 300px;">
+                    </div>
+                </div>
+            </div>
             <div class="simple-table-container">
                 <table class="basic-table" id="attendanceTable">
                     <thead>
@@ -67,8 +100,9 @@ ob_start();
                             <th>Name</th>
                             <th>Department</th>
                             <th>Status</th>
-                            <th>Time</th>
-                            <th>Attendance %</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Total Hours</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -471,6 +505,7 @@ ob_start();
                             <td>-</td>
                             <td>-</td>
                             <td>-</td>
+                            <td>-</td>
                         </tr>
                         <tr>
                             <td>2</td>
@@ -598,7 +633,7 @@ ob_start();
                 <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151;">Search Staff:</label>
                 <div style="position: relative; max-width: 400px;">
                     <i class="fas fa-search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #6b7280; pointer-events: none;"></i>
-                    <input type="text" id="collectorSearchInput" class="filter-select" placeholder="Search by name, ID, or department..." oninput="filterCollectorTeachers(this.value)" style="width: 100%; height: 36px; padding: 8px 12px 8px 40px; margin: 0; border: 1px solid #e5e7eb; border-radius: 6px;">
+                    <input type="text" id="collectorSearchInput" class="filter-select" placeholder="Search by name, ID, or department..." oninput="filterCollectorStaff(this.value)" style="width: 100%; height: 36px; padding: 8px 12px 8px 40px; margin: 0; border: 1px solid #e5e7eb; border-radius: 6px;">
                 </div>
             </div>
             <div class="simple-table-container" style="max-height: 60vh; overflow-y: auto;">
@@ -635,7 +670,7 @@ ob_start();
 
 <script>
 // Staff data
-const staff = [
+const staffMembers = [
     { id: 'ST001', name: 'Daw Hnin Hnin', department: 'HR', email: 'hninhnin@school.edu' },
     { id: 'ST002', name: 'U Aung Myint', department: 'Finance', email: 'aungmyint@school.edu' },
     { id: 'ST003', name: 'Ms. Sarah Chen', department: 'Admin', email: 'sarah.chen@school.edu' },
@@ -679,10 +714,10 @@ function loadAttendanceData() {
             attendanceData = {};
         }
     } else {
-        // Initialize empty attendance for all staff today
+        // Initialize empty attendance for all staffMembers today
         attendanceData = {};
-        staff.forEach(teacher => {
-            const key = `${today}-${teacher.id}`;
+        staffMembers.forEach(staff => {
+            const key = `${today}-${staff.id}`;
             attendanceData[key] = {
                 status: null,
                 startTime: '',
@@ -729,22 +764,22 @@ function closeCollectorForm() {
 }
 
 
-// Filter collector staff by search query
-function filterCollectorTeachers(searchQuery) {
+// Filter collector staffMembers by search query
+function filterCollectorStaff(searchQuery) {
     const tbody = document.getElementById('collectorStaffAttendanceBody');
     const rows = tbody.querySelectorAll('tr');
     const query = searchQuery.toLowerCase().trim();
     
     rows.forEach(row => {
         const staffId = row.id.replace('collector-staff-row-', '');
-        const staffMember = staff.find(t => t.id === staffId);
+        const staff = staffMembers.find(t => t.id === staffId);
         
-        if (!staffMember) return;
+        if (!staff) return;
         
         const matches = !query || 
-            staffMember.id.toLowerCase().includes(query) ||
-            staffMember.name.toLowerCase().includes(query) ||
-            staffMember.department.toLowerCase().includes(query);
+            staff.id.toLowerCase().includes(query) ||
+            staff.name.toLowerCase().includes(query) ||
+            staff.department.toLowerCase().includes(query);
         
         row.style.display = matches ? '' : 'none';
     });
@@ -757,8 +792,8 @@ function initializeCollectorAttendanceTable() {
     
     tbody.innerHTML = '';
     
-    staff.forEach((staffMember) => {
-        const key = `${dateString}-${staffMember.id}`;
+    staffMembers.forEach((staff) => {
+        const key = `${dateString}-${staff.id}`;
         
         // Get existing record or initialize empty
         const record = attendanceData[key] || {
@@ -772,11 +807,11 @@ function initializeCollectorAttendanceTable() {
         const totalHours = calculateTotalHours(record.startTime, record.endTime);
         
         const row = document.createElement('tr');
-        row.id = `collector-staff-row-${staffMember.id}`;
+        row.id = `collector-staff-row-${staff.id}`;
         row.innerHTML = `
-            <td><strong>${staffMember.id}</strong></td>
-            <td>${staffMember.name}</td>
-            <td>${staffMember.department}</td>
+            <td><strong>${staff.id}</strong></td>
+            <td>${staff.name}</td>
+            <td>${staff.department}</td>
             <td>
                 ${getStatusBadge(record.status)}
             </td>
@@ -784,7 +819,7 @@ function initializeCollectorAttendanceTable() {
                 <input type="time" 
                        class="time-input start-time-input" 
                        value="${record.startTime || ''}" 
-                       onchange="updateAttendanceStartTime('${staffMember.id}', this.value)"
+                       onchange="updateAttendanceStartTime('${staff.id}', this.value)"
                        onclick="event.stopPropagation()"
                        placeholder="Start Time"
                        style="width: 100px; padding: 6px 8px; border: 1px solid #e5e7eb; border-radius: 4px;">
@@ -793,13 +828,13 @@ function initializeCollectorAttendanceTable() {
                 <input type="time" 
                        class="time-input end-time-input" 
                        value="${record.endTime || ''}" 
-                       onchange="updateAttendanceEndTime('${staffMember.id}', this.value)"
+                       onchange="updateAttendanceEndTime('${staff.id}', this.value)"
                        onclick="event.stopPropagation()"
                        placeholder="End Time"
                        style="width: 100px; padding: 6px 8px; border: 1px solid #e5e7eb; border-radius: 4px;">
             </td>
             <td>
-                <span class="total-hours-display" id="total-hours-${staffMember.id}" style="font-weight: 600; color: #059669;">
+                <span class="total-hours-display" id="total-hours-${staff.id}" style="font-weight: 600; color: #059669;">
                     ${totalHours}
                 </span>
             </td>
@@ -807,7 +842,7 @@ function initializeCollectorAttendanceTable() {
                 <input type="text" 
                        class="notes-input" 
                        value="${record.notes || ''}" 
-                       onchange="updateAttendanceNotes('${staffMember.id}', this.value)"
+                       onchange="updateAttendanceNotes('${staff.id}', this.value)"
                        onclick="event.stopPropagation()"
                        placeholder="Notes (optional)"
                        style="width: 150px; padding: 6px 8px; border: 1px solid #e5e7eb; border-radius: 4px;">
@@ -815,17 +850,17 @@ function initializeCollectorAttendanceTable() {
             <td>
                 <div class="attendance-toggle">
                     <button type="button" class="toggle-btn ${record.status === 'present' ? 'present' : ''}" 
-                            onclick="event.stopPropagation(); markAttendance('${staffMember.id}', 'present')"
+                            onclick="event.stopPropagation(); markAttendance('${staff.id}', 'present')"
                             title="Mark Present">
                         <i class="fas fa-check"></i>
                     </button>
                     <button type="button" class="toggle-btn ${record.status === 'absent' ? 'absent' : ''}" 
-                            onclick="event.stopPropagation(); markAttendance('${staffMember.id}', 'absent')"
+                            onclick="event.stopPropagation(); markAttendance('${staff.id}', 'absent')"
                             title="Mark Absent">
                         <i class="fas fa-times"></i>
                     </button>
                     <button type="button" class="toggle-btn ${record.status === 'leave' ? 'leave' : ''}" 
-                            onclick="event.stopPropagation(); markAttendance('${staffMember.id}', 'leave')"
+                            onclick="event.stopPropagation(); markAttendance('${staff.id}', 'leave')"
                             title="Mark Leave">
                         <i class="fas fa-calendar-times"></i>
                     </button>
@@ -843,7 +878,7 @@ function getTodayDateString() {
     return today.toISOString().split('T')[0];
 }
 
-// Mark attendance for a staff member
+// Mark attendance for a staff
 function markAttendance(staffId, status) {
     const dateString = getTodayDateString();
     const key = `${dateString}-${staffId}`;
@@ -860,17 +895,77 @@ function markAttendance(staffId, status) {
         const hours = String(now.getHours()).padStart(2, '0');
         const minutes = String(now.getMinutes()).padStart(2, '0');
         attendanceData[key].startTime = `${hours}:${minutes}`;
+        // Update the input field
+        const row = document.getElementById(`attendance-row-${staffId}`);
+        if (row) {
+            const startInput = row.querySelector('.start-time-input');
+            if (startInput) {
+                startInput.value = attendanceData[key].startTime;
+            }
+        }
     }
     
     // Clear times if absent or leave
     if (status === 'absent' || status === 'leave') {
         attendanceData[key].startTime = '';
         attendanceData[key].endTime = '';
+        // Update the input fields
+        const row = document.getElementById(`attendance-row-${staffId}`);
+        if (row) {
+            const startInput = row.querySelector('.start-time-input');
+            const endInput = row.querySelector('.end-time-input');
+            if (startInput) startInput.value = '';
+            if (endInput) endInput.value = '';
+            updateTotalHoursDisplay(staffId);
+        }
     }
     
-    updateCollectorStaffRow(staffId);
+    // Update the main table row
+    updateAttendanceRow(staffId);
+    // Update summary cards
+    updateSummaryCardsFromData();
     // Auto-save to localStorage
     saveAttendanceDataToStorage();
+    
+    // Show notification
+    const statusLabels = {
+        'present': 'Present',
+        'absent': 'Absent',
+        'leave': 'Leave'
+    };
+    showNotification(`Marked as ${statusLabels[status]}`, 'success');
+}
+
+// Checkout attendance (set end time)
+function checkoutAttendance(staffId) {
+    const dateString = getTodayDateString();
+    const key = `${dateString}-${staffId}`;
+    
+    if (!attendanceData[key] || attendanceData[key].status !== 'present') {
+        return;
+    }
+    
+    // Set end time to current time
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    attendanceData[key].endTime = `${hours}:${minutes}`;
+    
+    // Update the input field
+    const row = document.getElementById(`attendance-row-${staffId}`);
+    if (row) {
+        const endInput = row.querySelector('.end-time-input');
+        if (endInput) {
+            endInput.value = attendanceData[key].endTime;
+        }
+        updateTotalHoursDisplay(staffId);
+        // Refresh the row to update checkout button visibility
+        updateAttendanceRow(staffId);
+    }
+    
+    // Auto-save to localStorage
+    saveAttendanceDataToStorage();
+    showNotification('Checkout time recorded successfully!', 'success');
 }
 
 // Calculate total hours from start and end time
@@ -912,6 +1007,12 @@ function updateAttendanceStartTime(staffId, time) {
     
     attendanceData[key].startTime = time;
     
+    // Auto-set status to present if start time is set
+    if (time && !attendanceData[key].status) {
+        attendanceData[key].status = 'present';
+        updateAttendanceRow(staffId);
+    }
+    
     // Update total hours display
     updateTotalHoursDisplay(staffId);
     
@@ -932,6 +1033,11 @@ function updateAttendanceEndTime(staffId, time) {
     
     // Update total hours display
     updateTotalHoursDisplay(staffId);
+    
+    // Refresh row to update checkout button visibility
+    if (time) {
+        updateAttendanceRow(staffId);
+    }
     
     // Auto-save to localStorage
     saveAttendanceDataToStorage();
@@ -964,7 +1070,290 @@ function updateAttendanceNotes(staffId, notes) {
     saveAttendanceDataToStorage();
 }
 
-// Update collector staff row display
+// Update attendance row display
+function updateAttendanceRow(staffId) {
+    const dateString = getTodayDateString();
+    const key = `${dateString}-${staffId}`;
+    const record = attendanceData[key] || { status: null, startTime: '', endTime: '', notes: '' };
+    const row = document.getElementById(`attendance-row-${staffId}`);
+    
+    if (!row) return;
+    
+    // Update status badge
+    let statusBadge = '<span class="stat-badge">-</span>';
+    if (record.status) {
+        if (record.status === 'present') {
+            statusBadge = '<span class="stat-badge present">Present</span>';
+        } else if (record.status === 'absent') {
+            statusBadge = '<span class="stat-badge absent">Absent</span>';
+        } else if (record.status === 'leave') {
+            statusBadge = '<span class="stat-badge leave">Leave</span>';
+        }
+    }
+    const statusCell = row.querySelector('td:nth-child(4)');
+    if (statusCell) {
+        statusCell.innerHTML = statusBadge;
+    }
+    
+    // Update time inputs
+    const startTimeInput = row.querySelector('.start-time-input');
+    const endTimeInput = row.querySelector('.end-time-input');
+    if (startTimeInput) {
+        startTimeInput.value = record.startTime || '';
+    }
+    if (endTimeInput) {
+        endTimeInput.value = record.endTime || '';
+    }
+    
+    // Update total hours display
+    updateTotalHoursDisplay(staffId);
+    
+    // Update button states
+    const presentBtn = row.querySelector('.toggle-btn-main:nth-child(1)');
+    const absentBtn = row.querySelector('.toggle-btn-main:nth-child(2)');
+    const leaveBtn = row.querySelector('.toggle-btn-main:nth-child(3)');
+    
+    if (presentBtn) {
+        presentBtn.classList.toggle('present', record.status === 'present');
+        presentBtn.classList.remove('absent', 'leave');
+    }
+    if (absentBtn) {
+        absentBtn.classList.toggle('absent', record.status === 'absent');
+        absentBtn.classList.remove('present', 'leave');
+    }
+    if (leaveBtn) {
+        leaveBtn.classList.toggle('leave', record.status === 'leave');
+        leaveBtn.classList.remove('present', 'absent');
+    }
+    
+    // Update checkout button visibility
+    const showCheckout = record.status === 'present' && record.startTime && !record.endTime;
+    const actionsCell = row.querySelector('td:last-child');
+    if (actionsCell) {
+        const checkoutBtn = actionsCell.querySelector('.checkout-btn');
+        if (showCheckout && !checkoutBtn) {
+            // Add checkout button
+            const checkoutBtnHtml = `
+                <button type="button" class="toggle-btn-main checkout-btn" 
+                        onclick="event.stopPropagation(); checkoutAttendance('${staffId}')"
+                        title="Checkout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            `;
+            const leaveBtn = actionsCell.querySelector('.toggle-btn-main:nth-child(3)');
+            if (leaveBtn && leaveBtn.nextSibling) {
+                leaveBtn.insertAdjacentHTML('afterend', checkoutBtnHtml);
+            } else {
+                leaveBtn.insertAdjacentHTML('afterend', checkoutBtnHtml);
+            }
+        } else if (!showCheckout && checkoutBtn) {
+            // Remove checkout button
+            checkoutBtn.remove();
+        }
+    }
+}
+
+// Update summary cards from current data
+function updateSummaryCardsFromData() {
+    const dateString = getTodayDateString();
+    let presentCount = 0;
+    let absentCount = 0;
+    let leaveCount = 0;
+    
+    staffMembers.forEach(staff => {
+        const key = `${dateString}-${staff.id}`;
+        const record = attendanceData[key] || { status: null };
+        
+        if (record.status === 'present') {
+            presentCount++;
+        } else if (record.status === 'absent') {
+            absentCount++;
+        } else if (record.status === 'leave') {
+            leaveCount++;
+        } else {
+            absentCount++; // Count null as absent
+        }
+    });
+    
+    updateSummaryCards(presentCount, absentCount, leaveCount, staffMembers.length);
+}
+
+// Save all attendance
+function saveAllAttendance() {
+    saveAttendanceDataToStorage();
+    showNotification('All attendance records saved successfully!', 'success');
+}
+
+// Get status badge HTML
+function getStatusBadge(status) {
+    if (!status) return '<span class="status-badge">-</span>';
+    
+    const badges = {
+        'present': '<span class="status-badge paid">Present</span>',
+        'absent': '<span class="status-badge overdue">Absent</span>',
+        'leave': '<span class="status-badge draft">Leave</span>'
+    };
+    return badges[status] || '<span class="status-badge">-</span>';
+}
+
+// Save individual attendance changes
+function saveIndividualAttendance() {
+    const dateString = getTodayDateString();
+    
+    // Save to localStorage
+    saveAttendanceDataToStorage();
+    
+    // Update the main attendance table
+    updateAttendanceTable();
+    
+    // Show success notification
+    showNotification('Attendance changes saved successfully!', 'success');
+    
+    // Note: Form stays open so collector can continue marking attendance
+}
+
+// Filter staff attendance based on search
+function filterStaffAttendance() {
+    updateAttendanceTable();
+}
+
+// Update the main attendance table with current data
+function updateAttendanceTable() {
+    const dateString = getTodayDateString();
+    const tbody = document.getElementById('attendanceTableBody');
+    
+    if (!tbody) return;
+    
+    tbody.innerHTML = '';
+    
+    // Get search query
+    const searchInput = document.getElementById('staffSearchInput');
+    const searchQuery = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    
+    // Calculate counts for all staffMembers (not filtered)
+    let presentCount = 0;
+    let absentCount = 0;
+    let leaveCount = 0;
+    
+    staffMembers.forEach(staff => {
+        const key = `${dateString}-${staff.id}`;
+        const record = attendanceData[key] || { status: null, startTime: '', endTime: '', notes: '' };
+        
+        // Count statuses for all staffMembers
+        if (record.status === 'present') {
+            presentCount++;
+        } else if (record.status === 'absent') {
+            absentCount++;
+        } else if (record.status === 'leave') {
+            leaveCount++;
+        } else {
+            absentCount++; // Count null as absent
+        }
+    });
+    
+    // Filter staffMembers based on search query for display
+    const filteredStaff = staffMembers.filter(staff => {
+        if (!searchQuery) return true;
+        
+        const searchLower = searchQuery.toLowerCase();
+        return staff.id.toLowerCase().includes(searchLower) ||
+               staff.name.toLowerCase().includes(searchLower) ||
+               staff.department.toLowerCase().includes(searchLower);
+    });
+    
+    // Display only filtered staffMembers
+    filteredStaff.forEach(staff => {
+        const key = `${dateString}-${staff.id}`;
+        const record = attendanceData[key] || { status: null, startTime: '', endTime: '', notes: '' };
+        
+        // Get status badge
+        let statusBadge = '<span class="stat-badge">-</span>';
+        
+        if (record.status) {
+            if (record.status === 'present') {
+                statusBadge = '<span class="stat-badge present">Present</span>';
+            } else if (record.status === 'absent') {
+                statusBadge = '<span class="stat-badge absent">Absent</span>';
+            } else if (record.status === 'leave') {
+                statusBadge = '<span class="stat-badge leave">Leave</span>';
+            }
+        }
+        
+        // Calculate total hours
+        const totalHours = calculateTotalHours(record.startTime, record.endTime);
+        
+        // Show checkout button if present and has start time but no end time
+        const showCheckout = record.status === 'present' && record.startTime && !record.endTime;
+        
+        const row = document.createElement('tr');
+        row.id = `attendance-row-${staff.id}`;
+        row.innerHTML = `
+            <td><strong>${staff.id}</strong></td>
+            <td>${staff.name}</td>
+            <td>${staff.department}</td>
+            <td>${statusBadge}</td>
+            <td>
+                <input type="time" 
+                       class="time-input start-time-input" 
+                       value="${record.startTime || ''}" 
+                       onchange="updateAttendanceStartTime('${staff.id}', this.value)"
+                       onclick="event.stopPropagation()"
+                       placeholder="Start Time"
+                       style="width: 120px; padding: 6px 8px; border: 1px solid #e5e7eb; border-radius: 4px; font-size: 13px;">
+            </td>
+            <td>
+                <input type="time" 
+                       class="time-input end-time-input" 
+                       value="${record.endTime || ''}" 
+                       onchange="updateAttendanceEndTime('${staff.id}', this.value)"
+                       onclick="event.stopPropagation()"
+                       placeholder="End Time"
+                       style="width: 120px; padding: 6px 8px; border: 1px solid #e5e7eb; border-radius: 4px; font-size: 13px;">
+            </td>
+            <td>
+                <span class="total-hours-display" id="total-hours-${staff.id}" style="font-weight: 600; color: #059669;">
+                    ${totalHours}
+                </span>
+            </td>
+            <td>
+                <div class="attendance-actions-main">
+                    <button type="button" class="toggle-btn-main ${record.status === 'present' ? 'present' : ''}" 
+                            onclick="event.stopPropagation(); markAttendance('${staff.id}', 'present')"
+                            title="Mark Present">
+                        <i class="fas fa-check"></i>
+                    </button>
+                    <button type="button" class="toggle-btn-main ${record.status === 'absent' ? 'absent' : ''}" 
+                            onclick="event.stopPropagation(); markAttendance('${staff.id}', 'absent')"
+                            title="Mark Absent">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <button type="button" class="toggle-btn-main ${record.status === 'leave' ? 'leave' : ''}" 
+                            onclick="event.stopPropagation(); markAttendance('${staff.id}', 'leave')"
+                            title="Mark Leave">
+                        <i class="fas fa-calendar-times"></i>
+                    </button>
+                    ${showCheckout ? `
+                    <button type="button" class="toggle-btn-main checkout-btn" 
+                            onclick="event.stopPropagation(); checkoutAttendance('${staff.id}')"
+                            title="Checkout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                    ` : ''}
+                    <button type="button" class="action-icon view" title="View Details" onclick="window.location.href='/admin/attendance/staff-detail?staff=${staff.id}'" style="margin-left: 8px;">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </td>
+        `;
+        
+        tbody.appendChild(row);
+    });
+    
+    // Update summary cards
+    updateSummaryCards(presentCount, absentCount, leaveCount, staffMembers.length);
+}
+
+// Update collector staff row display (kept for backward compatibility if modal is still used)
 function updateCollectorStaffRow(staffId) {
     const dateString = getTodayDateString();
     const key = `${dateString}-${staffId}`;
@@ -1011,91 +1400,17 @@ function updateCollectorStaffRow(staffId) {
     }
 }
 
-// Get status badge HTML
-function getStatusBadge(status) {
-    if (!status) return '<span class="status-badge">-</span>';
+// Update summary cards
+function updateSummaryCards(present, absent, leave, total) {
+    const presentEl = document.getElementById('presentCount');
+    const absentEl = document.getElementById('absentCount');
+    const leaveEl = document.getElementById('leaveCount');
+    const totalEl = document.getElementById('totalCount');
     
-    const badges = {
-        'present': '<span class="status-badge paid">Present</span>',
-        'absent': '<span class="status-badge overdue">Absent</span>',
-        'leave': '<span class="status-badge draft">Leave</span>'
-    };
-    return badges[status] || '<span class="status-badge">-</span>';
-}
-
-// Save individual attendance changes
-function saveIndividualAttendance() {
-    const dateString = getTodayDateString();
-    
-    // Save to localStorage
-    saveAttendanceDataToStorage();
-    
-    // Update the main attendance table
-    updateAttendanceTable();
-    
-    // Show success notification
-    showNotification('Attendance changes saved successfully!', 'success');
-    
-    // Note: Form stays open so collector can continue marking attendance
-}
-
-// Update the main attendance table with current data
-function updateAttendanceTable() {
-    const dateString = getTodayDateString();
-    const tbody = document.getElementById('attendanceTableBody');
-    
-    if (!tbody) return;
-    
-    tbody.innerHTML = '';
-    
-    staff.forEach(staffMember => {
-        const key = `${dateString}-${staffMember.id}`;
-        const record = attendanceData[key] || { status: null, startTime: '', endTime: '', notes: '' };
-        
-        // Get status badge
-        let statusBadge = '<span class="stat-badge">-</span>';
-        let timeDisplay = '-';
-        
-        if (record.status) {
-            if (record.status === 'present') {
-                statusBadge = '<span class="stat-badge present">Present</span>';
-                // Show time range or total hours
-                if (record.startTime && record.endTime) {
-                    const totalHours = calculateTotalHours(record.startTime, record.endTime);
-                    timeDisplay = `${record.startTime} - ${record.endTime} (${totalHours})`;
-                } else if (record.startTime) {
-                    timeDisplay = record.startTime;
-                } else {
-                    timeDisplay = '-';
-                }
-            } else if (record.status === 'absent') {
-                statusBadge = '<span class="stat-badge absent">Absent</span>';
-            } else if (record.status === 'leave') {
-                statusBadge = '<span class="stat-badge leave">Leave</span>';
-            }
-        }
-        
-        // Calculate attendance percentage (mock data for now)
-        const percentage = 95.5; // This would come from actual calculation
-        const percentageClass = percentage >= 95 ? 'high' : percentage >= 90 ? 'medium' : 'low';
-        
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td><strong>${staffMember.id}</strong></td>
-            <td>${staffMember.name}</td>
-            <td>${staffMember.department}</td>
-            <td>${statusBadge}</td>
-            <td>${timeDisplay}</td>
-            <td><span class="percentage-badge ${percentageClass}">${percentage}%</span></td>
-            <td>
-                <a href="/admin/attendance/staff-detail?staff=${staffMember.id}" class="action-btn view-btn" title="View Details">
-                    <i class="fas fa-eye"></i> <span>View Details</span>
-                </a>
-            </td>
-        `;
-        
-        tbody.appendChild(row);
-    });
+    if (presentEl) presentEl.textContent = present;
+    if (absentEl) absentEl.textContent = absent;
+    if (leaveEl) leaveEl.textContent = leave;
+    if (totalEl) totalEl.textContent = total;
 }
 
 // Show notification
@@ -1351,10 +1666,58 @@ document.addEventListener('DOMContentLoaded', function() {
     box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
 }
 
+.action-btn.view-btn-icon {
+    background: #4A90E2;
+    color: #fff;
+    padding: 8px 12px;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-btn.view-btn-icon:hover {
+    background: #357abd;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
 .action-btn i {
     font-size: 12px;
 }
 
+/* Action Icon Styles - Matching Academic Management */
+.action-icon {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.8rem;
+}
+
+.action-icon.view {
+    background: #E3F2FD;
+    color: #1976D2;
+}
+
+.action-icon.view:hover {
+    background: #BBDEFB;
+}
+
+.action-icon.delete {
+    background: #FFEBEE;
+    color: #F44336;
+}
+
+.action-icon.delete:hover {
+    background: #FFCDD2;
+}
 
 .status-badge {
     display: inline-block;
@@ -1418,6 +1781,65 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 .toggle-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Main table action buttons */
+.attendance-actions-main {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.toggle-btn-main {
+    width: 36px;
+    height: 36px;
+    border: 2px solid #e0e0e0;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    color: #666;
+    padding: 0;
+}
+
+.toggle-btn-main.present {
+    border-color: #2e7d32;
+    background: #e8f5e8;
+    color: #2e7d32;
+}
+
+.toggle-btn-main.absent {
+    border-color: #d32f2f;
+    background: #ffebee;
+    color: #d32f2f;
+}
+
+.toggle-btn-main.leave {
+    border-color: #1976d2;
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.toggle-btn-main.checkout-btn {
+    border-color: #f59e0b;
+    background: #fffbeb;
+    color: #f59e0b;
+}
+
+.toggle-btn-main.checkout-btn:hover {
+    border-color: #d97706;
+    background: #fef3c7;
+    color: #d97706;
+    transform: scale(1.1);
+}
+
+.toggle-btn-main:hover {
     transform: scale(1.1);
 }
 
@@ -1727,7 +2149,7 @@ document.addEventListener('DOMContentLoaded', function() {
         display: none;
     }
     
-    .teacher-attendance-header {
+    .staff-attendance-header {
         flex-direction: column;
     }
     
@@ -1816,6 +2238,7 @@ document.addEventListener('DOMContentLoaded', function() {
     background: #f9fafb;
     z-index: 5;
 }
+
 </style>
 
 <?php

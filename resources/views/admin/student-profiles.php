@@ -19,39 +19,15 @@ ob_start();
 
 <!-- Student Stats Cards -->
 <div class="stats-grid-horizontal" style="margin-bottom: 24px;">
-    <!-- Total Students -->
+    <!-- Total Active Students -->
     <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal blue">
+        <div class="stat-icon-horizontal green">
             <i class="fas fa-user-graduate"></i>
         </div>
         <div class="stat-content-horizontal">
-            <div class="stat-value">986</div>
-            <div class="stat-label">Total Students</div>
-            <div class="stat-today">All enrolled</div>
-        </div>
-    </div>
-
-    <!-- Active Students -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal green">
-            <i class="fas fa-check-circle"></i>
-        </div>
-        <div class="stat-content-horizontal">
             <div class="stat-value">978</div>
-            <div class="stat-label">Active Students</div>
-            <div class="stat-today">99.2% active</div>
-        </div>
-    </div>
-
-    <!-- Average Attendance -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal yellow">
-            <i class="fas fa-calendar-check"></i>
-        </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">94.2%</div>
-            <div class="stat-label">Avg Attendance</div>
-            <div class="stat-today">This month</div>
+            <div class="stat-label">Total Active Students</div>
+            <div class="stat-today">All enrolled</div>
         </div>
     </div>
 
@@ -292,20 +268,6 @@ ob_start();
                             </div>
                             <div class="form-row">
                                 <div class="form-group" style="flex:1;">
-                                    <label for="sGuardianName">Guardian Name</label>
-                                    <input type="text" id="sGuardianName" class="form-input" placeholder="Enter guardian's name">
-                                </div>
-                                <div class="form-group" style="flex:1;">
-                                    <label for="sGuardianPhone">Guardian's Phone No.</label>
-                                    <input type="tel" id="sGuardianPhone" class="form-input" placeholder="+1-555-0000">
-                                </div>
-                                <div class="form-group" style="flex:1;">
-                                    <label for="sGuardianEmail">Guardian's Email</label>
-                                    <input type="email" id="sGuardianEmail" class="form-input" placeholder="guardian@email.com">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group" style="flex:1;">
                                     <label for="sEmergencyPhone">Emergency Contact Phone No.</label>
                                     <input type="tel" id="sEmergencyPhone" class="form-input" placeholder="+1-555-0000">
                                 </div>
@@ -431,19 +393,19 @@ ob_start();
                             <div id="newAccountFields">
                                 <div class="form-row">
                                     <div class="form-group" style="flex:1;">
-                                        <label for="sPortalEmail">Portal Email</label>
-                                        <input type="email" id="sPortalEmail" class="form-input" placeholder="portal@email.com">
+                                        <label for="sGuardianName">Guardian Name</label>
+                                        <input type="text" id="sGuardianName" class="form-input" placeholder="Enter guardian's name">
                                     </div>
                                     <div class="form-group" style="flex:1;">
-                                        <label for="sPortalPassword">Portal Password</label>
-                                        <input type="password" id="sPortalPassword" class="form-input" placeholder="Enter password">
+                                        <label for="sGuardianPhone">Guardian's Phone No.</label>
+                                        <input type="tel" id="sGuardianPhone" class="form-input" placeholder="+1-555-0000">
+                                    </div>
+                                    <div class="form-group" style="flex:1;">
+                                        <label for="sGuardianEmail">Guardian's Email</label>
+                                        <input type="email" id="sGuardianEmail" class="form-input" placeholder="guardian@email.com">
                                     </div>
                                 </div>
                                 <div class="form-row">
-                                    <div class="form-group" style="flex:1;">
-                                        <label for="sPortalPhone">Phone Number</label>
-                                        <input type="tel" id="sPortalPhone" class="form-input" placeholder="+1-555-0000">
-                                    </div>
                                     <div class="form-group" style="flex:1;">
                                         <label for="sPortalRelationship">Relationship with Student</label>
                                         <select id="sPortalRelationship" class="form-select">
@@ -467,16 +429,49 @@ ob_start();
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-group" style="flex:1;">
-                                        <label for="sBindParentEmail">Existing Parent Email <span style="color:red;">*</span></label>
-                                        <input type="email" id="sBindParentEmail" class="form-input" placeholder="existing.parent@email.com">
-                                        <small style="color: #6b7280; font-size: 12px; margin-top: 4px; display: block;">Enter the email of the existing parent portal account</small>
+                                <div class="form-group">
+                                    <label for="sBindParentEmail">Search Account <span style="color:red;">*</span></label>
+                                    <div style="position: relative;">
+                                        <i class="fas fa-search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #6b7280; pointer-events: none; z-index: 1;"></i>
+                                        <input type="text" id="sBindParentEmail" class="form-input" placeholder="Search by email or phone number..." oninput="searchBindAccount(this.value)" style="padding-left: 40px;">
                                     </div>
-                                    <div class="form-group" style="flex:1;">
-                                        <label for="sBindParentPhone">Parent Phone Number</label>
-                                        <input type="tel" id="sBindParentPhone" class="form-input" placeholder="+1-555-0000">
-                                        <small style="color: #6b7280; font-size: 12px; margin-top: 4px; display: block;">Optional: For verification purposes</small>
+                                    <small style="color: #6b7280; font-size: 12px; margin-top: 4px; display: block;">Enter the email or phone number of the existing parent portal account</small>
+                                </div>
+                                <div class="form-group" style="display: none;">
+                                    <label for="sBindParentPhone">Parent Phone Number</label>
+                                    <input type="tel" id="sBindParentPhone" class="form-input" placeholder="+1-555-0000">
+                                    <small style="color: #6b7280; font-size: 12px; margin-top: 4px; display: block;">Optional: For verification purposes</small>
+                                </div>
+                                
+                                <!-- Account Info Display -->
+                                <div id="bindAccountInfo" style="display: none; background: #eff6ff; border: 2px solid #4A90E2; border-radius: 8px; padding: 16px; margin-top: 16px;">
+                                    <div style="display: flex; align-items: start; gap: 12px; margin-bottom: 12px;">
+                                        <i class="fas fa-check-circle" style="color: #4A90E2; font-size: 20px; margin-top: 2px;"></i>
+                                        <div style="flex: 1;">
+                                            <div style="font-weight: 600; color: #1e40af; margin-bottom: 4px;">Account Found</div>
+                                            <div style="font-size: 13px; color: #1e3a8a;">The following account will be used for binding:</div>
+                                        </div>
+                                    </div>
+                                    <div style="background: #fff; border-radius: 6px; padding: 12px; margin-top: 12px;">
+                                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 14px;">
+                                            <div><strong>Name:</strong> <span id="bindAccountName">-</span></div>
+                                            <div><strong>Email:</strong> <span id="bindAccountEmail">-</span></div>
+                                            <div><strong>Phone:</strong> <span id="bindAccountPhone">-</span></div>
+                                            <div><strong>Role:</strong> <span id="bindAccountRole">-</span></div>
+                                            <div><strong>Status:</strong> <span id="bindAccountStatus">-</span></div>
+                                            <div><strong>Students Linked:</strong> <span id="bindAccountStudents">-</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Account Not Found Message -->
+                                <div id="bindAccountNotFound" style="display: none; background: #fef2f2; border: 2px solid #ef4444; border-radius: 8px; padding: 16px; margin-top: 16px;">
+                                    <div style="display: flex; align-items: start; gap: 12px;">
+                                        <i class="fas fa-exclamation-circle" style="color: #ef4444; font-size: 20px; margin-top: 2px;"></i>
+                                        <div style="flex: 1;">
+                                            <div style="font-weight: 600; color: #991b1b; margin-bottom: 4px;">Account Not Found</div>
+                                            <div style="font-size: 13px; color: #7f1d1d;">No account found with the provided email and phone number. Please verify the information or create a new account instead.</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -488,13 +483,6 @@ ob_start();
                                             <option value="Guardian">Guardian</option>
                                             <option value="Other">Other</option>
                                         </select>
-                                    </div>
-                                    <div class="form-group" style="flex:1;">
-                                        <label>
-                                            <input type="checkbox" id="sSecondKidAtSchool" style="margin-right: 8px;">
-                                            Second Kid at School
-                                        </label>
-                                        <small style="color: #6b7280; font-size: 12px; margin-top: 4px; display: block;">Check if this is the second (or more) child at the school for this parent</small>
                                     </div>
                                 </div>
                             </div>
@@ -539,9 +527,36 @@ ob_start();
         </div>
     </div>
     
-    <div class="simple-search">
-        <input type="text" placeholder="Search student by name, ID, or class..." class="simple-input">
-        <button class="simple-btn">Search</button>
+    <div class="simple-filters" style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+        <div class="simple-search" style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 300px; max-width: 400px;">
+            <input type="text" placeholder="Search student by name, ID, or class..." class="simple-input" style="flex: 1; min-width: 0;">
+            <button class="simple-btn">Search</button>
+        </div>
+        <div class="filter-group">
+            <label>Filter by Class:</label>
+            <select class="filter-select">
+                <option value="">All Classes</option>
+                <option value="Grade 9-A">Grade 9-A</option>
+                <option value="Grade 9-B">Grade 9-B</option>
+                <option value="Grade 10-A">Grade 10-A</option>
+                <option value="Grade 10-B">Grade 10-B</option>
+                <option value="Grade 11-A">Grade 11-A</option>
+                <option value="Grade 11-B">Grade 11-B</option>
+                <option value="Grade 12-A">Grade 12-A</option>
+                <option value="Grade 12-B">Grade 12-B</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Filter by Grade:</label>
+            <select class="filter-select">
+                <option value="">All Grades</option>
+                <option value="Grade 9">Grade 9</option>
+                <option value="Grade 10">Grade 10</option>
+                <option value="Grade 11">Grade 11</option>
+                <option value="Grade 12">Grade 12</option>
+            </select>
+        </div>
+        <button class="simple-btn">Apply Filters</button>
     </div>
 
     <style>
@@ -886,16 +901,18 @@ ob_start();
         document.getElementById('sMedicineAllergy').value = '';
         document.getElementById('sFoodAllergy').value = '';
         document.getElementById('sMedicalDirectory').value = '';
-        document.getElementById('sPortalEmail').value = '';
-        document.getElementById('sPortalPassword').value = '';
-        document.getElementById('sPortalPhone').value = '';
         document.getElementById('sPortalRelationship').value = '';
         document.getElementById('sPortalAccountType').checked = true;
         document.getElementById('sBindAccountType').checked = false;
-        document.getElementById('sBindParentEmail').value = '';
+        const bindEmailInput = document.getElementById('sBindParentEmail');
+        bindEmailInput.value = '';
+        bindEmailInput.removeAttribute('data-found-email');
         document.getElementById('sBindParentPhone').value = '';
         document.getElementById('sBindRelationship').value = '';
-        document.getElementById('sSecondKidAtSchool').checked = false;
+        
+        // Hide account info displays
+        document.getElementById('bindAccountInfo').style.display = 'none';
+        document.getElementById('bindAccountNotFound').style.display = 'none';
         
         // Reset portal account type UI
         togglePortalAccountType();
@@ -967,6 +984,165 @@ ob_start();
         }
     }
 
+    // Search bind account (called on input, similar to department form)
+    function searchBindAccount(query) {
+        const searchTerm = (query || '').trim();
+        
+        const accountInfoDiv = document.getElementById('bindAccountInfo');
+        const accountNotFoundDiv = document.getElementById('bindAccountNotFound');
+        
+        // Hide both divs initially
+        accountInfoDiv.style.display = 'none';
+        accountNotFoundDiv.style.display = 'none';
+        
+        if (!searchTerm) {
+            return; // Don't search if empty
+        }
+        
+        // Determine if search term is email or phone
+        const isEmail = searchTerm.includes('@');
+        const isPhone = /[\d\s\-\+\(\)]/.test(searchTerm) && !isEmail;
+        
+        // Search in portalSetups (parent/guardian portal accounts)
+        const portalSetups = JSON.parse(localStorage.getItem('portalSetups') || '{}');
+        let foundAccount = null;
+        
+        // Search by email or phone
+        for (const [profileId, setup] of Object.entries(portalSetups)) {
+            if (isEmail && setup.email && setup.email.toLowerCase().includes(searchTerm.toLowerCase())) {
+                foundAccount = { ...setup, profileId };
+                break;
+            } else if (isPhone && setup.phone && setup.phone.replace(/\D/g, '').includes(searchTerm.replace(/\D/g, ''))) {
+                foundAccount = { ...setup, profileId };
+                break;
+            } else if (!isEmail && !isPhone) {
+                // Try both email and phone if unclear
+                if ((setup.email && setup.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    (setup.phone && setup.phone.replace(/\D/g, '').includes(searchTerm.replace(/\D/g, '')))) {
+                    foundAccount = { ...setup, profileId };
+                    break;
+                }
+            }
+        }
+        
+        // Also search in students data for guardian accounts
+        if (!foundAccount) {
+            const students = JSON.parse(localStorage.getItem('students') || '[]');
+            for (const student of students) {
+                if (isEmail && student.guardianEmail && student.guardianEmail.toLowerCase().includes(searchTerm.toLowerCase())) {
+                    foundAccount = {
+                        email: student.guardianEmail,
+                        phone: student.guardianPhone || '',
+                        fullName: student.guardianName || 'Guardian',
+                        role: 'Parent Portal',
+                        profileType: 'parent',
+                        status: 'active',
+                        studentsLinked: 1
+                    };
+                    break;
+                } else if (isPhone && student.guardianPhone && student.guardianPhone.replace(/\D/g, '').includes(searchTerm.replace(/\D/g, ''))) {
+                    foundAccount = {
+                        email: student.guardianEmail || '',
+                        phone: student.guardianPhone || '',
+                        fullName: student.guardianName || 'Guardian',
+                        role: 'Parent Portal',
+                        profileType: 'parent',
+                        status: 'active',
+                        studentsLinked: 1
+                    };
+                    break;
+                } else if (!isEmail && !isPhone) {
+                    // Try both email and phone if unclear
+                    if ((student.guardianEmail && student.guardianEmail.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                        (student.guardianPhone && student.guardianPhone.replace(/\D/g, '').includes(searchTerm.replace(/\D/g, '')))) {
+                        foundAccount = {
+                            email: student.guardianEmail || '',
+                            phone: student.guardianPhone || '',
+                            fullName: student.guardianName || 'Guardian',
+                            role: 'Parent Portal',
+                            profileType: 'parent',
+                            status: 'active',
+                            studentsLinked: 1
+                        };
+                        break;
+                    }
+                }
+            }
+        }
+        
+        if (foundAccount) {
+            // Display account info
+            document.getElementById('bindAccountName').textContent = foundAccount.fullName || foundAccount.name || 'N/A';
+            document.getElementById('bindAccountEmail').textContent = foundAccount.email || '-';
+            document.getElementById('bindAccountPhone').textContent = foundAccount.phone || '-';
+            document.getElementById('bindAccountRole').textContent = foundAccount.role || 'Parent Portal';
+            
+            const statusText = foundAccount.status === 'active' ? 'Active' : 
+                              foundAccount.accountCreated ? 'Account Created' : 
+                              foundAccount.setupComplete ? 'Setup Complete' : 'Unknown';
+            const statusClass = foundAccount.status === 'active' || foundAccount.accountCreated ? 'paid' : 'pending';
+            document.getElementById('bindAccountStatus').innerHTML = `<span class="status-badge ${statusClass}">${statusText}</span>`;
+            
+            // Count linked students
+            let studentsCount = foundAccount.studentsLinked || 0;
+            if (foundAccount.profileId) {
+                // Count students linked to this account
+                const students = JSON.parse(localStorage.getItem('students') || '[]');
+                const searchEmail = foundAccount.email || '';
+                studentsCount = students.filter(s => 
+                    s.bindParentEmail && s.bindParentEmail.toLowerCase() === searchEmail.toLowerCase()
+                ).length;
+            }
+            document.getElementById('bindAccountStudents').textContent = studentsCount.toString();
+            
+            // Store the found email/phone for form submission
+            if (foundAccount.email) {
+                document.getElementById('sBindParentEmail').setAttribute('data-found-email', foundAccount.email);
+            }
+            if (foundAccount.phone) {
+                document.getElementById('sBindParentPhone').value = foundAccount.phone;
+            }
+            
+            accountInfoDiv.style.display = 'block';
+            accountNotFoundDiv.style.display = 'none';
+        } else {
+            // Show not found message only if search term is substantial
+            if (searchTerm.length >= 3) {
+                accountInfoDiv.style.display = 'none';
+                accountNotFoundDiv.style.display = 'block';
+            }
+        }
+    }
+
+    // Validate and search for bind account (backward compatibility)
+    function validateBindAccount() {
+        const email = (document.getElementById('sBindParentEmail').value || '').trim();
+        const phone = (document.getElementById('sBindParentPhone').value || '').trim();
+        
+        // Use the stored found email if available
+        const foundEmail = document.getElementById('sBindParentEmail').getAttribute('data-found-email') || email;
+        
+        const accountInfoDiv = document.getElementById('bindAccountInfo');
+        const accountNotFoundDiv = document.getElementById('bindAccountNotFound');
+        
+        // Hide both divs initially
+        accountInfoDiv.style.display = 'none';
+        accountNotFoundDiv.style.display = 'none';
+        
+        if (!email && !foundEmail) {
+            return; // Don't search if email is empty
+        }
+        
+        // Use searchBindAccount if we have a search term
+        if (email || foundEmail) {
+            searchBindAccount(email || foundEmail);
+        }
+    }
+    
+    // Make functions globally available
+    window.validateBindAccount = validateBindAccount;
+    window.searchBindAccount = searchBindAccount;
+
     // Toggle portal account type fields
     function togglePortalAccountType() {
         const accountType = document.querySelector('input[name="portalAccountType"]:checked')?.value || 'new';
@@ -989,6 +1165,21 @@ ob_start();
             newAccountLabel.style.background = '#f0f7ff';
             bindAccountLabel.style.borderColor = '#e5e7eb';
             bindAccountLabel.style.background = 'transparent';
+            
+            // Hide account info displays when switching away from bind
+            const accountInfoDiv = document.getElementById('bindAccountInfo');
+            const accountNotFoundDiv = document.getElementById('bindAccountNotFound');
+            if (accountInfoDiv) accountInfoDiv.style.display = 'none';
+            if (accountNotFoundDiv) accountNotFoundDiv.style.display = 'none';
+            
+            // Clear bind account search state
+            const bindEmailInput = document.getElementById('sBindParentEmail');
+            if (bindEmailInput) {
+                bindEmailInput.value = '';
+                bindEmailInput.removeAttribute('data-found-email');
+            }
+            const bindPhoneInput = document.getElementById('sBindParentPhone');
+            if (bindPhoneInput) bindPhoneInput.value = '';
         }
     }
 
@@ -1005,45 +1196,41 @@ ob_start();
         const openBtn=document.getElementById('openStudentModal');
         const saveBtn=document.getElementById('saveStudent');
         const tableBody=document.querySelector('.simple-table-container table tbody');
-        const portalEmailInput = document.getElementById('sPortalEmail');
-        const portalPasswordInput = document.getElementById('sPortalPassword');
-        const portalPhoneInput = document.getElementById('sPortalPhone');
         const portalRelationshipSelect = document.getElementById('sPortalRelationship');
-        const guardianEmailInput = document.getElementById('sGuardianEmail');
-        const guardianPhoneInput = document.getElementById('sGuardianPhone');
 
         if (openBtn) openBtn.addEventListener('click', function(e){ e.preventDefault(); openAddStudentModal(); });
-        
-        // Auto-fill portal email from guardian email if portal email is empty
-        if(guardianEmailInput && portalEmailInput) {
-            guardianEmailInput.addEventListener('blur', function() {
-                if(!portalEmailInput.value && this.value) {
-                    portalEmailInput.value = this.value;
-                }
-            });
-        }
-        
-        // Auto-fill portal phone from guardian phone if portal phone is empty
-        if(guardianPhoneInput && portalPhoneInput) {
-            guardianPhoneInput.addEventListener('blur', function() {
-                if(!portalPhoneInput.value && this.value) {
-                    portalPhoneInput.value = this.value;
-                }
-            });
+
+        // Function to calculate age from date of birth in format "15 year 3 Month"
+        function formatAge(dob) {
+            if (!dob) return '';
+            const birthDate = new Date(dob);
+            const today = new Date();
+            
+            let years = today.getFullYear() - birthDate.getFullYear();
+            let months = today.getMonth() - birthDate.getMonth();
+            
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+            
+            if (years < 0) return '';
+            
+            return `${years} year ${months} Month`;
         }
 
         function prependRow(s){
+            const ageDisplay = s.dob ? formatAge(s.dob) : (s.age || '');
             const tr=document.createElement('tr');
             tr.innerHTML = `
                 <td><strong>${s.id}</strong></td>
                 <td>${s.name}</td>
                 <td>${s.currentClass || s.klass || ''}</td>
-                <td>${s.age||''}</td>
+                <td>${ageDisplay}</td>
                 <td>${s.guardianName || s.parent || ''}</td>
                 <td>${s.guardianPhone || s.phone || ''}</td>
-                <td>${s.guardianEmail || s.email || ''}</td>
                 <td>${s.dateOfJoining || s.enroll || ''}</td>
-                <td>${s.status||'Active'}</td>
+                <td><span class="status-badge ${(s.status||'Active').toLowerCase() === 'active' ? 'paid' : (s.status||'Active').toLowerCase() === 'transfer' ? 'pending' : 'draft'}">${s.status||'Active'}</span></td>
                 <td><button class="view-btn">View Details</button></td>`;
             tableBody.prepend(tr);
         }
@@ -1064,41 +1251,35 @@ ob_start();
             let bindParentEmail = '';
             let bindParentPhone = '';
             let bindRelationship = '';
-            let secondKidAtSchool = false;
             let createPortal = false;
             
             if (isBindingAccount) {
                 // Binding to existing account
-                bindParentEmail = (document.getElementById('sBindParentEmail').value||'').trim();
+                // Use the found email from search if available, otherwise use input value
+                const emailInput = document.getElementById('sBindParentEmail');
+                const foundEmail = emailInput.getAttribute('data-found-email');
+                bindParentEmail = foundEmail || (emailInput.value||'').trim();
                 bindParentPhone = (document.getElementById('sBindParentPhone').value||'').trim();
                 bindRelationship = document.getElementById('sBindRelationship').value;
-                secondKidAtSchool = document.getElementById('sSecondKidAtSchool').checked;
                 
-                if (!bindParentEmail) {
-                    alert('Please enter the existing parent email address to bind this student');
+                // Check if account was found
+                const accountInfoDiv = document.getElementById('bindAccountInfo');
+                if (!bindParentEmail || accountInfoDiv.style.display === 'none') {
+                    alert('Please search and select an existing parent account to bind this student');
                     return;
                 }
                 
                 if (!bindParentEmail.includes('@')) {
-                    alert('Please enter a valid parent email address');
+                    alert('Please enter a valid parent email address or search for an existing account');
                     return;
                 }
                 
                 createPortal = true; // Mark as portal account (bound)
             } else {
                 // Creating new account
-                portalEmail = (document.getElementById('sPortalEmail').value||'').trim();
-                portalPassword = document.getElementById('sPortalPassword').value;
-                portalPhone = (document.getElementById('sPortalPhone').value||'').trim();
                 portalRelationship = document.getElementById('sPortalRelationship').value;
-                createPortal = portalEmail && portalPassword;
-                
-                if(createPortal) {
-                    if(!portalEmail.includes('@')) {
-                        alert('Please enter a valid portal email address');
-                        return;
-                    }
-                }
+                // Portal account creation is now optional - no email/password required
+                createPortal = false;
             }
             
             // Generate Student ID if not provided
@@ -1151,27 +1332,21 @@ ob_start();
                 status: 'Active',
                 portalAccount: createPortal,
                 portalAccountType: portalAccountType,
-                portalEmail: createPortal && !isBindingAccount ? portalEmail : '',
-                portalPhone: createPortal && !isBindingAccount ? portalPhone : '',
-                portalRelationship: createPortal && !isBindingAccount ? portalRelationship : '',
+                portalEmail: '',
+                portalPhone: '',
+                portalRelationship: !isBindingAccount ? portalRelationship : '',
                 bindParentEmail: isBindingAccount ? bindParentEmail : '',
                 bindParentPhone: isBindingAccount ? bindParentPhone : '',
-                bindRelationship: isBindingAccount ? bindRelationship : '',
-                secondKidAtSchool: isBindingAccount ? secondKidAtSchool : false
+                bindRelationship: isBindingAccount ? bindRelationship : ''
             };
             let list=[]; try{ list=JSON.parse(localStorage.getItem('students')||'[]'); }catch(e){ list=[]; }
             list.unshift(obj); localStorage.setItem('students', JSON.stringify(list));
             prependRow(obj);
             closeAddStudentModal();
             
-            if(createPortal) {
-                if (isBindingAccount) {
-                    const bindInfo = `Bound to existing account:\nEmail: ${bindParentEmail}\nPhone: ${bindParentPhone || 'N/A'}\nRelationship: ${bindRelationship || 'N/A'}\nSecond Kid at School: ${secondKidAtSchool ? 'Yes' : 'No'}`;
-                    alert(`Student added successfully!\n\n${bindInfo}`);
-                } else {
-                    const portalInfo = `Email: ${portalEmail}\nPhone: ${portalPhone || 'N/A'}\nRelationship: ${portalRelationship || 'N/A'}`;
-                    alert(`Student added successfully!\n\nPortal access created:\n${portalInfo}`);
-                }
+            if(createPortal && isBindingAccount) {
+                const bindInfo = `Bound to existing account:\nEmail: ${bindParentEmail}\nPhone: ${bindParentPhone || 'N/A'}\nRelationship: ${bindRelationship || 'N/A'}`;
+                alert(`Student added successfully!\n\n${bindInfo}`);
             } else {
                 alert('Student added successfully!');
             }
@@ -1201,34 +1376,6 @@ ob_start();
     });
     </script>
     
-    <div class="simple-filters">
-        <div class="filter-group">
-            <label>Filter by Class:</label>
-            <select class="filter-select">
-                <option value="">All Classes</option>
-                <option value="Grade 9-A">Grade 9-A</option>
-                <option value="Grade 9-B">Grade 9-B</option>
-                <option value="Grade 10-A">Grade 10-A</option>
-                <option value="Grade 10-B">Grade 10-B</option>
-                <option value="Grade 11-A">Grade 11-A</option>
-                <option value="Grade 11-B">Grade 11-B</option>
-                <option value="Grade 12-A">Grade 12-A</option>
-                <option value="Grade 12-B">Grade 12-B</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label>Filter by Grade:</label>
-            <select class="filter-select">
-                <option value="">All Grades</option>
-                <option value="Grade 9">Grade 9</option>
-                <option value="Grade 10">Grade 10</option>
-                <option value="Grade 11">Grade 11</option>
-                <option value="Grade 12">Grade 12</option>
-            </select>
-        </div>
-        <button class="simple-btn">Apply Filters</button>
-    </div>
-    
     <div class="simple-table-container">
         <table class="basic-table">
             <thead>
@@ -1239,7 +1386,6 @@ ob_start();
                     <th>Age</th>
                     <th>Parent Name</th>
                     <th>Phone</th>
-                    <th>Email</th>
                     <th>Enrollment Date</th>
                     <th>Status</th>
                     <th>Actions</th>
@@ -1250,120 +1396,110 @@ ob_start();
                     <td><strong>S001</strong></td>
                     <td>John Smith</td>
                     <td>Grade 9-A</td>
-                    <td>15</td>
+                    <td>15 year 3 Month</td>
                     <td>Robert Smith</td>
                     <td>+1-555-1001</td>
-                    <td>rsmith@email.com</td>
                     <td>2023-09-01</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                     <td><a class="view-btn" href="/admin/student-profile/S001">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S002</strong></td>
                     <td>Sarah Johnson</td>
                     <td>Grade 9-A</td>
-                    <td>14</td>
+                    <td>14 year 5 Month</td>
                     <td>Mary Johnson</td>
                     <td>+1-555-1002</td>
-                    <td>mjohnson@email.com</td>
                     <td>2023-09-01</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                     <td><a class="view-btn" href="/admin/student-profile/S002">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S003</strong></td>
                     <td>Mike Davis</td>
                     <td>Grade 10-B</td>
-                    <td>16</td>
+                    <td>16 year 2 Month</td>
                     <td>James Davis</td>
                     <td>+1-555-1003</td>
-                    <td>jdavis@email.com</td>
                     <td>2022-09-05</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                     <td><a class="view-btn" href="/admin/student-profile/S003">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S004</strong></td>
                     <td>Emma Wilson</td>
                     <td>Grade 11-A</td>
-                    <td>17</td>
+                    <td>17 year 4 Month</td>
                     <td>Lisa Wilson</td>
                     <td>+1-555-1004</td>
-                    <td>lwilson@email.com</td>
                     <td>2021-09-10</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                     <td><a class="view-btn" href="/admin/student-profile/S004">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S005</strong></td>
                     <td>Alex Brown</td>
                     <td>Grade 12-A</td>
-                    <td>18</td>
+                    <td>18 year 1 Month</td>
                     <td>Michael Brown</td>
                     <td>+1-555-1005</td>
-                    <td>mbrown@email.com</td>
                     <td>2020-09-15</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                     <td><a class="view-btn" href="/admin/student-profile/S005">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S006</strong></td>
                     <td>Jessica Lee</td>
                     <td>Grade 9-B</td>
-                    <td>15</td>
+                    <td>15 year 6 Month</td>
                     <td>Susan Lee</td>
                     <td>+1-555-1006</td>
-                    <td>slee@email.com</td>
                     <td>2023-09-01</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                     <td><a class="view-btn" href="/admin/student-profile/S006">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S007</strong></td>
                     <td>David Garcia</td>
                     <td>Grade 10-A</td>
-                    <td>16</td>
+                    <td>16 year 7 Month</td>
                     <td>Carlos Garcia</td>
                     <td>+1-555-1007</td>
-                    <td>cgarcia@email.com</td>
                     <td>2022-09-08</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                     <td><a class="view-btn" href="/admin/student-profile/S007">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S008</strong></td>
                     <td>Anna Taylor</td>
                     <td>Grade 11-B</td>
-                    <td>17</td>
+                    <td>17 year 8 Month</td>
                     <td>Jennifer Taylor</td>
                     <td>+1-555-1008</td>
-                    <td>jtaylor@email.com</td>
                     <td>2021-09-12</td>
-                    <td>Transfer</td>
+                    <td><span class="status-badge pending">Transfer</span></td>
                     <td><a class="view-btn" href="/admin/student-profile/S008">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S009</strong></td>
                     <td>Chris Martinez</td>
                     <td>Grade 12-B</td>
-                    <td>18</td>
+                    <td>18 year 9 Month</td>
                     <td>Rosa Martinez</td>
                     <td>+1-555-1009</td>
-                    <td>rmartinez@email.com</td>
                     <td>2020-09-20</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                     <td><a class="view-btn" href="/admin/student-profile/S009">View Details</a></td>
                 </tr>
                 <tr>
                     <td><strong>S010</strong></td>
                     <td>Mia Anderson</td>
                     <td>Grade 9-A</td>
-                    <td>14</td>
+                    <td>14 year 2 Month</td>
                     <td>Patricia Anderson</td>
                     <td>+1-555-1010</td>
-                    <td>panderson@email.com</td>
                     <td>2023-09-01</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                     <td><a class="view-btn" href="/admin/student-profile/S010">View Details</a></td>
                 </tr>
             </tbody>

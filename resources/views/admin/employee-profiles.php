@@ -472,9 +472,43 @@ ob_start();
         </div>
     </div>
     
-    <div class="simple-search">
-        <input type="text" placeholder="Search employee by name, ID, or department..." class="simple-input">
-        <button class="simple-btn">Search</button>
+    <div class="simple-filters" style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+        <div class="simple-search" style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 300px; max-width: 400px;">
+            <input type="text" placeholder="Search employee by name, ID, or department..." class="simple-input" style="flex: 1; min-width: 0;">
+            <button class="simple-btn">Search</button>
+        </div>
+        <div class="filter-group">
+            <label>Filter by Department:</label>
+            <select class="filter-select">
+                <option value="">All Departments</option>
+                <option value="Administration">Administration</option>
+                <option value="Maintenance">Maintenance</option>
+                <option value="Food Service">Food Service</option>
+                <option value="Security">Security</option>
+                <option value="Library">Library</option>
+                <option value="IT Support">IT Support</option>
+                <option value="Health Services">Health Services</option>
+                <option value="Transportation">Transportation</option>
+                <option value="Counseling">Counseling</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Filter by Position:</label>
+            <select class="filter-select">
+                <option value="">All Positions</option>
+                <option value="Secretary">Secretary</option>
+                <option value="Accountant">Accountant</option>
+                <option value="Technician">Technician</option>
+                <option value="Cook">Cook</option>
+                <option value="Security Guard">Security Guard</option>
+                <option value="Librarian">Librarian</option>
+                <option value="IT Technician">IT Technician</option>
+                <option value="Nurse">Nurse</option>
+                <option value="Bus Driver">Bus Driver</option>
+                <option value="Counselor">Counselor</option>
+            </select>
+        </div>
+        <button class="simple-btn">Apply Filters</button>
     </div>
 
     <style>
@@ -1126,7 +1160,7 @@ ob_start();
                 <td>${x.email||''}</td>
                 <td>${x.hire||''}</td>
                 <td>${x.salary||''}</td>
-                <td>${x.status||'Active'}</td>
+                <td><span class="status-badge ${(x.status||'Active').toLowerCase() === 'active' ? 'paid' : (x.status||'Active').toLowerCase() === 'on leave' ? 'pending' : 'draft'}">${x.status||'Active'}</span></td>
                 <td><button class="view-btn">View Details</button></td>`;
             tableBody.prepend(tr);
         }
@@ -1227,41 +1261,6 @@ ob_start();
     });
     </script>
     
-    <div class="simple-filters">
-        <div class="filter-group">
-            <label>Filter by Department:</label>
-            <select class="filter-select">
-                <option value="">All Departments</option>
-                <option value="Administration">Administration</option>
-                <option value="Maintenance">Maintenance</option>
-                <option value="Food Service">Food Service</option>
-                <option value="Security">Security</option>
-                <option value="Library">Library</option>
-                <option value="IT Support">IT Support</option>
-                <option value="Health Services">Health Services</option>
-                <option value="Transportation">Transportation</option>
-                <option value="Counseling">Counseling</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label>Filter by Position:</label>
-            <select class="filter-select">
-                <option value="">All Positions</option>
-                <option value="Secretary">Secretary</option>
-                <option value="Accountant">Accountant</option>
-                <option value="Technician">Technician</option>
-                <option value="Cook">Cook</option>
-                <option value="Security Guard">Security Guard</option>
-                <option value="Librarian">Librarian</option>
-                <option value="IT Technician">IT Technician</option>
-                <option value="Nurse">Nurse</option>
-                <option value="Bus Driver">Bus Driver</option>
-                <option value="Counselor">Counselor</option>
-            </select>
-        </div>
-        <button class="simple-btn">Apply Filters</button>
-    </div>
-    
     <div class="simple-table-container">
         <table class="basic-table">
             <thead>
@@ -1288,7 +1287,7 @@ ob_start();
                     <td>john.miller@school.edu</td>
                     <td>2020-03-15</td>
                     <td>$3,200</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                     <td><a class="view-btn" href="/admin/staff-profile/E001">View Details</a></td>
                 </tr>
                 <tr>
@@ -1300,7 +1299,7 @@ ob_start();
                     <td>maria.santos@school.edu</td>
                     <td>2019-07-22</td>
                     <td>$4,500</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                     <td><a class="view-btn" href="/admin/staff-profile/E002">View Details</a></td>
                 </tr>
                 <tr>
@@ -1312,7 +1311,7 @@ ob_start();
                     <td>peter.johnson@school.edu</td>
                     <td>2021-01-10</td>
                     <td>$2,800</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                     <td><a class="view-btn" href="/admin/staff-profile/E003">View Details</a></td>
                 </tr>
                 <tr>
@@ -1324,7 +1323,7 @@ ob_start();
                     <td>anna.williams@school.edu</td>
                     <td>2020-09-05</td>
                     <td>$2,500</td>
-                    <td>On Leave</td>
+                    <td><span class="status-badge pending">On Leave</span></td>
                     <td><a class="view-btn" href="/admin/staff-profile/E004">View Details</a></td>
                 </tr>
                 <tr>
@@ -1336,7 +1335,7 @@ ob_start();
                     <td>carlos.rodriguez@school.edu</td>
                     <td>2018-11-20</td>
                     <td>$2,700</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                     <td><a class="view-btn" href="/admin/staff-profile/E005">View Details</a></td>
                 </tr>
                 <tr>
@@ -1348,7 +1347,7 @@ ob_start();
                     <td>susan.davis@school.edu</td>
                     <td>2019-04-12</td>
                     <td>$3,800</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                     <td><a class="view-btn" href="/admin/staff-profile/E006">View Details</a></td>
                 </tr>
                 <tr>
@@ -1360,7 +1359,7 @@ ob_start();
                     <td>ahmed.hassan@school.edu</td>
                     <td>2020-12-01</td>
                     <td>$4,200</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                     <td><a class="view-btn" href="/admin/staff-profile/E007">View Details</a></td>
                 </tr>
                 <tr>
@@ -1372,7 +1371,7 @@ ob_start();
                     <td>linda.thompson@school.edu</td>
                     <td>2018-08-15</td>
                     <td>$4,000</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                     <td><a class="view-btn" href="/admin/staff-profile/E008">View Details</a></td>
                 </tr>
                 <tr>
@@ -1384,7 +1383,7 @@ ob_start();
                     <td>robert.wilson@school.edu</td>
                     <td>2019-10-08</td>
                     <td>$3,000</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                     <td><a class="view-btn" href="/admin/staff-profile/E009">View Details</a></td>
                 </tr>
                 <tr>
@@ -1396,7 +1395,7 @@ ob_start();
                     <td>jennifer.martinez@school.edu</td>
                     <td>2021-03-18</td>
                     <td>$4,800</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                     <td><a class="view-btn" href="/admin/staff-profile/E010">View Details</a></td>
                 </tr>
             </tbody>

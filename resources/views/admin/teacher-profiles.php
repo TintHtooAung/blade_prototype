@@ -19,39 +19,15 @@ ob_start();
 
 <!-- Teacher Stats Cards -->
 <div class="stats-grid-horizontal" style="margin-bottom: 24px;">
-    <!-- Total Teachers -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal yellow">
-            <i class="fas fa-chalkboard-teacher"></i>
-        </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">111</div>
-            <div class="stat-label">Total Teachers</div>
-            <div class="stat-today">All faculty</div>
-        </div>
-    </div>
-
-    <!-- Active Teachers -->
+    <!-- Total Active Teachers -->
     <div class="stat-card-horizontal">
         <div class="stat-icon-horizontal green">
             <i class="fas fa-user-check"></i>
         </div>
         <div class="stat-content-horizontal">
             <div class="stat-value">108</div>
-            <div class="stat-label">Active Teachers</div>
+            <div class="stat-label">Total Active Teachers</div>
             <div class="stat-today">97.3% present</div>
-        </div>
-    </div>
-
-    <!-- On Leave -->
-    <div class="stat-card-horizontal">
-        <div class="stat-icon-horizontal blue">
-            <i class="fas fa-calendar-times"></i>
-        </div>
-        <div class="stat-content-horizontal">
-            <div class="stat-value">3</div>
-            <div class="stat-label">On Leave</div>
-            <div class="stat-today">Currently</div>
         </div>
     </div>
 
@@ -487,11 +463,6 @@ ob_start();
                 </div>
             </div>
         </div>
-    </div>
-    
-    <div class="simple-search">
-        <input type="text" placeholder="Search teacher by name, ID, or department..." class="simple-input">
-        <button class="simple-btn">Search</button>
     </div>
 
     <style>
@@ -1176,9 +1147,8 @@ ob_start();
                 <td>${t.dept}</td>
                 <td>${t.subjects}</td>
                 <td>${t.phone||''}</td>
-                <td>${t.email||''}</td>
                 <td>${t.join||''}</td>
-                <td>${t.status||'Active'}</td>
+                <td><span class="status-badge ${(t.status||'Active').toLowerCase() === 'active' ? 'paid' : (t.status||'Active').toLowerCase() === 'on leave' ? 'pending' : 'draft'}">${t.status||'Active'}</span></td>
                 <td><button class="view-btn">View Details</button></td>`;
             tableBody.prepend(tr);
         }
@@ -1300,7 +1270,11 @@ ob_start();
     });
     </script>
     
-    <div class="simple-filters">
+    <div class="simple-filters" style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+        <div class="simple-search" style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 300px; max-width: 400px;">
+            <input type="text" placeholder="Search teacher by name, ID, or department..." class="simple-input" style="flex: 1; min-width: 0;">
+            <button class="simple-btn">Search</button>
+        </div>
         <div class="filter-group">
             <label>Filter by Grade:</label>
             <select class="filter-select">
@@ -1339,7 +1313,6 @@ ob_start();
                     <th>Department</th>
                     <th>Subject</th>
                     <th>Phone</th>
-                    <th>Email</th>
                     <th>Join Date</th>
                     <th>Status</th>
                     <th>Actions</th>
@@ -1352,9 +1325,8 @@ ob_start();
                     <td>Mathematics</td>
                     <td>Algebra, Calculus</td>
                     <td>+1-555-0101</td>
-                    <td>emily.parker@school.edu</td>
                     <td>2020-08-15</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                 <td><a class="view-btn" href="/admin/teacher-profile/T001">View Details</a></td>
                 </tr>
                 <tr>
@@ -1363,9 +1335,8 @@ ob_start();
                     <td>Science</td>
                     <td>Physics, Chemistry</td>
                     <td>+1-555-0102</td>
-                    <td>james.wilson@school.edu</td>
                     <td>2019-09-01</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                 <td><a class="view-btn" href="/admin/teacher-profile/T002">View Details</a></td>
                 </tr>
                 <tr>
@@ -1374,9 +1345,8 @@ ob_start();
                     <td>English</td>
                     <td>Literature, Grammar</td>
                     <td>+1-555-0103</td>
-                    <td>sarah.chen@school.edu</td>
                     <td>2021-01-10</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                 <td><a class="view-btn" href="/admin/teacher-profile/T003">View Details</a></td>
                 </tr>
                 <tr>
@@ -1385,9 +1355,8 @@ ob_start();
                     <td>History</td>
                     <td>World History, Geography</td>
                     <td>+1-555-0104</td>
-                    <td>david.lee@school.edu</td>
                     <td>2018-03-20</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                 <td><a class="view-btn" href="/admin/teacher-profile/T004">View Details</a></td>
                 </tr>
                 <tr>
@@ -1396,9 +1365,8 @@ ob_start();
                     <td>Art</td>
                     <td>Drawing, Painting</td>
                     <td>+1-555-0105</td>
-                    <td>lisa.wong@school.edu</td>
                     <td>2020-11-05</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                 <td><a class="view-btn" href="/admin/teacher-profile/T005">View Details</a></td>
                 </tr>
                 <tr>
@@ -1407,9 +1375,8 @@ ob_start();
                     <td>Physical Education</td>
                     <td>Sports, Health</td>
                     <td>+1-555-0106</td>
-                    <td>michael.brown@school.edu</td>
                     <td>2019-06-12</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                 <td><a class="view-btn" href="/admin/teacher-profile/T006">View Details</a></td>
                 </tr>
                 <tr>
@@ -1418,9 +1385,8 @@ ob_start();
                     <td>Chemistry</td>
                     <td>Organic Chemistry</td>
                     <td>+1-555-0107</td>
-                    <td>helen.thompson@school.edu</td>
                     <td>2017-02-28</td>
-                    <td>On Leave</td>
+                    <td><span class="status-badge paid">Active</span></td>
                 <td><a class="view-btn" href="/admin/teacher-profile/T007">View Details</a></td>
                 </tr>
                 <tr>
@@ -1429,9 +1395,8 @@ ob_start();
                     <td>Music</td>
                     <td>Piano, Theory</td>
                     <td>+1-555-0108</td>
-                    <td>robert.kim@school.edu</td>
                     <td>2020-09-14</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                 <td><a class="view-btn" href="/admin/teacher-profile/T008">View Details</a></td>
                 </tr>
                 <tr>
@@ -1440,9 +1405,8 @@ ob_start();
                     <td>Spanish</td>
                     <td>Spanish Language</td>
                     <td>+1-555-0109</td>
-                    <td>amanda.garcia@school.edu</td>
                     <td>2021-08-30</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                 <td><a class="view-btn" href="/admin/teacher-profile/T009">View Details</a></td>
                 </tr>
                 <tr>
@@ -1451,9 +1415,8 @@ ob_start();
                     <td>Computer Science</td>
                     <td>Programming, Database</td>
                     <td>+1-555-0110</td>
-                    <td>thomas.anderson@school.edu</td>
                     <td>2019-01-15</td>
-                    <td>Active</td>
+                    <td><span class="status-badge paid">Active</span></td>
                 <td><a class="view-btn" href="/admin/teacher-profile/T010">View Details</a></td>
                 </tr>
             </tbody>

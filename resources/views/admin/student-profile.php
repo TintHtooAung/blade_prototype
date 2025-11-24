@@ -39,15 +39,10 @@ ob_start();
     <div class="simple-table-container">
         <table class="basic-table">
             <tbody>
-                <tr><th style="width:220px;">Student ID</th><td><?php echo htmlspecialchars($id); ?></td></tr>
-                <tr><th>Full Name</th><td id="basicFullName">Placeholder Name</td></tr>
-                <tr><th>Class</th><td id="basicClass">Grade 10-A</td></tr>
-                <tr><th>Age</th><td id="basicAge">16</td></tr>
-                <tr><th>Parent/Guardian</th><td id="basicGuardian">Placeholder Parent</td></tr>
-                <tr><th>Guardian Email</th><td id="basicGuardianEmail">parent@email.com</td></tr>
-                <tr><th>Phone</th><td id="basicPhone">+1-555-1000</td></tr>
-                <tr><th>Status</th><td id="basicStatus"><span class="status-badge paid">Active</span></td></tr>
-                <tr><th>Join Date</th><td id="basicJoinDate">2023-09-01</td></tr>
+                <tr><th style="width:220px;">Photo</th><td id="basicPhoto"><img src="" alt="Photo" style="max-width: 100px; height: auto; border-radius: 4px;" onerror="this.style.display='none'"></td></tr>
+                <tr><th>Name</th><td id="basicFullName">Placeholder Name</td></tr>
+                <tr><th>Student ID</th><td><?php echo htmlspecialchars($id); ?></td></tr>
+                <tr><th>Date of Joining</th><td id="basicJoinDate">2023-09-01</td></tr>
             </tbody>
         </table>
     </div>
@@ -62,14 +57,11 @@ ob_start();
     <div class="simple-table-container">
         <table class="basic-table">
             <tbody>
-                <tr><th style="width:220px;">NRC Number</th><td id="personalNRC">12/STU(N)345678</td></tr>
-                <tr><th>Date of Birth</th><td id="personalDOB">2008-05-12</td></tr>
-                <tr><th>Gender</th><td id="personalGender">Male</td></tr>
-                <tr><th>Address</th><td id="personalAddress">789 Student Lane, City, State 12345</td></tr>
-                <tr><th>Emergency Contact</th><td id="personalEmergency">Mary Johnson - +1-555-1001</td></tr>
-                <tr><th>Blood Type</th><td id="personalBloodType">B+</td></tr>
-                <tr><th>Medical Conditions</th><td id="personalMedical">None</td></tr>
-                <tr><th>Allergies</th><td id="personalAllergies">None</td></tr>
+                <tr><th style="width:220px;">Gender</th><td id="personalGender">Male</td></tr>
+                <tr><th>Ethnicity</th><td id="personalEthnicity">-</td></tr>
+                <tr><th>Religious</th><td id="personalReligious">-</td></tr>
+                <tr><th>NRC</th><td id="personalNRC">12/STU(N)345678</td></tr>
+                <tr><th>D.O.B</th><td id="personalDOB">2008-05-12</td></tr>
             </tbody>
         </table>
     </div>
@@ -84,27 +76,62 @@ ob_start();
     <div class="simple-table-container">
         <table class="basic-table">
             <tbody>
-                <tr><th style="width:220px;">Grade</th><td id="academicGrade">Grade 10</td></tr>
-                <tr><th>Class</th><td id="academicClass">A</td></tr>
-                <tr><th>Admission Date</th><td id="academicAdmission">2023-09-01</td></tr>
+                <tr><th style="width:220px;">Starting grade at school</th><td id="academicStartingGrade">Grade 7</td></tr>
+                <tr><th>Current Grade</th><td id="academicCurrentGrade">Grade 10</td></tr>
+                <tr><th>Current Class</th><td id="academicCurrentClass">A</td></tr>
+                <tr><th>Guardian Teacher</th><td id="academicGuardianTeacher">-</td></tr>
+                <tr><th>Assistant Teacher</th><td id="academicAssistantTeacher">-</td></tr>
+                <tr><th>Previous School</th><td id="academicPreviousSchool">-</td></tr>
+                <tr><th>Address</th><td id="academicAddress">789 Student Lane, City, State 12345</td></tr>
             </tbody>
         </table>
     </div>
 
-    <!-- Guardian Information Section -->
+    <!-- Family & Relationship Section -->
     <div class="simple-header" style="margin-top:24px;">
-        <h4><i class="fas fa-users"></i> Guardian Information</h4>
-        <button class="simple-btn" onclick="openEditModal('guardian')">
+        <h4><i class="fas fa-users"></i> Family & Relationship</h4>
+        <button class="simple-btn" onclick="openEditModal('family')">
             <i class="fas fa-edit"></i> Edit
         </button>
     </div>
     <div class="simple-table-container">
         <table class="basic-table">
             <tbody>
-                <tr><th style="width:220px;">Parent/Guardian Name</th><td id="guardianName">Placeholder Parent</td></tr>
-                <tr><th>Relationship</th><td id="guardianRelationship">Father</td></tr>
-                <tr><th>Email</th><td id="guardianEmail">parent@email.com</td></tr>
-                <tr><th>Phone</th><td id="guardianPhone">+1-555-1000</td></tr>
+                <tr><th style="width:220px;">Father name</th><td id="familyFatherName">-</td></tr>
+                <tr><th>Father's NRC</th><td id="familyFatherNRC">-</td></tr>
+                <tr><th>Father's Ph no.</th><td id="familyFatherPhone">-</td></tr>
+                <tr><th>Father's Occupation</th><td id="familyFatherOccupation">-</td></tr>
+                <tr><th>Mother name</th><td id="familyMotherName">-</td></tr>
+                <tr><th>Mother's NRC</th><td id="familyMotherNRC">-</td></tr>
+                <tr><th>Mother's Ph no.</th><td id="familyMotherPhone">-</td></tr>
+                <tr><th>Mother's Occupation</th><td id="familyMotherOccupation">-</td></tr>
+                <tr><th>Guardian name</th><td id="familyGuardianName">Placeholder Parent</td></tr>
+                <tr><th>Guardian's Ph no.</th><td id="familyGuardianPhone">+1-555-1000</td></tr>
+                <tr><th>Guardian's Email</th><td id="familyGuardianEmail">parent@email.com</td></tr>
+                <tr><th>Emergency contact ph no.</th><td id="familyEmergencyContact">+1-555-1001</td></tr>
+                <tr><th>In-school relative - Name</th><td id="familyInSchoolRelativeName">-</td></tr>
+                <tr><th>In-school relative - Grade</th><td id="familyInSchoolRelativeGrade">-</td></tr>
+                <tr><th>In-school relative - Relationship</th><td id="familyInSchoolRelativeRelationship">-</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Medical Section -->
+    <div class="simple-header" style="margin-top:24px;">
+        <h4><i class="fas fa-heartbeat"></i> Medical</h4>
+        <button class="simple-btn" onclick="openEditModal('medical')">
+            <i class="fas fa-edit"></i> Edit
+        </button>
+    </div>
+    <div class="simple-table-container">
+        <table class="basic-table">
+            <tbody>
+                <tr><th style="width:220px;">Weight</th><td id="medicalWeight">-</td></tr>
+                <tr><th>Height</th><td id="medicalHeight">-</td></tr>
+                <tr><th>Blood Type</th><td id="medicalBloodType">B+</td></tr>
+                <tr><th>Medicine allergy</th><td id="medicalMedicineAllergy">-</td></tr>
+                <tr><th>Food allergy</th><td id="medicalFoodAllergy">-</td></tr>
+                <tr><th>Medical Directory</th><td id="medicalDirectory">-</td></tr>
             </tbody>
         </table>
     </div>
@@ -159,35 +186,6 @@ ob_start();
         </table>
     </div>
 
-    <!-- Portal Access Information -->
-    <div class="simple-header" style="margin-top:24px;">
-        <h4><i class="fas fa-user-lock"></i> Guardian Portal Access</h4>
-        <button class="simple-btn" onclick="handlePortalAction()" id="portalActionBtn">
-            <i class="fas fa-check-circle"></i> Complete Setup
-        </button>
-    </div>
-    <div class="simple-table-container">
-        <table class="basic-table">
-            <tbody>
-                <tr>
-                    <th style="width:220px;">Portal User ID</th>
-                    <td>
-                        <input type="text" class="form-input" id="portalUserIdInput" placeholder="e.g., GP001" style="width:100%;">
-                    </td>
-                </tr>
-                <tr>
-                    <th>Portal Email</th>
-                    <td>
-                        <input type="email" class="form-input" id="portalEmailInput" placeholder="guardian@email.com" style="width:100%;">
-                    </td>
-                </tr>
-                <tr><th>Portal Role</th><td>Guardian Portal</td></tr>
-                <tr><th>Setup Status</th><td><span class="status-badge draft" id="setupStatus">Incomplete</span></td></tr>
-                <tr><th>Last Updated</th><td id="lastUpdated">-</td></tr>
-            </tbody>
-        </table>
-    </div>
-
 </div>
 
 <!-- Edit Modals -->
@@ -202,50 +200,21 @@ ob_start();
             <div class="form-section" style="padding:0;">
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Student ID</label>
-                        <input type="text" class="form-input" id="modalBasicId" value="<?php echo htmlspecialchars($id); ?>" readonly>
+                        <label>Photo</label>
+                        <input type="file" class="form-input" id="modalBasicPhoto" accept="image/*">
                     </div>
                     <div class="form-group" style="flex:2;">
-                        <label>Full Name</label>
+                        <label>Name</label>
                         <input type="text" class="form-input" id="modalBasicFullName" placeholder="Enter full name">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Class</label>
-                        <input type="text" class="form-input" id="modalBasicClass" placeholder="e.g., Grade 10-A">
+                        <label>Student ID</label>
+                        <input type="text" class="form-input" id="modalBasicId" value="<?php echo htmlspecialchars($id); ?>" readonly>
                     </div>
                     <div class="form-group">
-                        <label>Age</label>
-                        <input type="number" class="form-input" id="modalBasicAge" placeholder="Age">
-                    </div>
-                    <div class="form-group">
-                        <label>Status</label>
-                        <select class="form-select" id="modalBasicStatus">
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                            <option value="graduated">Graduated</option>
-                            <option value="transferred">Transferred</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group" style="flex:2;">
-                        <label>Parent/Guardian</label>
-                        <input type="text" class="form-input" id="modalBasicGuardian" placeholder="Parent/Guardian name">
-                    </div>
-                    <div class="form-group">
-                        <label>Guardian Email</label>
-                        <input type="email" class="form-input" id="modalBasicGuardianEmail" placeholder="parent@email.com">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Phone</label>
-                        <input type="tel" class="form-input" id="modalBasicPhone" placeholder="+1-555-0000">
-                    </div>
-                    <div class="form-group">
-                        <label>Join Date</label>
+                        <label>Date of Joining</label>
                         <input type="date" class="form-input" id="modalBasicJoinDate">
                     </div>
                 </div>
@@ -273,14 +242,6 @@ ob_start();
             <div class="form-section" style="padding:0;">
                 <div class="form-row">
                     <div class="form-group">
-                        <label>NRC Number</label>
-                        <input type="text" class="form-input" id="modalPersonalNRC" placeholder="e.g., 12/STU(N)345678">
-                    </div>
-                    <div class="form-group">
-                        <label>Date of Birth</label>
-                        <input type="date" class="form-input" id="modalPersonalDOB">
-                    </div>
-                    <div class="form-group">
                         <label>Gender</label>
                         <select class="form-select" id="modalPersonalGender">
                             <option value="Male">Male</option>
@@ -288,40 +249,23 @@ ob_start();
                             <option value="Other">Other</option>
                         </select>
                     </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group" style="flex:2;">
-                        <label>Address</label>
-                        <input type="text" class="form-input" id="modalPersonalAddress" placeholder="Street, City, State">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group" style="flex:2;">
-                        <label>Emergency Contact</label>
-                        <input type="text" class="form-input" id="modalPersonalEmergency" placeholder="Name - Phone">
+                    <div class="form-group">
+                        <label>Ethnicity</label>
+                        <input type="text" class="form-input" id="modalPersonalEthnicity" placeholder="Enter ethnicity">
                     </div>
                     <div class="form-group">
-                        <label>Blood Type</label>
-                        <select class="form-select" id="modalPersonalBloodType">
-                            <option value="A+">A+</option>
-                            <option value="A-">A-</option>
-                            <option value="B+">B+</option>
-                            <option value="B-">B-</option>
-                            <option value="AB+">AB+</option>
-                            <option value="AB-">AB-</option>
-                            <option value="O+">O+</option>
-                            <option value="O-">O-</option>
-                        </select>
+                        <label>Religious</label>
+                        <input type="text" class="form-input" id="modalPersonalReligious" placeholder="Enter religion">
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group" style="flex:2;">
-                        <label>Medical Conditions</label>
-                        <input type="text" class="form-input" id="modalPersonalMedical" placeholder="None">
+                    <div class="form-group">
+                        <label>NRC</label>
+                        <input type="text" class="form-input" id="modalPersonalNRC" placeholder="e.g., 12/STU(N)345678">
                     </div>
-                    <div class="form-group" style="flex:2;">
-                        <label>Allergies</label>
-                        <input type="text" class="form-input" id="modalPersonalAllergies" placeholder="None">
+                    <div class="form-group">
+                        <label>D.O.B</label>
+                        <input type="date" class="form-input" id="modalPersonalDOB">
                     </div>
                 </div>
             </div>
@@ -348,8 +292,25 @@ ob_start();
             <div class="form-section" style="padding:0;">
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Grade</label>
-                        <select class="form-select" id="modalAcademicGrade">
+                        <label>Starting grade at school</label>
+                        <select class="form-select" id="modalAcademicStartingGrade">
+                            <option value="Grade 1">Grade 1</option>
+                            <option value="Grade 2">Grade 2</option>
+                            <option value="Grade 3">Grade 3</option>
+                            <option value="Grade 4">Grade 4</option>
+                            <option value="Grade 5">Grade 5</option>
+                            <option value="Grade 6">Grade 6</option>
+                            <option value="Grade 7" selected>Grade 7</option>
+                            <option value="Grade 8">Grade 8</option>
+                            <option value="Grade 9">Grade 9</option>
+                            <option value="Grade 10">Grade 10</option>
+                            <option value="Grade 11">Grade 11</option>
+                            <option value="Grade 12">Grade 12</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Current Grade</label>
+                        <select class="form-select" id="modalAcademicCurrentGrade">
                             <option value="Grade 7">Grade 7</option>
                             <option value="Grade 8">Grade 8</option>
                             <option value="Grade 9">Grade 9</option>
@@ -359,8 +320,8 @@ ob_start();
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Class</label>
-                        <select class="form-select" id="modalAcademicClass">
+                        <label>Current Class</label>
+                        <select class="form-select" id="modalAcademicCurrentClass">
                             <option value="A" selected>A</option>
                             <option value="B">B</option>
                             <option value="C">C</option>
@@ -369,9 +330,25 @@ ob_start();
                             <option value="F">F</option>
                         </select>
                     </div>
+                </div>
+                <div class="form-row">
                     <div class="form-group">
-                        <label>Admission Date</label>
-                        <input type="date" class="form-input" id="modalAcademicAdmission">
+                        <label>Guardian Teacher</label>
+                        <input type="text" class="form-input" id="modalAcademicGuardianTeacher" placeholder="Teacher name">
+                    </div>
+                    <div class="form-group">
+                        <label>Assistant Teacher</label>
+                        <input type="text" class="form-input" id="modalAcademicAssistantTeacher" placeholder="Teacher name">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Previous School</label>
+                        <input type="text" class="form-input" id="modalAcademicPreviousSchool" placeholder="School name">
+                    </div>
+                    <div class="form-group" style="flex:2;">
+                        <label>Address</label>
+                        <input type="text" class="form-input" id="modalAcademicAddress" placeholder="Street, City, State">
                     </div>
                 </div>
             </div>
@@ -387,46 +364,179 @@ ob_start();
     </div>
 </div>
 
-<!-- Guardian Information Modal -->
-<div id="editGuardianModal" class="confirm-dialog-overlay" style="display:none;">
-    <div class="confirm-dialog-content" style="max-width: 600px;">
+<!-- Family & Relationship Modal -->
+<div id="editFamilyModal" class="confirm-dialog-overlay" style="display:none;">
+    <div class="confirm-dialog-content" style="max-width: 800px;">
         <div class="confirm-dialog-header">
-            <h4><i class="fas fa-users"></i> Edit Guardian Information</h4>
-            <button class="icon-btn" onclick="closeEditModal('guardian')"><i class="fas fa-times"></i></button>
+            <h4><i class="fas fa-users"></i> Edit Family & Relationship</h4>
+            <button class="icon-btn" onclick="closeEditModal('family')"><i class="fas fa-times"></i></button>
         </div>
         <div class="confirm-dialog-body" style="padding: 20px;">
             <div class="form-section" style="padding:0;">
                 <div class="form-row">
                     <div class="form-group" style="flex:2;">
-                        <label>Parent/Guardian Name</label>
-                        <input type="text" class="form-input" id="modalGuardianName" placeholder="Enter parent/guardian name">
+                        <label>Father name</label>
+                        <input type="text" class="form-input" id="modalFamilyFatherName" placeholder="Enter father's name">
                     </div>
                     <div class="form-group">
-                        <label>Relationship</label>
-                        <select class="form-select" id="modalGuardianRelationship">
-                            <option value="Father">Father</option>
-                            <option value="Mother">Mother</option>
-                            <option value="Guardian">Guardian</option>
-                        </select>
+                        <label>Father's NRC</label>
+                        <input type="text" class="form-input" id="modalFamilyFatherNRC" placeholder="e.g., 12/FAT(N)123456">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" class="form-input" id="modalGuardianEmail" placeholder="parent@email.com">
+                        <label>Father's Ph no.</label>
+                        <input type="tel" class="form-input" id="modalFamilyFatherPhone" placeholder="+1-555-0000">
+                    </div>
+                    <div class="form-group" style="flex:2;">
+                        <label>Father's Occupation</label>
+                        <input type="text" class="form-input" id="modalFamilyFatherOccupation" placeholder="Enter occupation">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:2;">
+                        <label>Mother name</label>
+                        <input type="text" class="form-input" id="modalFamilyMotherName" placeholder="Enter mother's name">
                     </div>
                     <div class="form-group">
-                        <label>Phone</label>
-                        <input type="tel" class="form-input" id="modalGuardianPhone" placeholder="+1-555-0000">
+                        <label>Mother's NRC</label>
+                        <input type="text" class="form-input" id="modalFamilyMotherNRC" placeholder="e.g., 12/MOT(N)123456">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Mother's Ph no.</label>
+                        <input type="tel" class="form-input" id="modalFamilyMotherPhone" placeholder="+1-555-0000">
+                    </div>
+                    <div class="form-group" style="flex:2;">
+                        <label>Mother's Occupation</label>
+                        <input type="text" class="form-input" id="modalFamilyMotherOccupation" placeholder="Enter occupation">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:1;">
+                        <label>Guardian name</label>
+                        <input type="text" class="form-input" id="modalFamilyGuardianName" placeholder="Enter guardian's name">
+                    </div>
+                    <div class="form-group">
+                        <label>Guardian's Ph no.</label>
+                        <input type="tel" class="form-input" id="modalFamilyGuardianPhone" placeholder="+1-555-0000">
+                    </div>
+                    <div class="form-group">
+                        <label>Guardian's Email</label>
+                        <input type="email" class="form-input" id="modalFamilyGuardianEmail" placeholder="guardian@email.com">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Emergency contact ph no.</label>
+                        <input type="tel" class="form-input" id="modalFamilyEmergencyContact" placeholder="+1-555-0000">
+                    </div>
+                </div>
+                <div style="margin-top: 24px; padding-top: 24px; border-top: 2px solid #e2e8f0;">
+                    <h5 style="margin-bottom: 16px; font-weight: 600;">In-school relative</h5>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-input" id="modalFamilyInSchoolRelativeName" placeholder="Enter relative's name">
+                        </div>
+                        <div class="form-group">
+                            <label>Grade</label>
+                            <select class="form-select" id="modalFamilyInSchoolRelativeGrade">
+                                <option value="">Select</option>
+                                <option value="Grade 1">Grade 1</option>
+                                <option value="Grade 2">Grade 2</option>
+                                <option value="Grade 3">Grade 3</option>
+                                <option value="Grade 4">Grade 4</option>
+                                <option value="Grade 5">Grade 5</option>
+                                <option value="Grade 6">Grade 6</option>
+                                <option value="Grade 7">Grade 7</option>
+                                <option value="Grade 8">Grade 8</option>
+                                <option value="Grade 9">Grade 9</option>
+                                <option value="Grade 10">Grade 10</option>
+                                <option value="Grade 11">Grade 11</option>
+                                <option value="Grade 12">Grade 12</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Relationship</label>
+                            <select class="form-select" id="modalFamilyInSchoolRelativeRelationship">
+                                <option value="">Select</option>
+                                <option value="Sibling">Sibling</option>
+                                <option value="Cousin">Cousin</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="confirm-dialog-actions">
-            <button class="simple-btn secondary" onclick="closeEditModal('guardian')">
+            <button class="simple-btn secondary" onclick="closeEditModal('family')">
                 <i class="fas fa-times"></i> Cancel
             </button>
-            <button class="simple-btn primary" onclick="saveGuardianInfo()">
+            <button class="simple-btn primary" onclick="saveFamilyInfo()">
+                <i class="fas fa-check"></i> Save Changes
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Medical Modal -->
+<div id="editMedicalModal" class="confirm-dialog-overlay" style="display:none;">
+    <div class="confirm-dialog-content" style="max-width: 600px;">
+        <div class="confirm-dialog-header">
+            <h4><i class="fas fa-heartbeat"></i> Edit Medical Information</h4>
+            <button class="icon-btn" onclick="closeEditModal('medical')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="confirm-dialog-body" style="padding: 20px;">
+            <div class="form-section" style="padding:0;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Weight (kg)</label>
+                        <input type="number" class="form-input" id="modalMedicalWeight" placeholder="e.g., 45" step="0.1">
+                    </div>
+                    <div class="form-group">
+                        <label>Height (cm)</label>
+                        <input type="number" class="form-input" id="modalMedicalHeight" placeholder="e.g., 150" step="0.1">
+                    </div>
+                    <div class="form-group">
+                        <label>Blood Type</label>
+                        <select class="form-select" id="modalMedicalBloodType">
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:1;">
+                        <label>Medicine allergy</label>
+                        <input type="text" class="form-input" id="modalMedicalMedicineAllergy" placeholder="List any medicine allergies">
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>Food allergy</label>
+                        <input type="text" class="form-input" id="modalMedicalFoodAllergy" placeholder="List any food allergies">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:1;">
+                        <label>Medical Directory</label>
+                        <textarea class="form-input" id="modalMedicalDirectory" rows="3" placeholder="Additional medical information"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="confirm-dialog-actions">
+            <button class="simple-btn secondary" onclick="closeEditModal('medical')">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+            <button class="simple-btn primary" onclick="saveMedicalInfo()">
                 <i class="fas fa-check"></i> Save Changes
             </button>
         </div>
@@ -435,7 +545,71 @@ ob_start();
 
 <script>
 const profileId = '<?php echo htmlspecialchars($id); ?>';
-let setupComplete = false;
+
+// Load profile data from localStorage
+document.addEventListener('DOMContentLoaded', function() {
+    loadStudentProfileData();
+});
+
+function loadStudentProfileData() {
+    try {
+        const students = JSON.parse(localStorage.getItem('students') || '[]');
+        const student = students.find(s => s.id === profileId);
+        
+        if (student) {
+            // Basic Information
+            if (student.name) document.getElementById('basicFullName').textContent = student.name;
+            if (student.dateOfJoining) document.getElementById('basicJoinDate').textContent = student.dateOfJoining;
+            if (student.photo) {
+                const photoImg = document.getElementById('basicPhoto').querySelector('img');
+                if (photoImg) photoImg.src = student.photo;
+            }
+            
+            // Personal Information
+            if (student.gender) document.getElementById('personalGender').textContent = student.gender;
+            if (student.ethnicity) document.getElementById('personalEthnicity').textContent = student.ethnicity;
+            if (student.religious) document.getElementById('personalReligious').textContent = student.religious;
+            if (student.nrc) document.getElementById('personalNRC').textContent = student.nrc;
+            if (student.dob) document.getElementById('personalDOB').textContent = student.dob;
+            
+            // Academic Information
+            if (student.startingGrade) document.getElementById('academicStartingGrade').textContent = student.startingGrade;
+            if (student.currentGrade) document.getElementById('academicCurrentGrade').textContent = student.currentGrade;
+            if (student.currentClass) document.getElementById('academicCurrentClass').textContent = student.currentClass;
+            if (student.guardianTeacher) document.getElementById('academicGuardianTeacher').textContent = student.guardianTeacher;
+            if (student.assistantTeacher) document.getElementById('academicAssistantTeacher').textContent = student.assistantTeacher;
+            if (student.previousSchool) document.getElementById('academicPreviousSchool').textContent = student.previousSchool;
+            if (student.address) document.getElementById('academicAddress').textContent = student.address;
+            
+            // Family Information
+            if (student.fatherName) document.getElementById('familyFatherName').textContent = student.fatherName;
+            if (student.fatherNRC) document.getElementById('familyFatherNRC').textContent = student.fatherNRC;
+            if (student.fatherPhone) document.getElementById('familyFatherPhone').textContent = student.fatherPhone;
+            if (student.fatherOccupation) document.getElementById('familyFatherOccupation').textContent = student.fatherOccupation;
+            if (student.motherName) document.getElementById('familyMotherName').textContent = student.motherName;
+            if (student.motherNRC) document.getElementById('familyMotherNRC').textContent = student.motherNRC;
+            if (student.motherPhone) document.getElementById('familyMotherPhone').textContent = student.motherPhone;
+            if (student.motherOccupation) document.getElementById('familyMotherOccupation').textContent = student.motherOccupation;
+            if (student.guardianName) document.getElementById('familyGuardianName').textContent = student.guardianName;
+            if (student.guardianPhone) document.getElementById('familyGuardianPhone').textContent = student.guardianPhone;
+            if (student.guardianEmail) document.getElementById('familyGuardianEmail').textContent = student.guardianEmail;
+            if (student.emergencyPhone) document.getElementById('familyEmergencyContact').textContent = student.emergencyPhone;
+            if (student.relativeName) document.getElementById('familyInSchoolRelativeName').textContent = student.relativeName;
+            if (student.relativeGrade) document.getElementById('familyInSchoolRelativeGrade').textContent = student.relativeGrade;
+            if (student.relativeRelationship) document.getElementById('familyInSchoolRelativeRelationship').textContent = student.relativeRelationship;
+            
+            // Medical Information
+            if (student.weight) document.getElementById('medicalWeight').textContent = student.weight + ' kg';
+            if (student.height) document.getElementById('medicalHeight').textContent = student.height + ' cm';
+            if (student.bloodType) document.getElementById('medicalBloodType').textContent = student.bloodType;
+            if (student.medicineAllergy) document.getElementById('medicalMedicineAllergy').textContent = student.medicineAllergy;
+            if (student.foodAllergy) document.getElementById('medicalFoodAllergy').textContent = student.foodAllergy;
+            if (student.medicalDirectory) document.getElementById('medicalDirectory').textContent = student.medicalDirectory;
+        }
+    } catch (e) {
+        console.error('Error loading student profile:', e);
+    }
+}
 
 // Modal functions
 function openEditModal(section) {
@@ -445,33 +619,44 @@ function openEditModal(section) {
     // Load current data into modal inputs
     if (section === 'basic') {
         document.getElementById('modalBasicFullName').value = document.getElementById('basicFullName').textContent.trim();
-        document.getElementById('modalBasicClass').value = document.getElementById('basicClass').textContent.trim();
-        document.getElementById('modalBasicAge').value = document.getElementById('basicAge').textContent.trim();
-        const statusText = document.getElementById('basicStatus').textContent.trim();
-        document.getElementById('modalBasicStatus').value = statusText.toLowerCase();
-        document.getElementById('modalBasicGuardian').value = document.getElementById('basicGuardian').textContent.trim();
-        document.getElementById('modalBasicGuardianEmail').value = document.getElementById('basicGuardianEmail').textContent.trim();
-        document.getElementById('modalBasicPhone').value = document.getElementById('basicPhone').textContent.trim();
         document.getElementById('modalBasicJoinDate').value = document.getElementById('basicJoinDate').textContent.trim();
     } else if (section === 'personal') {
+        document.getElementById('modalPersonalGender').value = document.getElementById('personalGender').textContent.trim();
+        document.getElementById('modalPersonalEthnicity').value = document.getElementById('personalEthnicity').textContent.trim() || '';
+        document.getElementById('modalPersonalReligious').value = document.getElementById('personalReligious').textContent.trim() || '';
         document.getElementById('modalPersonalNRC').value = document.getElementById('personalNRC').textContent.trim();
         document.getElementById('modalPersonalDOB').value = document.getElementById('personalDOB').textContent.trim();
-        document.getElementById('modalPersonalGender').value = document.getElementById('personalGender').textContent.trim();
-        document.getElementById('modalPersonalAddress').value = document.getElementById('personalAddress').textContent.trim();
-        document.getElementById('modalPersonalEmergency').value = document.getElementById('personalEmergency').textContent.trim();
-        document.getElementById('modalPersonalBloodType').value = document.getElementById('personalBloodType').textContent.trim();
-        document.getElementById('modalPersonalMedical').value = document.getElementById('personalMedical').textContent.trim();
-        document.getElementById('modalPersonalAllergies').value = document.getElementById('personalAllergies').textContent.trim();
     } else if (section === 'academic') {
-        const gradeText = document.getElementById('academicGrade').textContent.trim();
-        document.getElementById('modalAcademicGrade').value = gradeText;
-        document.getElementById('modalAcademicClass').value = document.getElementById('academicClass').textContent.trim();
-        document.getElementById('modalAcademicAdmission').value = document.getElementById('academicAdmission').textContent.trim();
-    } else if (section === 'guardian') {
-        document.getElementById('modalGuardianName').value = document.getElementById('guardianName').textContent.trim();
-        document.getElementById('modalGuardianRelationship').value = document.getElementById('guardianRelationship').textContent.trim();
-        document.getElementById('modalGuardianEmail').value = document.getElementById('guardianEmail').textContent.trim();
-        document.getElementById('modalGuardianPhone').value = document.getElementById('guardianPhone').textContent.trim();
+        document.getElementById('modalAcademicStartingGrade').value = document.getElementById('academicStartingGrade').textContent.trim() || 'Grade 7';
+        document.getElementById('modalAcademicCurrentGrade').value = document.getElementById('academicCurrentGrade').textContent.trim();
+        document.getElementById('modalAcademicCurrentClass').value = document.getElementById('academicCurrentClass').textContent.trim();
+        document.getElementById('modalAcademicGuardianTeacher').value = document.getElementById('academicGuardianTeacher').textContent.trim() || '';
+        document.getElementById('modalAcademicAssistantTeacher').value = document.getElementById('academicAssistantTeacher').textContent.trim() || '';
+        document.getElementById('modalAcademicPreviousSchool').value = document.getElementById('academicPreviousSchool').textContent.trim() || '';
+        document.getElementById('modalAcademicAddress').value = document.getElementById('academicAddress').textContent.trim();
+    } else if (section === 'family') {
+        document.getElementById('modalFamilyFatherName').value = document.getElementById('familyFatherName').textContent.trim() || '';
+        document.getElementById('modalFamilyFatherNRC').value = document.getElementById('familyFatherNRC').textContent.trim() || '';
+        document.getElementById('modalFamilyFatherPhone').value = document.getElementById('familyFatherPhone').textContent.trim() || '';
+        document.getElementById('modalFamilyFatherOccupation').value = document.getElementById('familyFatherOccupation').textContent.trim() || '';
+        document.getElementById('modalFamilyMotherName').value = document.getElementById('familyMotherName').textContent.trim() || '';
+        document.getElementById('modalFamilyMotherNRC').value = document.getElementById('familyMotherNRC').textContent.trim() || '';
+        document.getElementById('modalFamilyMotherPhone').value = document.getElementById('familyMotherPhone').textContent.trim() || '';
+        document.getElementById('modalFamilyMotherOccupation').value = document.getElementById('familyMotherOccupation').textContent.trim() || '';
+        document.getElementById('modalFamilyGuardianName').value = document.getElementById('familyGuardianName').textContent.trim();
+        document.getElementById('modalFamilyGuardianPhone').value = document.getElementById('familyGuardianPhone').textContent.trim();
+        document.getElementById('modalFamilyGuardianEmail').value = document.getElementById('familyGuardianEmail').textContent.trim();
+        document.getElementById('modalFamilyEmergencyContact').value = document.getElementById('familyEmergencyContact').textContent.trim();
+        document.getElementById('modalFamilyInSchoolRelativeName').value = document.getElementById('familyInSchoolRelativeName').textContent.trim() || '';
+        document.getElementById('modalFamilyInSchoolRelativeGrade').value = document.getElementById('familyInSchoolRelativeGrade').textContent.trim() || '';
+        document.getElementById('modalFamilyInSchoolRelativeRelationship').value = document.getElementById('familyInSchoolRelativeRelationship').textContent.trim() || '';
+    } else if (section === 'medical') {
+        document.getElementById('modalMedicalWeight').value = document.getElementById('medicalWeight').textContent.trim() || '';
+        document.getElementById('modalMedicalHeight').value = document.getElementById('medicalHeight').textContent.trim() || '';
+        document.getElementById('modalMedicalBloodType').value = document.getElementById('medicalBloodType').textContent.trim();
+        document.getElementById('modalMedicalMedicineAllergy').value = document.getElementById('medicalMedicineAllergy').textContent.trim() || '';
+        document.getElementById('modalMedicalFoodAllergy').value = document.getElementById('medicalFoodAllergy').textContent.trim() || '';
+        document.getElementById('modalMedicalDirectory').value = document.getElementById('medicalDirectory').textContent.trim() || '';
     }
     
     modal.style.display = 'flex';
@@ -484,58 +669,150 @@ function closeEditModal(section) {
 
 function saveBasicInfo() {
     document.getElementById('basicFullName').textContent = document.getElementById('modalBasicFullName').value;
-    document.getElementById('basicClass').textContent = document.getElementById('modalBasicClass').value;
-    document.getElementById('basicAge').textContent = document.getElementById('modalBasicAge').value;
-    const status = document.getElementById('modalBasicStatus').value;
-    const statusClass = status === 'active' ? 'paid' : status === 'inactive' ? 'draft' : 'pending';
-    document.getElementById('basicStatus').innerHTML = `<span class="status-badge ${statusClass}">${status.charAt(0).toUpperCase() + status.slice(1)}</span>`;
-    document.getElementById('basicGuardian').textContent = document.getElementById('modalBasicGuardian').value;
-    document.getElementById('basicGuardianEmail').textContent = document.getElementById('modalBasicGuardianEmail').value;
-    document.getElementById('basicPhone').textContent = document.getElementById('modalBasicPhone').value;
     document.getElementById('basicJoinDate').textContent = document.getElementById('modalBasicJoinDate').value;
+    
+    // Handle photo upload if file is selected
+    const photoInput = document.getElementById('modalBasicPhoto');
+    if (photoInput && photoInput.files.length > 0) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const photoImg = document.getElementById('basicPhoto').querySelector('img');
+            if (photoImg) {
+                photoImg.src = e.target.result;
+                photoImg.style.display = 'block';
+            }
+        };
+        reader.readAsDataURL(photoInput.files[0]);
+    }
+    
+    // Save to localStorage
+    saveStudentToLocalStorage({
+        name: document.getElementById('modalBasicFullName').value,
+        dateOfJoining: document.getElementById('modalBasicJoinDate').value
+    });
     
     closeEditModal('basic');
     showToast('Basic information updated successfully!', 'success');
 }
 
 function savePersonalInfo() {
+    document.getElementById('personalGender').textContent = document.getElementById('modalPersonalGender').value;
+    document.getElementById('personalEthnicity').textContent = document.getElementById('modalPersonalEthnicity').value || '-';
+    document.getElementById('personalReligious').textContent = document.getElementById('modalPersonalReligious').value || '-';
     document.getElementById('personalNRC').textContent = document.getElementById('modalPersonalNRC').value;
     document.getElementById('personalDOB').textContent = document.getElementById('modalPersonalDOB').value;
-    document.getElementById('personalGender').textContent = document.getElementById('modalPersonalGender').value;
-    document.getElementById('personalAddress').textContent = document.getElementById('modalPersonalAddress').value;
-    document.getElementById('personalEmergency').textContent = document.getElementById('modalPersonalEmergency').value;
-    document.getElementById('personalBloodType').textContent = document.getElementById('modalPersonalBloodType').value;
-    document.getElementById('personalMedical').textContent = document.getElementById('modalPersonalMedical').value;
-    document.getElementById('personalAllergies').textContent = document.getElementById('modalPersonalAllergies').value;
+    
+    // Save to localStorage
+    saveStudentToLocalStorage({
+        gender: document.getElementById('modalPersonalGender').value,
+        ethnicity: document.getElementById('modalPersonalEthnicity').value,
+        religious: document.getElementById('modalPersonalReligious').value,
+        nrc: document.getElementById('modalPersonalNRC').value,
+        dob: document.getElementById('modalPersonalDOB').value
+    });
     
     closeEditModal('personal');
     showToast('Personal information updated successfully!', 'success');
 }
 
 function saveAcademicInfo() {
-    document.getElementById('academicGrade').textContent = document.getElementById('modalAcademicGrade').value;
-    document.getElementById('academicClass').textContent = document.getElementById('modalAcademicClass').value;
-    document.getElementById('academicAdmission').textContent = document.getElementById('modalAcademicAdmission').value;
-    // Update basic class display too
-    const grade = document.getElementById('modalAcademicGrade').value;
-    const classLetter = document.getElementById('modalAcademicClass').value;
-    document.getElementById('basicClass').textContent = `${grade}-${classLetter}`;
+    document.getElementById('academicStartingGrade').textContent = document.getElementById('modalAcademicStartingGrade').value;
+    document.getElementById('academicCurrentGrade').textContent = document.getElementById('modalAcademicCurrentGrade').value;
+    document.getElementById('academicCurrentClass').textContent = document.getElementById('modalAcademicCurrentClass').value;
+    document.getElementById('academicGuardianTeacher').textContent = document.getElementById('modalAcademicGuardianTeacher').value || '-';
+    document.getElementById('academicAssistantTeacher').textContent = document.getElementById('modalAcademicAssistantTeacher').value || '-';
+    document.getElementById('academicPreviousSchool').textContent = document.getElementById('modalAcademicPreviousSchool').value || '-';
+    document.getElementById('academicAddress').textContent = document.getElementById('modalAcademicAddress').value;
+    
+    // Save to localStorage
+    saveStudentToLocalStorage({
+        startingGrade: document.getElementById('modalAcademicStartingGrade').value,
+        currentGrade: document.getElementById('modalAcademicCurrentGrade').value,
+        currentClass: document.getElementById('modalAcademicCurrentClass').value,
+        guardianTeacher: document.getElementById('modalAcademicGuardianTeacher').value,
+        assistantTeacher: document.getElementById('modalAcademicAssistantTeacher').value,
+        previousSchool: document.getElementById('modalAcademicPreviousSchool').value,
+        address: document.getElementById('modalAcademicAddress').value
+    });
     
     closeEditModal('academic');
     showToast('Academic information updated successfully!', 'success');
 }
 
-function saveGuardianInfo() {
-    document.getElementById('guardianName').textContent = document.getElementById('modalGuardianName').value;
-    document.getElementById('guardianRelationship').textContent = document.getElementById('modalGuardianRelationship').value;
-    document.getElementById('guardianEmail').textContent = document.getElementById('modalGuardianEmail').value;
-    document.getElementById('guardianPhone').textContent = document.getElementById('modalGuardianPhone').value;
-    // Update basic guardian display too
-    document.getElementById('basicGuardian').textContent = document.getElementById('modalGuardianName').value;
-    document.getElementById('basicGuardianEmail').textContent = document.getElementById('modalGuardianEmail').value;
+function saveFamilyInfo() {
+    document.getElementById('familyFatherName').textContent = document.getElementById('modalFamilyFatherName').value || '-';
+    document.getElementById('familyFatherNRC').textContent = document.getElementById('modalFamilyFatherNRC').value || '-';
+    document.getElementById('familyFatherPhone').textContent = document.getElementById('modalFamilyFatherPhone').value || '-';
+    document.getElementById('familyFatherOccupation').textContent = document.getElementById('modalFamilyFatherOccupation').value || '-';
+    document.getElementById('familyMotherName').textContent = document.getElementById('modalFamilyMotherName').value || '-';
+    document.getElementById('familyMotherNRC').textContent = document.getElementById('modalFamilyMotherNRC').value || '-';
+    document.getElementById('familyMotherPhone').textContent = document.getElementById('modalFamilyMotherPhone').value || '-';
+    document.getElementById('familyMotherOccupation').textContent = document.getElementById('modalFamilyMotherOccupation').value || '-';
+    document.getElementById('familyGuardianName').textContent = document.getElementById('modalFamilyGuardianName').value;
+    document.getElementById('familyGuardianPhone').textContent = document.getElementById('modalFamilyGuardianPhone').value;
+    document.getElementById('familyGuardianEmail').textContent = document.getElementById('modalFamilyGuardianEmail').value;
+    document.getElementById('familyEmergencyContact').textContent = document.getElementById('modalFamilyEmergencyContact').value;
+    document.getElementById('familyInSchoolRelativeName').textContent = document.getElementById('modalFamilyInSchoolRelativeName').value || '-';
+    document.getElementById('familyInSchoolRelativeGrade').textContent = document.getElementById('modalFamilyInSchoolRelativeGrade').value || '-';
+    document.getElementById('familyInSchoolRelativeRelationship').textContent = document.getElementById('modalFamilyInSchoolRelativeRelationship').value || '-';
     
-    closeEditModal('guardian');
-    showToast('Guardian information updated successfully!', 'success');
+    // Save to localStorage
+    saveStudentToLocalStorage({
+        fatherName: document.getElementById('modalFamilyFatherName').value,
+        fatherNRC: document.getElementById('modalFamilyFatherNRC').value,
+        fatherPhone: document.getElementById('modalFamilyFatherPhone').value,
+        fatherOccupation: document.getElementById('modalFamilyFatherOccupation').value,
+        motherName: document.getElementById('modalFamilyMotherName').value,
+        motherNRC: document.getElementById('modalFamilyMotherNRC').value,
+        motherPhone: document.getElementById('modalFamilyMotherPhone').value,
+        motherOccupation: document.getElementById('modalFamilyMotherOccupation').value,
+        guardianName: document.getElementById('modalFamilyGuardianName').value,
+        guardianPhone: document.getElementById('modalFamilyGuardianPhone').value,
+        guardianEmail: document.getElementById('modalFamilyGuardianEmail').value,
+        emergencyPhone: document.getElementById('modalFamilyEmergencyContact').value,
+        relativeName: document.getElementById('modalFamilyInSchoolRelativeName').value,
+        relativeGrade: document.getElementById('modalFamilyInSchoolRelativeGrade').value,
+        relativeRelationship: document.getElementById('modalFamilyInSchoolRelativeRelationship').value
+    });
+    
+    closeEditModal('family');
+    showToast('Family & Relationship information updated successfully!', 'success');
+}
+
+function saveMedicalInfo() {
+    document.getElementById('medicalWeight').textContent = document.getElementById('modalMedicalWeight').value || '-';
+    document.getElementById('medicalHeight').textContent = document.getElementById('modalMedicalHeight').value || '-';
+    document.getElementById('medicalBloodType').textContent = document.getElementById('modalMedicalBloodType').value;
+    document.getElementById('medicalMedicineAllergy').textContent = document.getElementById('modalMedicalMedicineAllergy').value || '-';
+    document.getElementById('medicalFoodAllergy').textContent = document.getElementById('modalMedicalFoodAllergy').value || '-';
+    document.getElementById('medicalDirectory').textContent = document.getElementById('modalMedicalDirectory').value || '-';
+    
+    // Save to localStorage
+    saveStudentToLocalStorage({
+        weight: document.getElementById('modalMedicalWeight').value,
+        height: document.getElementById('modalMedicalHeight').value,
+        bloodType: document.getElementById('modalMedicalBloodType').value,
+        medicineAllergy: document.getElementById('modalMedicalMedicineAllergy').value,
+        foodAllergy: document.getElementById('modalMedicalFoodAllergy').value,
+        medicalDirectory: document.getElementById('modalMedicalDirectory').value
+    });
+    
+    closeEditModal('medical');
+    showToast('Medical information updated successfully!', 'success');
+}
+
+// Helper function to save student data to localStorage
+function saveStudentToLocalStorage(updates) {
+    try {
+        const students = JSON.parse(localStorage.getItem('students') || '[]');
+        const index = students.findIndex(s => s.id === profileId);
+        if (index !== -1) {
+            students[index] = { ...students[index], ...updates };
+            localStorage.setItem('students', JSON.stringify(students));
+        }
+    } catch (e) {
+        console.error('Error saving student data:', e);
+    }
 }
 
 // Load exam results and attendance data
@@ -613,96 +890,9 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         attendanceTable.appendChild(row);
     });
-
-    // Load portal setup from localStorage
-    const portalSetups = JSON.parse(localStorage.getItem('portalSetups') || '{}');
-
-    if (portalSetups[profileId]) {
-        const setup = portalSetups[profileId];
-        document.getElementById('portalUserIdInput').value = setup.userId;
-        document.getElementById('portalEmailInput').value = setup.email;
-
-        if (setup.accountCreated) {
-            // Account already created
-            document.getElementById('setupStatus').textContent = 'Account Created';
-            document.getElementById('setupStatus').className = 'status-badge paid';
-            document.getElementById('portalUserIdInput').readOnly = true;
-            document.getElementById('portalEmailInput').readOnly = true;
-            document.getElementById('portalActionBtn').style.display = 'none';
-        } else if (setup.setupComplete) {
-            // Setup complete, ready to create account
-            setupComplete = true;
-            document.getElementById('setupStatus').textContent = 'Ready for Account Creation';
-            document.getElementById('setupStatus').className = 'status-badge pending';
-            document.getElementById('portalActionBtn').innerHTML = '<i class="fas fa-user-plus"></i> Create Portal Account';
-        }
-
-        document.getElementById('lastUpdated').textContent = setup.updatedAt;
-    }
 });
 
 
-function handlePortalAction() {
-    if (!setupComplete) {
-        // Complete Setup
-        const userId = document.getElementById('portalUserIdInput').value.trim();
-        const email = document.getElementById('portalEmailInput').value.trim();
-        
-        if (!userId || !email) {
-            showToast('Please fill in both Portal User ID and Portal Email fields.', 'warning');
-            return;
-        }
-        
-        // Validate email format
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            showToast('Please enter a valid email address.', 'error');
-            return;
-        }
-        
-        // Save as setup complete
-        const portalSetups = JSON.parse(localStorage.getItem('portalSetups') || '{}');
-        portalSetups[profileId] = {
-            profileId: profileId,
-            userId: userId,
-            email: email,
-            fullName: 'Placeholder Parent',
-            role: 'Guardian Portal',
-            profileType: 'student',
-            setupComplete: true,
-            accountCreated: false,
-            updatedAt: new Date().toLocaleString()
-        };
-        localStorage.setItem('portalSetups', JSON.stringify(portalSetups));
-        
-        // Update UI
-        setupComplete = true;
-        document.getElementById('setupStatus').textContent = 'Ready for Account Creation';
-        document.getElementById('setupStatus').className = 'status-badge pending';
-        document.getElementById('lastUpdated').textContent = portalSetups[profileId].updatedAt;
-        document.getElementById('portalActionBtn').innerHTML = '<i class="fas fa-user-plus"></i> Create Portal Account';
-        
-        showToast(`Portal setup completed for Student ${profileId}. Click "Create Portal Account" to finalize.`, 'success');
-    } else {
-        // Create Portal Account
-        const portalSetups = JSON.parse(localStorage.getItem('portalSetups') || '{}');
-        portalSetups[profileId].accountCreated = true;
-        portalSetups[profileId].status = 'active';
-        portalSetups[profileId].updatedAt = new Date().toLocaleString();
-        localStorage.setItem('portalSetups', JSON.stringify(portalSetups));
-        
-        // Update UI
-        document.getElementById('setupStatus').textContent = 'Account Created';
-        document.getElementById('setupStatus').className = 'status-badge paid';
-        document.getElementById('portalUserIdInput').readOnly = true;
-        document.getElementById('portalEmailInput').readOnly = true;
-        document.getElementById('portalActionBtn').style.display = 'none';
-        document.getElementById('lastUpdated').textContent = portalSetups[profileId].updatedAt;
-        
-        const userId = portalSetups[profileId].userId;
-        showToast(`Guardian Portal account ${userId} created successfully for Student ${profileId}`, 'success');
-    }
-}
 </script>
 
 <?php

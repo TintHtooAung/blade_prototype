@@ -26,10 +26,6 @@ ob_start();
 </div>
 
 <div class="simple-section">
-    <div class="simple-header">
-        <h3>Profile: <?php echo htmlspecialchars($id); ?></h3>
-    </div>
-
     <!-- Basic Information Section -->
     <?php if ($portal === 'admin'): ?>
     <div class="simple-header" style="margin-top:24px;">
@@ -46,14 +42,13 @@ ob_start();
     <div class="simple-table-container">
         <table class="basic-table">
             <tbody>
-                <tr><th style="width:220px;">Teacher ID</th><td><?php echo htmlspecialchars($id); ?></td></tr>
-                <tr><th>Full Name</th><td id="basicFullName">Placeholder Name</td></tr>
-                <tr><th>Department</th><td id="basicDepartment">Mathematics</td></tr>
-                <tr><th>Subjects</th><td id="basicSubjects">Algebra, Calculus</td></tr>
-                <tr><th>Email</th><td id="basicEmail">placeholder@school.edu</td></tr>
-                <tr><th>Phone</th><td id="basicPhone">+1-555-0101</td></tr>
+                <tr><th style="width:220px;">Photo</th><td id="basicPhoto"><img src="" alt="Photo" style="max-width: 100px; height: auto; border-radius: 4px;" onerror="this.style.display='none'"></td></tr>
+                <tr><th>Name</th><td id="basicFullName">Placeholder Name</td></tr>
+                <tr><th>Employee ID</th><td><?php echo htmlspecialchars($id); ?></td></tr>
+                <tr><th>Ph. no.</th><td id="basicPhone">+1-555-0101</td></tr>
+                <tr><th>Address</th><td id="basicAddress">123 Main Street, City, State 12345</td></tr>
+                <tr><th>Email address</th><td id="basicEmail">placeholder@school.edu</td></tr>
                 <tr><th>Status</th><td id="basicStatus"><span class="status-badge paid">Active</span></td></tr>
-                <tr><th>Join Date</th><td id="basicJoinDate">2023-01-15</td></tr>
             </tbody>
         </table>
     </div>
@@ -74,125 +69,119 @@ ob_start();
     <div class="simple-table-container">
         <table class="basic-table">
             <tbody>
-                <tr><th style="width:220px;">NRC Number</th><td id="personalNRC">12/ABC(N)123456</td></tr>
-                <tr><th>Date of Birth</th><td id="personalDOB">1985-03-15</td></tr>
-                <tr><th>Gender</th><td id="personalGender">Male</td></tr>
-                <tr><th>Address</th><td id="personalAddress">123 Main Street, City, State 12345</td></tr>
-                <tr><th>Emergency Contact</th><td id="personalEmergency">Jane Smith - +1-555-0102</td></tr>
-                <tr><th>Blood Type</th><td id="personalBloodType">O+</td></tr>
+                <tr><th style="width:220px;">Gender</th><td id="personalGender">Male</td></tr>
+                <tr><th>Ethnicity</th><td id="personalEthnicity">-</td></tr>
+                <tr><th>Religious</th><td id="personalReligious">-</td></tr>
+                <tr><th>NRC</th><td id="personalNRC">12/ABC(N)123456</td></tr>
+                <tr><th>D.O.B</th><td id="personalDOB">1985-03-15</td></tr>
             </tbody>
         </table>
     </div>
 
-    <!-- Academic Information Section -->
+    <!-- Organizational Information Section -->
     <?php if ($portal === 'admin'): ?>
     <div class="simple-header" style="margin-top:24px;">
-        <h4><i class="fas fa-graduation-cap"></i> Academic Information</h4>
-        <button class="simple-btn" onclick="openEditModal('academic')">
+        <h4><i class="fas fa-building"></i> Organizational Information</h4>
+        <button class="simple-btn" onclick="openEditModal('organizational')">
             <i class="fas fa-edit"></i> Edit
         </button>
     </div>
     <?php else: ?>
     <div class="simple-header" style="margin-top:24px;">
-        <h4><i class="fas fa-graduation-cap"></i> Academic Information</h4>
+        <h4><i class="fas fa-building"></i> Organizational Information</h4>
     </div>
     <?php endif; ?>
     <div class="simple-table-container">
         <table class="basic-table">
             <tbody>
-                <tr><th style="width:220px;">Department</th><td id="academicDepartment">Mathematics</td></tr>
-                <tr><th>Subjects</th><td id="academicSubjects">Algebra, Calculus</td></tr>
-                <tr><th>Qualification</th><td id="academicQualification">M.Ed in Mathematics</td></tr>
-                <tr><th>Experience (Years)</th><td id="academicExperience">5</td></tr>
+                <tr><th style="width:220px;">Position</th><td id="organizationalPosition">-</td></tr>
+                <tr><th>Department</th><td id="organizationalDepartment">Mathematics</td></tr>
+                <tr><th>Date of Joining</th><td id="organizationalJoinDate">2023-01-15</td></tr>
+                <tr><th>Basic Salary</th><td id="organizationalBasicSalary">-</td></tr>
             </tbody>
         </table>
     </div>
 
-    <!-- Portal Access Information -->
-    <div class="simple-header" style="margin-top:24px;">
-        <h4><i class="fas fa-user-lock"></i> Teacher Portal Access</h4>
-        <button class="simple-btn" onclick="handlePortalAction()" id="portalActionBtn">
-            <i class="fas fa-check-circle"></i> Complete Setup
-        </button>
-    </div>
-    <div class="simple-table-container">
-        <table class="basic-table">
-            <tbody>
-                <tr>
-                    <th style="width:220px;">Portal User ID</th>
-                    <td>
-                        <input type="text" class="form-input" id="portalUserIdInput" placeholder="e.g., TP001" style="width:100%;">
-                    </td>
-                </tr>
-                <tr>
-                    <th>Portal Email</th>
-                    <td>
-                        <input type="email" class="form-input" id="portalEmailInput" placeholder="teacher@school.edu" style="width:100%;">
-                    </td>
-                </tr>
-                <tr><th>Portal Role</th><td>Teacher Portal</td></tr>
-                <tr><th>Setup Status</th><td><span class="status-badge draft" id="setupStatus">Incomplete</span></td></tr>
-                <tr><th>Last Updated</th><td id="lastUpdated">-</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Salary & Payroll Information -->
+    <!-- Education Section -->
     <?php if ($portal === 'admin'): ?>
     <div class="simple-header" style="margin-top:24px;">
-        <h4><i class="fas fa-money-check-alt"></i> Salary & Payroll Information</h4>
-        <button class="simple-btn" onclick="openEditModal('salary')">
+        <h4><i class="fas fa-graduation-cap"></i> Education</h4>
+        <button class="simple-btn" onclick="openEditModal('education')">
             <i class="fas fa-edit"></i> Edit
         </button>
     </div>
     <?php else: ?>
     <div class="simple-header" style="margin-top:24px;">
-        <h4><i class="fas fa-money-check-alt"></i> Salary & Payroll Information</h4>
+        <h4><i class="fas fa-graduation-cap"></i> Education</h4>
     </div>
     <?php endif; ?>
     <div class="simple-table-container">
-        <table class="basic-table" id="salaryPayrollTable">
+        <table class="basic-table">
             <tbody>
-                <tr>
-                    <th style="width:220px;">Basic Salary</th>
-                    <td id="payrollBasicSalary">-</td>
-                </tr>
-                <tr>
-                    <th>Attendance Allowance</th>
-                    <td id="payrollAttendanceAllowance">-</td>
-                </tr>
-                <tr>
-                    <th>Loyalty Bonus</th>
-                    <td id="payrollLoyaltyBonus">-</td>
-                </tr>
-                <tr>
-                    <th>Other Bonus</th>
-                    <td id="payrollOtherBonus">-</td>
-                </tr>
-                <tr>
-                    <th>Overtime</th>
-                    <td id="payrollOvertime">-</td>
-                </tr>
-                <tr>
-                    <th>Late Deduction</th>
-                    <td id="payrollLateDeduction">-</td>
-                </tr>
-                <tr>
-                    <th>Total Salary</th>
-                    <td><strong id="payrollTotalSalary">-</strong></td>
-                </tr>
-                <tr>
-                    <th>Payment Method</th>
-                    <td id="payrollPaymentMethod">-</td>
-                </tr>
-                <tr>
-                    <th>Last Payroll Month</th>
-                    <td id="payrollLastMonth">-</td>
-                </tr>
-                <tr>
-                    <th>Payroll Status</th>
-                    <td id="payrollStatus"><span class="status-badge draft">No Payroll Data</span></td>
-                </tr>
+                <tr><th style="width:220px;">Qualification</th><td id="educationQualification">M.Ed in Mathematics</td></tr>
+                <tr><th>Previous experience (Year)</th><td id="educationExperience">5</td></tr>
+                <tr><th>Green card</th><td id="educationGreenCard">-</td></tr>
+                <tr><th>Current Grade</th><td id="educationCurrentGrade">-</td></tr>
+                <tr><th>Current Classes</th><td id="educationCurrentClasses">-</td></tr>
+                <tr><th>Responsible Class</th><td id="educationResponsibleClass">-</td></tr>
+                <tr><th>Subjects taught</th><td id="educationSubjects">Algebra, Calculus</td></tr>
+                <tr><th>Previous School</th><td id="educationPreviousSchool">-</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Family & Relationship Section -->
+    <?php if ($portal === 'admin'): ?>
+    <div class="simple-header" style="margin-top:24px;">
+        <h4><i class="fas fa-users"></i> Family & Relationship</h4>
+        <button class="simple-btn" onclick="openEditModal('family')">
+            <i class="fas fa-edit"></i> Edit
+        </button>
+    </div>
+    <?php else: ?>
+    <div class="simple-header" style="margin-top:24px;">
+        <h4><i class="fas fa-users"></i> Family & Relationship</h4>
+    </div>
+    <?php endif; ?>
+    <div class="simple-table-container">
+        <table class="basic-table">
+            <tbody>
+                <tr><th style="width:220px;">Father name</th><td id="familyFatherName">-</td></tr>
+                <tr><th>Father's Ph no.</th><td id="familyFatherPhone">-</td></tr>
+                <tr><th>Mother name</th><td id="familyMotherName">-</td></tr>
+                <tr><th>Mother's Ph no.</th><td id="familyMotherPhone">-</td></tr>
+                <tr><th>Emergency contact ph no.</th><td id="familyEmergencyContact">+1-555-0102</td></tr>
+                <tr><th>Marital Status</th><td id="familyMaritalStatus">-</td></tr>
+                <tr><th>Partner Name</th><td id="familyPartnerName">-</td></tr>
+                <tr><th>Partner's Ph no.</th><td id="familyPartnerPhone">-</td></tr>
+                <tr><th>In-school relative - Name</th><td id="familyInSchoolRelativeName">-</td></tr>
+                <tr><th>In-school relative - Relationship</th><td id="familyInSchoolRelativeRelationship">-</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Medical Section -->
+    <?php if ($portal === 'admin'): ?>
+    <div class="simple-header" style="margin-top:24px;">
+        <h4><i class="fas fa-heartbeat"></i> Medical</h4>
+        <button class="simple-btn" onclick="openEditModal('medical')">
+            <i class="fas fa-edit"></i> Edit
+        </button>
+    </div>
+    <?php else: ?>
+    <div class="simple-header" style="margin-top:24px;">
+        <h4><i class="fas fa-heartbeat"></i> Medical</h4>
+    </div>
+    <?php endif; ?>
+    <div class="simple-table-container">
+        <table class="basic-table">
+            <tbody>
+                <tr><th style="width:220px;">Height</th><td id="medicalHeight">-</td></tr>
+                <tr><th>Weight</th><td id="medicalWeight">-</td></tr>
+                <tr><th>Blood Type</th><td id="medicalBloodType">O+</td></tr>
+                <tr><th>Medicine allergy</th><td id="medicalMedicineAllergy">-</td></tr>
+                <tr><th>Food allergy</th><td id="medicalFoodAllergy">-</td></tr>
+                <tr><th>Medical Directory</th><td id="medicalDirectory">-</td></tr>
             </tbody>
         </table>
     </div>
@@ -205,8 +194,77 @@ ob_start();
 const profileId = '<?php echo htmlspecialchars($id); ?>';
 let setupComplete = false;
 
-// Load portal setup from localStorage
+// Load profile data from localStorage
 document.addEventListener('DOMContentLoaded', function() {
+    loadTeacherProfileData();
+    loadPortalSetup();
+});
+
+function loadTeacherProfileData() {
+    try {
+        const teachers = JSON.parse(localStorage.getItem('teachers') || '[]');
+        const teacher = teachers.find(t => t.id === profileId);
+        
+        if (teacher) {
+            // Basic Information
+            if (teacher.name) document.getElementById('basicFullName').textContent = teacher.name;
+            if (teacher.phone) document.getElementById('basicPhone').textContent = teacher.phone;
+            if (teacher.address) document.getElementById('basicAddress').textContent = teacher.address;
+            if (teacher.email) document.getElementById('basicEmail').textContent = teacher.email;
+            if (teacher.status) {
+                const statusClass = teacher.status.toLowerCase() === 'active' ? 'paid' : teacher.status.toLowerCase() === 'on leave' ? 'pending' : 'draft';
+                document.getElementById('basicStatus').innerHTML = `<span class="status-badge ${statusClass}">${teacher.status}</span>`;
+            }
+            
+            // Personal Information
+            if (teacher.gender) document.getElementById('personalGender').textContent = teacher.gender;
+            if (teacher.ethnicity) document.getElementById('personalEthnicity').textContent = teacher.ethnicity;
+            if (teacher.religious) document.getElementById('personalReligious').textContent = teacher.religious;
+            if (teacher.nrc) document.getElementById('personalNRC').textContent = teacher.nrc;
+            if (teacher.dob) document.getElementById('personalDOB').textContent = teacher.dob;
+            
+            // Organizational Information
+            if (teacher.position) document.getElementById('organizationalPosition').textContent = teacher.position;
+            if (teacher.dept) document.getElementById('organizationalDepartment').textContent = teacher.dept;
+            if (teacher.join) document.getElementById('organizationalJoinDate').textContent = teacher.join;
+            if (teacher.monthlySalary) {
+                const salary = parseInt(teacher.monthlySalary) || 0;
+                document.getElementById('organizationalBasicSalary').textContent = salary > 0 ? salary.toLocaleString('en-US') + ' MMK' : '-';
+            }
+            
+            // Education Information
+            if (teacher.education) document.getElementById('educationQualification').textContent = teacher.education;
+            if (teacher.currentGrade) document.getElementById('educationCurrentGrade').textContent = teacher.currentGrade;
+            if (teacher.currentClasses) document.getElementById('educationCurrentClasses').textContent = teacher.currentClasses;
+            if (teacher.responsibleClass) document.getElementById('educationResponsibleClass').textContent = teacher.responsibleClass;
+            if (teacher.subjects) document.getElementById('educationSubjects').textContent = teacher.subjects;
+            if (teacher.previousSchool) document.getElementById('educationPreviousSchool').textContent = teacher.previousSchool;
+            if (teacher.greenCard) document.getElementById('educationGreenCard').textContent = teacher.greenCard;
+            
+            // Family Information
+            if (teacher.fatherName) document.getElementById('familyFatherName').textContent = teacher.fatherName;
+            if (teacher.fatherPhone) document.getElementById('familyFatherPhone').textContent = teacher.fatherPhone;
+            if (teacher.motherName) document.getElementById('familyMotherName').textContent = teacher.motherName;
+            if (teacher.motherPhone) document.getElementById('familyMotherPhone').textContent = teacher.motherPhone;
+            if (teacher.emergencyContact) document.getElementById('familyEmergencyContact').textContent = teacher.emergencyContact;
+            if (teacher.maritalStatus) document.getElementById('familyMaritalStatus').textContent = teacher.maritalStatus;
+            if (teacher.partnerName) document.getElementById('familyPartnerName').textContent = teacher.partnerName;
+            if (teacher.partnerPhone) document.getElementById('familyPartnerPhone').textContent = teacher.partnerPhone;
+            if (teacher.inSchoolRelativeName) document.getElementById('familyInSchoolRelativeName').textContent = teacher.inSchoolRelativeName;
+            if (teacher.inSchoolRelativeRelationship) document.getElementById('familyInSchoolRelativeRelationship').textContent = teacher.inSchoolRelativeRelationship;
+            
+            // Medical Information
+            if (teacher.height) document.getElementById('medicalHeight').textContent = teacher.height;
+            if (teacher.medicineAllergy) document.getElementById('medicalMedicineAllergy').textContent = teacher.medicineAllergy;
+            if (teacher.foodAllergy) document.getElementById('medicalFoodAllergy').textContent = teacher.foodAllergy;
+            if (teacher.medicalDirectory) document.getElementById('medicalDirectory').textContent = teacher.medicalDirectory;
+        }
+    } catch (e) {
+        console.error('Error loading teacher profile:', e);
+    }
+}
+
+function loadPortalSetup() {
     const portalSetups = JSON.parse(localStorage.getItem('portalSetups') || '{}');
     
     if (portalSetups[profileId]) {
@@ -229,171 +287,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.getElementById('lastUpdated').textContent = setup.updatedAt;
     }
-
-    // Load payroll data
-    loadPayrollData();
 });
-
-function formatCurrency(amount) {
-    if (amount === null || amount === undefined || amount === '-') return '-';
-    return amount.toLocaleString('en-US') + ' MMK';
-}
-
-function loadPayrollData() {
-    // Try to load from payrollData first (current payroll), then from payrollHistory
-    const savedPayroll = localStorage.getItem('payrollData');
-    const payrollData = savedPayroll ? JSON.parse(savedPayroll) : [];
-    
-    // Find the most recent payroll entry for this employee
-    let payrollEntry = payrollData
-        .filter(entry => entry.employeeId === profileId)
-        .sort((a, b) => {
-            // Sort by month (newest first)
-            if (a.month && b.month) {
-                return b.month.localeCompare(a.month);
-            }
-            return 0;
-        })[0];
-    
-    // If not found in payrollData, try payrollHistory
-    if (!payrollEntry) {
-        const savedHistory = localStorage.getItem('payrollHistory');
-        if (savedHistory) {
-            const payrollHistory = JSON.parse(savedHistory);
-            payrollEntry = payrollHistory
-                .filter(entry => entry.employeeId === profileId)
-                .sort((a, b) => {
-                    if (a.month && b.month) {
-                        return b.month.localeCompare(a.month);
-                    }
-                    return 0;
-                })[0];
-        }
-    }
-    
-    // If still not found, try to load from profile salary data
-    if (!payrollEntry) {
-        const profileSalaries = JSON.parse(localStorage.getItem('profileSalaries') || '{}');
-        const salaryData = profileSalaries[profileId];
-        if (salaryData) {
-            // Display profile salary data
-            document.getElementById('payrollBasicSalary').textContent = formatCurrency(salaryData.basicSalary || 0);
-            document.getElementById('payrollAttendanceAllowance').textContent = formatCurrency(salaryData.attendanceAllowance || 0);
-            document.getElementById('payrollLoyaltyBonus').textContent = formatCurrency(salaryData.loyaltyBonus || 0);
-            document.getElementById('payrollOtherBonus').textContent = formatCurrency(salaryData.otherBonus || 0);
-            document.getElementById('payrollOvertime').textContent = formatCurrency(salaryData.overtime || 0);
-            document.getElementById('payrollLateDeduction').textContent = formatCurrency(salaryData.lateDeduction || 0);
-            const total = (salaryData.basicSalary || 0) + (salaryData.attendanceAllowance || 0) + 
-                         (salaryData.loyaltyBonus || 0) + (salaryData.otherBonus || 0) + 
-                         (salaryData.overtime || 0) - (salaryData.lateDeduction || 0);
-            document.getElementById('payrollTotalSalary').textContent = formatCurrency(total);
-            document.getElementById('payrollPaymentMethod').textContent = salaryData.paymentMethod || '-';
-            document.getElementById('payrollLastMonth').textContent = salaryData.lastMonth || '-';
-            document.getElementById('payrollStatus').innerHTML = '<span class="status-badge draft">Profile Data</span>';
-            return;
-        }
-    }
-    
-    if (payrollEntry) {
-        // Display payroll data
-        document.getElementById('payrollBasicSalary').textContent = formatCurrency(payrollEntry.basicSalary || 0);
-        document.getElementById('payrollAttendanceAllowance').textContent = formatCurrency(payrollEntry.attendanceAllowance || 0);
-        document.getElementById('payrollLoyaltyBonus').textContent = formatCurrency(payrollEntry.loyaltyBonus || 0);
-        document.getElementById('payrollOtherBonus').textContent = formatCurrency(payrollEntry.otherBonus || 0);
-        document.getElementById('payrollOvertime').textContent = formatCurrency(payrollEntry.overtime || 0);
-        document.getElementById('payrollLateDeduction').textContent = formatCurrency(payrollEntry.lateDeduction || 0);
-        const total = (payrollEntry.totalSalary || payrollEntry.netPay || 0) + 
-                     (payrollEntry.overtime || 0) - (payrollEntry.lateDeduction || 0);
-        document.getElementById('payrollTotalSalary').textContent = formatCurrency(total);
-        document.getElementById('payrollPaymentMethod').textContent = payrollEntry.paymentType || '-';
-        
-        // Format month display
-        if (payrollEntry.month) {
-            const [year, month] = payrollEntry.month.split('-');
-            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
-                               'July', 'August', 'September', 'October', 'November', 'December'];
-            const monthName = monthNames[parseInt(month) - 1];
-            document.getElementById('payrollLastMonth').textContent = `${monthName} ${year}`;
-        } else {
-            document.getElementById('payrollLastMonth').textContent = '-';
-        }
-        
-        const statusText = payrollEntry.status === 'draft' ? 'Draft' : 
-                          payrollEntry.status === 'withdrawn' ? 'Withdrawn' : 
-                          payrollEntry.status || 'Unknown';
-        const statusClass = payrollEntry.status === 'draft' ? 'draft' : 
-                           payrollEntry.status === 'withdrawn' ? 'paid' : 'pending';
-        document.getElementById('payrollStatus').innerHTML = `<span class="status-badge ${statusClass}">${statusText}</span>`;
-    } else {
-        // No payroll data found
-        document.getElementById('payrollBasicSalary').textContent = '-';
-        document.getElementById('payrollAttendanceAllowance').textContent = '-';
-        document.getElementById('payrollLoyaltyBonus').textContent = '-';
-        document.getElementById('payrollOtherBonus').textContent = '-';
-        document.getElementById('payrollOvertime').textContent = '-';
-        document.getElementById('payrollLateDeduction').textContent = '-';
-        document.getElementById('payrollTotalSalary').textContent = '-';
-        document.getElementById('payrollPaymentMethod').textContent = '-';
-        document.getElementById('payrollLastMonth').textContent = '-';
-        document.getElementById('payrollStatus').innerHTML = '<span class="status-badge draft">No Payroll Data</span>';
-    }
-}
-
-function handlePortalAction() {
-    if (!setupComplete) {
-        const userId = document.getElementById('portalUserIdInput').value.trim();
-        const email = document.getElementById('portalEmailInput').value.trim();
-        
-        if (!userId || !email) {
-            showToast('Please fill in both Portal User ID and Portal Email fields.', 'warning');
-            return;
-        }
-        
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            showToast('Please enter a valid email address.', 'error');
-            return;
-        }
-        
-        const portalSetups = JSON.parse(localStorage.getItem('portalSetups') || '{}');
-        portalSetups[profileId] = {
-            profileId: profileId,
-            userId: userId,
-            email: email,
-            fullName: 'Placeholder Name',
-            role: 'Teacher Portal',
-            profileType: 'teacher',
-            setupComplete: true,
-            accountCreated: false,
-            updatedAt: new Date().toLocaleString()
-        };
-        localStorage.setItem('portalSetups', JSON.stringify(portalSetups));
-        
-        setupComplete = true;
-        document.getElementById('setupStatus').textContent = 'Ready for Account Creation';
-        document.getElementById('setupStatus').className = 'status-badge pending';
-        document.getElementById('lastUpdated').textContent = portalSetups[profileId].updatedAt;
-        document.getElementById('portalActionBtn').innerHTML = '<i class="fas fa-user-plus"></i> Create Portal Account';
-        
-        showToast(`Portal setup completed for Teacher ${profileId}. Click "Create Portal Account" to finalize.`, 'success');
-    } else {
-        const portalSetups = JSON.parse(localStorage.getItem('portalSetups') || '{}');
-        portalSetups[profileId].accountCreated = true;
-        portalSetups[profileId].status = 'active';
-        portalSetups[profileId].updatedAt = new Date().toLocaleString();
-        localStorage.setItem('portalSetups', JSON.stringify(portalSetups));
-        
-        document.getElementById('setupStatus').textContent = 'Account Created';
-        document.getElementById('setupStatus').className = 'status-badge paid';
-        document.getElementById('portalUserIdInput').readOnly = true;
-        document.getElementById('portalEmailInput').readOnly = true;
-        document.getElementById('portalActionBtn').style.display = 'none';
-        document.getElementById('lastUpdated').textContent = portalSetups[profileId].updatedAt;
-        
-        const userId = portalSetups[profileId].userId;
-        showToast(`Teacher Portal account ${userId} created successfully for Teacher ${profileId}`, 'success');
-    }
-}
 
 // Modal functions for editing sections
 <?php if ($portal === 'admin'): ?>
@@ -402,56 +296,56 @@ function openEditModal(section) {
     if (!modal) return;
     
     if (section === 'basic') {
+        const photoImg = document.getElementById('basicPhoto').querySelector('img');
+        if (photoImg && photoImg.src) {
+            // Photo is already set, keep it
+        }
         document.getElementById('modalBasicFullName').value = document.getElementById('basicFullName').textContent.trim();
-        document.getElementById('modalBasicDepartment').value = document.getElementById('basicDepartment').textContent.trim();
-        document.getElementById('modalBasicSubjects').value = document.getElementById('basicSubjects').textContent.trim();
-        document.getElementById('modalBasicEmail').value = document.getElementById('basicEmail').textContent.trim();
         document.getElementById('modalBasicPhone').value = document.getElementById('basicPhone').textContent.trim();
+        document.getElementById('modalBasicAddress').value = document.getElementById('basicAddress').textContent.trim();
+        document.getElementById('modalBasicEmail').value = document.getElementById('basicEmail').textContent.trim();
         const statusText = document.getElementById('basicStatus').textContent.trim();
         document.getElementById('modalBasicStatus').value = statusText.toLowerCase();
-        document.getElementById('modalBasicJoinDate').value = document.getElementById('basicJoinDate').textContent.trim();
     } else if (section === 'personal') {
+        document.getElementById('modalPersonalGender').value = document.getElementById('personalGender').textContent.trim();
+        document.getElementById('modalPersonalEthnicity').value = document.getElementById('personalEthnicity').textContent.trim();
+        document.getElementById('modalPersonalReligious').value = document.getElementById('personalReligious').textContent.trim();
         document.getElementById('modalPersonalNRC').value = document.getElementById('personalNRC').textContent.trim();
         document.getElementById('modalPersonalDOB').value = document.getElementById('personalDOB').textContent.trim();
-        document.getElementById('modalPersonalGender').value = document.getElementById('personalGender').textContent.trim();
-        document.getElementById('modalPersonalAddress').value = document.getElementById('personalAddress').textContent.trim();
-        document.getElementById('modalPersonalEmergency').value = document.getElementById('personalEmergency').textContent.trim();
-        document.getElementById('modalPersonalBloodType').value = document.getElementById('personalBloodType').textContent.trim();
-    } else if (section === 'academic') {
-        document.getElementById('modalAcademicDepartment').value = document.getElementById('academicDepartment').textContent.trim();
-        document.getElementById('modalAcademicSubjects').value = document.getElementById('academicSubjects').textContent.trim();
-        document.getElementById('modalAcademicQualification').value = document.getElementById('academicQualification').textContent.trim();
-        document.getElementById('modalAcademicExperience').value = document.getElementById('academicExperience').textContent.trim();
-    } else if (section === 'salary') {
-        // Extract numeric values from displayed text (remove " MMK" and commas)
-        const basicText = document.getElementById('payrollBasicSalary').textContent.trim();
-        const basicValue = basicText === '-' ? '0' : basicText.replace(/[^\d]/g, '');
-        document.getElementById('modalSalaryBasic').value = basicValue;
-        
-        const attendanceText = document.getElementById('payrollAttendanceAllowance').textContent.trim();
-        const attendanceValue = attendanceText === '-' ? '0' : attendanceText.replace(/[^\d]/g, '');
-        document.getElementById('modalSalaryAttendance').value = attendanceValue;
-        
-        const loyaltyText = document.getElementById('payrollLoyaltyBonus').textContent.trim();
-        const loyaltyValue = loyaltyText === '-' ? '0' : loyaltyText.replace(/[^\d]/g, '');
-        document.getElementById('modalSalaryLoyalty').value = loyaltyValue;
-        
-        const otherText = document.getElementById('payrollOtherBonus').textContent.trim();
-        const otherValue = otherText === '-' ? '0' : otherText.replace(/[^\d]/g, '');
-        document.getElementById('modalSalaryOther').value = otherValue;
-        
-        const overtimeText = document.getElementById('payrollOvertime').textContent.trim();
-        const overtimeValue = overtimeText === '-' ? '0' : overtimeText.replace(/[^\d]/g, '');
-        document.getElementById('modalSalaryOvertime').value = overtimeValue;
-        
-        const lateText = document.getElementById('payrollLateDeduction').textContent.trim();
-        const lateValue = lateText === '-' ? '0' : lateText.replace(/[^\d]/g, '');
-        document.getElementById('modalSalaryLate').value = lateValue;
-        
-        const paymentMethod = document.getElementById('payrollPaymentMethod').textContent.trim();
-        document.getElementById('modalSalaryPaymentMethod').value = paymentMethod === '-' ? 'Cash' : paymentMethod;
-        
-        calculateModalTotalSalary();
+    } else if (section === 'organizational') {
+        document.getElementById('modalOrganizationalPosition').value = document.getElementById('organizationalPosition').textContent.trim();
+        document.getElementById('modalOrganizationalDepartment').value = document.getElementById('organizationalDepartment').textContent.trim();
+        document.getElementById('modalOrganizationalJoinDate').value = document.getElementById('organizationalJoinDate').textContent.trim();
+        const basicSalaryText = document.getElementById('organizationalBasicSalary').textContent.trim();
+        const basicSalaryValue = basicSalaryText === '-' ? '0' : basicSalaryText.replace(/[^\d]/g, '');
+        document.getElementById('modalOrganizationalBasicSalary').value = basicSalaryValue;
+    } else if (section === 'education') {
+        document.getElementById('modalEducationQualification').value = document.getElementById('educationQualification').textContent.trim();
+        document.getElementById('modalEducationExperience').value = document.getElementById('educationExperience').textContent.trim();
+        document.getElementById('modalEducationGreenCard').value = document.getElementById('educationGreenCard').textContent.trim();
+        document.getElementById('modalEducationCurrentGrade').value = document.getElementById('educationCurrentGrade').textContent.trim();
+        document.getElementById('modalEducationCurrentClasses').value = document.getElementById('educationCurrentClasses').textContent.trim();
+        document.getElementById('modalEducationResponsibleClass').value = document.getElementById('educationResponsibleClass').textContent.trim();
+        document.getElementById('modalEducationSubjects').value = document.getElementById('educationSubjects').textContent.trim();
+        document.getElementById('modalEducationPreviousSchool').value = document.getElementById('educationPreviousSchool').textContent.trim();
+    } else if (section === 'family') {
+        document.getElementById('modalFamilyFatherName').value = document.getElementById('familyFatherName').textContent.trim();
+        document.getElementById('modalFamilyFatherPhone').value = document.getElementById('familyFatherPhone').textContent.trim();
+        document.getElementById('modalFamilyMotherName').value = document.getElementById('familyMotherName').textContent.trim();
+        document.getElementById('modalFamilyMotherPhone').value = document.getElementById('familyMotherPhone').textContent.trim();
+        document.getElementById('modalFamilyEmergencyContact').value = document.getElementById('familyEmergencyContact').textContent.trim();
+        document.getElementById('modalFamilyMaritalStatus').value = document.getElementById('familyMaritalStatus').textContent.trim();
+        document.getElementById('modalFamilyPartnerName').value = document.getElementById('familyPartnerName').textContent.trim();
+        document.getElementById('modalFamilyPartnerPhone').value = document.getElementById('familyPartnerPhone').textContent.trim();
+        document.getElementById('modalFamilyInSchoolRelativeName').value = document.getElementById('familyInSchoolRelativeName').textContent.trim();
+        document.getElementById('modalFamilyInSchoolRelativeRelationship').value = document.getElementById('familyInSchoolRelativeRelationship').textContent.trim();
+    } else if (section === 'medical') {
+        document.getElementById('modalMedicalHeight').value = document.getElementById('medicalHeight').textContent.trim();
+        document.getElementById('modalMedicalWeight').value = document.getElementById('medicalWeight').textContent.trim();
+        document.getElementById('modalMedicalBloodType').value = document.getElementById('medicalBloodType').textContent.trim();
+        document.getElementById('modalMedicalMedicineAllergy').value = document.getElementById('medicalMedicineAllergy').textContent.trim();
+        document.getElementById('modalMedicalFoodAllergy').value = document.getElementById('medicalFoodAllergy').textContent.trim();
+        document.getElementById('modalMedicalDirectory').value = document.getElementById('medicalDirectory').textContent.trim();
     }
     
     modal.style.display = 'flex';
@@ -464,39 +358,138 @@ function closeEditModal(section) {
 
 function saveBasicInfo() {
     document.getElementById('basicFullName').textContent = document.getElementById('modalBasicFullName').value;
-    document.getElementById('basicDepartment').textContent = document.getElementById('modalBasicDepartment').value;
-    document.getElementById('basicSubjects').textContent = document.getElementById('modalBasicSubjects').value;
-    document.getElementById('basicEmail').textContent = document.getElementById('modalBasicEmail').value;
     document.getElementById('basicPhone').textContent = document.getElementById('modalBasicPhone').value;
+    document.getElementById('basicAddress').textContent = document.getElementById('modalBasicAddress').value;
+    document.getElementById('basicEmail').textContent = document.getElementById('modalBasicEmail').value;
     const status = document.getElementById('modalBasicStatus').value;
     const statusClass = status === 'active' ? 'paid' : status === 'inactive' ? 'draft' : 'pending';
     document.getElementById('basicStatus').innerHTML = `<span class="status-badge ${statusClass}">${status.charAt(0).toUpperCase() + status.slice(1)}</span>`;
-    document.getElementById('basicJoinDate').textContent = document.getElementById('modalBasicJoinDate').value;
+    
+    // Save to localStorage
+    saveTeacherToLocalStorage({
+        name: document.getElementById('modalBasicFullName').value,
+        phone: document.getElementById('modalBasicPhone').value,
+        address: document.getElementById('modalBasicAddress').value,
+        email: document.getElementById('modalBasicEmail').value,
+        status: status.charAt(0).toUpperCase() + status.slice(1)
+    });
+    
     closeEditModal('basic');
     showToast('Basic information updated successfully!', 'success');
 }
 
 function savePersonalInfo() {
+    document.getElementById('personalGender').textContent = document.getElementById('modalPersonalGender').value;
+    document.getElementById('personalEthnicity').textContent = document.getElementById('modalPersonalEthnicity').value || '-';
+    document.getElementById('personalReligious').textContent = document.getElementById('modalPersonalReligious').value || '-';
     document.getElementById('personalNRC').textContent = document.getElementById('modalPersonalNRC').value;
     document.getElementById('personalDOB').textContent = document.getElementById('modalPersonalDOB').value;
-    document.getElementById('personalGender').textContent = document.getElementById('modalPersonalGender').value;
-    document.getElementById('personalAddress').textContent = document.getElementById('modalPersonalAddress').value;
-    document.getElementById('personalEmergency').textContent = document.getElementById('modalPersonalEmergency').value;
-    document.getElementById('personalBloodType').textContent = document.getElementById('modalPersonalBloodType').value;
+    
+    // Save to localStorage
+    saveTeacherToLocalStorage({
+        gender: document.getElementById('modalPersonalGender').value,
+        ethnicity: document.getElementById('modalPersonalEthnicity').value,
+        religious: document.getElementById('modalPersonalReligious').value,
+        nrc: document.getElementById('modalPersonalNRC').value,
+        dob: document.getElementById('modalPersonalDOB').value
+    });
+    
     closeEditModal('personal');
     showToast('Personal information updated successfully!', 'success');
 }
 
-function saveAcademicInfo() {
-    document.getElementById('academicDepartment').textContent = document.getElementById('modalAcademicDepartment').value;
-    document.getElementById('academicSubjects').textContent = document.getElementById('modalAcademicSubjects').value;
-    document.getElementById('academicQualification').textContent = document.getElementById('modalAcademicQualification').value;
-    document.getElementById('academicExperience').textContent = document.getElementById('modalAcademicExperience').value;
-    // Update basic display too
-    document.getElementById('basicDepartment').textContent = document.getElementById('modalAcademicDepartment').value;
-    document.getElementById('basicSubjects').textContent = document.getElementById('modalAcademicSubjects').value;
-    closeEditModal('academic');
-    showToast('Academic information updated successfully!', 'success');
+function saveOrganizationalInfo() {
+    document.getElementById('organizationalPosition').textContent = document.getElementById('modalOrganizationalPosition').value || '-';
+    document.getElementById('organizationalDepartment').textContent = document.getElementById('modalOrganizationalDepartment').value;
+    document.getElementById('organizationalJoinDate').textContent = document.getElementById('modalOrganizationalJoinDate').value;
+    const basicSalary = document.getElementById('modalOrganizationalBasicSalary').value || '0';
+    document.getElementById('organizationalBasicSalary').textContent = formatCurrency(basicSalary);
+    
+    // Save to localStorage
+    saveTeacherToLocalStorage({
+        position: document.getElementById('modalOrganizationalPosition').value,
+        dept: document.getElementById('modalOrganizationalDepartment').value,
+        join: document.getElementById('modalOrganizationalJoinDate').value,
+        monthlySalary: basicSalary
+    });
+    
+    closeEditModal('organizational');
+    showToast('Organizational information updated successfully!', 'success');
+}
+
+function saveEducationInfo() {
+    document.getElementById('educationQualification').textContent = document.getElementById('modalEducationQualification').value;
+    document.getElementById('educationExperience').textContent = document.getElementById('modalEducationExperience').value || '-';
+    document.getElementById('educationGreenCard').textContent = document.getElementById('modalEducationGreenCard').value || '-';
+    document.getElementById('educationCurrentGrade').textContent = document.getElementById('modalEducationCurrentGrade').value || '-';
+    document.getElementById('educationCurrentClasses').textContent = document.getElementById('modalEducationCurrentClasses').value || '-';
+    document.getElementById('educationResponsibleClass').textContent = document.getElementById('modalEducationResponsibleClass').value || '-';
+    document.getElementById('educationSubjects').textContent = document.getElementById('modalEducationSubjects').value;
+    document.getElementById('educationPreviousSchool').textContent = document.getElementById('modalEducationPreviousSchool').value || '-';
+    
+    // Save to localStorage
+    saveTeacherToLocalStorage({
+        education: document.getElementById('modalEducationQualification').value,
+        greenCard: document.getElementById('modalEducationGreenCard').value,
+        currentGrade: document.getElementById('modalEducationCurrentGrade').value,
+        currentClasses: document.getElementById('modalEducationCurrentClasses').value,
+        responsibleClass: document.getElementById('modalEducationResponsibleClass').value,
+        subjects: document.getElementById('modalEducationSubjects').value,
+        previousSchool: document.getElementById('modalEducationPreviousSchool').value
+    });
+    
+    closeEditModal('education');
+    showToast('Education information updated successfully!', 'success');
+}
+
+function saveFamilyInfo() {
+    document.getElementById('familyFatherName').textContent = document.getElementById('modalFamilyFatherName').value || '-';
+    document.getElementById('familyFatherPhone').textContent = document.getElementById('modalFamilyFatherPhone').value || '-';
+    document.getElementById('familyMotherName').textContent = document.getElementById('modalFamilyMotherName').value || '-';
+    document.getElementById('familyMotherPhone').textContent = document.getElementById('modalFamilyMotherPhone').value || '-';
+    document.getElementById('familyEmergencyContact').textContent = document.getElementById('modalFamilyEmergencyContact').value || '-';
+    document.getElementById('familyMaritalStatus').textContent = document.getElementById('modalFamilyMaritalStatus').value || '-';
+    document.getElementById('familyPartnerName').textContent = document.getElementById('modalFamilyPartnerName').value || '-';
+    document.getElementById('familyPartnerPhone').textContent = document.getElementById('modalFamilyPartnerPhone').value || '-';
+    document.getElementById('familyInSchoolRelativeName').textContent = document.getElementById('modalFamilyInSchoolRelativeName').value || '-';
+    document.getElementById('familyInSchoolRelativeRelationship').textContent = document.getElementById('modalFamilyInSchoolRelativeRelationship').value || '-';
+    
+    // Save to localStorage
+    saveTeacherToLocalStorage({
+        fatherName: document.getElementById('modalFamilyFatherName').value,
+        fatherPhone: document.getElementById('modalFamilyFatherPhone').value,
+        motherName: document.getElementById('modalFamilyMotherName').value,
+        motherPhone: document.getElementById('modalFamilyMotherPhone').value,
+        emergencyContact: document.getElementById('modalFamilyEmergencyContact').value,
+        maritalStatus: document.getElementById('modalFamilyMaritalStatus').value,
+        partnerName: document.getElementById('modalFamilyPartnerName').value,
+        partnerPhone: document.getElementById('modalFamilyPartnerPhone').value,
+        inSchoolRelativeName: document.getElementById('modalFamilyInSchoolRelativeName').value,
+        inSchoolRelativeRelationship: document.getElementById('modalFamilyInSchoolRelativeRelationship').value
+    });
+    
+    closeEditModal('family');
+    showToast('Family & Relationship information updated successfully!', 'success');
+}
+
+function saveMedicalInfo() {
+    document.getElementById('medicalHeight').textContent = document.getElementById('modalMedicalHeight').value || '-';
+    document.getElementById('medicalWeight').textContent = document.getElementById('modalMedicalWeight').value || '-';
+    document.getElementById('medicalBloodType').textContent = document.getElementById('modalMedicalBloodType').value;
+    document.getElementById('medicalMedicineAllergy').textContent = document.getElementById('modalMedicalMedicineAllergy').value || '-';
+    document.getElementById('medicalFoodAllergy').textContent = document.getElementById('modalMedicalFoodAllergy').value || '-';
+    document.getElementById('medicalDirectory').textContent = document.getElementById('modalMedicalDirectory').value || '-';
+    
+    // Save to localStorage
+    saveTeacherToLocalStorage({
+        height: document.getElementById('modalMedicalHeight').value,
+        medicineAllergy: document.getElementById('modalMedicalMedicineAllergy').value,
+        foodAllergy: document.getElementById('modalMedicalFoodAllergy').value,
+        medicalDirectory: document.getElementById('modalMedicalDirectory').value
+    });
+    
+    closeEditModal('medical');
+    showToast('Medical information updated successfully!', 'success');
 }
 
 function formatCurrency(amount) {
@@ -504,41 +497,20 @@ function formatCurrency(amount) {
     return parseInt(amount).toLocaleString('en-US') + ' MMK';
 }
 
-function calculateModalTotalSalary() {
-    const basic = parseFloat(document.getElementById('modalSalaryBasic').value) || 0;
-    const attendance = parseFloat(document.getElementById('modalSalaryAttendance').value) || 0;
-    const loyalty = parseFloat(document.getElementById('modalSalaryLoyalty').value) || 0;
-    const other = parseFloat(document.getElementById('modalSalaryOther').value) || 0;
-    const overtime = parseFloat(document.getElementById('modalSalaryOvertime').value) || 0;
-    const late = parseFloat(document.getElementById('modalSalaryLate').value) || 0;
-    
-    const total = basic + attendance + loyalty + other + overtime - late;
-    document.getElementById('modalSalaryTotal').value = total.toLocaleString('en-US') + ' MMK';
+// Helper function to save teacher data to localStorage
+function saveTeacherToLocalStorage(updates) {
+    try {
+        const teachers = JSON.parse(localStorage.getItem('teachers') || '[]');
+        const index = teachers.findIndex(t => t.id === profileId);
+        if (index !== -1) {
+            teachers[index] = { ...teachers[index], ...updates };
+            localStorage.setItem('teachers', JSON.stringify(teachers));
+        }
+    } catch (e) {
+        console.error('Error saving teacher data:', e);
+    }
 }
 
-function saveSalaryInfo() {
-    const basic = document.getElementById('modalSalaryBasic').value || '0';
-    const attendance = document.getElementById('modalSalaryAttendance').value || '0';
-    const loyalty = document.getElementById('modalSalaryLoyalty').value || '0';
-    const other = document.getElementById('modalSalaryOther').value || '0';
-    const overtime = document.getElementById('modalSalaryOvertime').value || '0';
-    const late = document.getElementById('modalSalaryLate').value || '0';
-    const paymentMethod = document.getElementById('modalSalaryPaymentMethod').value;
-    
-    document.getElementById('payrollBasicSalary').textContent = formatCurrency(basic);
-    document.getElementById('payrollAttendanceAllowance').textContent = formatCurrency(attendance);
-    document.getElementById('payrollLoyaltyBonus').textContent = formatCurrency(loyalty);
-    document.getElementById('payrollOtherBonus').textContent = formatCurrency(other);
-    document.getElementById('payrollOvertime').textContent = formatCurrency(overtime);
-    document.getElementById('payrollLateDeduction').textContent = formatCurrency(late);
-    document.getElementById('payrollPaymentMethod').textContent = paymentMethod;
-    
-    const total = parseFloat(basic) + parseFloat(attendance) + parseFloat(loyalty) + parseFloat(other) + parseFloat(overtime) - parseFloat(late);
-    document.getElementById('payrollTotalSalary').textContent = formatCurrency(total);
-    
-    closeEditModal('salary');
-    showToast('Salary & Payroll information updated successfully!', 'success');
-}
 <?php endif; ?>
 </script>
 
@@ -555,38 +527,34 @@ function saveSalaryInfo() {
             <div class="form-section" style="padding:0;">
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Teacher ID</label>
-                        <input type="text" class="form-input" value="<?php echo htmlspecialchars($id); ?>" readonly>
+                        <label>Photo</label>
+                        <input type="file" class="form-input" id="modalBasicPhoto" accept="image/*">
                     </div>
                     <div class="form-group" style="flex:2;">
-                        <label>Full Name</label>
+                        <label>Name</label>
                         <input type="text" class="form-input" id="modalBasicFullName" placeholder="Enter full name">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Department</label>
-                        <select class="form-select" id="modalBasicDepartment">
-                            <option value="Mathematics">Mathematics</option>
-                            <option value="Science">Science</option>
-                            <option value="English">English</option>
-                            <option value="History">History</option>
-                            <option value="Arts">Arts</option>
-                        </select>
+                        <label>Employee ID</label>
+                        <input type="text" class="form-input" value="<?php echo htmlspecialchars($id); ?>" readonly>
                     </div>
-                    <div class="form-group" style="flex:2;">
-                        <label>Subjects</label>
-                        <input type="text" class="form-input" id="modalBasicSubjects" placeholder="e.g., Algebra, Calculus">
+                    <div class="form-group">
+                        <label>Ph. no.</label>
+                        <input type="tel" class="form-input" id="modalBasicPhone" placeholder="+1-555-0000">
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" class="form-input" id="modalBasicEmail" placeholder="teacher@school.edu">
+                    <div class="form-group" style="flex:2;">
+                        <label>Address</label>
+                        <input type="text" class="form-input" id="modalBasicAddress" placeholder="Street, City, State">
                     </div>
-                    <div class="form-group">
-                        <label>Phone</label>
-                        <input type="tel" class="form-input" id="modalBasicPhone" placeholder="+1-555-0000">
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:2;">
+                        <label>Email address</label>
+                        <input type="email" class="form-input" id="modalBasicEmail" placeholder="teacher@school.edu">
                     </div>
                     <div class="form-group">
                         <label>Status</label>
@@ -595,12 +563,6 @@ function saveSalaryInfo() {
                             <option value="inactive">Inactive</option>
                             <option value="on-leave">On Leave</option>
                         </select>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Join Date</label>
-                        <input type="date" class="form-input" id="modalBasicJoinDate">
                     </div>
                 </div>
             </div>
@@ -627,14 +589,6 @@ function saveSalaryInfo() {
             <div class="form-section" style="padding:0;">
                 <div class="form-row">
                     <div class="form-group">
-                        <label>NRC Number</label>
-                        <input type="text" class="form-input" id="modalPersonalNRC" placeholder="e.g., 12/ABC(N)123456">
-                    </div>
-                    <div class="form-group">
-                        <label>Date of Birth</label>
-                        <input type="date" class="form-input" id="modalPersonalDOB">
-                    </div>
-                    <div class="form-group">
                         <label>Gender</label>
                         <select class="form-select" id="modalPersonalGender">
                             <option value="Male">Male</option>
@@ -642,30 +596,23 @@ function saveSalaryInfo() {
                             <option value="Other">Other</option>
                         </select>
                     </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group" style="flex:2;">
-                        <label>Address</label>
-                        <input type="text" class="form-input" id="modalPersonalAddress" placeholder="Street, City, State">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group" style="flex:2;">
-                        <label>Emergency Contact</label>
-                        <input type="text" class="form-input" id="modalPersonalEmergency" placeholder="Name - Phone">
+                    <div class="form-group">
+                        <label>Ethnicity</label>
+                        <input type="text" class="form-input" id="modalPersonalEthnicity" placeholder="e.g., Burmese">
                     </div>
                     <div class="form-group">
-                        <label>Blood Type</label>
-                        <select class="form-select" id="modalPersonalBloodType">
-                            <option value="A+">A+</option>
-                            <option value="A-">A-</option>
-                            <option value="B+">B+</option>
-                            <option value="B-">B-</option>
-                            <option value="AB+">AB+</option>
-                            <option value="AB-">AB-</option>
-                            <option value="O+">O+</option>
-                            <option value="O-">O-</option>
-                        </select>
+                        <label>Religious</label>
+                        <input type="text" class="form-input" id="modalPersonalReligious" placeholder="e.g., Buddhist">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>NRC</label>
+                        <input type="text" class="form-input" id="modalPersonalNRC" placeholder="e.g., 12/ABC(N)123456">
+                    </div>
+                    <div class="form-group">
+                        <label>D.O.B</label>
+                        <input type="date" class="form-input" id="modalPersonalDOB">
                     </div>
                 </div>
             </div>
@@ -681,19 +628,23 @@ function saveSalaryInfo() {
     </div>
 </div>
 
-<!-- Academic Information Modal -->
-<div id="editAcademicModal" class="confirm-dialog-overlay" style="display:none;">
+<!-- Organizational Information Modal -->
+<div id="editOrganizationalModal" class="confirm-dialog-overlay" style="display:none;">
     <div class="confirm-dialog-content" style="max-width: 600px;">
         <div class="confirm-dialog-header">
-            <h4><i class="fas fa-graduation-cap"></i> Edit Academic Information</h4>
-            <button class="icon-btn" onclick="closeEditModal('academic')"><i class="fas fa-times"></i></button>
+            <h4><i class="fas fa-building"></i> Edit Organizational Information</h4>
+            <button class="icon-btn" onclick="closeEditModal('organizational')"><i class="fas fa-times"></i></button>
         </div>
         <div class="confirm-dialog-body" style="padding: 20px;">
             <div class="form-section" style="padding:0;">
                 <div class="form-row">
+                    <div class="form-group" style="flex:2;">
+                        <label>Position</label>
+                        <input type="text" class="form-input" id="modalOrganizationalPosition" placeholder="e.g., Senior Teacher">
+                    </div>
                     <div class="form-group">
                         <label>Department</label>
-                        <select class="form-select" id="modalAcademicDepartment">
+                        <select class="form-select" id="modalOrganizationalDepartment">
                             <option value="Mathematics">Mathematics</option>
                             <option value="Science">Science</option>
                             <option value="English">English</option>
@@ -701,98 +652,234 @@ function saveSalaryInfo() {
                             <option value="Arts">Arts</option>
                         </select>
                     </div>
-                    <div class="form-group" style="flex:2;">
-                        <label>Subjects</label>
-                        <input type="text" class="form-input" id="modalAcademicSubjects" placeholder="e.g., Algebra, Calculus">
-                    </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group" style="flex:2;">
-                        <label>Qualification</label>
-                        <input type="text" class="form-input" id="modalAcademicQualification" placeholder="e.g., M.Ed, Ph.D">
+                    <div class="form-group">
+                        <label>Date of Joining</label>
+                        <input type="date" class="form-input" id="modalOrganizationalJoinDate">
                     </div>
                     <div class="form-group">
-                        <label>Experience (Years)</label>
-                        <input type="number" class="form-input" id="modalAcademicExperience" placeholder="Years">
+                        <label>Basic Salary</label>
+                        <input type="number" class="form-input" id="modalOrganizationalBasicSalary" placeholder="0" step="1">
                     </div>
                 </div>
             </div>
         </div>
         <div class="confirm-dialog-actions">
-            <button class="simple-btn secondary" onclick="closeEditModal('academic')">
+            <button class="simple-btn secondary" onclick="closeEditModal('organizational')">
                 <i class="fas fa-times"></i> Cancel
             </button>
-            <button class="simple-btn primary" onclick="saveAcademicInfo()">
+            <button class="simple-btn primary" onclick="saveOrganizationalInfo()">
                 <i class="fas fa-check"></i> Save Changes
             </button>
         </div>
     </div>
 </div>
 
-<!-- Salary & Payroll Information Modal -->
-<div id="editSalaryModal" class="confirm-dialog-overlay" style="display:none;">
+<!-- Education Modal -->
+<div id="editEducationModal" class="confirm-dialog-overlay" style="display:none;">
     <div class="confirm-dialog-content" style="max-width: 600px;">
         <div class="confirm-dialog-header">
-            <h4><i class="fas fa-money-check-alt"></i> Edit Salary & Payroll Information</h4>
-            <button class="icon-btn" onclick="closeEditModal('salary')"><i class="fas fa-times"></i></button>
+            <h4><i class="fas fa-graduation-cap"></i> Edit Education</h4>
+            <button class="icon-btn" onclick="closeEditModal('education')"><i class="fas fa-times"></i></button>
         </div>
         <div class="confirm-dialog-body" style="padding: 20px;">
             <div class="form-section" style="padding:0;">
                 <div class="form-row">
-                    <div class="form-group">
-                        <label>Basic Salary</label>
-                        <input type="number" class="form-input" id="modalSalaryBasic" placeholder="0" value="0" step="1" oninput="calculateModalTotalSalary()">
-                    </div>
-                    <div class="form-group">
-                        <label>Attendance Allowance</label>
-                        <input type="number" class="form-input" id="modalSalaryAttendance" placeholder="0" value="0" step="1" oninput="calculateModalTotalSalary()">
-                    </div>
-                    <div class="form-group">
-                        <label>Loyalty Bonus</label>
-                        <input type="number" class="form-input" id="modalSalaryLoyalty" placeholder="0" value="0" step="1" oninput="calculateModalTotalSalary()">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Other Bonus</label>
-                        <input type="number" class="form-input" id="modalSalaryOther" placeholder="0" value="0" step="1" oninput="calculateModalTotalSalary()">
-                    </div>
-                    <div class="form-group">
-                        <label>Overtime</label>
-                        <input type="number" class="form-input" id="modalSalaryOvertime" placeholder="0" value="0" step="1" oninput="calculateModalTotalSalary()">
-                    </div>
-                    <div class="form-group">
-                        <label>Late Deduction</label>
-                        <input type="number" class="form-input" id="modalSalaryLate" placeholder="0" value="0" step="1" oninput="calculateModalTotalSalary()">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Payment Method</label>
-                        <select class="form-select" id="modalSalaryPaymentMethod">
-                            <option value="Cash">Cash</option>
-                            <option value="Bank Transfer">Bank Transfer</option>
-                            <option value="KBZ Pay">KBZ Pay</option>
-                            <option value="Wave Pay">Wave Pay</option>
-                        </select>
-                    </div>
                     <div class="form-group" style="flex:2;">
-                        <label>Total Salary</label>
-                        <input type="text" class="form-input" id="modalSalaryTotal" readonly style="background-color: #f8f9fa; font-weight: 600; font-size: 1.1em;">
+                        <label>Qualification</label>
+                        <input type="text" class="form-input" id="modalEducationQualification" placeholder="e.g., M.Ed, Ph.D">
+                    </div>
+                    <div class="form-group">
+                        <label>Previous experience (Year)</label>
+                        <input type="number" class="form-input" id="modalEducationExperience" placeholder="Years">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Green card</label>
+                        <input type="text" class="form-input" id="modalEducationGreenCard" placeholder="Green card number">
+                    </div>
+                    <div class="form-group">
+                        <label>Current Grade</label>
+                        <input type="text" class="form-input" id="modalEducationCurrentGrade" placeholder="e.g., Grade 9">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Current Classes</label>
+                        <input type="text" class="form-input" id="modalEducationCurrentClasses" placeholder="e.g., 9-A, 9-B">
+                    </div>
+                    <div class="form-group">
+                        <label>Responsible Class</label>
+                        <input type="text" class="form-input" id="modalEducationResponsibleClass" placeholder="e.g., 9-A">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:2;">
+                        <label>Subjects taught</label>
+                        <input type="text" class="form-input" id="modalEducationSubjects" placeholder="e.g., Algebra, Calculus">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:2;">
+                        <label>Previous School</label>
+                        <input type="text" class="form-input" id="modalEducationPreviousSchool" placeholder="Previous school name">
                     </div>
                 </div>
             </div>
         </div>
         <div class="confirm-dialog-actions">
-            <button class="simple-btn secondary" onclick="closeEditModal('salary')">
+            <button class="simple-btn secondary" onclick="closeEditModal('education')">
                 <i class="fas fa-times"></i> Cancel
             </button>
-            <button class="simple-btn primary" onclick="saveSalaryInfo()">
+            <button class="simple-btn primary" onclick="saveEducationInfo()">
                 <i class="fas fa-check"></i> Save Changes
             </button>
         </div>
     </div>
 </div>
+
+<!-- Family & Relationship Modal -->
+<div id="editFamilyModal" class="confirm-dialog-overlay" style="display:none;">
+    <div class="confirm-dialog-content" style="max-width: 600px;">
+        <div class="confirm-dialog-header">
+            <h4><i class="fas fa-users"></i> Edit Family & Relationship</h4>
+            <button class="icon-btn" onclick="closeEditModal('family')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="confirm-dialog-body" style="padding: 20px;">
+            <div class="form-section" style="padding:0;">
+                <div class="form-row">
+                    <div class="form-group" style="flex:2;">
+                        <label>Father name</label>
+                        <input type="text" class="form-input" id="modalFamilyFatherName" placeholder="Father's full name">
+                    </div>
+                    <div class="form-group">
+                        <label>Father's Ph no.</label>
+                        <input type="tel" class="form-input" id="modalFamilyFatherPhone" placeholder="+1-555-...">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:2;">
+                        <label>Mother name</label>
+                        <input type="text" class="form-input" id="modalFamilyMotherName" placeholder="Mother's full name">
+                    </div>
+                    <div class="form-group">
+                        <label>Mother's Ph no.</label>
+                        <input type="tel" class="form-input" id="modalFamilyMotherPhone" placeholder="+1-555-...">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Emergency contact ph no.</label>
+                        <input type="tel" class="form-input" id="modalFamilyEmergencyContact" placeholder="+1-555-...">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Marital Status</label>
+                        <select class="form-select" id="modalFamilyMaritalStatus">
+                            <option value="">Select</option>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Divorced">Divorced</option>
+                            <option value="Widowed">Widowed</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex:2;">
+                        <label>Partner Name</label>
+                        <input type="text" class="form-input" id="modalFamilyPartnerName" placeholder="Partner's full name">
+                    </div>
+                    <div class="form-group">
+                        <label>Partner's Ph no.</label>
+                        <input type="tel" class="form-input" id="modalFamilyPartnerPhone" placeholder="+1-555-...">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>In-school relative - Name</label>
+                        <input type="text" class="form-input" id="modalFamilyInSchoolRelativeName" placeholder="Relative's name">
+                    </div>
+                    <div class="form-group">
+                        <label>In-school relative - Relationship</label>
+                        <input type="text" class="form-input" id="modalFamilyInSchoolRelativeRelationship" placeholder="e.g., Brother, Sister">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="confirm-dialog-actions">
+            <button class="simple-btn secondary" onclick="closeEditModal('family')">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+            <button class="simple-btn primary" onclick="saveFamilyInfo()">
+                <i class="fas fa-check"></i> Save Changes
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Medical Modal -->
+<div id="editMedicalModal" class="confirm-dialog-overlay" style="display:none;">
+    <div class="confirm-dialog-content" style="max-width: 600px;">
+        <div class="confirm-dialog-header">
+            <h4><i class="fas fa-heartbeat"></i> Edit Medical</h4>
+            <button class="icon-btn" onclick="closeEditModal('medical')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="confirm-dialog-body" style="padding: 20px;">
+            <div class="form-section" style="padding:0;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Height</label>
+                        <input type="text" class="form-input" id="modalMedicalHeight" placeholder="e.g., 5'8&quot;">
+                    </div>
+                    <div class="form-group">
+                        <label>Weight</label>
+                        <input type="text" class="form-input" id="modalMedicalWeight" placeholder="e.g., 70 kg">
+                    </div>
+                    <div class="form-group">
+                        <label>Blood Type</label>
+                        <select class="form-select" id="modalMedicalBloodType">
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Medicine allergy</label>
+                        <input type="text" class="form-input" id="modalMedicalMedicineAllergy" placeholder="List any medicine allergies">
+                    </div>
+                    <div class="form-group">
+                        <label>Food allergy</label>
+                        <input type="text" class="form-input" id="modalMedicalFoodAllergy" placeholder="List any food allergies">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:2;">
+                        <label>Medical Directory</label>
+                        <textarea class="form-input" id="modalMedicalDirectory" rows="3" placeholder="Additional medical information"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="confirm-dialog-actions">
+            <button class="simple-btn secondary" onclick="closeEditModal('medical')">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+            <button class="simple-btn primary" onclick="saveMedicalInfo()">
+                <i class="fas fa-check"></i> Save Changes
+            </button>
+        </div>
+    </div>
+</div>
+
+
 <?php endif; ?>
 
 <?php
