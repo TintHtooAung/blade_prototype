@@ -76,22 +76,26 @@ ob_start();
                     </div>
                     <div class="wizard-step-item" data-step="3" onclick="goToStep(3)">
                         <div class="step-indicator">3</div>
-                        <span class="step-label">Academic</span>
+                        <span class="step-label">Organizational</span>
                     </div>
                     <div class="wizard-step-item" data-step="4" onclick="goToStep(4)">
                         <div class="step-indicator">4</div>
-                        <span class="step-label">Family</span>
+                        <span class="step-label">Academic</span>
                     </div>
                     <div class="wizard-step-item" data-step="5" onclick="goToStep(5)">
                         <div class="step-indicator">5</div>
-                        <span class="step-label">Marital</span>
+                        <span class="step-label">Family</span>
                     </div>
                     <div class="wizard-step-item" data-step="6" onclick="goToStep(6)">
                         <div class="step-indicator">6</div>
-                        <span class="step-label">Medical</span>
+                        <span class="step-label">Marital</span>
                     </div>
                     <div class="wizard-step-item" data-step="7" onclick="goToStep(7)">
                         <div class="step-indicator">7</div>
+                        <span class="step-label">Medical</span>
+                    </div>
+                    <div class="wizard-step-item" data-step="8" onclick="goToStep(8)">
+                        <div class="step-indicator">8</div>
                         <span class="step-label">Portal</span>
                     </div>
                 </div>
@@ -119,29 +123,11 @@ ob_start();
                                 <input type="text" id="tName" class="form-input" placeholder="Enter full name" required>
                             </div>
                             <div class="form-group" style="flex:1;">
-                                <label for="tPosition">Position</label>
-                                <input type="text" id="tPosition" class="form-input" placeholder="e.g., Senior Teacher">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group" style="flex:1;">
-                                <label for="tDept">Department</label>
-                                <input type="text" id="tDept" class="form-input" placeholder="e.g., Mathematics">
-                            </div>
-                            <div class="form-group" style="flex:1;">
                                 <label for="tEmployeeId">Employee ID</label>
                                 <input type="text" id="tEmployeeId" class="form-input" placeholder="EMP-001">
                             </div>
-                            <div class="form-group" style="flex:1;">
-                                <label for="tJoin">Date of Joining</label>
-                                <input type="date" id="tJoin" class="form-input">
-                            </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group" style="flex:1;">
-                                <label for="tMonthlySalary">Monthly Salary</label>
-                                <input type="number" id="tMonthlySalary" class="form-input" placeholder="0.00" step="0.01">
-                            </div>
                             <div class="form-group" style="flex:1;">
                                 <label for="tPhone">Ph. no.</label>
                                 <input type="tel" id="tPhone" class="form-input" placeholder="+1-555-...">
@@ -155,6 +141,14 @@ ob_start();
                             <div class="form-group" style="flex:1;">
                                 <label for="tEmail">Email address</label>
                                 <input type="email" id="tEmail" class="form-input" placeholder="name@school.edu">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label for="tStatus">Status</label>
+                                <select id="tStatus" class="form-select">
+                                    <option value="Active">Active</option>
+                                    <option value="On Leave">On Leave</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -194,23 +188,55 @@ ob_start();
                                 <input type="date" id="tDOB" class="form-input">
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Step 3: Organizational Information -->
+                    <div class="wizard-step" id="wizard-step-3" style="display:none;">
+                        <div style="display:flex; align-items:center; margin-bottom:20px;">
+                            <i class="fas fa-briefcase" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
+                            <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Organizational Information</h4>
+                        </div>
                         <div class="form-row">
                             <div class="form-group" style="flex:1;">
-                                <label for="tEducation">Education</label>
-                                <input type="text" id="tEducation" class="form-input" placeholder="e.g., M.A., B.Ed.">
+                                <label for="tPosition">Position</label>
+                                <input type="text" id="tPosition" class="form-input" placeholder="e.g., Senior Teacher">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label for="tDept">Department</label>
+                                <input type="text" id="tDept" class="form-input" placeholder="e.g., Mathematics">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group" style="flex:1;">
+                                <label for="tJoin">Date of Joining</label>
+                                <input type="date" id="tJoin" class="form-input">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label for="tMonthlySalary">Basic Salary</label>
+                                <input type="number" id="tMonthlySalary" class="form-input" placeholder="0.00" step="0.01">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Academic Information -->
+                    <div class="wizard-step" id="wizard-step-4" style="display:none;">
+                        <div style="display:flex; align-items:center; margin-bottom:20px;">
+                            <i class="fas fa-graduation-cap" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
+                            <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Academic Information</h4>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group" style="flex:1;">
+                                <label for="tQualification">Qualification</label>
+                                <input type="text" id="tQualification" class="form-input" placeholder="e.g., M.A., B.Ed.">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label for="tPreviousExperience">Previous experience (Year)</label>
+                                <input type="number" id="tPreviousExperience" class="form-input" placeholder="e.g., 5" min="0" step="1">
                             </div>
                             <div class="form-group" style="flex:1;">
                                 <label for="tGreenCard">Green card</label>
                                 <input type="text" id="tGreenCard" class="form-input" placeholder="Green card number">
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 3: Academic Information -->
-                    <div class="wizard-step" id="wizard-step-3" style="display:none;">
-                        <div style="display:flex; align-items:center; margin-bottom:20px;">
-                            <i class="fas fa-graduation-cap" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
-                            <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Academic Information</h4>
                         </div>
                         <div class="form-row">
                             <div class="form-group" style="flex:1;">
@@ -238,8 +264,8 @@ ob_start();
                         </div>
                     </div>
 
-                    <!-- Step 4: Family Information -->
-                    <div class="wizard-step" id="wizard-step-4" style="display:none;">
+                    <!-- Step 5: Family Information -->
+                    <div class="wizard-step" id="wizard-step-5" style="display:none;">
                         <div style="display:flex; align-items:center; margin-bottom:20px;">
                             <i class="fas fa-users" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
                             <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Family Information</h4>
@@ -272,8 +298,8 @@ ob_start();
                         </div>
                     </div>
 
-                    <!-- Step 5: Marital Status & In-School Relative -->
-                    <div class="wizard-step" id="wizard-step-5" style="display:none;">
+                    <!-- Step 6: Marital Status & In-School Relative -->
+                    <div class="wizard-step" id="wizard-step-6" style="display:none;">
                         <div style="display:flex; align-items:center; margin-bottom:20px;">
                             <i class="fas fa-heart" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
                             <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Marital Status & In-School Relative</h4>
@@ -316,8 +342,8 @@ ob_start();
                         </div>
                     </div>
 
-                    <!-- Step 6: Physical & Medical Information -->
-                    <div class="wizard-step" id="wizard-step-6" style="display:none;">
+                    <!-- Step 7: Physical & Medical Information -->
+                    <div class="wizard-step" id="wizard-step-7" style="display:none;">
                         <div style="display:flex; align-items:center; margin-bottom:20px;">
                             <i class="fas fa-heartbeat" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
                             <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Physical & Medical Information</h4>
@@ -327,6 +353,26 @@ ob_start();
                                 <label for="tHeight">Height</label>
                                 <input type="text" id="tHeight" class="form-input" placeholder="e.g., 5'8&quot;">
                             </div>
+                            <div class="form-group" style="flex:1;">
+                                <label for="tWeight">Weight</label>
+                                <input type="text" id="tWeight" class="form-input" placeholder="e.g., 70 kg">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label for="tBloodType">Blood Type</label>
+                                <select id="tBloodType" class="form-select">
+                                    <option value="">Select</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
                             <div class="form-group" style="flex:1;">
                                 <label for="tMedicineAllergy">Medicine allergy</label>
                                 <input type="text" id="tMedicineAllergy" class="form-input" placeholder="List any medicine allergies">
@@ -344,8 +390,8 @@ ob_start();
                         </div>
                     </div>
 
-                    <!-- Step 7: Portal Registration -->
-                    <div class="wizard-step" id="wizard-step-7" style="display:none;">
+                    <!-- Step 8: Portal Registration -->
+                    <div class="wizard-step" id="wizard-step-8" style="display:none;">
                         <div style="display:flex; align-items:center; margin-bottom:20px;">
                             <i class="fas fa-user-shield" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
                             <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Portal Registration</h4>
@@ -365,19 +411,11 @@ ob_start();
                                 <label for="tPortalPhone">Phone Number</label>
                                 <input type="tel" id="tPortalPhone" class="form-input" placeholder="+1-555-0000">
                             </div>
-                            <div class="form-group" style="flex:1;">
-                                <label for="tStatus">Status</label>
-                                <select id="tStatus" class="form-select">
-                                    <option value="Active">Active</option>
-                                    <option value="On Leave">On Leave</option>
-                                    <option value="Inactive">Inactive</option>
-                                </select>
-                            </div>
                         </div>
                     </div>
 
-                    <!-- Step 8: Success Page -->
-                    <div class="wizard-step" id="wizard-step-8" style="display:none;">
+                    <!-- Step 9: Success Page -->
+                    <div class="wizard-step" id="wizard-step-9" style="display:none;">
                         <div class="success-page">
                             <div class="success-icon-wrapper">
                                 <i class="fas fa-check-circle"></i>
@@ -935,7 +973,7 @@ ob_start();
     <script>
     // Wizard state
     let currentStep = 1;
-    const totalSteps = 8;
+    const totalSteps = 9;
 
     // Teacher modal functions
     function openAddTeacherModal() {
@@ -991,7 +1029,7 @@ ob_start();
             }
         }
         
-        // Update progress dots (only for steps 1-7)
+        // Update progress dots (only for steps 1-8)
         if (currentStep < totalSteps) {
             updateProgressDots();
         }
@@ -1018,9 +1056,9 @@ ob_start();
             const stepNum = index + 1;
             item.classList.remove('active', 'completed');
             
-            // Update step indicator content (only for steps 1-7)
+            // Update step indicator content (only for steps 1-8)
             const indicator = item.querySelector('.step-indicator');
-            if (indicator && stepNum <= 7) {
+            if (indicator && stepNum <= 8) {
                 if (stepNum === currentStep) {
                     item.classList.add('active');
                     indicator.innerHTML = '<i class="fas fa-pencil-alt"></i>';
@@ -1046,7 +1084,7 @@ ob_start();
         saveBtn.style.display = 'none';
         cancelBtn.style.display = 'none';
         
-        // Step 8 (Success page) - no navigation buttons
+        // Step 9 (Success page) - no navigation buttons
         if (currentStep === totalSteps) {
             return;
         }
@@ -1060,7 +1098,7 @@ ob_start();
         }
         
         // Show/hide Next and Save buttons
-        if (currentStep === 7) {
+        if (currentStep === 8) {
             // Last form step - show Save button
             saveBtn.style.display = 'inline-flex';
         } else {
@@ -1073,15 +1111,15 @@ ob_start();
         // Reset all form fields
         const fields = [
             'tPhoto', 'tName', 'tPosition', 'tDept', 'tEmployeeId', 'tJoin', 
-            'tMonthlySalary', 'tPhone', 'tAddress', 'tEmail', 'tGender', 
-            'tEthnicity', 'tReligious', 'tNRC', 'tDOB', 'tEducation', 
-            'tGreenCard', 'tCurrentGrade', 'tCurrentClasses', 'tResponsibleClass', 
+            'tMonthlySalary', 'tPhone', 'tAddress', 'tEmail', 'tStatus', 'tGender', 
+            'tEthnicity', 'tReligious', 'tNRC', 'tDOB', 'tQualification', 
+            'tPreviousExperience', 'tGreenCard', 'tCurrentGrade', 'tCurrentClasses', 'tResponsibleClass', 
             'tSubjects', 'tPreviousSchool', 'tFatherName', 'tFatherPhone', 
             'tMotherName', 'tMotherPhone', 'tEmergencyContact', 'tMaritalStatus', 
             'tPartnerName', 'tPartnerPhone', 'tInSchoolRelativeName', 
-            'tInSchoolRelativeRelationship', 'tHeight', 'tMedicineAllergy', 
-            'tFoodAllergy', 'tMedicalDirectory', 'tPortalEmail', 'tPortalPassword', 
-            'tPortalPhone', 'tStatus'
+            'tInSchoolRelativeRelationship', 'tHeight', 'tWeight', 'tBloodType', 
+            'tMedicineAllergy', 'tFoodAllergy', 'tMedicalDirectory', 'tPortalEmail', 
+            'tPortalPassword', 'tPortalPhone'
         ];
         
         fields.forEach(fieldId => {
@@ -1099,6 +1137,12 @@ ob_start();
         const statusField = document.getElementById('tStatus');
         if (statusField) {
             statusField.value = 'Active';
+        }
+        
+        // Reset blood type
+        const bloodTypeField = document.getElementById('tBloodType');
+        if (bloodTypeField) {
+            bloodTypeField.value = '';
         }
     }
 
@@ -1189,12 +1233,14 @@ ob_start();
                 phone:(document.getElementById('tPhone').value||'').trim(),
                 address: (document.getElementById('tAddress').value||'').trim(),
                 email:(document.getElementById('tEmail').value||'').trim(),
+                status:document.getElementById('tStatus').value||'Active',
                 gender: document.getElementById('tGender') ? document.getElementById('tGender').value : '',
                 ethnicity: (document.getElementById('tEthnicity').value||'').trim(),
                 religious: (document.getElementById('tReligious').value||'').trim(),
                 nrc: (document.getElementById('tNRC').value||'').trim(),
                 dob: document.getElementById('tDOB').value||'',
-                education: (document.getElementById('tEducation').value||'').trim(),
+                qualification: (document.getElementById('tQualification').value||'').trim(),
+                previousExperience: (document.getElementById('tPreviousExperience').value||'').trim(),
                 greenCard: (document.getElementById('tGreenCard').value||'').trim(),
                 // Academic Information
                 currentGrade: (document.getElementById('tCurrentGrade').value||'').trim(),
@@ -1217,6 +1263,8 @@ ob_start();
                 inSchoolRelativeRelationship: (document.getElementById('tInSchoolRelativeRelationship').value||'').trim(),
                 // Physical & Medical
                 height: (document.getElementById('tHeight').value||'').trim(),
+                weight: (document.getElementById('tWeight').value||'').trim(),
+                bloodType: document.getElementById('tBloodType') ? document.getElementById('tBloodType').value : '',
                 medicineAllergy: (document.getElementById('tMedicineAllergy').value||'').trim(),
                 foodAllergy: (document.getElementById('tFoodAllergy').value||'').trim(),
                 medicalDirectory: (document.getElementById('tMedicalDirectory').value||'').trim(),
@@ -1246,7 +1294,7 @@ ob_start();
             }
             
             // Navigate to success page
-            goToStep(8);
+            goToStep(9);
         };
     });
     </script>
@@ -1428,4 +1476,5 @@ ob_start();
 $content = ob_get_clean();
 
 include __DIR__ . '/../components/admin-layout.php';
+?>
 ?>

@@ -45,57 +45,12 @@ ob_start();
                 <!-- Step 1: Fee Structure -->
                 <div class="wizard-step" id="setup-step-1" style="display:block;">
                     <div style="display:flex; align-items:center; margin-bottom:20px;">
-                        <i class="fas fa-file-invoice-dollar" style="color:#8b5cf6; margin-right:8px; font-size:18px;"></i>
-                        <h4 style="margin:0; font-size:18px; font-weight:600; color:#7c3aed;">Tuition Fee Structure</h4>
-                    </div>
-                    
-                    <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 16px; border-radius: 6px; margin-bottom: 24px;">
-                        <p style="margin: 0; color: #92400e; font-size: 14px;">
-                            <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
-                            <strong>Note:</strong> Only tuition fees repeat over semesters. Other fees (registration, library, lab, sports, transport) are optional and can be added from manual expense.
-                        </p>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group" style="flex:1;">
-                            <label for="feePaymentFrequency">Payment Frequency <span style="color:red;">*</span></label>
-                            <select id="feePaymentFrequency" class="form-select" required>
-                                <option value="monthly" selected>Monthly</option>
-                                <option value="quarterly">Quarterly</option>
-                                <option value="semester">Semester</option>
-                                <option value="annual">Annual</option>
-                            </select>
-                            <small style="color: #666; font-size: 12px; margin-top: 4px; display: block;">How often tuition fees are collected</small>
-                        </div>
-                        <div class="form-group" style="flex:1;">
-                            <label for="lateFeePercentage">Late Fee Percentage (%)</label>
-                            <input type="number" id="lateFeePercentage" class="form-input" placeholder="e.g., 5" value="5" min="0" max="100" step="0.1">
-                            <small style="color: #666; font-size: 12px; margin-top: 4px; display: block;">Percentage charged for late payments</small>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group" style="flex:1;">
-                            <label for="lateFeeGracePeriod">Late Fee Grace Period (days)</label>
-                            <input type="number" id="lateFeeGracePeriod" class="form-input" placeholder="e.g., 7" value="7" min="0" max="30">
-                            <small style="color: #666; font-size: 12px; margin-top: 4px; display: block;">Days after due date before late fee applies</small>
-                        </div>
-                        <div class="form-group" style="flex:1;">
-                            <label for="discountPercentage">Default Discount Percentage (%)</label>
-                            <input type="number" id="discountPercentage" class="form-input" placeholder="e.g., 0" value="0" min="0" max="100" step="0.1">
-                            <small style="color: #666; font-size: 12px; margin-top: 4px; display: block;">Default discount for early payments or scholarships</small>
-                        </div>
+                        <i class="fas fa-graduation-cap" style="color:#8b5cf6; margin-right:8px; font-size:18px;"></i>
+                        <h4 style="margin:0; font-size:18px; font-weight:600; color:#7c3aed;">Tuition Fee by Grade</h4>
                     </div>
                     
                     <!-- Tuition Fee by Grade Configuration -->
-                    <div style="margin-top: 32px; padding: 20px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                            <h5 style="margin: 0; font-size: 16px; font-weight: 600; color: #111827;">
-                                <i class="fas fa-graduation-cap" style="margin-right: 8px; color: #8b5cf6;"></i>Tuition Fee by Grade
-                            </h5>
-                            <button type="button" class="wizard-btn-secondary" onclick="addTuitionFeeGrade()" style="padding: 6px 12px; font-size: 13px;">
-                                <i class="fas fa-plus"></i> Add Grade Fee
-                            </button>
-                        </div>
+                    <div style="padding: 20px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb;">
                         <p style="margin: 0 0 16px 0; color: #6b7280; font-size: 13px;">
                             Configure monthly tuition fees for each grade level
                         </p>
@@ -108,7 +63,7 @@ ob_start();
                     <div style="background: #f5f3ff; border-left: 4px solid #8b5cf6; padding: 16px; border-radius: 6px; margin-top: 16px;">
                         <p style="margin: 0; color: #7c3aed; font-size: 14px;">
                             <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
-                            Set the monthly tuition fee for each grade. These fees will be used when generating invoices based on the payment frequency you selected above.
+                            Set the monthly tuition fee for each grade. These fees will be used when generating invoices.
                         </p>
                     </div>
                 </div>
@@ -194,11 +149,8 @@ ob_start();
         </div>
     </div>
     
-    <div class="wizard-footer" style="border-top: 1px solid #e5e7eb; padding: 20px 32px; background: #f9fafb; display: flex; justify-content: space-between; align-items: center; border-radius: 0 0 12px 12px;">
-        <a href="/admin/dashboard" class="wizard-btn-secondary" style="text-decoration: none;">
-            <i class="fas fa-home"></i> Skip for Now
-        </a>
-        <div style="display: flex; gap: 12px; margin-left: auto;">
+    <div class="wizard-footer" style="border-top: 1px solid #e5e7eb; padding: 20px 32px; background: #f9fafb; display: flex; justify-content: flex-end; align-items: center; border-radius: 0 0 12px 12px;">
+        <div style="display: flex; gap: 12px;">
             <button id="setupBackBtn" class="wizard-btn-secondary" onclick="goToPreviousSetupStep()" style="display:none;">
                 <i class="fas fa-arrow-left"></i> Previous
             </button>
@@ -228,19 +180,7 @@ function loadExistingSetupData() {
         
         // Load fee structure
         if (setupData.feeStructure) {
-            if (setupData.feeStructure.paymentFrequency) {
-                document.getElementById('feePaymentFrequency').value = setupData.feeStructure.paymentFrequency;
-            }
-            if (setupData.feeStructure.lateFeePercentage) {
-                document.getElementById('lateFeePercentage').value = setupData.feeStructure.lateFeePercentage;
-            }
-            if (setupData.feeStructure.lateFeeGracePeriod) {
-                document.getElementById('lateFeeGracePeriod').value = setupData.feeStructure.lateFeeGracePeriod;
-            }
-            if (setupData.feeStructure.discountPercentage) {
-                document.getElementById('discountPercentage').value = setupData.feeStructure.discountPercentage;
-            }
-            // Tuition fee timelines will be loaded when step 2 is shown
+            // Tuition fee grades will be loaded when step 1 is shown
         }
         
         // Load expense categories
@@ -395,10 +335,6 @@ function saveCurrentStepData() {
             });
             
             setupData.feeStructure = {
-                paymentFrequency: document.getElementById('feePaymentFrequency').value || 'monthly',
-                lateFeePercentage: parseFloat(document.getElementById('lateFeePercentage').value) || 5,
-                lateFeeGracePeriod: parseInt(document.getElementById('lateFeeGracePeriod').value) || 7,
-                discountPercentage: parseFloat(document.getElementById('discountPercentage').value) || 0,
                 tuitionFeeGrades: tuitionFeeGrades
             };
         } else if (currentSetupStep === 2) {
@@ -415,11 +351,6 @@ function saveCurrentStepData() {
 
 function handleNextSetupStep() {
     if (currentSetupStep === 1) {
-        const paymentFrequency = document.getElementById('feePaymentFrequency').value;
-        if (!paymentFrequency) {
-            alert('Please select payment frequency');
-            return;
-        }
         // Validate tuition fee grades
         const gradeItems = document.querySelectorAll('.tuition-fee-grade-item');
         if (gradeItems.length === 0) {

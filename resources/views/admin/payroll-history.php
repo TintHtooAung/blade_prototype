@@ -310,14 +310,9 @@ function renderPayrollHistoryTable(data) {
                 <td>${statusBadge}</td>
                 <td>${withdrawnInfo}</td>
                 <td>
-                    <button class="simple-btn secondary small" onclick="window.location.href='/admin/payroll-details?id=${entry.id}'" title="View Details">
-                        <i class="fas fa-eye"></i>
+                    <button class="simple-btn secondary small" onclick="viewPayrollHistory('${entry.id}')" title="View">
+                        <i class="fas fa-eye"></i> View
                     </button>
-                    ${entry.status === 'withdrawn' ? `
-                        <button class="simple-btn primary small" onclick="viewHistoryReceipt('${entry.id}')" title="View Receipt">
-                            <i class="fas fa-receipt"></i>
-                        </button>
-                    ` : ''}
                 </td>
             </tr>
         `;
@@ -328,24 +323,38 @@ function viewPayrollHistory(payrollId) {
     const entry = allPayrollHistory.find(e => e.id === payrollId);
     if (!entry) return;
     
-    // Create payroll details dialog
+    // Create receipt-like dialog (similar to student fee management)
     const dialog = document.createElement('div');
     dialog.className = 'receipt-dialog-overlay';
     dialog.style.display = 'flex';
     
+    const isWithdrawn = entry.status === 'withdrawn';
+    const dialogTitle = isWithdrawn ? 'Withdrawal Receipt' : 'Payroll Details';
+    const dialogIcon = isWithdrawn ? 'fa-receipt' : 'fa-file-invoice-dollar';
+    
     dialog.innerHTML = `
-        <div class="receipt-dialog-content">
+        <div class="receipt-dialog-content" style="max-width: 600px;">
             <div class="receipt-dialog-header">
-                <h3><i class="fas fa-file-invoice-dollar"></i> Payroll Details</h3>
+                <h3><i class="fas ${dialogIcon}"></i> ${dialogTitle}</h3>
                 <button class="receipt-close" onclick="this.closest('.receipt-dialog-overlay').remove()">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="receipt-dialog-body">
+                ${isWithdrawn ? `
+                <div style="background: #f0f9ff; border-left: 4px solid #3b82f6; padding: 16px; border-radius: 6px; margin-bottom: 20px;">
+                    <p style="margin: 0; color: #1e40af; font-weight: 600; font-size: 16px;">
+                        <i class="fas fa-check-circle" style="margin-right: 8px;"></i>Withdrawal Confirmed
+                    </p>
+                </div>
+                ` : ''}
                 <div class="receipt-info">
+                    <h4 style="margin: 0 0 16px 0; color: #111827; font-size: 16px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">
+                        <i class="fas fa-user-tie" style="margin-right: 8px; color: #3b82f6;"></i>Employee Information
+                    </h4>
                     <div class="receipt-row">
                         <span class="receipt-label">Payroll ID:</span>
-                        <span class="receipt-value">${entry.id}</span>
+                        <span class="receipt-value"><strong>${entry.id}</strong></span>
                     </div>
                     <div class="receipt-row">
                         <span class="receipt-label">Month:</span>
@@ -367,27 +376,34 @@ function viewPayrollHistory(payrollId) {
                         <span class="receipt-label">Department:</span>
                         <span class="receipt-value">${entry.dept}</span>
                     </div>
+                    
+                    <h4 style="margin: 24px 0 16px 0; color: #111827; font-size: 16px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">
+                        <i class="fas fa-dollar-sign" style="margin-right: 8px; color: #3b82f6;"></i>Payment Information
+                    </h4>
                     <div class="receipt-row">
                         <span class="receipt-label">Net Pay:</span>
-                        <span class="receipt-value">$${entry.netPay.toFixed(2)}</span>
+                        <span class="receipt-value" style="color: #10b981; font-size: 18px; font-weight: 700;">$${entry.netPay.toFixed(2)}</span>
                     </div>
                     <div class="receipt-row">
                         <span class="receipt-label">Payment Type:</span>
-                        <span class="receipt-value">${entry.paymentType}</span>
+                        <span class="receipt-value">${entry.paymentType || '-'}</span>
                     </div>
                     <div class="receipt-row">
                         <span class="receipt-label">Status:</span>
-                        <span class="receipt-value">${entry.status === 'withdrawn' ? 'Withdrawn' : 'Draft'}</span>
+                        <span class="receipt-value">${entry.status === 'withdrawn' ? '<span class="badge badge-success">Withdrawn</span>' : '<span class="badge badge-secondary">Draft</span>'}</span>
                     </div>
-                    ${entry.status === 'withdrawn' ? `
-                        <div class="receipt-row">
-                            <span class="receipt-label">Withdrawn By:</span>
-                            <span class="receipt-value">${entry.withdrawnBy}</span>
-                        </div>
-                        <div class="receipt-row">
-                            <span class="receipt-label">Withdrawal Date:</span>
-                            <span class="receipt-value">${entry.withdrawnTime}</span>
-                        </div>
+                    ${isWithdrawn ? `
+                    <h4 style="margin: 24px 0 16px 0; color: #111827; font-size: 16px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">
+                        <i class="fas fa-user-check" style="margin-right: 8px; color: #3b82f6;"></i>Withdrawal Information
+                    </h4>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Withdrawn By:</span>
+                        <span class="receipt-value"><strong>${entry.withdrawnBy || '-'}</strong></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Withdrawal Time:</span>
+                        <span class="receipt-value">${entry.withdrawnTime || '-'}</span>
+                    </div>
                     ` : ''}
                 </div>
             </div>
@@ -395,6 +411,11 @@ function viewPayrollHistory(payrollId) {
                 <button class="simple-btn secondary" onclick="this.closest('.receipt-dialog-overlay').remove()">
                     <i class="fas fa-times"></i> Close
                 </button>
+                ${isWithdrawn ? `
+                <button class="simple-btn primary" onclick="printHistoryReceipt('${entry.id}'); this.closest('.receipt-dialog-overlay').remove();">
+                    <i class="fas fa-print"></i> Print Receipt
+                </button>
+                ` : ''}
             </div>
         </div>
     `;
@@ -405,67 +426,6 @@ function viewPayrollHistory(payrollId) {
     });
 }
 
-function viewHistoryReceipt(payrollId) {
-    const entry = allPayrollHistory.find(e => e.id === payrollId);
-    if (!entry || entry.status !== 'withdrawn') return;
-    
-    // Create receipt dialog
-    const dialog = document.createElement('div');
-    dialog.className = 'receipt-dialog-overlay';
-    dialog.style.display = 'flex';
-    
-    dialog.innerHTML = `
-        <div class="receipt-dialog-content">
-            <div class="receipt-dialog-header">
-                <h3><i class="fas fa-receipt"></i> Withdrawal Receipt</h3>
-                <button class="receipt-close" onclick="this.closest('.receipt-dialog-overlay').remove()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="receipt-dialog-body">
-                <div class="receipt-info">
-                    <div class="receipt-row">
-                        <span class="receipt-label">Payroll ID:</span>
-                        <span class="receipt-value">${entry.id}</span>
-                    </div>
-                    <div class="receipt-row">
-                        <span class="receipt-label">Employee Name:</span>
-                        <span class="receipt-value">${entry.name}</span>
-                    </div>
-                    <div class="receipt-row">
-                        <span class="receipt-label">Amount:</span>
-                        <span class="receipt-value">$${entry.netPay.toFixed(2)}</span>
-                    </div>
-                    <div class="receipt-row">
-                        <span class="receipt-label">Payment Type:</span>
-                        <span class="receipt-value">${entry.paymentType}</span>
-                    </div>
-                    <div class="receipt-row">
-                        <span class="receipt-label">Withdrawn By:</span>
-                        <span class="receipt-value">${entry.withdrawnBy}</span>
-                    </div>
-                    <div class="receipt-row">
-                        <span class="receipt-label">Withdrawal Time:</span>
-                        <span class="receipt-value">${entry.withdrawnTime}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="receipt-dialog-actions">
-                <button class="simple-btn secondary" onclick="this.closest('.receipt-dialog-overlay').remove()">
-                    <i class="fas fa-times"></i> Close
-                </button>
-                <button class="simple-btn primary" onclick="printHistoryReceipt('${entry.id}')">
-                    <i class="fas fa-print"></i> Print Receipt
-                </button>
-            </div>
-        </div>
-    `;
-    
-    document.body.appendChild(dialog);
-    dialog.addEventListener('click', function(e) {
-        if (e.target === dialog) dialog.remove();
-    });
-}
 
 function printHistoryReceipt(payrollId) {
     const entry = allPayrollHistory.find(e => e.id === payrollId);
@@ -478,11 +438,15 @@ function printHistoryReceipt(payrollId) {
             <title>Withdrawal Receipt - ${entry.id}</title>
             <style>
                 body { font-family: Arial, sans-serif; margin: 20px; }
-                .receipt-header { text-align: center; margin-bottom: 30px; }
-                .receipt-details { margin: 20px 0; }
-                .receipt-row { display: flex; justify-content: space-between; margin: 10px 0; padding: 5px 0; border-bottom: 1px solid #eee; }
-                .receipt-label { font-weight: bold; }
-                .receipt-value { color: #333; }
+                .receipt-header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 20px; }
+                .receipt-header h2 { margin: 0; color: #111827; }
+                .receipt-header p { margin: 5px 0 0 0; color: #6b7280; }
+                .receipt-section { margin: 25px 0; }
+                .receipt-section h3 { margin: 0 0 15px 0; color: #111827; font-size: 16px; border-bottom: 1px solid #e5e7eb; padding-bottom: 8px; }
+                .receipt-row { display: flex; justify-content: space-between; margin: 10px 0; padding: 8px 0; border-bottom: 1px solid #eee; }
+                .receipt-label { font-weight: 600; color: #374151; }
+                .receipt-value { color: #111827; }
+                .amount-highlight { color: #10b981; font-size: 18px; font-weight: 700; }
             </style>
         </head>
         <body>
@@ -490,30 +454,56 @@ function printHistoryReceipt(payrollId) {
                 <h2>Withdrawal Receipt</h2>
                 <p>Smart Campus Nova Hub</p>
             </div>
-            <div class="receipt-details">
+            
+            <div class="receipt-section">
+                <h3>Employee Information</h3>
                 <div class="receipt-row">
                     <span class="receipt-label">Payroll ID:</span>
-                    <span class="receipt-value">${entry.id}</span>
+                    <span class="receipt-value"><strong>${entry.id}</strong></span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Month:</span>
+                    <span class="receipt-value">${entry.monthName}</span>
                 </div>
                 <div class="receipt-row">
                     <span class="receipt-label">Employee Name:</span>
                     <span class="receipt-value">${entry.name}</span>
                 </div>
                 <div class="receipt-row">
-                    <span class="receipt-label">Amount:</span>
-                    <span class="receipt-value">$${entry.netPay.toFixed(2)}</span>
+                    <span class="receipt-label">Employee ID:</span>
+                    <span class="receipt-value">${entry.employeeId}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Type:</span>
+                    <span class="receipt-value">${entry.type}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Department:</span>
+                    <span class="receipt-value">${entry.dept}</span>
+                </div>
+            </div>
+            
+            <div class="receipt-section">
+                <h3>Payment Information</h3>
+                <div class="receipt-row">
+                    <span class="receipt-label">Net Pay:</span>
+                    <span class="receipt-value amount-highlight">$${entry.netPay.toFixed(2)}</span>
                 </div>
                 <div class="receipt-row">
                     <span class="receipt-label">Payment Type:</span>
-                    <span class="receipt-value">${entry.paymentType}</span>
+                    <span class="receipt-value">${entry.paymentType || '-'}</span>
                 </div>
+            </div>
+            
+            <div class="receipt-section">
+                <h3>Withdrawal Information</h3>
                 <div class="receipt-row">
                     <span class="receipt-label">Withdrawn By:</span>
-                    <span class="receipt-value">${entry.withdrawnBy}</span>
+                    <span class="receipt-value"><strong>${entry.withdrawnBy || '-'}</strong></span>
                 </div>
                 <div class="receipt-row">
                     <span class="receipt-label">Withdrawal Time:</span>
-                    <span class="receipt-value">${entry.withdrawnTime}</span>
+                    <span class="receipt-value">${entry.withdrawnTime || '-'}</span>
                 </div>
             </div>
         </body>
@@ -547,6 +537,111 @@ loadPayrollHistory();
 .badge-secondary {
     background: #f1f5f9;
     color: #64748b;
+}
+
+/* Receipt Dialog Styles */
+.receipt-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.receipt-dialog-content {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.receipt-dialog-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.receipt-dialog-header h3 {
+    margin: 0;
+    color: #1e293b;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.receipt-close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #64748b;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.receipt-close:hover {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.receipt-dialog-body {
+    padding: 24px;
+}
+
+.receipt-dialog-actions {
+    padding: 16px 24px;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.receipt-info {
+    margin: 0;
+}
+
+.receipt-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.receipt-row:last-child {
+    border-bottom: none;
+}
+
+.receipt-label {
+    font-weight: 600;
+    color: #6b7280;
+    font-size: 14px;
+    flex: 0 0 40%;
+}
+
+.receipt-value {
+    color: #111827;
+    font-size: 14px;
+    text-align: right;
+    flex: 1;
+    word-break: break-word;
+}
+
+.receipt-dialog-content h4 {
+    margin: 0 0 16px 0;
+    color: #111827;
+    font-size: 16px;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 8px;
 }
 </style>
 

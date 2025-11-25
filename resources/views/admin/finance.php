@@ -94,6 +94,7 @@ ob_start();
                             <tr>
                                 <th>Date</th>
                                 <th>Invoice/ID #</th>
+                                <th>Category</th>
                                 <th>Description</th>
                                 <th>Grade/Class</th>
                                 <th>Amount</th>
@@ -102,7 +103,7 @@ ob_start();
                         </thead>
                         <tbody id="dailyIncomeTableBody">
                             <tr>
-                                <td colspan="6" style="text-align: center; color: #999; padding: 40px;">
+                                <td colspan="7" style="text-align: center; color: #999; padding: 40px;">
                                     <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 12px; display: block;"></i>
                                     No invoice data for selected month
                                 </td>
@@ -133,15 +134,14 @@ ob_start();
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>ID #</th>
+                                <th>Category</th>
                                 <th>Description</th>
-                                <th>Source</th>
                                 <th>Amount</th>
                             </tr>
                         </thead>
                         <tbody id="monthlyIncomeTableBody">
                             <tr>
-                                <td colspan="5" style="text-align: center; color: #999; padding: 40px;">
+                                <td colspan="4" style="text-align: center; color: #999; padding: 40px;">
                                     <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 12px; display: block;"></i>
                                     No combined income data for selected month
                                 </td>
@@ -170,14 +170,16 @@ ob_start();
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>Description</th>
+                                <th>Invoice ID</th>
                                 <th>Category</th>
+                                <th>Description</th>
                                 <th>Amount</th>
+                                <th>Payment Method</th>
                             </tr>
                         </thead>
                         <tbody id="dailyExpenseTableBody">
                             <tr>
-                                <td colspan="4" style="text-align: center; color: #999; padding: 40px;">
+                                <td colspan="6" style="text-align: center; color: #999; padding: 40px;">
                                     <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 12px; display: block;"></i>
                                     No expenses recorded for selected month. Click "Add Expense" to add one.
                                 </td>
@@ -208,15 +210,16 @@ ob_start();
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>ID #</th>
-                                <th>Description</th>
+                                <th>Invoice ID</th>
                                 <th>Category</th>
+                                <th>Description</th>
                                 <th>Amount</th>
+                                <th>Payment Method</th>
                             </tr>
                         </thead>
                         <tbody id="monthlyExpenseTableBody">
                             <tr>
-                                <td colspan="5" style="text-align: center; color: #999; padding: 40px;">
+                                <td colspan="6" style="text-align: center; color: #999; padding: 40px;">
                                     <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 12px; display: block;"></i>
                                     No combined expense data for selected month
                                 </td>
@@ -347,16 +350,16 @@ ob_start();
                         <input type="date" class="form-input" id="incomeDate" required>
                     </div>
                     <div class="form-group">
-                        <label>Source <span style="color: #ef4444;">*</span></label>
-                        <select class="form-input" id="incomeSource" required onchange="handleOtherSelect(this, 'incomeSourceOther')">
-                            <option value="">Select Source</option>
+                        <label>Category <span style="color: #ef4444;">*</span></label>
+                        <select class="form-input" id="incomeCategory" required onchange="handleOtherSelect(this, 'incomeCategoryOther')">
+                            <option value="">Select Category</option>
                             <option value="School Fees">School Fees</option>
                             <option value="Additional Fees">Additional Fees</option>
                             <option value="Donations">Donations</option>
                             <option value="Grants">Grants</option>
                             <option value="Other">Other</option>
                         </select>
-                        <input type="text" class="form-input" id="incomeSourceOther" placeholder="Specify source" style="display: none; margin-top: 8px;" oninput="updateOtherSelectValue('incomeSource', this.value)">
+                        <input type="text" class="form-input" id="incomeCategoryOther" placeholder="Specify category" style="display: none; margin-top: 8px;" oninput="updateOtherSelectValue('incomeCategory', this.value)">
                     </div>
                 </div>
                 <div class="form-row">
@@ -367,8 +370,35 @@ ob_start();
                 </div>
                 <div class="form-row">
                     <div class="form-group">
+                        <label>Invoice ID</label>
+                        <input type="text" class="form-input" id="incomeInvoiceId" placeholder="Enter invoice ID (optional)">
+                    </div>
+                    <div class="form-group">
+                        <label>Grade/Class</label>
+                        <input type="text" class="form-input" id="incomeGradeClass" placeholder="e.g., Grade 1-A (optional)">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
                         <label>Amount ($) <span style="color: #ef4444;">*</span></label>
                         <input type="number" class="form-input" id="incomeAmount" placeholder="0.00" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Type</label>
+                        <select class="form-input" id="incomePaymentType">
+                            <option value="">Select Payment Type</option>
+                            <option value="Cash">Cash</option>
+                            <option value="Bank Transfer">Bank Transfer</option>
+                            <option value="Credit Card">Credit Card</option>
+                            <option value="Debit Card">Debit Card</option>
+                            <option value="Check">Check</option>
+                            <option value="K-Pay">K-Pay</option>
+                            <option value="KBZ Pay">KBZ Pay</option>
+                            <option value="Wave Pay">Wave Pay</option>
+                            <option value="Mobile Payment">Mobile Payment</option>
+                            <option value="Online Payment">Online Payment</option>
+                            <option value="Other">Other</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -420,8 +450,26 @@ ob_start();
                 </div>
                 <div class="form-row">
                     <div class="form-group">
+                        <label>Invoice ID</label>
+                        <input type="text" class="form-input" id="expenseInvoiceId" placeholder="Enter invoice ID (optional)">
+                    </div>
+                    <div class="form-group">
                         <label>Amount ($) <span style="color: #ef4444;">*</span></label>
                         <input type="number" class="form-input" id="expenseAmount" placeholder="0.00" step="0.01" min="0" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Payment Method</label>
+                        <select class="form-input" id="expensePaymentMethod">
+                            <option value="">Select Payment Method</option>
+                            <option value="Cash">Cash</option>
+                            <option value="Bank Transfer">Bank Transfer</option>
+                            <option value="Credit Card">Credit Card</option>
+                            <option value="Debit Card">Debit Card</option>
+                            <option value="Check">Check</option>
+                            <option value="Other">Other</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -645,7 +693,7 @@ function initializeSampleIncome() {
         { key: '2024-08', name: 'August 2024' }
     ];
     
-    const incomeSources = {
+    const incomeCategories = {
         'Donations': [
             { desc: 'Alumni Donation - Annual Fund', amount: 5000 },
             { desc: 'Parent Association Donation', amount: 2500 },
@@ -672,11 +720,11 @@ function initializeSampleIncome() {
     let incomeIdCounter = 1;
     
     months.forEach(month => {
-        Object.keys(incomeSources).forEach(source => {
-            const sourceIncomes = incomeSources[source];
-            // Only add some income sources per month (not all every month)
-            if (Math.random() > 0.3) { // 70% chance to add this source
-                sourceIncomes.forEach((inc, idx) => {
+        Object.keys(incomeCategories).forEach(category => {
+            const categoryIncomes = incomeCategories[category];
+            // Only add some income categories per month (not all every month)
+            if (Math.random() > 0.3) { // 70% chance to add this category
+                categoryIncomes.forEach((inc, idx) => {
                     // Vary the dates within the month
                     const day = 5 + (idx * 8) + Math.floor(Math.random() * 5);
                     const date = `${month.key}-${String(day).padStart(2, '0')}`;
@@ -688,7 +736,8 @@ function initializeSampleIncome() {
                     sampleIncome.push({
                         id: `INC-${incomeIdCounter++}`,
                         date: date,
-                        source: source,
+                        category: category,
+                        source: category, // Keep for backward compatibility
                         description: inc.desc,
                         amount: amount
                     });
@@ -905,12 +954,15 @@ function loadIncomeData() {
             type: 'custom',
             date: inc.date,
             id: inc.id,
+            invoiceId: inc.invoiceId,
             description: inc.description,
-            source: inc.source,
+            category: inc.category || inc.source,
+            source: inc.source || inc.category, // Keep for backward compatibility
             amount: inc.amount,
-            paymentType: '-',
-            grade: '-',
-            class: '-'
+            paymentType: inc.paymentType || '-',
+            grade: inc.grade || '-',
+            class: inc.class || '-',
+            gradeClass: inc.gradeClass || (inc.grade && inc.class ? `Grade ${inc.grade}-${inc.class}` : '-')
         }))
     ];
     
@@ -940,7 +992,7 @@ function renderIncomeTable(incomeItems) {
     const customIncomeItems = incomeItems.filter(item => item.type === 'custom');
     
     // Render Daily Income Table (Invoice List Only)
-    if (invoiceItems.length === 0) {
+    if (invoiceItems.length === 0 && customIncomeItems.length === 0) {
         if (dailyTbody) {
             dailyTbody.innerHTML = `
                 <tr>
@@ -952,21 +1004,44 @@ function renderIncomeTable(incomeItems) {
             `;
         }
     } else {
+        // Combine invoice and custom income items for daily table
+        const allDailyItems = [
+            ...invoiceItems.map(item => ({ ...item, category: 'School Fees' })),
+            ...customIncomeItems
+        ];
+        
         // Sort by date (newest first)
-        invoiceItems.sort((a, b) => new Date(b.date) - new Date(a.date));
+        allDailyItems.sort((a, b) => new Date(b.date) - new Date(a.date));
         
-        const invoiceRows = invoiceItems.map(item => `
-            <tr>
-                <td>${formatDate(item.date)}</td>
-                <td><strong>${item.id}</strong></td>
-                <td>${item.name}</td>
-                <td>Grade ${item.grade}-${item.class}</td>
-                <td><strong style="color: #10b981;">$${item.amount.toFixed(2)}</strong></td>
-                <td>${item.paymentType}</td>
-            </tr>
-        `).join('');
+        const dailyRows = allDailyItems.map(item => {
+            if (item.type === 'invoice') {
+                return `
+                    <tr>
+                        <td>${formatDate(item.date)}</td>
+                        <td><strong>${item.id}</strong></td>
+                        <td><span class="status-badge" style="background: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 6px; font-size: 12px;">${item.category || 'School Fees'}</span></td>
+                        <td>${item.name}</td>
+                        <td>Grade ${item.grade}-${item.class}</td>
+                        <td><strong style="color: #10b981;">$${item.amount.toFixed(2)}</strong></td>
+                        <td>${item.paymentType}</td>
+                    </tr>
+                `;
+            } else {
+                return `
+                    <tr>
+                        <td>${formatDate(item.date)}</td>
+                        <td><strong>${item.invoiceId || item.id}</strong></td>
+                        <td><span class="status-badge" style="background: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 6px; font-size: 12px;">${item.category || item.source || '-'}</span></td>
+                        <td>${item.description}</td>
+                        <td>${item.gradeClass || (item.grade && item.class ? `Grade ${item.grade}-${item.class}` : '-')}</td>
+                        <td><strong style="color: #10b981;">$${item.amount.toFixed(2)}</strong></td>
+                        <td>${item.paymentType || '-'}</td>
+                    </tr>
+                `;
+            }
+        }).join('');
         
-        if (dailyTbody) dailyTbody.innerHTML = invoiceRows;
+        if (dailyTbody) dailyTbody.innerHTML = dailyRows;
     }
     
     // Render Monthly Income Table (Combined Income - No Invoices)
@@ -974,7 +1049,7 @@ function renderIncomeTable(incomeItems) {
         if (monthlyTbody) {
             monthlyTbody.innerHTML = `
                 <tr>
-                    <td colspan="6" style="text-align: center; color: #999; padding: 40px;">
+                    <td colspan="4" style="text-align: center; color: #999; padding: 40px;">
                         <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 12px; display: block;"></i>
                         No combined income data for selected month
                     </td>
@@ -988,9 +1063,8 @@ function renderIncomeTable(incomeItems) {
         const customIncomeRows = customIncomeItems.map(item => `
             <tr>
                 <td>${formatDate(item.date)}</td>
-                <td><strong>${item.id}</strong></td>
+                <td><span class="status-badge" style="background: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 6px; font-size: 12px;">${item.category || item.source || '-'}</span></td>
                 <td>${item.description}</td>
-                <td>${item.source}</td>
                 <td><strong style="color: #10b981;">$${item.amount.toFixed(2)}</strong></td>
             </tr>
         `).join('');
@@ -1015,7 +1089,7 @@ function renderExpenseTable() {
         if (dailyTbody) {
             dailyTbody.innerHTML = `
                 <tr>
-                    <td colspan="5" style="text-align: center; color: #999; padding: 40px;">
+                    <td colspan="6" style="text-align: center; color: #999; padding: 40px;">
                         <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 12px; display: block;"></i>
                         No expenses recorded for selected month. Click "Add Expense" to add one.
                     </td>
@@ -1043,9 +1117,11 @@ function renderExpenseTable() {
     const dailyExpenseRows = monthExpenses.map(expense => `
         <tr>
             <td>${formatDate(expense.date)}</td>
-            <td>${expense.description}</td>
+            <td><strong>${expense.invoiceId || expense.id || '-'}</strong></td>
             <td><span class="status-badge" style="background: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 6px; font-size: 12px;">${expense.category}</span></td>
+            <td>${expense.description}</td>
             <td><strong style="color: #ef4444;">$${expense.amount.toFixed(2)}</strong></td>
+            <td>${expense.paymentMethod || '-'}</td>
         </tr>
     `).join('');
     
@@ -1055,10 +1131,11 @@ function renderExpenseTable() {
     const monthlyExpenseRows = monthExpenses.map(expense => `
         <tr>
             <td>${formatDate(expense.date)}</td>
-            <td><strong>${expense.id}</strong></td>
-            <td>${expense.description}</td>
+            <td><strong>${expense.invoiceId || expense.id || '-'}</strong></td>
             <td><span class="status-badge" style="background: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 6px; font-size: 12px;">${expense.category}</span></td>
+            <td>${expense.description}</td>
             <td><strong style="color: #ef4444;">$${expense.amount.toFixed(2)}</strong></td>
+            <td>${expense.paymentMethod || '-'}</td>
         </tr>
     `).join('');
     
@@ -1129,6 +1206,8 @@ function openExpenseForm(expenseId = null) {
             
             document.getElementById('expenseDescription').value = expense.description;
             document.getElementById('expenseAmount').value = expense.amount;
+            document.getElementById('expensePaymentMethod').value = expense.paymentMethod || '';
+            document.getElementById('expenseInvoiceId').value = expense.invoiceId || '';
         }
     } else {
         title.textContent = 'Add Expense';
@@ -1140,6 +1219,8 @@ function openExpenseForm(expenseId = null) {
         document.getElementById('expenseCategoryOther').value = '';
         document.getElementById('expenseDescription').value = '';
         document.getElementById('expenseAmount').value = '';
+        document.getElementById('expensePaymentMethod').value = '';
+        document.getElementById('expenseInvoiceId').value = '';
     }
     
     modal.style.display = 'flex';
@@ -1159,9 +1240,11 @@ function saveExpense() {
     const category = getSelectValue('expenseCategory');
     const description = document.getElementById('expenseDescription').value.trim();
     const amount = parseFloat(document.getElementById('expenseAmount').value);
+    const paymentMethod = document.getElementById('expensePaymentMethod').value.trim();
+    const invoiceId = document.getElementById('expenseInvoiceId').value.trim();
     
     if (!date || !category || !description || !amount || amount <= 0) {
-        showToast('Please fill all fields with valid values', 'warning');
+        showToast('Please fill all required fields with valid values', 'warning');
         return;
     }
     
@@ -1174,18 +1257,22 @@ function saveExpense() {
                 date,
                 category,
                 description,
-                amount
+                amount,
+                paymentMethod: paymentMethod || undefined,
+                invoiceId: invoiceId || undefined
             };
         }
         showToast('Expense updated successfully', 'success');
     } else {
         // Add new expense
         const newExpense = {
-            id: 'EXP-' + Date.now(),
+            id: invoiceId || 'EXP-' + Date.now(),
             date,
             category,
             description,
-            amount
+            amount,
+            paymentMethod: paymentMethod || undefined,
+            invoiceId: invoiceId || undefined
         };
         expenses.push(newExpense);
         showToast('Expense added successfully', 'success');
@@ -1259,34 +1346,41 @@ function openIncomeForm(incomeId = null) {
         const income = customIncome.find(i => i.id === incomeId);
         if (income) {
             document.getElementById('incomeDate').value = income.date;
-            const sourceSelect = document.getElementById('incomeSource');
-            const sourceOtherInput = document.getElementById('incomeSourceOther');
+            const categorySelect = document.getElementById('incomeCategory');
+            const categoryOtherInput = document.getElementById('incomeCategoryOther');
             
-            // Check if source is in the predefined options
-            const predefinedSources = ['School Fees', 'Additional Fees', 'Donations', 'Grants'];
-            if (predefinedSources.includes(income.source)) {
-                sourceSelect.value = income.source;
-                sourceOtherInput.style.display = 'none';
-                sourceOtherInput.value = '';
+            // Check if category is in the predefined options (support both category and source for backward compatibility)
+            const category = income.category || income.source;
+            const predefinedCategories = ['School Fees', 'Additional Fees', 'Donations', 'Grants'];
+            if (predefinedCategories.includes(category)) {
+                categorySelect.value = category;
+                categoryOtherInput.style.display = 'none';
+                categoryOtherInput.value = '';
             } else {
-                sourceSelect.value = 'Other';
-                sourceOtherInput.style.display = 'block';
-                sourceOtherInput.value = income.source;
+                categorySelect.value = 'Other';
+                categoryOtherInput.style.display = 'block';
+                categoryOtherInput.value = category || '';
             }
             
             document.getElementById('incomeDescription').value = income.description;
             document.getElementById('incomeAmount').value = income.amount;
+            document.getElementById('incomeInvoiceId').value = income.invoiceId || '';
+            document.getElementById('incomeGradeClass').value = income.gradeClass || (income.grade && income.class ? `Grade ${income.grade}-${income.class}` : '');
+            document.getElementById('incomePaymentType').value = income.paymentType || '';
         }
     } else {
         title.textContent = 'Add Income';
         // Set default date to today
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('incomeDate').value = today;
-        document.getElementById('incomeSource').value = '';
-        document.getElementById('incomeSourceOther').style.display = 'none';
-        document.getElementById('incomeSourceOther').value = '';
+        document.getElementById('incomeCategory').value = '';
+        document.getElementById('incomeCategoryOther').style.display = 'none';
+        document.getElementById('incomeCategoryOther').value = '';
         document.getElementById('incomeDescription').value = '';
         document.getElementById('incomeAmount').value = '';
+        document.getElementById('incomeInvoiceId').value = '';
+        document.getElementById('incomeGradeClass').value = '';
+        document.getElementById('incomePaymentType').value = '';
     }
     
     modal.style.display = 'flex';
@@ -1303,13 +1397,27 @@ function closeIncomeForm() {
 // Save income
 function saveIncome() {
     const date = document.getElementById('incomeDate').value;
-    const source = getSelectValue('incomeSource');
+    const category = getSelectValue('incomeCategory');
     const description = document.getElementById('incomeDescription').value.trim();
     const amount = parseFloat(document.getElementById('incomeAmount').value);
+    const invoiceId = document.getElementById('incomeInvoiceId').value.trim();
+    const gradeClass = document.getElementById('incomeGradeClass').value.trim();
+    const paymentType = document.getElementById('incomePaymentType').value.trim();
     
-    if (!date || !source || !description || !amount || amount <= 0) {
-        showToast('Please fill all fields with valid values', 'warning');
+    if (!date || !category || !description || !amount || amount <= 0) {
+        showToast('Please fill all required fields with valid values', 'warning');
         return;
+    }
+    
+    // Parse grade and class from gradeClass input if provided
+    let grade = '';
+    let classValue = '';
+    if (gradeClass) {
+        const match = gradeClass.match(/Grade\s*(\d+)[-\s]+([A-Z0-9]+)/i);
+        if (match) {
+            grade = match[1];
+            classValue = match[2];
+        }
     }
     
     if (currentEditingIncomeId) {
@@ -1319,20 +1427,32 @@ function saveIncome() {
             customIncome[index] = {
                 id: currentEditingIncomeId,
                 date,
-                source,
+                category,
+                source: category, // Keep source for backward compatibility
                 description,
-                amount
+                amount,
+                invoiceId: invoiceId || undefined,
+                gradeClass: gradeClass || undefined,
+                grade: grade || undefined,
+                class: classValue || undefined,
+                paymentType: paymentType || undefined
             };
         }
         showToast('Income updated successfully', 'success');
     } else {
         // Add new income
         const newIncome = {
-            id: 'INC-' + Date.now(),
+            id: invoiceId || 'INC-' + Date.now(),
             date,
-            source,
+            category,
+            source: category, // Keep source for backward compatibility
             description,
-            amount
+            amount,
+            invoiceId: invoiceId || undefined,
+            gradeClass: gradeClass || undefined,
+            grade: grade || undefined,
+            class: classValue || undefined,
+            paymentType: paymentType || undefined
         };
         customIncome.push(newIncome);
         showToast('Income added successfully', 'success');
@@ -1481,21 +1601,21 @@ function updateMonthlyProfitLossTable() {
     });
     
     // Group income by source
-    const incomeBySource = {};
+    const incomeByCategory = {};
     monthInvoices.forEach(inv => {
-        const source = 'School Fees';
-        if (!incomeBySource[source]) {
-            incomeBySource[source] = 0;
+        const category = 'School Fees';
+        if (!incomeByCategory[category]) {
+            incomeByCategory[category] = 0;
         }
-        incomeBySource[source] += (inv.amount || 0);
+        incomeByCategory[category] += (inv.amount || 0);
     });
     
     monthCustomIncome.forEach(inc => {
-        const source = inc.source || 'Other';
-        if (!incomeBySource[source]) {
-            incomeBySource[source] = 0;
+        const category = inc.category || inc.source || 'Other';
+        if (!incomeByCategory[category]) {
+            incomeByCategory[category] = 0;
         }
-        incomeBySource[source] += (inc.amount || 0);
+        incomeByCategory[category] += (inc.amount || 0);
     });
     
     // Group expenses by category
@@ -1514,13 +1634,13 @@ function updateMonthlyProfitLossTable() {
     });
     
     // Calculate totals
-    const totalIncome = Object.values(incomeBySource).reduce((sum, val) => sum + val, 0);
+    const totalIncome = Object.values(incomeByCategory).reduce((sum, val) => sum + val, 0);
     const totalExpenses = Object.values(expensesByCategory).reduce((sum, val) => sum + val, 0);
     const netProfitLoss = totalIncome - totalExpenses;
     
     // Combine all categories
     const allCategories = new Set([
-        ...Object.keys(incomeBySource),
+        ...Object.keys(incomeByCategory),
         ...Object.keys(expensesByCategory)
     ]);
     
@@ -1555,7 +1675,7 @@ function updateMonthlyProfitLossTable() {
     
     // Add category rows
     Array.from(allCategories).sort().forEach(category => {
-        const categoryIncome = incomeBySource[category] || 0;
+        const categoryIncome = incomeByCategory[category] || 0;
         const categoryExpenses = expensesByCategory[category] || 0;
         const categoryNet = categoryIncome - categoryExpenses;
         const percentage = totalIncome > 0 ? ((categoryNet / totalIncome) * 100).toFixed(1) : '0.0';
@@ -1591,7 +1711,7 @@ function updateAnnualProfitLossTable() {
         allMonths.push(`${selectedYear}-${monthStr}`);
     }
     
-    const annualIncomeBySource = {};
+    const annualIncomeByCategory = {};
     const annualExpensesByCategory = {};
     let annualTotalIncome = 0;
     let annualTotalExpenses = 0;
@@ -1608,16 +1728,16 @@ function updateAnnualProfitLossTable() {
         });
         
         monthInvoices.forEach(inv => {
-            const source = 'School Fees';
-            if (!annualIncomeBySource[source]) annualIncomeBySource[source] = 0;
-            annualIncomeBySource[source] += (inv.amount || 0);
+            const category = 'School Fees';
+            if (!annualIncomeByCategory[category]) annualIncomeByCategory[category] = 0;
+            annualIncomeByCategory[category] += (inv.amount || 0);
             annualTotalIncome += (inv.amount || 0);
         });
         
         monthCustomIncome.forEach(inc => {
-            const source = inc.source || 'Other';
-            if (!annualIncomeBySource[source]) annualIncomeBySource[source] = 0;
-            annualIncomeBySource[source] += (inc.amount || 0);
+            const category = inc.category || inc.source || 'Other';
+            if (!annualIncomeByCategory[category]) annualIncomeByCategory[category] = 0;
+            annualIncomeByCategory[category] += (inc.amount || 0);
             annualTotalIncome += (inc.amount || 0);
         });
         
@@ -1636,7 +1756,7 @@ function updateAnnualProfitLossTable() {
     });
     
     const annualAllCategories = new Set([
-        ...Object.keys(annualIncomeBySource),
+        ...Object.keys(annualIncomeByCategory),
         ...Object.keys(annualExpensesByCategory)
     ]);
     
@@ -1673,7 +1793,7 @@ function updateAnnualProfitLossTable() {
     
     // Add category rows
     Array.from(annualAllCategories).sort().forEach(category => {
-        const categoryIncome = annualIncomeBySource[category] || 0;
+        const categoryIncome = annualIncomeByCategory[category] || 0;
         const categoryExpenses = annualExpensesByCategory[category] || 0;
         const categoryNet = categoryIncome - categoryExpenses;
         const percentage = annualTotalIncome > 0 ? ((categoryNet / annualTotalIncome) * 100).toFixed(1) : '0.0';

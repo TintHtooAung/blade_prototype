@@ -112,19 +112,19 @@ ob_start();
                     <th rowspan="2" class="col-position">Position</th>
                     <th rowspan="2" class="col-department">Department</th>
                     <th colspan="5" class="group-header" data-group="attendance" id="group-header-attendance">
-                        <div class="group-header-content">
+                        <div class="group-header-content" onclick="toggleColumnGroup('attendance')">
                             <i class="fas fa-chevron-down group-icon" id="icon-attendance"></i>
                             <span>Attendance</span>
                         </div>
                     </th>
                     <th colspan="5" class="group-header" data-group="payments" id="group-header-payments">
-                        <div class="group-header-content">
+                        <div class="group-header-content" onclick="toggleColumnGroup('payments')">
                             <i class="fas fa-chevron-down group-icon" id="icon-payments"></i>
                             <span>Payments</span>
                         </div>
                     </th>
                     <th colspan="2" class="group-header" data-group="additional" id="group-header-additional">
-                        <div class="group-header-content">
+                        <div class="group-header-content" onclick="toggleColumnGroup('additional')">
                             <i class="fas fa-chevron-down group-icon" id="icon-additional"></i>
                             <span>Additional Info</span>
                         </div>
@@ -138,37 +138,16 @@ ob_start();
                     <th class="col-attendance expandable" data-group="attendance">Days Present</th>
                     <th class="col-attendance expandable" data-group="attendance">Leave Days</th>
                     <th class="col-attendance expandable" data-group="attendance">Annual Leave</th>
-                    <th class="col-attendance summary-col" data-group="attendance">
-                        <div style="display: flex; align-items: center; justify-content: space-between;">
-                            <span>Days Absent</span>
-                            <button class="collapse-btn" onclick="if(event) event.stopPropagation(); toggleColumnGroup('attendance'); return false;" title="Collapse/Expand">
-                                <i class="fas fa-chevron-right collapse-icon" id="collapse-icon-attendance"></i>
-                            </button>
-                        </div>
-                    </th>
+                    <th class="col-attendance summary-col" data-group="attendance">Days Absent</th>
                     <!-- Payments Sub-columns -->
                     <th class="col-payments expandable" data-group="payments">Basic Salary</th>
                     <th class="col-payments expandable" data-group="payments">Attendance Allowance</th>
                     <th class="col-payments expandable" data-group="payments">Loyalty Bonus</th>
                     <th class="col-payments expandable" data-group="payments">Other Bonus</th>
-                    <th class="col-payments summary-col" data-group="payments">
-                        <div style="display: flex; align-items: center; justify-content: space-between;">
-                            <span>Total Salary</span>
-                            <button class="collapse-btn" onclick="if(event) event.stopPropagation(); toggleColumnGroup('payments'); return false;" title="Collapse/Expand">
-                                <i class="fas fa-chevron-right collapse-icon" id="collapse-icon-payments"></i>
-                            </button>
-                        </div>
-                    </th>
+                    <th class="col-payments summary-col" data-group="payments">Total Salary</th>
                     <!-- Additional Info Sub-columns -->
                     <th class="col-additional expandable" data-group="additional">Date of Joining</th>
-                    <th class="col-additional summary-col" data-group="additional">
-                        <div style="display: flex; align-items: center; justify-content: space-between;">
-                            <span>Payment Method</span>
-                            <button class="collapse-btn" onclick="event.stopPropagation(); toggleColumnGroup('additional');" title="Collapse/Expand">
-                                <i class="fas fa-chevron-right collapse-icon" id="collapse-icon-additional"></i>
-                            </button>
-                        </div>
-                    </th>
+                    <th class="col-additional summary-col" data-group="additional">Payment Method</th>
                 </tr>
             </thead>
             <tbody id="payrollTableBody">
@@ -287,19 +266,19 @@ ob_start();
                             <th rowspan="2" class="col-position">Position</th>
                             <th rowspan="2" class="col-department">Department</th>
                             <th colspan="5" class="group-header" data-group="attendance-history" id="group-header-attendance-history">
-                                <div class="group-header-content">
+                                <div class="group-header-content" onclick="toggleColumnGroup('attendance-history')">
                                     <i class="fas fa-chevron-down group-icon" id="icon-attendance-history"></i>
                                     <span>Attendance</span>
                                 </div>
                             </th>
                             <th colspan="5" class="group-header" data-group="payments-history" id="group-header-payments-history">
-                                <div class="group-header-content">
+                                <div class="group-header-content" onclick="toggleColumnGroup('payments-history')">
                                     <i class="fas fa-chevron-down group-icon" id="icon-payments-history"></i>
                                     <span>Payments</span>
                                 </div>
                             </th>
                             <th colspan="3" class="group-header" data-group="payment-info-history" id="group-header-payment-info-history">
-                                <div class="group-header-content">
+                                <div class="group-header-content" onclick="toggleColumnGroup('payment-info-history')">
                                     <i class="fas fa-chevron-down group-icon" id="icon-payment-info-history"></i>
                                     <span>Payment Info</span>
                                 </div>
@@ -313,38 +292,17 @@ ob_start();
                             <th class="col-attendance expandable" data-group="attendance-history">Days Present</th>
                             <th class="col-attendance expandable" data-group="attendance-history">Leave Days</th>
                             <th class="col-attendance expandable" data-group="attendance-history">Annual Leave</th>
-                            <th class="col-attendance summary-col" data-group="attendance-history">
-                                <div style="display: flex; align-items: center; justify-content: space-between;">
-                                    <span>Days Absent</span>
-                                    <button class="collapse-btn" onclick="event.stopPropagation(); toggleColumnGroup('attendance-history');" title="Collapse/Expand">
-                                        <i class="fas fa-chevron-right collapse-icon" id="collapse-icon-attendance-history"></i>
-                                    </button>
-                                </div>
-                            </th>
+                            <th class="col-attendance summary-col" data-group="attendance-history">Days Absent</th>
                             <!-- Payments Sub-columns -->
                             <th class="col-payments expandable" data-group="payments-history">Basic Salary</th>
                             <th class="col-payments expandable" data-group="payments-history">Attendance Allowance</th>
                             <th class="col-payments expandable" data-group="payments-history">Loyalty Bonus</th>
                             <th class="col-payments expandable" data-group="payments-history">Other Bonus</th>
-                            <th class="col-payments summary-col" data-group="payments-history">
-                                <div style="display: flex; align-items: center; justify-content: space-between;">
-                                    <span>Total Salary</span>
-                                    <button class="collapse-btn" onclick="event.stopPropagation(); toggleColumnGroup('payments-history');" title="Collapse/Expand">
-                                        <i class="fas fa-chevron-right collapse-icon" id="collapse-icon-payments-history"></i>
-                                    </button>
-                                </div>
-                            </th>
+                            <th class="col-payments summary-col" data-group="payments-history">Total Salary</th>
                             <!-- Payment Info Sub-columns -->
                             <th class="col-payment-info expandable" data-group="payment-info-history">Payment Type</th>
                             <th class="col-payment-info expandable" data-group="payment-info-history">Withdrawal Date</th>
-                            <th class="col-payment-info summary-col" data-group="payment-info-history">
-                                <div style="display: flex; align-items: center; justify-content: space-between;">
-                                    <span>Status</span>
-                                    <button class="collapse-btn" onclick="event.stopPropagation(); toggleColumnGroup('payment-info-history');" title="Collapse/Expand">
-                                        <i class="fas fa-chevron-right collapse-icon" id="collapse-icon-payment-info-history"></i>
-                                    </button>
-                                </div>
-                            </th>
+                            <th class="col-payment-info summary-col" data-group="payment-info-history">Status</th>
                         </tr>
                     </thead>
                     <tbody id="historyTableBody">
@@ -650,7 +608,7 @@ function renderPayrollTable() {
         const additionalExpanded = columnGroups.additional;
         
         return `
-            <tr class="payroll-row" data-entry-id="${entry.id}">
+            <tr class="payroll-row" data-entry-id="${entry.id}" onclick="toggleAllColumnGroups()" style="cursor: pointer;">
                 <td>${index + 1}</td>
                 <td>
                     <div style="display: flex; flex-direction: column;">
@@ -745,17 +703,8 @@ function renderPayrollTable() {
         `;
     }).join('');
     
-    // Apply current collapse state after rendering and update collapse button icons
+    // Apply current collapse state after rendering
     Object.keys(columnGroups).forEach(groupName => {
-        const collapseIcon = document.getElementById(`collapse-icon-${groupName}`);
-        if (collapseIcon) {
-            collapseIcon.style.transition = 'transform 0.3s ease';
-            if (columnGroups[groupName]) {
-                collapseIcon.style.transform = 'rotate(0deg)';
-            } else {
-                collapseIcon.style.transform = 'rotate(-90deg)';
-            }
-        }
         if (!columnGroups[groupName]) {
             toggleColumnGroup(groupName);
         }
@@ -800,83 +749,34 @@ function toggleColumnGroup(groupName, forceState = null) {
     
     const isExpanded = columnGroups[groupName];
     const icon = document.getElementById(`icon-${groupName}`);
-    const collapseIcon = document.getElementById(`collapse-icon-${groupName}`);
     
-    // Update group header icon with animation
+    // Update group header icon (no animation)
     if (icon) {
         if (isExpanded) {
             icon.classList.remove('fa-chevron-right');
             icon.classList.add('fa-chevron-down');
-            icon.style.transform = 'rotate(0deg)';
         } else {
             icon.classList.remove('fa-chevron-down');
             icon.classList.add('fa-chevron-right');
-            icon.style.transform = 'rotate(-90deg)';
         }
     }
     
-    // Update collapse button icon with animation
-    if (collapseIcon) {
-        collapseIcon.style.transition = 'transform 0.3s ease';
-        if (isExpanded) {
-            collapseIcon.style.transform = 'rotate(0deg)';
-        } else {
-            collapseIcon.style.transform = 'rotate(-90deg)';
-        }
-    }
     
-    // Animate expandable columns in thead
+    // Toggle expandable columns in thead (no animation)
     const expandableCols = document.querySelectorAll(`thead .expandable[data-group="${groupName}"]`);
-    expandableCols.forEach((col, index) => {
-        if (isExpanded) {
-            col.style.display = '';
-            col.style.opacity = '0';
-            col.style.transform = 'scaleX(0)';
-            col.style.transformOrigin = 'left';
-            setTimeout(() => {
-                col.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                col.style.opacity = '1';
-                col.style.transform = 'scaleX(1)';
-            }, index * 30);
-        } else {
-            col.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-            col.style.opacity = '0';
-            col.style.transform = 'scaleX(0)';
-            setTimeout(() => {
-                col.style.display = 'none';
-                col.style.transform = '';
-            }, 300);
-        }
+    expandableCols.forEach((col) => {
+        col.style.display = isExpanded ? '' : 'none';
     });
     
-    // Animate expandable cells in tbody
+    // Toggle expandable cells in tbody (no animation)
     const expandableCells = document.querySelectorAll(`tbody td.expandable[data-group="${groupName}"]`);
-    expandableCells.forEach((cell, index) => {
-        if (isExpanded) {
-            cell.style.display = '';
-            cell.style.opacity = '0';
-            cell.style.transform = 'scaleX(0)';
-            cell.style.transformOrigin = 'left';
-            setTimeout(() => {
-                cell.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                cell.style.opacity = '1';
-                cell.style.transform = 'scaleX(1)';
-            }, index * 20);
-        } else {
-            cell.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-            cell.style.opacity = '0';
-            cell.style.transform = 'scaleX(0)';
-            setTimeout(() => {
-                cell.style.display = 'none';
-                cell.style.transform = '';
-            }, 300);
-        }
+    expandableCells.forEach((cell) => {
+        cell.style.display = isExpanded ? '' : 'none';
     });
     
-    // Update group header colspan with animation
+    // Update group header colspan (no animation)
     const groupHeader = document.getElementById(`group-header-${groupName}`);
     if (groupHeader) {
-        groupHeader.style.transition = 'all 0.3s ease';
         if (groupName === 'payments' || groupName === 'payments-history') {
             groupHeader.colSpan = isExpanded ? 5 : 1;
         } else if (groupName === 'attendance' || groupName === 'attendance-history') {
@@ -1793,7 +1693,7 @@ function renderPayrollHistoryTable(data) {
         `;
         
         return `
-            <tr class="payroll-row" data-entry-id="${entry.id}">
+            <tr class="payroll-row" data-entry-id="${entry.id}" onclick="toggleAllColumnGroupsHistory()" style="cursor: pointer;">
                 <td>${index + 1}</td>
                 <td>
                     <div style="display: flex; flex-direction: column;">
@@ -1834,21 +1734,10 @@ function renderPayrollHistoryTable(data) {
         `;
     }).join('');
     
-    // Apply current collapse state after rendering and update collapse button icons
+    // Apply current collapse state after rendering
     Object.keys(columnGroups).forEach(groupName => {
-        if (groupName.includes('history')) {
-            const collapseIcon = document.getElementById(`collapse-icon-${groupName}`);
-            if (collapseIcon) {
-                collapseIcon.style.transition = 'transform 0.3s ease';
-                if (columnGroups[groupName]) {
-                    collapseIcon.style.transform = 'rotate(0deg)';
-                } else {
-                    collapseIcon.style.transform = 'rotate(-90deg)';
-                }
-            }
-            if (!columnGroups[groupName]) {
-                toggleColumnGroup(groupName);
-            }
+        if (groupName.includes('history') && !columnGroups[groupName]) {
+            toggleColumnGroup(groupName);
         }
     });
 }
@@ -2019,18 +1908,7 @@ function printHistoryReceipt(payrollId) {
 }
 
 .attendance-view-content {
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    /* Animation removed */
 }
 
 .badge {
@@ -2095,7 +1973,7 @@ function printHistoryReceipt(payrollId) {
 
 .group-icon {
     font-size: 12px;
-    transition: transform 0.2s ease;
+    /* Transition removed */
     color: #6b7280;
 }
 
@@ -2109,7 +1987,7 @@ function printHistoryReceipt(payrollId) {
 
 /* Expandable columns - hidden when collapsed */
 .expandable {
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    /* Transition removed */
     overflow: hidden;
 }
 
@@ -2118,38 +1996,6 @@ function printHistoryReceipt(payrollId) {
     font-weight: 600;
 }
 
-/* Collapse button - Excel-like collapse/expand button */
-.collapse-btn {
-    background: transparent;
-    border: none;
-    padding: 4px 6px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 3px;
-    transition: background-color 0.2s ease;
-    margin-left: 8px;
-}
-
-.collapse-btn:hover {
-    background-color: #e5e7eb;
-}
-
-.collapse-btn:active {
-    background-color: #d1d5db;
-}
-
-.collapse-icon {
-    font-size: 11px;
-    color: #6b7280;
-    transition: transform 0.3s ease;
-    display: inline-block;
-}
-
-.collapse-btn:hover .collapse-icon {
-    color: #4A90E2;
-}
 
 .column-header-row th {
     background: #ffffff;

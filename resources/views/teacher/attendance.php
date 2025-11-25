@@ -41,6 +41,79 @@ ob_start();
     </div>
 </div>
 
+<!-- Attendance History Full Page -->
+<div id="attendanceHistoryPage" class="attendance-collector-overlay" style="display: none;">
+    <div class="attendance-collector-container">
+        <!-- Header Section -->
+        <div class="collector-header">
+            <div class="collector-header-content">
+                <div class="collector-back-btn" onclick="closeAttendanceHistory()">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Attendance</span>
+                </div>
+                <div class="collector-title-section">
+                    <h1 id="historyPageTitle">Attendance History</h1>
+                    <div class="collector-class-info">
+                        <span id="historyClassName"></span> • <span id="historySubject"></span> • <span id="historyTime"></span>
+                    </div>
+                </div>
+                <div class="collector-actions-header">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <label style="font-weight: 600; color: #374151; white-space: nowrap; font-size: 14px;">Filter by:</label>
+                        <select class="filter-select" id="historyFilterType" onchange="switchHistoryFilterType()" style="min-width: 120px; height: 40px;">
+                            <option value="month">Month</option>
+                            <option value="week">Week</option>
+                        </select>
+                        <select class="filter-select" id="historyMonthFilter" onchange="filterAttendanceHistory()" style="min-width: 200px; height: 40px; display: block;">
+                            <option value="">All Months</option>
+                        </select>
+                        <select class="filter-select" id="historyWeekFilter" onchange="filterAttendanceHistory()" style="min-width: 250px; height: 40px; display: none;">
+                            <option value="">All Weeks</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Content Section -->
+        <div class="collector-content" style="display: flex; flex-direction: column; gap: 20px;">
+            <!-- Attendance History Table Container -->
+            <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div style="flex: 1; overflow: auto; padding: 20px;">
+                    <table class="attendance-history-table" id="attendanceHistoryTable">
+                        <thead id="attendanceHistoryTableHead">
+                            <!-- Headers will be populated by JavaScript -->
+                        </thead>
+                        <tbody id="attendanceHistoryTableBody">
+                            <!-- Rows will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Monthly Attendance Summary Table -->
+            <div style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 20px;">
+                <div style="margin-bottom: 16px;">
+                    <h3 style="margin: 0; font-size: 18px; font-weight: 600; color: #374151;">
+                        <i class="fas fa-chart-bar" style="color: #4A90E2; margin-right: 8px;"></i>
+                        Monthly Attendance Summary (Academic Year: June - February)
+                    </h3>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="attendance-monthly-summary-table" id="attendanceMonthlySummaryTable">
+                        <thead id="attendanceMonthlySummaryTableHead">
+                            <!-- Headers will be populated by JavaScript -->
+                        </thead>
+                        <tbody id="attendanceMonthlySummaryTableBody">
+                            <!-- Rows will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Attendance Collector Full Page -->
 <div id="attendanceCollectorModal" class="attendance-collector-overlay" style="display: none;">
     <div class="attendance-collector-container">
@@ -157,6 +230,170 @@ ob_start();
 </div>
 
 <style>
+/* Attendance History Table Styles */
+.attendance-history-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 13px;
+}
+
+.attendance-history-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: #f9fafb;
+}
+
+.attendance-history-table th {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    padding: 12px 8px;
+    text-align: center;
+    font-weight: 600;
+    color: #374151;
+    white-space: nowrap;
+    min-width: 80px;
+}
+
+.attendance-history-table .fixed-col {
+    background: #f9fafb !important;
+    border-right: 2px solid #e5e7eb !important;
+}
+
+.attendance-history-table tbody .fixed-col {
+    background: #fff !important;
+}
+
+.attendance-history-table td {
+    border: 1px solid #e5e7eb;
+    padding: 10px 8px;
+    text-align: center;
+    background: #fff;
+}
+
+.attendance-history-table tbody tr:hover {
+    background: #f9fafb;
+}
+
+.attendance-history-table tbody tr:hover .fixed-col {
+    background: #f3f4f6 !important;
+}
+
+.attendance-history-table .date-col {
+    min-width: 70px;
+    max-width: 70px;
+    width: 70px;
+}
+
+/* Ensure proper scrolling for history table */
+#attendanceHistoryPage .collector-content > div {
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+#attendanceHistoryPage .collector-content > div::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+#attendanceHistoryPage .collector-content > div::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+#attendanceHistoryPage .collector-content > div::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+#attendanceHistoryPage .collector-content > div::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.status-present {
+    color: #10b981;
+    background: #ecfdf5 !important;
+}
+
+.status-late {
+    color: #f59e0b;
+    background: #fffbeb !important;
+}
+
+.status-absent {
+    color: #ef4444;
+    background: #fef2f2 !important;
+}
+
+.status-no-class {
+    color: #9ca3af;
+    background: #f9fafb !important;
+}
+
+/* Monthly Summary Table Styles */
+.attendance-monthly-summary-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 13px;
+}
+
+.attendance-monthly-summary-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: #f9fafb;
+}
+
+.attendance-monthly-summary-table th {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    padding: 12px 8px;
+    text-align: center;
+    font-weight: 600;
+    color: #374151;
+    white-space: nowrap;
+    min-width: 100px;
+}
+
+.attendance-monthly-summary-table .month-col {
+    min-width: 100px;
+    max-width: 100px;
+    width: 100px;
+}
+
+.attendance-monthly-summary-table td {
+    border: 1px solid #e5e7eb;
+    padding: 10px 8px;
+    text-align: center;
+    background: #fff;
+}
+
+.attendance-monthly-summary-table tbody tr:hover {
+    background: #f9fafb;
+}
+
+.attendance-monthly-summary-table tbody tr:hover .fixed-col {
+    background: #f3f4f6 !important;
+}
+
+.percentage-excellent {
+    background: #ecfdf5 !important;
+}
+
+.percentage-good {
+    background: #eff6ff !important;
+}
+
+.percentage-fair {
+    background: #fffbeb !important;
+}
+
+.percentage-poor {
+    background: #fef2f2 !important;
+}
+
 /* Attendance Cards - Compact Design */
 .attendance-cards-container {
     display: flex;
@@ -1398,9 +1635,548 @@ function toggleGridView(view) {
 }
 
 function viewAttendanceHistory(attendanceId) {
-    showActionStatus('Opening attendance history...', 'info');
-    // This would open a history modal or page
+    const attendance = attendanceData.find(a => a.id === attendanceId);
+    if (!attendance) return;
+    
+    // Store attendance ID in page for filtering
+    document.getElementById('attendanceHistoryPage').dataset.attendanceId = attendanceId;
+    
+    // Set page title
+    document.getElementById('historyPageTitle').textContent = `Attendance History - ${attendance.class}`;
+    document.getElementById('historyClassName').textContent = attendance.class;
+    document.getElementById('historySubject').textContent = attendance.subject;
+    document.getElementById('historyTime').textContent = attendance.time;
+    
+    // Generate and populate filter options
+    populateHistoryMonthFilter();
+    populateHistoryWeekFilter(attendance);
+    
+    // Load and render attendance history
+    loadAttendanceHistory(attendance);
+    
+    // Show full page
+    document.getElementById('attendanceHistoryPage').style.display = 'block';
 }
+
+function closeAttendanceHistory() {
+    document.getElementById('attendanceHistoryPage').style.display = 'none';
+}
+
+// Close history page on Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        const historyPage = document.getElementById('attendanceHistoryPage');
+        if (historyPage && historyPage.style.display === 'block') {
+            closeAttendanceHistory();
+        }
+    }
+});
+
+function populateHistoryMonthFilter() {
+    const monthFilter = document.getElementById('historyMonthFilter');
+    const currentDate = new Date();
+    const months = [];
+    
+    // Generate last 6 months
+    for (let i = 5; i >= 0; i--) {
+        const date = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1);
+        const monthValue = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+        const monthName = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        months.push({ value: monthValue, name: monthName });
+    }
+    
+    // Clear existing options except "All Months"
+    monthFilter.innerHTML = '<option value="">All Months</option>';
+    months.forEach(month => {
+        const option = document.createElement('option');
+        option.value = month.value;
+        option.textContent = month.name;
+        monthFilter.appendChild(option);
+    });
+    
+    // Set current month as default
+    const currentMonth = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
+    monthFilter.value = currentMonth;
+}
+
+function populateHistoryWeekFilter(attendance) {
+    const weekFilter = document.getElementById('historyWeekFilter');
+    const historyData = generateAttendanceHistoryData(attendance);
+    
+    // Group dates by week
+    const weeks = [];
+    const weekMap = new Map();
+    
+    historyData.forEach(record => {
+        const date = new Date(record.date);
+        const weekStart = getWeekStart(date);
+        const weekKey = weekStart.toISOString().split('T')[0];
+        
+        if (!weekMap.has(weekKey)) {
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekEnd.getDate() + 6);
+            
+            const weekLabel = `${weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${weekEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+            
+            weekMap.set(weekKey, {
+                start: weekKey,
+                end: weekEnd.toISOString().split('T')[0],
+                label: weekLabel
+            });
+        }
+    });
+    
+    // Convert to array and sort by date (newest first)
+    const weeksArray = Array.from(weekMap.values()).sort((a, b) => new Date(b.start) - new Date(a.start));
+    
+    // Clear existing options
+    weekFilter.innerHTML = '<option value="">All Weeks</option>';
+    weeksArray.forEach(week => {
+        const option = document.createElement('option');
+        option.value = `${week.start}|${week.end}`;
+        option.textContent = week.label;
+        weekFilter.appendChild(option);
+    });
+    
+    // Set current week as default
+    if (weeksArray.length > 0) {
+        const currentWeek = weeksArray[0];
+        weekFilter.value = `${currentWeek.start}|${currentWeek.end}`;
+    }
+}
+
+function getWeekStart(date) {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust when day is Sunday
+    return new Date(d.setDate(diff));
+}
+
+function switchHistoryFilterType() {
+    const filterType = document.getElementById('historyFilterType').value;
+    const monthFilter = document.getElementById('historyMonthFilter');
+    const weekFilter = document.getElementById('historyWeekFilter');
+    
+    if (filterType === 'week') {
+        monthFilter.style.display = 'none';
+        weekFilter.style.display = 'block';
+    } else {
+        monthFilter.style.display = 'block';
+        weekFilter.style.display = 'none';
+    }
+    
+    // Reload history with new filter
+    const attendanceId = parseInt(document.getElementById('attendanceHistoryPage').dataset.attendanceId);
+    if (attendanceId) {
+        const attendance = attendanceData.find(a => a.id === attendanceId);
+        if (attendance) {
+            loadAttendanceHistory(attendance);
+        }
+    }
+}
+
+function loadAttendanceHistory(attendance) {
+    // Generate sample attendance history data for this class
+    const historyData = generateAttendanceHistoryData(attendance);
+    
+    // Get filter type
+    const filterType = document.getElementById('historyFilterType').value;
+    let filteredData = historyData;
+    
+    if (filterType === 'week') {
+        // Filter by selected week
+        const selectedWeek = document.getElementById('historyWeekFilter').value;
+        if (selectedWeek) {
+            const [weekStart, weekEnd] = selectedWeek.split('|');
+            filteredData = historyData.filter(record => {
+                const recordDate = record.date;
+                return recordDate >= weekStart && recordDate <= weekEnd;
+            });
+        }
+    } else {
+        // Filter by selected month
+        const selectedMonth = document.getElementById('historyMonthFilter').value;
+        if (selectedMonth) {
+            filteredData = historyData.filter(record => {
+                const recordMonth = record.date.substring(0, 7); // YYYY-MM
+                return recordMonth === selectedMonth;
+            });
+        }
+    }
+    
+    renderAttendanceHistoryTable(attendance, filteredData);
+    renderMonthlyAttendanceSummary(attendance, historyData);
+}
+
+function filterAttendanceHistory() {
+    const attendanceId = parseInt(document.getElementById('attendanceHistoryPage').dataset.attendanceId);
+    if (!attendanceId) return;
+    
+    const attendance = attendanceData.find(a => a.id === attendanceId);
+    if (!attendance) return;
+    
+    loadAttendanceHistory(attendance);
+}
+
+function generateAttendanceHistoryData(attendance) {
+    // Get all unique dates from attendanceData for this class
+    const classRecords = attendanceData.filter(a => a.class === attendance.class && a.subject === attendance.subject);
+    const historyRecords = [];
+    
+    // Generate history for the full academic year (June to February)
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const currentMonth = today.getMonth() + 1; // 1-12
+    
+    // Determine academic year start date (June of previous or current year)
+    let academicYearStart;
+    if (currentMonth >= 1 && currentMonth <= 2) {
+        // If we're in Jan-Feb, academic year started in June of previous year
+        academicYearStart = new Date(currentYear - 1, 5, 1); // June (month 5)
+    } else {
+        // If we're in June-Dec, academic year started in June of current year
+        academicYearStart = new Date(currentYear, 5, 1); // June (month 5)
+    }
+    
+    // Get all class dates based on schedule pattern
+    const classDates = [];
+    const currentDate = new Date(academicYearStart);
+    
+    // Determine class days based on existing records (e.g., if class is on Mon/Wed/Fri)
+    const existingDates = classRecords.map(r => new Date(r.date));
+    const dayOfWeekPattern = existingDates.length > 0 ? [...new Set(existingDates.map(d => d.getDay()))] : [1, 3, 5]; // Default to Mon, Wed, Fri
+    
+    // Generate dates from academic year start to today (or end of February if we're past that)
+    const academicYearEnd = new Date(academicYearStart.getFullYear() + 1, 1, 28); // End of February
+    const endDate = today < academicYearEnd ? today : academicYearEnd;
+    
+    while (currentDate <= endDate) {
+        const dateStr = currentDate.toISOString().split('T')[0];
+        const dayOfWeek = currentDate.getDay();
+        
+        // Check if this day matches the class schedule pattern
+        const matchesPattern = dayOfWeekPattern.length > 0 ? dayOfWeekPattern.includes(dayOfWeek) : true;
+        
+        // Check if this date has actual attendance data
+        const hasRecord = classRecords.some(r => r.date === dateStr);
+        
+        // Include if it matches pattern or has actual record
+        if (matchesPattern || hasRecord) {
+            classDates.push(dateStr);
+        }
+        
+        currentDate.setDate(currentDate.getDate() + 1);
+    }
+    
+    // For each date, create a record with student attendance
+    classDates.forEach(dateStr => {
+        const record = classRecords.find(r => r.date === dateStr);
+        const studentAttendance = {};
+        
+        attendance.students.forEach(student => {
+            let status = 'P'; // Default to Present
+            
+            if (record) {
+                // Use actual data if available
+                const studentRecord = record.students.find(s => s.studentId === student.studentId);
+                if (studentRecord) {
+                    if (studentRecord.leaveRequested) {
+                        status = 'L'; // Leave = Late/Excused
+                    } else if (!studentRecord.present) {
+                        status = 'A'; // Absent
+                    } else {
+                        // Randomly assign some as Late (5% chance)
+                        status = Math.random() < 0.05 ? 'L' : 'P';
+                    }
+                }
+            } else {
+                // Generate realistic attendance pattern for historical data
+                // Most students are present (85%), some absent (10%), some late (5%)
+                const rand = Math.random();
+                if (rand < 0.85) {
+                    status = 'P';
+                } else if (rand < 0.95) {
+                    status = 'A';
+                } else {
+                    status = 'L';
+                }
+            }
+            
+            studentAttendance[student.studentId] = status;
+        });
+        
+        historyRecords.push({
+            date: dateStr,
+            students: studentAttendance
+        });
+    });
+    
+    return historyRecords;
+}
+
+function renderAttendanceHistoryTable(attendance, historyData) {
+    const thead = document.getElementById('attendanceHistoryTableHead');
+    const tbody = document.getElementById('attendanceHistoryTableBody');
+    
+    // Check filter type
+    const filterType = document.getElementById('historyFilterType').value;
+    let dates = [];
+    
+    if (filterType === 'week') {
+        // For week view: Show all 5 school days (Monday-Friday) of the selected week
+        const selectedWeek = document.getElementById('historyWeekFilter').value;
+        if (selectedWeek) {
+            const [weekStart, weekEnd] = selectedWeek.split('|');
+            const startDate = new Date(weekStart);
+            const endDate = new Date(weekEnd);
+            const currentDate = new Date(startDate);
+            
+            // Generate all weekdays (Monday=1 to Friday=5) for the week
+            while (currentDate <= endDate) {
+                const dayOfWeek = currentDate.getDay();
+                // Only include weekdays (Monday=1 to Friday=5)
+                if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+                    dates.push(currentDate.toISOString().split('T')[0]);
+                }
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+        } else {
+            // If no week selected, show empty
+            dates = [];
+        }
+    } else {
+        // For month view: Show only teaching days (class meeting days), limit to 20 days
+        // Get class schedule pattern
+        const classRecords = attendanceData.filter(a => a.class === attendance.class && a.subject === attendance.subject);
+        const existingDates = classRecords.map(r => new Date(r.date));
+        const dayOfWeekPattern = existingDates.length > 0 ? [...new Set(existingDates.map(d => d.getDay()))] : [1, 3, 5];
+        
+        // Filter to only teaching days (days that match the class schedule pattern)
+        const allDates = [...new Set(historyData.map(r => r.date))].sort();
+        dates = allDates.filter(dateStr => {
+            const date = new Date(dateStr);
+            const dayOfWeek = date.getDay();
+            return dayOfWeekPattern.includes(dayOfWeek);
+        });
+        
+        // Limit to 20 teaching days
+        dates = dates.slice(0, 20);
+    }
+    
+    if (dates.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="2" style="text-align: center; padding: 40px; color: #999;">No attendance history available for the selected period.</td></tr>';
+        thead.innerHTML = '<tr><th class="fixed-col">Student ID</th><th class="fixed-col">Student Name</th></tr>';
+        return;
+    }
+    
+    // Build header row
+    let headerHTML = '<tr>';
+    headerHTML += '<th class="fixed-col" style="position: sticky; left: 0; z-index: 10; background: #f9fafb; border-right: 2px solid #e5e7eb; min-width: 100px;">Student ID</th>';
+    headerHTML += '<th class="fixed-col" style="position: sticky; left: 100px; z-index: 10; background: #f9fafb; border-right: 2px solid #e5e7eb; min-width: 200px;">Student Name</th>';
+    
+    dates.forEach(dateStr => {
+        const date = new Date(dateStr);
+        const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
+        const dateLabel = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        headerHTML += `<th class="date-col" title="${date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}">${dayName}<br>${dateLabel}</th>`;
+    });
+    
+    headerHTML += '</tr>';
+    thead.innerHTML = headerHTML;
+    
+    // Build body rows
+    tbody.innerHTML = '';
+    
+    attendance.students.forEach((student, index) => {
+        let rowHTML = '<tr>';
+        rowHTML += `<td class="fixed-col" style="position: sticky; left: 0; z-index: 5; background: #fff; border-right: 2px solid #e5e7eb; font-weight: 600; min-width: 100px;">${student.studentId}</td>`;
+        rowHTML += `<td class="fixed-col" style="position: sticky; left: 100px; z-index: 5; background: #fff; border-right: 2px solid #e5e7eb; min-width: 200px;">${student.name}</td>`;
+        
+        dates.forEach(dateStr => {
+            const date = new Date(dateStr);
+            const dayOfWeek = date.getDay();
+            
+            // Get class schedule pattern
+            const classRecords = attendanceData.filter(a => a.class === attendance.class && a.subject === attendance.subject);
+            const existingDates = classRecords.map(r => new Date(r.date));
+            const dayOfWeekPattern = existingDates.length > 0 ? [...new Set(existingDates.map(d => d.getDay()))] : [1, 3, 5];
+            const isClassDay = dayOfWeekPattern.includes(dayOfWeek);
+            
+            const record = historyData.find(r => r.date === dateStr);
+            let status = '-';
+            
+            if (filterType === 'week') {
+                // For week view: Show attendance if it's a class day, otherwise show "No Class"
+                if (isClassDay && record) {
+                    status = record.students[student.studentId] ? record.students[student.studentId] : '-';
+                } else if (!isClassDay) {
+                    status = 'NC'; // No Class
+                }
+            } else {
+                // For month view: All dates shown are teaching days, so show attendance
+                if (record) {
+                    status = record.students[student.studentId] ? record.students[student.studentId] : '-';
+                }
+            }
+            
+            let statusClass = '';
+            let statusText = status;
+            if (status === 'P') {
+                statusClass = 'status-present';
+                statusText = 'P';
+            } else if (status === 'L') {
+                statusClass = 'status-late';
+                statusText = 'L';
+            } else if (status === 'A') {
+                statusClass = 'status-absent';
+                statusText = 'A';
+            } else if (status === 'NC') {
+                statusClass = 'status-no-class';
+                statusText = '-';
+            } else {
+                statusClass = '';
+                statusText = '-';
+            }
+            
+            rowHTML += `<td class="date-col ${statusClass}" style="text-align: center; font-weight: 600; min-width: 70px;">${statusText}</td>`;
+        });
+        
+        rowHTML += '</tr>';
+        tbody.innerHTML += rowHTML;
+    });
+}
+
+function renderMonthlyAttendanceSummary(attendance, historyData) {
+    const thead = document.getElementById('attendanceMonthlySummaryTableHead');
+    const tbody = document.getElementById('attendanceMonthlySummaryTableBody');
+    
+    // Get current date to determine academic year
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const currentMonth = today.getMonth() + 1; // 1-12
+    
+    // Determine academic year: June to February
+    // If current month is Jan-Feb, academic year is previous year to current year
+    // If current month is June-Dec, academic year is current year to next year
+    let academicYearStart, academicYearEnd;
+    if (currentMonth >= 1 && currentMonth <= 2) {
+        academicYearStart = currentYear - 1;
+        academicYearEnd = currentYear;
+    } else {
+        academicYearStart = currentYear;
+        academicYearEnd = currentYear + 1;
+    }
+    
+    // Academic year months: June (year1) to February (year2)
+    const academicMonths = [
+        { month: 6, year: academicYearStart, name: 'June' },
+        { month: 7, year: academicYearStart, name: 'July' },
+        { month: 8, year: academicYearStart, name: 'August' },
+        { month: 9, year: academicYearStart, name: 'September' },
+        { month: 10, year: academicYearStart, name: 'October' },
+        { month: 11, year: academicYearStart, name: 'November' },
+        { month: 12, year: academicYearStart, name: 'December' },
+        { month: 1, year: academicYearEnd, name: 'January' },
+        { month: 2, year: academicYearEnd, name: 'February' }
+    ];
+    
+    // Build header row
+    let headerHTML = '<tr>';
+    headerHTML += '<th class="fixed-col" style="position: sticky; left: 0; z-index: 10; background: #f9fafb; border-right: 2px solid #e5e7eb; min-width: 100px;">Student ID</th>';
+    headerHTML += '<th class="fixed-col" style="position: sticky; left: 100px; z-index: 10; background: #f9fafb; border-right: 2px solid #e5e7eb; min-width: 200px;">Student Name</th>';
+    
+    academicMonths.forEach(monthInfo => {
+        const monthKey = `${monthInfo.year}-${String(monthInfo.month).padStart(2, '0')}`;
+        headerHTML += `<th class="month-col" title="${monthInfo.name} ${monthInfo.year}">${monthInfo.name}</th>`;
+    });
+    
+    headerHTML += '<th style="background: #f3f4f6; font-weight: 700; color: #1f2937;">Overall</th>';
+    headerHTML += '</tr>';
+    thead.innerHTML = headerHTML;
+    
+    // Calculate monthly percentages for each student
+    tbody.innerHTML = '';
+    
+    attendance.students.forEach(student => {
+        let rowHTML = '<tr>';
+        rowHTML += `<td class="fixed-col" style="position: sticky; left: 0; z-index: 5; background: #fff; border-right: 2px solid #e5e7eb; font-weight: 600; min-width: 100px;">${student.studentId}</td>`;
+        rowHTML += `<td class="fixed-col" style="position: sticky; left: 100px; z-index: 5; background: #fff; border-right: 2px solid #e5e7eb; min-width: 200px;">${student.name}</td>`;
+        
+        let totalPresent = 0;
+        let totalDays = 0;
+        let monthlyPercentages = [];
+        
+        academicMonths.forEach(monthInfo => {
+            const monthKey = `${monthInfo.year}-${String(monthInfo.month).padStart(2, '0')}`;
+            
+            // Filter records for this month
+            const monthRecords = historyData.filter(record => {
+                const recordMonth = record.date.substring(0, 7);
+                return recordMonth === monthKey;
+            });
+            
+            if (monthRecords.length === 0) {
+                rowHTML += '<td class="month-col" style="text-align: center; color: #9ca3af;">-</td>';
+                monthlyPercentages.push(null);
+            } else {
+                let presentCount = 0;
+                let totalMonthDays = 0;
+                
+                monthRecords.forEach(record => {
+                    const status = record.students[student.studentId];
+                    if (status) {
+                        totalMonthDays++;
+                        if (status === 'P' || status === 'L') {
+                            presentCount++;
+                        }
+                    }
+                });
+                
+                const percentage = totalMonthDays > 0 ? (presentCount / totalMonthDays * 100) : 0;
+                totalPresent += presentCount;
+                totalDays += totalMonthDays;
+                monthlyPercentages.push(percentage);
+                
+                // Color code based on percentage
+                let percentageClass = '';
+                let percentageColor = '#374151';
+                if (percentage >= 90) {
+                    percentageClass = 'percentage-excellent';
+                    percentageColor = '#10b981';
+                } else if (percentage >= 75) {
+                    percentageClass = 'percentage-good';
+                    percentageColor = '#3b82f6';
+                } else if (percentage >= 60) {
+                    percentageClass = 'percentage-fair';
+                    percentageColor = '#f59e0b';
+                } else {
+                    percentageClass = 'percentage-poor';
+                    percentageColor = '#ef4444';
+                }
+                
+                rowHTML += `<td class="month-col ${percentageClass}" style="text-align: center; font-weight: 600; color: ${percentageColor};">${percentage.toFixed(1)}%</td>`;
+            }
+        });
+        
+        // Calculate overall percentage
+        const overallPercentage = totalDays > 0 ? (totalPresent / totalDays * 100) : 0;
+        let overallColor = '#374151';
+        if (overallPercentage >= 90) {
+            overallColor = '#10b981';
+        } else if (overallPercentage >= 75) {
+            overallColor = '#3b82f6';
+        } else if (overallPercentage >= 60) {
+            overallColor = '#f59e0b';
+        } else {
+            overallColor = '#ef4444';
+        }
+        
+        rowHTML += `<td style="background: #f3f4f6; text-align: center; font-weight: 700; color: ${overallColor};">${overallPercentage.toFixed(1)}%</td>`;
+        rowHTML += '</tr>';
+        tbody.innerHTML += rowHTML;
+    });
+}
+
 
 function showActionStatus(message, type) {
     // Simple status display - in real app, this would be more sophisticated

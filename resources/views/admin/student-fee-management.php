@@ -606,18 +606,7 @@ ob_start();
 }
 
 .attendance-view-content {
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    /* Animation removed */
 }
 
 /* Fee Structure Styles */
@@ -833,7 +822,7 @@ ob_start();
 
 .group-icon {
     font-size: 12px;
-    transition: transform 0.2s ease;
+    /* Transition removed */
     color: #6b7280;
 }
 
@@ -843,7 +832,8 @@ ob_start();
 
 /* Expandable columns - hidden when collapsed */
 .expandable {
-    transition: all 0.2s ease;
+    /* Transition removed */
+    overflow: hidden;
 }
 
 /* Summary column - always visible */
@@ -986,6 +976,46 @@ ob_start();
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.3px;
+}
+
+/* Receipt Dialog Styles */
+.receipt-info {
+    margin: 0;
+}
+
+.receipt-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.receipt-row:last-child {
+    border-bottom: none;
+}
+
+.receipt-label {
+    font-weight: 600;
+    color: #6b7280;
+    font-size: 14px;
+    flex: 0 0 40%;
+}
+
+.receipt-value {
+    color: #111827;
+    font-size: 14px;
+    text-align: right;
+    flex: 1;
+    word-break: break-word;
+}
+
+.receipt-dialog-content h4 {
+    margin: 0 0 16px 0;
+    color: #111827;
+    font-size: 16px;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 8px;
 }
 </style>
 

@@ -100,18 +100,26 @@ ob_start();
                     </div>
                     <div class="wizard-step-item" data-step="3" onclick="goToStaffStep(3)">
                         <div class="step-indicator">3</div>
-                        <span class="step-label">Family</span>
+                        <span class="step-label">Organizational</span>
                     </div>
                     <div class="wizard-step-item" data-step="4" onclick="goToStaffStep(4)">
                         <div class="step-indicator">4</div>
-                        <span class="step-label">Marital</span>
+                        <span class="step-label">Education</span>
                     </div>
                     <div class="wizard-step-item" data-step="5" onclick="goToStaffStep(5)">
                         <div class="step-indicator">5</div>
-                        <span class="step-label">Medical</span>
+                        <span class="step-label">Family</span>
                     </div>
                     <div class="wizard-step-item" data-step="6" onclick="goToStaffStep(6)">
                         <div class="step-indicator">6</div>
+                        <span class="step-label">Marital</span>
+                    </div>
+                    <div class="wizard-step-item" data-step="7" onclick="goToStaffStep(7)">
+                        <div class="step-indicator">7</div>
+                        <span class="step-label">Medical</span>
+                    </div>
+                    <div class="wizard-step-item" data-step="8" onclick="goToStaffStep(8)">
+                        <div class="step-indicator">8</div>
                         <span class="step-label">Portal</span>
                     </div>
                 </div>
@@ -138,29 +146,11 @@ ob_start();
                                     <label for="eName">Name <span style="color:red;">*</span></label>
                                     <input type="text" id="eName" class="form-input" placeholder="Enter full name" required>
                                 </div>
-                                <div class="form-group" style="flex:1;">
-                                    <label for="ePos">Position</label>
-                                    <input type="text" id="ePos" class="form-input" placeholder="e.g., Secretary">
-                                </div>
                             </div>
                             <div class="form-row">
-                                <div class="form-group" style="flex:1;">
-                                    <label for="eDept">Department</label>
-                                    <input type="text" id="eDept" class="form-input" placeholder="e.g., Administration">
-                                </div>
                                 <div class="form-group" style="flex:1;">
                                     <label for="eEmployeeId">Employee ID</label>
                                     <input type="text" id="eEmployeeId" class="form-input" placeholder="EMP-001">
-                                </div>
-                                <div class="form-group" style="flex:1;">
-                                    <label for="eHire">Date of Joining</label>
-                                    <input type="date" id="eHire" class="form-input">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group" style="flex:1;">
-                                    <label for="eSalary">Monthly Salary</label>
-                                    <input type="number" id="eSalary" class="form-input" placeholder="0.00" step="0.01">
                                 </div>
                                 <div class="form-group" style="flex:1;">
                                     <label for="ePhone">Ph. no.</label>
@@ -175,6 +165,14 @@ ob_start();
                                 <div class="form-group" style="flex:1;">
                                     <label for="eEmail">Email address</label>
                                     <input type="email" id="eEmail" class="form-input" placeholder="name@school.edu">
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="eStatus">Status</label>
+                                    <select id="eStatus" class="form-select">
+                                        <option value="Active">Active</option>
+                                        <option value="On Leave">On Leave</option>
+                                        <option value="Inactive">Inactive</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -214,10 +212,50 @@ ob_start();
                                     <input type="date" id="eDOB" class="form-input">
                                 </div>
                             </div>
+                        </div>
+
+                        <!-- Step 3: Organizational Information -->
+                        <div class="wizard-step" id="staff-wizard-step-3" style="display:none;">
+                            <div style="display:flex; align-items:center; margin-bottom:20px;">
+                                <i class="fas fa-briefcase" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
+                                <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Organizational Information</h4>
+                            </div>
                             <div class="form-row">
                                 <div class="form-group" style="flex:1;">
-                                    <label for="eEducation">Education</label>
-                                    <input type="text" id="eEducation" class="form-input" placeholder="e.g., High School, Diploma">
+                                    <label for="ePos">Position</label>
+                                    <input type="text" id="ePos" class="form-input" placeholder="e.g., Secretary">
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="eDept">Department</label>
+                                    <input type="text" id="eDept" class="form-input" placeholder="e.g., Administration">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group" style="flex:1;">
+                                    <label for="eHire">Date of Joining</label>
+                                    <input type="date" id="eHire" class="form-input">
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="eSalary">Basic Salary</label>
+                                    <input type="number" id="eSalary" class="form-input" placeholder="0.00" step="0.01">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Education -->
+                        <div class="wizard-step" id="staff-wizard-step-4" style="display:none;">
+                            <div style="display:flex; align-items:center; margin-bottom:20px;">
+                                <i class="fas fa-graduation-cap" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
+                                <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Education</h4>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group" style="flex:1;">
+                                    <label for="eQualification">Qualification</label>
+                                    <input type="text" id="eQualification" class="form-input" placeholder="e.g., High School, Diploma">
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="ePreviousExperience">Previous experience (Year)</label>
+                                    <input type="number" id="ePreviousExperience" class="form-input" placeholder="e.g., 5" min="0" step="1">
                                 </div>
                                 <div class="form-group" style="flex:1;">
                                     <label for="eGreenCard">Green card</label>
@@ -226,8 +264,8 @@ ob_start();
                             </div>
                         </div>
 
-                        <!-- Step 3: Family Information -->
-                        <div class="wizard-step" id="staff-wizard-step-3" style="display:none;">
+                        <!-- Step 5: Family Information -->
+                        <div class="wizard-step" id="staff-wizard-step-5" style="display:none;">
                             <div style="display:flex; align-items:center; margin-bottom:20px;">
                                 <i class="fas fa-users" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
                                 <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Family Information</h4>
@@ -260,8 +298,8 @@ ob_start();
                             </div>
                         </div>
 
-                        <!-- Step 4: Marital Status & In-School Relative -->
-                        <div class="wizard-step" id="staff-wizard-step-4" style="display:none;">
+                        <!-- Step 6: Marital Status & In-School Relative -->
+                        <div class="wizard-step" id="staff-wizard-step-6" style="display:none;">
                             <div style="display:flex; align-items:center; margin-bottom:20px;">
                                 <i class="fas fa-heart" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
                                 <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Marital Status & In-School Relative</h4>
@@ -304,8 +342,8 @@ ob_start();
                             </div>
                         </div>
 
-                        <!-- Step 5: Physical & Medical Information -->
-                        <div class="wizard-step" id="staff-wizard-step-5" style="display:none;">
+                        <!-- Step 7: Physical & Medical Information -->
+                        <div class="wizard-step" id="staff-wizard-step-7" style="display:none;">
                             <div style="display:flex; align-items:center; margin-bottom:20px;">
                                 <i class="fas fa-heartbeat" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
                                 <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Physical & Medical Information</h4>
@@ -315,6 +353,26 @@ ob_start();
                                     <label for="eHeight">Height</label>
                                     <input type="text" id="eHeight" class="form-input" placeholder="e.g., 5'8&quot;">
                                 </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="eWeight">Weight</label>
+                                    <input type="text" id="eWeight" class="form-input" placeholder="e.g., 70 kg">
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label for="eBloodType">Blood Type</label>
+                                    <select id="eBloodType" class="form-select">
+                                        <option value="">Select</option>
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
+                                        <option value="O+">O+</option>
+                                        <option value="O-">O-</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
                                 <div class="form-group" style="flex:1;">
                                     <label for="eMedicineAllergy">Medicine allergy</label>
                                     <input type="text" id="eMedicineAllergy" class="form-input" placeholder="List any medicine allergies">
@@ -332,8 +390,8 @@ ob_start();
                             </div>
                         </div>
 
-                        <!-- Step 6: Portal Registration -->
-                        <div class="wizard-step" id="staff-wizard-step-6" style="display:none;">
+                        <!-- Step 8: Portal Registration -->
+                        <div class="wizard-step" id="staff-wizard-step-8" style="display:none;">
                             <div style="display:flex; align-items:center; margin-bottom:20px;">
                                 <i class="fas fa-user-shield" style="color:#4A90E2; margin-right:8px; font-size:18px;"></i>
                                 <h4 style="margin:0; font-size:18px; font-weight:600; color:#1e40af;">Portal Registration</h4>
@@ -369,20 +427,10 @@ ob_start();
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-row">
-                                <div class="form-group" style="flex:1;">
-                                    <label for="eStatus">Status</label>
-                                    <select id="eStatus" class="form-select">
-                                        <option value="Active">Active</option>
-                                        <option value="On Leave">On Leave</option>
-                                        <option value="Inactive">Inactive</option>
-                                    </select>
-                                </div>
-                            </div>
                         </div>
 
-                        <!-- Step 7: Success Page -->
-                        <div class="wizard-step" id="staff-wizard-step-7" style="display:none;">
+                        <!-- Step 9: Success Page -->
+                        <div class="wizard-step" id="staff-wizard-step-9" style="display:none;">
                             <div class="success-page">
                                 <div class="success-icon-wrapper">
                                     <i class="fas fa-check-circle"></i>
@@ -946,7 +994,7 @@ ob_start();
     <script>
     // Staff Wizard state
     let staffCurrentStep = 1;
-    const staffTotalSteps = 7;
+    const staffTotalSteps = 9;
 
     // Staff modal functions
     function openAddStaffModal() {
@@ -1002,7 +1050,7 @@ ob_start();
             }
         }
         
-        // Update progress dots (only for steps 1-6)
+        // Update progress dots (only for steps 1-8)
         if (staffCurrentStep < staffTotalSteps) {
             updateStaffProgressDots();
         }
@@ -1029,9 +1077,9 @@ ob_start();
             const stepNum = index + 1;
             item.classList.remove('active', 'completed');
             
-            // Update step indicator content (only for steps 1-6)
+            // Update step indicator content (only for steps 1-8)
             const indicator = item.querySelector('.step-indicator');
-            if (indicator && stepNum <= 6) {
+            if (indicator && stepNum <= 8) {
                 if (stepNum === staffCurrentStep) {
                     item.classList.add('active');
                     indicator.innerHTML = '<i class="fas fa-pencil-alt"></i>';
@@ -1057,7 +1105,7 @@ ob_start();
         saveBtn.style.display = 'none';
         cancelBtn.style.display = 'none';
         
-        // Step 7 (Success page) - no navigation buttons
+        // Step 9 (Success page) - no navigation buttons
         if (staffCurrentStep === staffTotalSteps) {
             return;
         }
@@ -1071,7 +1119,7 @@ ob_start();
         }
         
         // Show/hide Next and Save buttons
-        if (staffCurrentStep === 6) {
+        if (staffCurrentStep === 8) {
             // Last form step - show Save button
             saveBtn.style.display = 'inline-flex';
         } else {
@@ -1083,15 +1131,15 @@ ob_start();
     function resetStaffForm() {
         // Reset all form fields
         const fields = [
-            'ePhoto', 'eName', 'ePos', 'eDept', 'eEmployeeId', 'eHire', 
-            'eSalary', 'ePhone', 'eAddress', 'eEmail', 'eGender', 
-            'eEthnicity', 'eReligious', 'eNRC', 'eDOB', 'eEducation', 
-            'eGreenCard', 'eFatherName', 'eFatherPhone', 
+            'ePhoto', 'eName', 'eEmployeeId', 'ePhone', 'eAddress', 'eEmail', 
+            'eStatus', 'eGender', 'eEthnicity', 'eReligious', 'eNRC', 'eDOB', 
+            'ePos', 'eDept', 'eHire', 'eSalary', 'eQualification', 
+            'ePreviousExperience', 'eGreenCard', 'eFatherName', 'eFatherPhone', 
             'eMotherName', 'eMotherPhone', 'eEmergencyContact', 'eMaritalStatus', 
             'ePartnerName', 'ePartnerPhone', 'eInSchoolRelativeName', 
-            'eInSchoolRelativeRelationship', 'eHeight', 'eMedicineAllergy', 
-            'eFoodAllergy', 'eMedicalDirectory', 'ePortalEmail', 'ePortalPassword', 
-            'ePortalPhone', 'ePortalDepartment', 'eStatus'
+            'eInSchoolRelativeRelationship', 'eHeight', 'eWeight', 'eBloodType', 
+            'eMedicineAllergy', 'eFoodAllergy', 'eMedicalDirectory', 'ePortalEmail', 
+            'ePortalPassword', 'ePortalPhone', 'ePortalDepartment'
         ];
         
         fields.forEach(fieldId => {
@@ -1109,6 +1157,12 @@ ob_start();
         const statusField = document.getElementById('eStatus');
         if (statusField) {
             statusField.value = 'Active';
+        }
+        
+        // Reset blood type
+        const bloodTypeField = document.getElementById('eBloodType');
+        if (bloodTypeField) {
+            bloodTypeField.value = '';
         }
     }
 
@@ -1194,20 +1248,25 @@ ob_start();
                 // Basic Information
                 photo: photoFile,
                 name,
-                pos:(document.getElementById('ePos').value||'').trim(),
-                dept:(document.getElementById('eDept').value||'').trim(),
                 employeeId: (document.getElementById('eEmployeeId').value||'').trim(),
-                hire:document.getElementById('eHire').value||'',
-                salary:(document.getElementById('eSalary').value||'').trim(),
                 phone:(document.getElementById('ePhone').value||'').trim(),
                 address: (document.getElementById('eAddress').value||'').trim(),
                 email:(document.getElementById('eEmail').value||'').trim(),
+                status:document.getElementById('eStatus').value||'Active',
+                // Personal Information
                 gender: document.getElementById('eGender') ? document.getElementById('eGender').value : '',
                 ethnicity: (document.getElementById('eEthnicity').value||'').trim(),
                 religious: (document.getElementById('eReligious').value||'').trim(),
                 nrc: (document.getElementById('eNRC').value||'').trim(),
                 dob: document.getElementById('eDOB').value||'',
-                education: (document.getElementById('eEducation').value||'').trim(),
+                // Organizational Information
+                pos:(document.getElementById('ePos').value||'').trim(),
+                dept:(document.getElementById('eDept').value||'').trim(),
+                hire:document.getElementById('eHire').value||'',
+                salary:(document.getElementById('eSalary').value||'').trim(),
+                // Education
+                qualification: (document.getElementById('eQualification').value||'').trim(),
+                previousExperience: (document.getElementById('ePreviousExperience').value||'').trim(),
                 greenCard: (document.getElementById('eGreenCard').value||'').trim(),
                 // Family Information
                 fatherName: (document.getElementById('eFatherName').value||'').trim(),
@@ -1224,11 +1283,12 @@ ob_start();
                 inSchoolRelativeRelationship: (document.getElementById('eInSchoolRelativeRelationship').value||'').trim(),
                 // Physical & Medical
                 height: (document.getElementById('eHeight').value||'').trim(),
+                weight: (document.getElementById('eWeight').value||'').trim(),
+                bloodType: document.getElementById('eBloodType') ? document.getElementById('eBloodType').value : '',
                 medicineAllergy: (document.getElementById('eMedicineAllergy').value||'').trim(),
                 foodAllergy: (document.getElementById('eFoodAllergy').value||'').trim(),
                 medicalDirectory: (document.getElementById('eMedicalDirectory').value||'').trim(),
-                // Status & Portal
-                status:document.getElementById('eStatus').value||'Active',
+                // Portal
                 portalAccount: createPortal,
                 portalEmail: createPortal ? portalEmail : '',
                 portalPhone: createPortal ? portalPhone : '',
@@ -1256,7 +1316,7 @@ ob_start();
             }
             
             // Navigate to success page
-            goToStaffStep(7);
+            goToStaffStep(9);
         };
     });
     </script>
