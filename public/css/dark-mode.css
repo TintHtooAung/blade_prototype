@@ -1,0 +1,771 @@
+/* ============================================
+   DARK MODE COLOR PALETTE - SMART CAMPUS
+   ============================================ */
+
+/* Dark Mode Root Variables */
+body.dark-theme {
+    /* Background Colors */
+    --bg-primary: #0f172a;        /* Main background */
+    --bg-secondary: #1e293b;      /* Cards, panels */
+    --bg-tertiary: #334155;       /* Hover states */
+    --bg-elevated: #1e293b;       /* Modals, dropdowns */
+    
+    /* Text Colors */
+    --text-primary: #f1f5f9;      /* Main text */
+    --text-secondary: #cbd5e1;    /* Secondary text */
+    --text-tertiary: #94a3b8;     /* Muted text */
+    --text-disabled: #64748b;     /* Disabled text */
+    
+    /* Border Colors */
+    --border-primary: #334155;    /* Main borders */
+    --border-secondary: #475569;  /* Hover borders */
+    --border-light: #1e293b;      /* Subtle borders */
+    
+    /* Brand Colors (adjusted for dark mode) */
+    --brand-primary: #818cf8;     /* Purple - lighter */
+    --brand-secondary: #a78bfa;   /* Purple variant */
+    --brand-gradient-start: #818cf8;
+    --brand-gradient-end: #a78bfa;
+    
+    /* Status Colors */
+    --success: #34d399;
+    --warning: #fbbf24;
+    --error: #f87171;
+    --info: #60a5fa;
+    
+    /* Interactive Elements */
+    --hover-bg: #334155;
+    --active-bg: #475569;
+    --focus-ring: rgba(129, 140, 248, 0.3);
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+}
+
+/* ============================================
+   GLOBAL DARK MODE STYLES
+   ============================================ */
+
+body.dark-theme {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+/* Headers */
+body.dark-theme .unified-header {
+    background: rgba(30, 41, 59, 0.95);
+    border-bottom-color: var(--border-primary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-theme .header-profile-section:hover {
+    background: var(--hover-bg);
+}
+
+body.dark-theme .user-name {
+    color: var(--text-primary);
+}
+
+body.dark-theme .user-access-level {
+    color: var(--text-tertiary);
+}
+
+body.dark-theme .profile-badge-icon-only {
+    background: rgba(30, 41, 59, 0.95);
+    border-color: var(--border-primary);
+}
+
+/* Profile Dropdown - Using transparent backgrounds for blending */
+body.dark-theme .profile-dropdown {
+    background: rgba(30, 41, 59, 0.95);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(20px);
+}
+
+body.dark-theme .profile-dropdown-divider {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .profile-dropdown-label {
+    color: var(--text-tertiary);
+}
+
+body.dark-theme .profile-dropdown-item {
+    color: var(--text-primary);
+}
+
+body.dark-theme .profile-dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-theme .profile-dropdown-item i {
+    color: var(--text-secondary);
+}
+
+body.dark-theme .profile-dropdown-item span {
+    color: var(--text-primary);
+}
+
+body.dark-theme .profile-dropdown-item.logout-item:hover {
+    background: rgba(248, 113, 113, 0.1);
+}
+
+/* Cards & Panels - Using transparent backgrounds for blending */
+body.dark-theme .card,
+body.dark-theme .panel,
+body.dark-theme .box,
+body.dark-theme .widget {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+body.dark-theme .card-header,
+body.dark-theme .panel-header {
+    background: rgba(255, 255, 255, 0.08);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+/* Tables - Using transparent backgrounds for blending */
+body.dark-theme table {
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-primary);
+    backdrop-filter: blur(10px);
+}
+
+body.dark-theme thead {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+}
+
+body.dark-theme tbody tr {
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+    background: transparent;
+}
+
+body.dark-theme tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-theme th,
+body.dark-theme td {
+    border-color: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+}
+
+body.dark-theme tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+body.dark-theme tbody tr:nth-child(even):hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Forms */
+body.dark-theme input,
+body.dark-theme textarea,
+body.dark-theme select {
+    background: var(--bg-primary);
+    border-color: var(--border-primary);
+    color: var(--text-primary);
+}
+
+body.dark-theme input:focus,
+body.dark-theme textarea:focus,
+body.dark-theme select:focus {
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 3px var(--focus-ring);
+    background: var(--bg-secondary);
+}
+
+body.dark-theme input::placeholder,
+body.dark-theme textarea::placeholder {
+    color: var(--text-disabled);
+}
+
+body.dark-theme label {
+    color: var(--text-secondary);
+}
+
+body.dark-theme .form-control {
+    background: var(--bg-primary);
+    border-color: var(--border-primary);
+    color: var(--text-primary);
+}
+
+body.dark-theme .form-control:focus {
+    background: var(--bg-secondary);
+    border-color: var(--brand-primary);
+}
+
+/* Buttons */
+body.dark-theme .btn-primary {
+    background: linear-gradient(135deg, var(--brand-gradient-start) 0%, var(--brand-gradient-end) 100%);
+    border-color: var(--brand-primary);
+    color: white;
+}
+
+body.dark-theme .btn-primary:hover {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+}
+
+body.dark-theme .btn-secondary {
+    background: var(--bg-tertiary);
+    border-color: var(--border-primary);
+    color: var(--text-primary);
+}
+
+body.dark-theme .btn-secondary:hover {
+    background: var(--active-bg);
+}
+
+body.dark-theme .btn-outline {
+    border-color: var(--border-secondary);
+    color: var(--text-primary);
+}
+
+body.dark-theme .btn-outline:hover {
+    background: var(--hover-bg);
+    border-color: var(--brand-primary);
+}
+
+/* Modals - Using transparent backgrounds for blending */
+body.dark-theme .modal,
+body.dark-theme .settings-modal {
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+}
+
+body.dark-theme .modal-content,
+body.dark-theme .settings-modal-content {
+    background: rgba(30, 41, 59, 0.95);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(20px);
+}
+
+body.dark-theme .modal-header,
+body.dark-theme .settings-modal-header {
+    background: linear-gradient(135deg, var(--brand-gradient-start) 0%, var(--brand-gradient-end) 100%);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .modal-body,
+body.dark-theme .settings-modal-body {
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-primary);
+}
+
+body.dark-theme .modal-footer {
+    background: rgba(255, 255, 255, 0.05);
+    border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Sidebar - Using transparent backgrounds for blending */
+body.dark-theme .sidebar {
+    background: rgba(30, 41, 59, 0.95);
+    border-right-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+}
+
+body.dark-theme .sidebar-menu-item {
+    color: var(--text-secondary);
+    background: transparent;
+}
+
+body.dark-theme .sidebar-menu-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+}
+
+body.dark-theme .sidebar-menu-item.active {
+    background: rgba(129, 140, 248, 0.2);
+    color: var(--brand-primary);
+    border-left: 3px solid var(--brand-primary);
+}
+
+/* Badges & Tags */
+body.dark-theme .badge {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border-color: var(--border-primary);
+}
+
+body.dark-theme .badge-primary {
+    background: var(--brand-primary);
+    color: white;
+}
+
+body.dark-theme .badge-success {
+    background: var(--success);
+    color: var(--bg-primary);
+}
+
+body.dark-theme .badge-warning {
+    background: var(--warning);
+    color: var(--bg-primary);
+}
+
+body.dark-theme .badge-error {
+    background: var(--error);
+    color: white;
+}
+
+/* Alerts */
+body.dark-theme .alert {
+    background: var(--bg-tertiary);
+    border-color: var(--border-primary);
+    color: var(--text-primary);
+}
+
+body.dark-theme .alert-success {
+    background: rgba(52, 211, 153, 0.15);
+    border-color: var(--success);
+    color: var(--success);
+}
+
+body.dark-theme .alert-warning {
+    background: rgba(251, 191, 36, 0.15);
+    border-color: var(--warning);
+    color: var(--warning);
+}
+
+body.dark-theme .alert-error {
+    background: rgba(248, 113, 113, 0.15);
+    border-color: var(--error);
+    color: var(--error);
+}
+
+body.dark-theme .alert-info {
+    background: rgba(96, 165, 250, 0.15);
+    border-color: var(--info);
+    color: var(--info);
+}
+
+/* Dropdowns - Using transparent backgrounds for blending */
+body.dark-theme .dropdown-menu {
+    background: rgba(30, 41, 59, 0.95);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(20px);
+}
+
+body.dark-theme .dropdown-item {
+    color: var(--text-primary);
+    background: transparent;
+}
+
+body.dark-theme .dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-theme .dropdown-divider {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Tooltips */
+body.dark-theme .tooltip {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border-color: var(--border-primary);
+}
+
+/* Progress Bars */
+body.dark-theme .progress {
+    background: var(--bg-tertiary);
+}
+
+body.dark-theme .progress-bar {
+    background: var(--brand-primary);
+}
+
+/* Tabs - Using transparent backgrounds for blending */
+body.dark-theme .nav-tabs {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .nav-tabs .nav-link {
+    color: var(--text-secondary);
+    border-color: transparent;
+    background: transparent;
+}
+
+body.dark-theme .nav-tabs .nav-link:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-theme .nav-tabs .nav-link.active {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.1) rgba(255, 255, 255, 0.1) transparent;
+    color: var(--text-primary);
+    backdrop-filter: blur(10px);
+}
+
+body.dark-theme .tab-content {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+}
+
+/* Pagination - Using transparent backgrounds for blending */
+body.dark-theme .pagination {
+    color: var(--text-primary);
+}
+
+body.dark-theme .page-link {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+body.dark-theme .page-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-theme .page-item.active .page-link {
+    background: rgba(129, 140, 248, 0.3);
+    border-color: var(--brand-primary);
+    backdrop-filter: blur(10px);
+}
+
+/* Breadcrumbs - Using transparent backgrounds for blending */
+body.dark-theme .breadcrumb {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+    backdrop-filter: blur(10px);
+}
+
+body.dark-theme .breadcrumb-item a {
+    color: var(--brand-primary);
+}
+
+body.dark-theme .breadcrumb-item.active {
+    color: var(--text-primary);
+}
+
+/* List Groups - Using transparent backgrounds for blending */
+body.dark-theme .list-group-item {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+body.dark-theme .list-group-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-theme .list-group-item.active {
+    background: rgba(129, 140, 248, 0.2);
+    border-color: var(--brand-primary);
+    backdrop-filter: blur(10px);
+}
+
+/* Scrollbars */
+body.dark-theme ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+body.dark-theme ::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+body.dark-theme ::-webkit-scrollbar-thumb {
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+}
+
+body.dark-theme ::-webkit-scrollbar-thumb:hover {
+    background: var(--active-bg);
+}
+
+/* Code Blocks */
+body.dark-theme code {
+    background: var(--bg-primary);
+    color: var(--brand-primary);
+    border-color: var(--border-primary);
+}
+
+body.dark-theme pre {
+    background: var(--bg-primary);
+    border-color: var(--border-primary);
+    color: var(--text-primary);
+}
+
+/* Links */
+body.dark-theme a {
+    color: var(--brand-primary);
+}
+
+body.dark-theme a:hover {
+    color: var(--brand-secondary);
+}
+
+/* HR Dividers */
+body.dark-theme hr {
+    border-color: var(--border-primary);
+}
+
+/* Notifications */
+body.dark-theme .notification {
+    background: var(--bg-elevated);
+    border-color: var(--border-primary);
+    box-shadow: var(--shadow-lg);
+}
+
+body.dark-theme .notification span {
+    color: var(--text-primary);
+}
+
+/* Dashboard Widgets - Using transparent backgrounds for blending */
+body.dark-theme .dashboard-widget {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+body.dark-theme .widget-header {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+}
+
+body.dark-theme .stat-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+body.dark-theme .stat-value {
+    color: var(--text-primary) !important;
+}
+
+body.dark-theme .stat-label {
+    color: var(--text-secondary);
+}
+
+/* Dashboard Count Elements */
+body.dark-theme .count,
+body.dark-theme .counter,
+body.dark-theme .number,
+body.dark-theme .total,
+body.dark-theme .metric-value,
+body.dark-theme .dashboard-count,
+body.dark-theme .stat-number,
+body.dark-theme .count-value {
+    color: var(--text-primary) !important;
+}
+
+/* Dashboard Card Titles and Numbers */
+body.dark-theme .card-title,
+body.dark-theme .widget-title,
+body.dark-theme .metric-title {
+    color: var(--text-primary) !important;
+}
+
+/* Specific Dashboard Number Classes */
+body.dark-theme h1,
+body.dark-theme h2,
+body.dark-theme h3,
+body.dark-theme h4,
+body.dark-theme h5,
+body.dark-theme h6 {
+    color: var(--text-primary) !important;
+}
+
+/* Dashboard Summary Numbers */
+body.dark-theme .summary-count,
+body.dark-theme .total-count,
+body.dark-theme .count-display,
+body.dark-theme .numeric-display {
+    color: var(--text-primary) !important;
+    font-weight: 700;
+}
+
+/* Charts & Graphs */
+body.dark-theme .chart-container {
+    background: var(--bg-secondary);
+}
+
+/* Calendar */
+body.dark-theme .calendar {
+    background: var(--bg-secondary);
+    border-color: var(--border-primary);
+}
+
+body.dark-theme .calendar-day {
+    color: var(--text-primary);
+    border-color: var(--border-primary);
+}
+
+body.dark-theme .calendar-day:hover {
+    background: var(--hover-bg);
+}
+
+body.dark-theme .calendar-day.today {
+    background: var(--brand-primary);
+    color: white;
+}
+
+/* File Upload */
+body.dark-theme .file-upload-area {
+    background: var(--bg-primary);
+    border-color: var(--border-primary);
+    color: var(--text-secondary);
+}
+
+body.dark-theme .file-upload-area:hover {
+    border-color: var(--brand-primary);
+    background: var(--bg-secondary);
+}
+
+/* Search */
+body.dark-theme .search-box {
+    background: var(--bg-primary);
+    border-color: var(--border-primary);
+    color: var(--text-primary);
+}
+
+body.dark-theme .search-box:focus {
+    background: var(--bg-secondary);
+    border-color: var(--brand-primary);
+}
+
+/* Checkboxes & Radio Buttons */
+body.dark-theme input[type="checkbox"],
+body.dark-theme input[type="radio"] {
+    border-color: var(--border-secondary);
+    background: var(--bg-primary);
+}
+
+body.dark-theme input[type="checkbox"]:checked,
+body.dark-theme input[type="radio"]:checked {
+    background: var(--brand-primary);
+    border-color: var(--brand-primary);
+}
+
+/* Select Dropdowns */
+body.dark-theme select {
+    background: var(--bg-primary);
+    border-color: var(--border-primary);
+    color: var(--text-primary);
+}
+
+body.dark-theme select option {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+/* Disabled States */
+body.dark-theme :disabled,
+body.dark-theme .disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Loading Spinners */
+body.dark-theme .spinner {
+    border-color: var(--border-primary);
+    border-top-color: var(--brand-primary);
+}
+
+/* Empty States */
+body.dark-theme .empty-state {
+    color: var(--text-tertiary);
+}
+
+/* Footer */
+body.dark-theme .footer {
+    background: var(--bg-secondary);
+    border-top-color: var(--border-primary);
+    color: var(--text-secondary);
+}
+
+/* Dashboard Specific Overrides - Using transparent backgrounds for blending */
+body.dark-theme .dashboard-card,
+body.dark-theme .info-card,
+body.dark-theme .metric-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    backdrop-filter: blur(10px);
+}
+
+body.dark-theme .summary-card {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+    border-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+body.dark-theme .dashboard-card h1,
+body.dark-theme .dashboard-card h2,
+body.dark-theme .dashboard-card h3,
+body.dark-theme .dashboard-card h4,
+body.dark-theme .dashboard-card .count,
+body.dark-theme .dashboard-card .number {
+    color: var(--text-primary) !important;
+}
+
+/* Grid and Flex Containers */
+body.dark-theme .dashboard-grid,
+body.dark-theme .stats-grid,
+body.dark-theme .metrics-container {
+    color: var(--text-primary);
+}
+
+/* Icon with Count */
+body.dark-theme .icon-count,
+body.dark-theme .badge-count,
+body.dark-theme .notification-count {
+    background: var(--brand-primary);
+    color: white !important;
+}
+
+/* Large Numbers/Statistics */
+body.dark-theme .big-number,
+body.dark-theme .large-stat,
+body.dark-theme .primary-metric {
+    color: var(--text-primary) !important;
+    font-weight: 700;
+}
+
+/* Percentage and Currency */
+body.dark-theme .percentage,
+body.dark-theme .currency,
+body.dark-theme .amount {
+    color: var(--text-primary) !important;
+}
+
+/* Dashboard Text Elements */
+body.dark-theme p,
+body.dark-theme span,
+body.dark-theme div {
+    color: inherit;
+}
+
+/* Ensure Strong/Bold Text is Visible */
+body.dark-theme strong,
+body.dark-theme b {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+/* Small Text / Captions */
+body.dark-theme small,
+body.dark-theme .small-text,
+body.dark-theme .caption {
+    color: var(--text-secondary);
+}
+
+/* Smooth Transitions */
+body.dark-theme * {
+    transition: background-color 0.3s ease, 
+                border-color 0.3s ease, 
+                color 0.3s ease;
+}

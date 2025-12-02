@@ -378,7 +378,7 @@ ob_start();
                         <input type="checkbox" id="remember" name="remember">
                         <label for="remember">Remember me</label>
                     </div>
-                    <a href="/auth/forgot-password" class="forgot-link">Forgot Password?</a>
+                    <a href="forgot-password.php" class="forgot-link">Forgot password?</a>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Sign In</button>
@@ -427,13 +427,9 @@ ob_start();
                 // For demo purposes, redirect based on email
                 if (email.includes('admin')) {
                     window.location.href = '/admin/dashboard';
-                } else if (email.includes('staff')) {
-                    window.location.href = '/staff/dashboard';
-                } else if (email.includes('teacher')) {
-                    window.location.href = '/teacher/dashboard';
                 } else {
-                    // Default to admin for demo
-                    window.location.href = '/admin/dashboard';
+                    // All non-admin users are treated as staff for this demo
+                    window.location.href = '/staff/dashboard';
                 }
             }, 1500);
         });

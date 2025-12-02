@@ -15,6 +15,9 @@ switch ($path) {
     case '/':
         include __DIR__ . '/../resources/views/home.php';
         break;
+    case '/auth/login':
+        include __DIR__ . '/../resources/views/auth/login.php';
+        break;
     case '/teacher/dashboard':
         include __DIR__ . '/../resources/views/teacher/dashboard.php';
         break;
@@ -253,14 +256,6 @@ switch ($path) {
         include __DIR__ . '/../resources/views/admin/staff-profile-edit.php';
         break;
     
-    // Teacher Pages
-    case '/teacher/teacher-profile':
-        include __DIR__ . '/../resources/views/teacher/teacher-profile.php';
-        break;
-    case '/teacher/teacher-profile-edit':
-        include __DIR__ . '/../resources/views/teacher/teacher-profile-edit.php';
-        break;
-    
     // Staff Pages
     case '/staff/staff-profile':
         include __DIR__ . '/../resources/views/staff/staff-profile.php';
@@ -374,121 +369,6 @@ switch ($path) {
         break;
     case '/staff/leave-request':
         include __DIR__ . '/../resources/views/staff/leave-request.php';
-        break;
-    
-    // Teacher Pages
-    case '/teacher/event-calendar':
-        include __DIR__ . '/../resources/views/teacher/event-calendar.php';
-        break;
-    case '/teacher/announcements':
-        include __DIR__ . '/../resources/views/teacher/announcements.php';
-        break;
-    case '/teacher/announcement-details':
-        include __DIR__ . '/../resources/views/teacher/announcement-details.php';
-        break;
-    case '/teacher/schedule-view':
-        include __DIR__ . '/../resources/views/teacher/schedule-view.php';
-        break;
-    case '/teacher/attendance':
-        include __DIR__ . '/../resources/views/teacher/attendance.php';
-        break;
-    case '/teacher/student-profiles':
-        include __DIR__ . '/../resources/views/teacher/student-profiles.php';
-        break;
-    case '/teacher/student-profile':
-        include __DIR__ . '/../resources/views/teacher/student-profile.php';
-        break;
-    case (preg_match('/^\/teacher\/student-profile\/([^\/?#]+)$/', $uri, $matches) ? true : false):
-        $_GET['id'] = $matches[1];
-        include __DIR__ . '/../resources/views/teacher/student-profile.php';
-        break;
-    case '/teacher/subject-profiles':
-        include __DIR__ . '/../resources/views/teacher/subject-profiles.php';
-        break;
-    case (preg_match('/^\/teacher\/subject-detail\/(.+)$/', $uri, $matches) ? true : false):
-        $_GET['subject'] = urldecode($matches[1]);
-        include __DIR__ . '/../resources/views/teacher/subject-detail.php';
-        break;
-    case '/teacher/class-profiles':
-        include __DIR__ . '/../resources/views/teacher/class-profiles.php';
-        break;
-    case (preg_match('/^\/teacher\/class-detail\/(.+)$/', $uri, $matches) ? true : false):
-        $_GET['class'] = urldecode($matches[1]);
-        include __DIR__ . '/../resources/views/teacher/class-detail.php';
-        break;
-    case '/teacher/exam-results':
-        include __DIR__ . '/../resources/views/teacher/exam-results.php';
-        break;
-    case '/teacher/exam-details':
-        include __DIR__ . '/../resources/views/teacher/exam-details.php';
-        break;
-    case '/teacher/class-schedules':
-        include __DIR__ . '/../resources/views/teacher/class-schedules.php';
-        break;
-    case '/teacher/class-schedule/Grade-10A':
-        include __DIR__ . '/../resources/views/teacher/class-schedule-detail.php';
-        break;
-    case '/teacher/class-schedule/Grade-10B':
-        include __DIR__ . '/../resources/views/teacher/class-schedule-detail.php';
-        break;
-    case '/teacher/class-schedule/Grade-11A':
-        include __DIR__ . '/../resources/views/teacher/class-schedule-detail.php';
-        break;
-    case '/teacher/class-schedule/Grade-11B':
-        include __DIR__ . '/../resources/views/teacher/class-schedule-detail.php';
-        break;
-    case '/teacher/class-schedule/Grade-12A':
-        include __DIR__ . '/../resources/views/teacher/class-schedule-detail.php';
-        break;
-    case '/teacher/class-schedule/Grade-12B':
-        include __DIR__ . '/../resources/views/teacher/class-schedule-detail.php';
-        break;
-    case '/teacher/enter-marks':
-        include __DIR__ . '/../resources/views/teacher/enter-marks.php';
-        break;
-    case '/teacher/leave-request':
-        include __DIR__ . '/../resources/views/teacher/leave-request.php';
-        break;
-    case '/teacher/homework':
-        include __DIR__ . '/../resources/views/teacher/homework.php';
-        break;
-    
-    // Parent/Guardian Pages
-    case '/parent/dashboard':
-        include __DIR__ . '/../resources/views/parent/dashboard.php';
-        break;
-    case '/parent/my-children':
-        include __DIR__ . '/../resources/views/parent/my-children.php';
-        break;
-    case '/parent/attendance':
-        include __DIR__ . '/../resources/views/parent/attendance.php';
-        break;
-    case '/parent/academic-reports':
-        include __DIR__ . '/../resources/views/parent/academic-reports.php';
-        break;
-    case '/parent/exam-results':
-        include __DIR__ . '/../resources/views/parent/exam-results.php';
-        break;
-    case '/parent/announcements':
-        include __DIR__ . '/../resources/views/parent/announcements.php';
-        break;
-    case '/parent/announcement-details':
-        include __DIR__ . '/../resources/views/parent/announcement-details.php';
-        break;
-    case '/parent/event-calendar':
-        include __DIR__ . '/../resources/views/parent/event-calendar.php';
-        break;
-    case '/parent/homework':
-        include __DIR__ . '/../resources/views/parent/homework.php';
-        break;
-    case '/parent/leave-request':
-        include __DIR__ . '/../resources/views/parent/leave-request.php';
-        break;
-    case '/parent/fee-payment':
-        include __DIR__ . '/../resources/views/parent/fee-payment.php';
-        break;
-    case '/parent/payment-history':
-        include __DIR__ . '/../resources/views/parent/payment-history.php';
         break;
         
     default:

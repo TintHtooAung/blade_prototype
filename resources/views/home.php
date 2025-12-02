@@ -65,17 +65,6 @@
                     </div>
                     
                     <div class="demo-cards">
-                        <!-- Teacher Demo -->
-                        <div class="demo-card" onclick="fillDemoCredentials('teacher')">
-                            <div class="demo-icon teacher">
-                                <i class="fas fa-chalkboard-teacher"></i>
-                            </div>
-                            <div class="demo-info">
-                                <div class="demo-role">Teacher</div>
-                                <div class="demo-email">teacher@novahub.edu</div>
-                            </div>
-                        </div>
-
                         <!-- Staff Demo -->
                         <div class="demo-card" onclick="fillDemoCredentials('staff')">
                             <div class="demo-icon staff">
@@ -97,17 +86,6 @@
                                 <div class="demo-email">admin@novahub.edu</div>
                             </div>
                         </div>
-
-                        <!-- Parent Demo -->
-                        <div class="demo-card" onclick="fillDemoCredentials('parent')">
-                            <div class="demo-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                                <i class="fas fa-user-friends"></i>
-                            </div>
-                            <div class="demo-info">
-                                <div class="demo-role">Parent</div>
-                                <div class="demo-email">parent@novahub.edu</div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -127,12 +105,6 @@
     <script>
     // Demo credentials
     const demoCredentials = {
-        teacher: {
-            email: 'teacher@novahub.edu',
-            password: 'teacher123',
-            role: 'teacher',
-            redirect: '/teacher/dashboard'
-        },
         staff: {
             email: 'staff@novahub.edu',
             password: 'staff123',
@@ -144,12 +116,6 @@
             password: 'admin123',
             role: 'admin',
             redirect: '/admin/dashboard'
-        },
-        parent: {
-            email: 'parent@novahub.edu',
-            password: 'parent123',
-            role: 'parent',
-            redirect: '/parent/dashboard'
         }
     };
 
@@ -234,10 +200,8 @@
         if (localStorage.getItem('isLoggedIn') === 'true') {
             const userRole = localStorage.getItem('userRole');
             const redirects = {
-                'teacher': '/teacher/dashboard',
                 'staff': '/staff/dashboard',
-                'admin': '/admin/dashboard',
-                'parent': '/parent/dashboard'
+                'admin': '/admin/dashboard'
             };
             
             if (redirects[userRole]) {

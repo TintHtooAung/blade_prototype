@@ -1016,15 +1016,15 @@ function renderIncomeTable(incomeItems) {
         const dailyRows = allDailyItems.map(item => {
             if (item.type === 'invoice') {
                 return `
-                    <tr>
-                        <td>${formatDate(item.date)}</td>
-                        <td><strong>${item.id}</strong></td>
+            <tr>
+                <td>${formatDate(item.date)}</td>
+                <td><strong>${item.id}</strong></td>
                         <td><span class="status-badge" style="background: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 6px; font-size: 12px;">${item.category || 'School Fees'}</span></td>
-                        <td>${item.name}</td>
-                        <td>Grade ${item.grade}-${item.class}</td>
-                        <td><strong style="color: #10b981;">$${item.amount.toFixed(2)}</strong></td>
-                        <td>${item.paymentType}</td>
-                    </tr>
+                <td>${item.name}</td>
+                <td>Grade ${item.grade}-${item.class}</td>
+                <td><strong style="color: #10b981;">$${item.amount.toFixed(2)}</strong></td>
+                <td>${item.paymentType}</td>
+            </tr>
                 `;
             } else {
                 return `

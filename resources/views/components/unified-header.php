@@ -58,29 +58,17 @@ $logoUrl = $logoUrl ?? '/images/smart-campus-logo.svg';
                     <div class="profile-dropdown-divider"></div>
                     
                     <div class="profile-dropdown-section">
-                        <div class="profile-dropdown-label">Preferences</div>
-                        <div class="profile-dropdown-item" onclick="toggleTheme(event)">
-                            <i class="fas fa-palette"></i>
-                            <span>Theme</span>
-                            <div class="profile-dropdown-arrow">
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        </div>
-                        <div class="profile-dropdown-item" onclick="toggleLanguage(event)">
-                            <i class="fas fa-globe"></i>
-                            <span>Language</span>
-                            <div class="profile-dropdown-arrow">
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="profile-dropdown-divider"></div>
-                    
-                    <div class="profile-dropdown-section">
                         <div class="profile-dropdown-item" onclick="viewProfile()">
                             <i class="fas fa-user"></i>
                             <span>View Profile</span>
+                        </div>
+                        <div class="profile-dropdown-item" onclick="openSettingsModal()">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </div>
+                        <div class="profile-dropdown-item" onclick="openChangePasswordModal()">
+                            <i class="fas fa-key"></i>
+                            <span>Change Password</span>
                         </div>
                     </div>
                     
@@ -384,10 +372,7 @@ $logoUrl = $logoUrl ?? '/images/smart-campus-logo.svg';
     font-weight: 500;
 }
 
-.profile-dropdown-arrow {
-    color: #9ca3af;
-    font-size: 12px;
-}
+
 
 .profile-dropdown-item.logout-item {
     color: #dc2626;
@@ -436,4 +421,13 @@ $logoUrl = $logoUrl ?? '/images/smart-campus-logo.svg';
     margin-top: 64px !important;
 }
 </style>
+
+<!-- Profile Dropdown Styles -->
+<link rel="stylesheet" href="/css/profile-dropdown.css">
+
+<!-- Dark Mode Styles -->
+<link rel="stylesheet" href="/css/dark-mode.css">
+
+<!-- Profile Dropdown Script -->
+<script src="/js/profile-dropdown.js"></script>
 

@@ -17,6 +17,21 @@ use App\Http\Controllers\DashboardController;
 // Home page with role selection
 Route::get('/', [DashboardController::class, 'home'])->name('home');
 
+// Authentication routes
+Route::prefix('auth')->group(function () {
+    Route::get('/login', function () {
+        include resource_path('views/auth/login.php');
+    })->name('auth.login');
+    
+    Route::get('/forgot-password', function () {
+        include resource_path('views/auth/forgot-password.php');
+    })->name('auth.forgot-password');
+    
+    Route::get('/register', function () {
+        include resource_path('views/auth/register.php');
+    })->name('auth.register');
+});
+
 // Teacher routes
 Route::prefix('teacher')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'teacherDashboard'])->name('teacher.dashboard');

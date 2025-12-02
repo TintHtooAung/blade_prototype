@@ -71,11 +71,6 @@ ob_start();
         <div class="simple-section">
     <div class="simple-header">
         <h3>Payroll Management</h3>
-        <div style="display: flex; gap: 12px;">
-            <button class="simple-btn" onclick="generatePayroll()" id="generateBtn">
-                <i class="fas fa-calculator"></i> Generate Payroll (This Month)
-            </button>
-        </div>
     </div>
 
     <!-- Filters -->
@@ -154,7 +149,7 @@ ob_start();
                 <tr class="no-data-row">
                     <td colspan="18" style="text-align:center; padding:40px; color:#999;">
                         <i class="fas fa-inbox" style="font-size:48px; margin-bottom:12px; display:block;"></i>
-                        No payroll generated yet. Click "Generate Payroll" to create payroll for this month.
+                        No payroll entries available for the selected filters.
                     </td>
                 </tr>
             </tbody>
@@ -408,9 +403,10 @@ document.addEventListener('DOMContentLoaded', function() {
             return entry;
         });
         localStorage.setItem('payrollData', JSON.stringify(payrollData));
-        document.getElementById('generateBtn').style.display = 'none';
         renderPayrollTable();
         updateStats();
+    } else {
+        generatePayroll(true);
     }
     
     // Populate month filter dropdown
@@ -434,7 +430,7 @@ const employeesDatabase = {
     ]
 };
 
-function generatePayroll() {
+function generatePayroll(autoGenerate = false) {
     const now = new Date();
     const currentYear = now.getFullYear();
     const currentMonth = String(now.getMonth() + 1).padStart(2, '0');
@@ -442,8 +438,10 @@ function generatePayroll() {
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const monthName = monthNames[now.getMonth()];
     
+    if (!autoGenerate) {
     if (!confirm(`Generate payroll for all employees for ${monthName} ${currentYear}?\n\nThis will create payroll entries for all teachers and staff.`)) {
         return;
+        }
     }
             // Generate payroll entries
             payrollData = [];
@@ -531,14 +529,14 @@ function generatePayroll() {
                 });
             });
             
-            document.getElementById('generateBtn').style.display = 'none';
-            
             // Save to localStorage
             localStorage.setItem('payrollData', JSON.stringify(payrollData));
             
             renderPayrollTable();
             updateStats();
+            if (!autoGenerate) {
             showToast(`${payrollData.length} payroll entries generated successfully for ${monthName} ${currentYear}`, 'success');
+            }
 }
 
 // Column group expand/collapse state - must be defined before renderPayrollTable
@@ -564,7 +562,7 @@ function renderPayrollTable() {
         tbody.innerHTML = `<tr class="no-data-row">
             <td colspan="${colspan}" style="text-align:center; padding:40px; color:#999;">
                 <i class="fas fa-inbox" style="font-size:48px; margin-bottom:12px; display:block;"></i>
-                No payroll generated yet. Click "Generate Payroll" to create payroll for this month.
+                No payroll entries available for the selected filters.
             </td>
         </tr>`;
         return;

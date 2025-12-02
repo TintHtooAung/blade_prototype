@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tables & Tabs Dark Mode Test</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/dark-mode.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            background: #f8fafc;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 16px;
+            color: #1a202c;
+        }
+
+        .header p {
+            color: #64748b;
+            margin-bottom: 24px;
+        }
+
+        .theme-toggle {
+            padding: 12px 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .section {
+            margin-bottom: 48px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: #1a202c;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        thead {
+            background: #f8fafc;
+        }
+
+        th {
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #1a202c;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e5e7eb;
+            color: #374151;
+        }
+
+        tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        /* Tab Styles */
+        .nav-tabs {
+            display: flex;
+            border-bottom: 2px solid #e5e7eb;
+            background: white;
+            border-radius: 12px 12px 0 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            padding: 12px 24px;
+            background: #f8fafc;
+            border: 1px solid transparent;
+            border-radius: 8px 8px 0 0;
+            color: #64748b;
+            cursor: pointer;
+            font-weight: 500;
+            margin-right: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: #e5e7eb;
+            color: #1a202c;
+        }
+
+        .nav-link.active {
+            background: white;
+            border-color: #e5e7eb #e5e7eb transparent;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .tab-content {
+            background: white;
+            padding: 24px;
+            border: 1px solid #e5e7eb;
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .badge-warning {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .badge-error {
+            background: #ef4444;
+            color: white;
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <div class="container">
+        <div class="header">
+            <h1>📊 Tables & Tabs Dark Mode Test</h1>
+            <p>Testing tables and tabs with dark colors only (no white backgrounds)</p>
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <i class="fas fa-sun" id="themeIcon"></i>
+                <span id="themeText">Switch to Light Mode</span>
+            </button>
+        </div>
+
+        <!-- Tables Section -->
+        <div class="section">
+            <h2 class="section-title">Data Tables</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Grade</th>
+                        <th>Status</th>
+                        <th>Score</th>
+                        <th>Attendance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>STU001</td>
+                        <td>John Doe</td>
+                        <td>Grade 10</td>
+                        <td><span class="badge badge-success">Active</span></td>
+                        <td>95%</td>
+                        <td>98%</td>
+                    </tr>
+                    <tr>
+                        <td>STU002</td>
+                        <td>Jane Smith</td>
+                        <td>Grade 11</td>
+                        <td><span class="badge badge-success">Active</span></td>
+                        <td>92%</td>
+                        <td>95%</td>
+                    </tr>
+                    <tr>
+                        <td>STU003</td>
+                        <td>Bob Johnson</td>
+                        <td>Grade 9</td>
+                        <td><span class="badge badge-warning">Pending</span></td>
+                        <td>88%</td>
+                        <td>90%</td>
+                    </tr>
+                    <tr>
+                        <td>STU004</td>
+                        <td>Alice Williams</td>
+                        <td>Grade 12</td>
+                        <td><span class="badge badge-success">Active</span></td>
+                        <td>97%</td>
+                        <td>99%</td>
+                    </tr>
+                    <tr>
+                        <td>STU005</td>
+                        <td>Charlie Brown</td>
+                        <td>Grade 10</td>
+                        <td><span class="badge badge-error">Inactive</span></td>
+                        <td>75%</td>
+                        <td>80%</td>
+                    </tr>
+                    <tr>
+                        <td>STU006</td>
+                        <td>Diana Prince</td>
+                        <td>Grade 11</td>
+                        <td><span class="badge badge-success">Active</span></td>
+                        <td>94%</td>
+                        <td>96%</td>
+                    </tr>
+                    <tr>
+                        <td>STU007</td>
+                        <td>Ethan Hunt</td>
+                        <td>Grade 9</td>
+                        <td><span class="badge badge-success">Active</span></td>
+                        <td>91%</td>
+                        <td>93%</td>
+                    </tr>
+                    <tr>
+                        <td>STU008</td>
+                        <td>Fiona Green</td>
+                        <td>Grade 12</td>
+                        <td><span class="badge badge-success">Active</span></td>
+                        <td>96%</td>
+                        <td>97%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Tabs Section -->
+        <div class="section">
+            <h2 class="section-title">Navigation Tabs</h2>
+            
+            <div class="nav-tabs">
+                <button class="nav-link active" onclick="showTab(0)">Overview</button>
+                <button class="nav-link" onclick="showTab(1)">Statistics</button>
+                <button class="nav-link" onclick="showTab(2)">Reports</button>
+                <button class="nav-link" onclick="showTab(3)">Settings</button>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab0">
+                    <h3 style="margin-bottom: 16px; font-size: 20px;">Overview</h3>
+                    <p style="line-height: 1.6; margin-bottom: 16px;">
+                        This is the overview tab content. All text and data should be clearly visible in dark mode.
+                        The background uses dark colors (#1e293b) instead of white for better dark mode integration.
+                    </p>
+                    <ul style="line-height: 1.8; margin-left: 20px;">
+                        <li>Total Students: 1,234</li>
+                        <li>Active Teachers: 56</li>
+                        <li>Courses: 89</li>
+                        <li>Attendance Rate: 95%</li>
+                    </ul>
+                </div>
+                <div class="tab-pane" id="tab1">
+                    <h3 style="margin-bottom: 16px; font-size: 20px;">Statistics</h3>
+                    <p style="line-height: 1.6;">
+                        Statistical data and analytics would be displayed here. All numbers and text remain
+                        clearly visible with high contrast against the dark background.
+                    </p>
+                </div>
+                <div class="tab-pane" id="tab2">
+                    <h3 style="margin-bottom: 16px; font-size: 20px;">Reports</h3>
+                    <p style="line-height: 1.6;">
+                        Generated reports and documents would appear in this section. The dark theme
+                        ensures comfortable reading without eye strain.
+                    </p>
+                </div>
+                <div class="tab-pane" id="tab3">
+                    <h3 style="margin-bottom: 16px; font-size: 20px;">Settings</h3>
+                    <p style="line-height: 1.6;">
+                        Configuration options and preferences would be available here. All form elements
+                        and controls are optimized for dark mode visibility.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('themeIcon');
+            const text = document.getElementById('themeText');
+            
+            if (body.classList.contains('dark-theme')) {
+                body.classList.remove('dark-theme');
+                icon.className = 'fas fa-moon';
+                text.textContent = 'Switch to Dark Mode';
+            } else {
+                body.classList.add('dark-theme');
+                icon.className = 'fas fa-sun';
+                text.textContent = 'Switch to Light Mode';
+            }
+        }
+
+        function showTab(index) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById('tab' + index).classList.add('active');
+            document.querySelectorAll('.nav-link')[index].classList.add('active');
+        }
+    </script>
+</body>
+</html>

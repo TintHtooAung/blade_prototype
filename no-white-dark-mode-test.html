@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No White Dark Mode Test</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/dark-mode.css">
+    <link rel="stylesheet" href="/css/profile-dropdown.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            background: #f8fafc;
+            padding: 20px;
+        }
+
+        .test-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .test-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 32px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .test-header h1 {
+            font-size: 32px;
+            margin-bottom: 16px;
+            color: #1a202c;
+        }
+
+        .theme-toggle {
+            padding: 12px 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+        }
+
+        .card-header {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e5e7eb;
+            color: #1a202c;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
+
+        .stat-value {
+            font-size: 48px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: #f8fafc;
+        }
+
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            font-weight: 600;
+            color: #1a202c;
+        }
+
+        tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        .info-box {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .list-group-item {
+            padding: 12px 16px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 8px;
+            border-radius: 8px;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .widget {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .box {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e5e7eb;
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🚫 No White in Dark Mode Test</h1>
+            <p style="margin-bottom: 20px; color: #64748b;">
+                This page tests that NO white backgrounds appear in dark mode
+            </p>
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <i class="fas fa-sun" id="themeIcon"></i>
+                <span id="themeText">Switch to Light Mode</span>
+            </button>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="test-grid">
+            <div class="stat-card">
+                <div class="stat-value">1,234</div>
+                <div class="stat-label">Total Students</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">56</div>
+                <div class="stat-label">Active Teachers</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">89%</div>
+                <div class="stat-label">Attendance Rate</div>
+            </div>
+        </div>
+
+        <!-- Info Box -->
+        <div class="info-box">
+            <h3 style="margin-bottom: 12px; font-size: 20px;">Information Box</h3>
+            <p style="line-height: 1.6;">
+                This info box should have a dark background (#1e293b) in dark mode, not white.
+                All text should be clearly visible with white color.
+            </p>
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="test-grid">
+            <div class="card">
+                <div class="card-header">Card Component</div>
+                <p style="line-height: 1.6;">
+                    This card should be dark (#1e293b) in dark mode.
+                    No white background should be visible.
+                </p>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">Dashboard Card</div>
+                <p style="line-height: 1.6;">
+                    Dashboard cards should also be dark.
+                    Text should be white and clearly visible.
+                </p>
+            </div>
+
+            <div class="panel">
+                <div class="card-header">Panel Component</div>
+                <p style="line-height: 1.6;">
+                    Panels should use dark backgrounds.
+                    All content should be readable.
+                </p>
+            </div>
+
+            <div class="widget">
+                <div class="card-header">Widget Component</div>
+                <p style="line-height: 1.6;">
+                    Widgets should blend with dark theme.
+                    No white should appear.
+                </p>
+            </div>
+
+            <div class="box">
+                <div class="card-header">Box Component</div>
+                <p style="line-height: 1.6;">
+                    Box elements should be dark.
+                    Everything should be consistent.
+                </p>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div style="margin-bottom: 32px;">
+            <h2 style="margin-bottom: 16px; font-size: 24px;">Data Table</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Grade</th>
+                        <th>Score</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>John Doe</td>
+                        <td>Grade 10</td>
+                        <td>95%</td>
+                        <td>Active</td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>Grade 11</td>
+                        <td>92%</td>
+                        <td>Active</td>
+                    </tr>
+                    <tr>
+                        <td>Bob Johnson</td>
+                        <td>Grade 9</td>
+                        <td>88%</td>
+                        <td>Active</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- List Group -->
+        <div>
+            <h2 style="margin-bottom: 16px; font-size: 24px;">List Items</h2>
+            <div class="list-group-item">
+                <i class="fas fa-home"></i> Dashboard - Should be dark
+            </div>
+            <div class="list-group-item">
+                <i class="fas fa-users"></i> Students - Should be dark
+            </div>
+            <div class="list-group-item">
+                <i class="fas fa-book"></i> Courses - Should be dark
+            </div>
+        </div>
+
+        <!-- Settings Modal Test Button -->
+        <div style="margin-top: 32px; text-align: center;">
+            <button class="theme-toggle" onclick="openSettingsModal()">
+                <i class="fas fa-cog"></i>
+                Test Settings Modal (Should be Dark)
+            </button>
+        </div>
+    </div>
+
+    <script src="/js/profile-dropdown.js"></script>
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('themeIcon');
+            const text = document.getElementById('themeText');
+            
+            if (body.classList.contains('dark-theme')) {
+                body.classList.remove('dark-theme');
+                icon.className = 'fas fa-moon';
+                text.textContent = 'Switch to Dark Mode';
+            } else {
+                body.classList.add('dark-theme');
+                icon.className = 'fas fa-sun';
+                text.textContent = 'Switch to Light Mode';
+            }
+        }
+    </script>
+</body>
+</html>
